@@ -1,4 +1,4 @@
-baseURL = 'http://localhost:1313/'
+baseURL = 'https://jinxiwei1230.github.io/Jinxiwei.github.io/'
 languageCode = 'en-us'
 title = 'My New Hugo Site'
 theme = "LoveIt"
