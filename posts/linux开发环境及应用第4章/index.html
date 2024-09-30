@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux开发环境及应用(第4章) - My New Hugo Site</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="Linux开发环境及应用(第4章)">
+  <meta property="og:description" content="Linux开发环境及应用 第四章 正则表达式 元字符和集合 1、正则表达式的概念 应用范围：字符串匹配操作和替换操作
+正则表达式的功能：描述一个字符串模式
+注意: 正则表达式规则与文件名通配符规则不同 正则表达式规则用于文本处理的场合 文件名匹配规则用于文件处理的场合
+不同软件对正则表达式的定义会有差异
+2、正则表达式中的特殊字符 6个元字符 :. * [ \ ^ $
+转义:用反斜线可以取消特殊字符的特殊含义 如：正则表达end.只与字符串end.匹配
+3、单字符正则表达式 转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释
+圆点（·）：匹配任意单字符
+4、单字符正则表达式:定义集合 在[]之间的字符为集合的内容 如：单字符正则表达式[abcd]与a或b,c,d匹配
+圆点,星号，反斜线在方括号内时，代表它们自己 如:[\*.]可匹配3个单字符
+用减号-定义一个区间
+[a-d]、 [A-Z]、 [a-zA-Z0-9] [][] 集合含左右中括号两个字符 减号在最后，则失去表示区间的意义，[ad-]只与3个字符匹配 用^表示补集 ^在开头,则表示与集合内字符之外的任意字符匹配. [^a-z]匹配任一非小写字母. -[^][]匹配任一非中括号字符.
+^不在开头,则失去其表示补集的意义 [a-z^]能匹配27个单字符
+组合与锚点 1、单字符正则表达式的组合 串结 如abc， [A-Z].[0-9]
+星号（*）：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现
+正则表达式12*4 与字符串1234不匹配，与1224，12224，14匹配 正则表达式[A-Z][0-9]* 与A,A1,C45,D768匹配，与b64512,T56t不匹配 [Cc]hapter *[1-4] 在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等 2、锚点:$和^ $ 在尾部时有特殊意义，否则与其自身匹配
+123$ 匹配文件中行尾的123，不在行尾的123字符不匹配 $123与字符串$123匹配 .$匹配行尾的任意字符 ^ 在首部时有特殊意义，否则与其自身匹配
+^printf匹配行首的printf字符串，不在行首的printf串不匹配 Hel^lo与字符串Hel^lo匹配 在vi中使用:10,50s/^ //g,删除10-50行的每行行首的4个空格,s/匹配内容/替换内容/、g： global（全局替换） 3、正则表达式扩展 基本正则表达式（BRE）">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-30T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux开发环境及应用(第4章)">
+  <meta name="twitter:description" content="Linux开发环境及应用 第四章 正则表达式 元字符和集合 1、正则表达式的概念 应用范围：字符串匹配操作和替换操作
+正则表达式的功能：描述一个字符串模式
+注意: 正则表达式规则与文件名通配符规则不同 正则表达式规则用于文本处理的场合 文件名匹配规则用于文件处理的场合
+不同软件对正则表达式的定义会有差异
+2、正则表达式中的特殊字符 6个元字符 :. * [ \ ^ $
+转义:用反斜线可以取消特殊字符的特殊含义 如：正则表达end.只与字符串end.匹配
+3、单字符正则表达式 转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释
+圆点（·）：匹配任意单字符
+4、单字符正则表达式:定义集合 在[]之间的字符为集合的内容 如：单字符正则表达式[abcd]与a或b,c,d匹配
+圆点,星号，反斜线在方括号内时，代表它们自己 如:[\*.]可匹配3个单字符
+用减号-定义一个区间
+[a-d]、 [A-Z]、 [a-zA-Z0-9] [][] 集合含左右中括号两个字符 减号在最后，则失去表示区间的意义，[ad-]只与3个字符匹配 用^表示补集 ^在开头,则表示与集合内字符之外的任意字符匹配. [^a-z]匹配任一非小写字母. -[^][]匹配任一非中括号字符.
+^不在开头,则失去其表示补集的意义 [a-z^]能匹配27个单字符
+组合与锚点 1、单字符正则表达式的组合 串结 如abc， [A-Z].[0-9]
+星号（*）：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现
+正则表达式12*4 与字符串1234不匹配，与1224，12224，14匹配 正则表达式[A-Z][0-9]* 与A,A1,C45,D768匹配，与b64512,T56t不匹配 [Cc]hapter *[1-4] 在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等 2、锚点:$和^ $ 在尾部时有特殊意义，否则与其自身匹配
+123$ 匹配文件中行尾的123，不在行尾的123字符不匹配 $123与字符串$123匹配 .$匹配行尾的任意字符 ^ 在首部时有特殊意义，否则与其自身匹配
+^printf匹配行首的printf字符串，不在行首的printf串不匹配 Hel^lo与字符串Hel^lo匹配 在vi中使用:10,50s/^ //g,删除10-50行的每行行首的4个空格,s/匹配内容/替换内容/、g： global（全局替换） 3、正则表达式扩展 基本正则表达式（BRE）">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux开发环境及应用(第4章)",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  748 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0\/","datePublished": "2024-09-30T00:00:00+00:00","dateModified": "2024-09-30T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux开发环境及应用(第4章)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-30">2024-09-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;748 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第四章-正则表达式">第四章 正则表达式</a>
+      <ul>
+        <li><a href="#元字符和集合">元字符和集合</a></li>
+        <li><a href="#组合与锚点">组合与锚点</a></li>
+        <li><a href="#三个与正则表达式相关的处理命令">三个与正则表达式相关的处理命令</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
+<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+<h3 id="元字符和集合">元字符和集合</h3>
+<p>1、<strong>正则表达式的概念</strong>
+应用范围：字符串匹配操作和替换操作</p>
+<p>正则表达式的功能：描述一个字符串模式</p>
+<p><strong>注意:</strong>
+正则表达式规则与文件名通配符规则不同
+正则表达式规则用于文本处理的场合
+文件名匹配规则用于文件处理的场合</p>
+<p>不同软件对正则表达式的定义会有差异</p>
+<p>2、<strong>正则表达式中的特殊字符</strong>
+6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
+<p>转义:用反斜线可以取消特殊字符的特殊含义
+如：正则表达end.只与字符串end.匹配</p>
+<p>3、<strong>单字符正则表达式</strong>
+转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
+<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
+<p>4、<strong>单字符正则表达式:定义集合</strong>
+<strong>在[]之间的字符为集合的内容</strong>
+如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
+<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
+如:<code>[\*.]</code>可匹配3个单字符</p>
+<p><strong>用减号-定义一个区间</strong></p>
+<ul>
+<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
+<li><code>[][]</code> 集合含左右中括号两个字符</li>
+<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
+</ul>
+<p><strong>用^表示补集</strong>
+^在开头,则表示与集合内字符之外的任意字符匹配.
+<code>[^a-z]</code>匹配任一非小写字母.
+-<code>[^][]</code>匹配任一非中括号字符.</p>
+<p>^不在开头,则失去其表示补集的意义
+<code>[a-z^]</code>能匹配27个单字符</p>
+<h3 id="组合与锚点">组合与锚点</h3>
+<p><strong>1、单字符正则表达式的组合</strong>
+<strong>串结</strong>
+如abc， <code>[A-Z].[0-9]</code></p>
+<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
+<ul>
+<li>正则表达式<code>12*4 </code>
+与字符串1234不匹配，与1224，12224，14匹配</li>
+<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
+<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
+</ul>
+<p><strong>2、锚点:$和^</strong>
+<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
+<li><code>$123</code>与字符串<code>$123</code>匹配</li>
+<li><code>.$</code>匹配行尾的任意字符</li>
+</ul>
+<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
+<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
+<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
+</ul>
+<p><strong>3、正则表达式扩展</strong>
+<strong>基本正则表达式（BRE）</strong></p>
+<p><strong>扩展正则表达式（ERE）</strong>：增加了分组、逻辑运算符 |、+、? 等更丰富的操作符。ERE 在表达方式上更加直观和易读，通常使用 grep -E 或 egrep 进行支持。</p>
+<p><strong>分组</strong>：使用圆括号 () 将一个子表达式包裹起来，使其作为一个整体来匹配，且可以用于捕获匹配到的内容。</p>
+<p><strong>逻辑运算符<code>|</code></strong>：表示<strong>或</strong>操作，匹配括号内的任意一个子模式。</p>
+<ul>
+<li><code>(cat|dog)</code>,匹配字符串 &ldquo;<code>cat</code>&rdquo; 或 &ldquo;<code>dog</code>&rdquo;</li>
+<li><code>*</code>：表示匹配其左侧单个字符或表达式的 0 次或多次,<code>a*</code>匹配 0 个或多个 a</li>
+<li><code>+</code>：表示匹配其左侧单个字符或表达式的 1 次或多次,<code>a+</code> 匹配 1 个或多个 a</li>
+<li><code>?</code>：表示匹配其左侧单个字符或表达式的 0 次或 1 次</li>
+<li><code>\{m,n\}</code>（重复次数限制）：表示匹配其左侧单个字符或表达式的 m 到 n 次，a{2,4} 表示匹配 2 到 4 个a</li>
+</ul>
+<p><em>在BRE中，像 {} 这样的重复限定符默认是特殊字符，所以需要用反斜杠来转义。
+在ERE中，你可以直接使用 {m,n} 而不需要反斜杠。</em></p>
+<p><code>echo &quot;aab&quot; | grep -E &quot;a?b&quot;</code></p>
+<ul>
+<li><code>echo</code> 是一个 shell 命令，用于将其后面的字符串输出到标准输出（通常是终端）</li>
+<li><code>-E</code> 选项表示使用扩展正则表达式（ERE）,使得某些特殊字符（如 ? 和 +）可以直接使用，而不需要转义</li>
+</ul>
+<p><strong>命名的预定义集合</strong></p>
+<ul>
+<li><code>[[:xdigit:]]</code>:匹配十六进制数字字符</li>
+<li><code>\d</code>:匹配任何数字字符，等价于 <code>[0-9]</code></li>
+<li><code>\D</code>:匹配任何非数字字符，等价于 <code>[^0-9]</code></li>
+</ul>
+<p><strong>比^和$更灵活的锚点定义</strong></p>
+<h3 id="三个与正则表达式相关的处理命令">三个与正则表达式相关的处理命令</h3>
+<p><code>grep</code>/<code>egrep</code>/<code>fgrep</code>：在文件中查找字符串（筛选）
+<code>sed</code>：流编辑（加工）
+<code>awk</code>：逐行扫描进行文本处理的一门语言（筛选与加工） 是一门小语言</p>
+<p><strong>1、grep(Global regular expression print)在文件中查找字符串</strong>
+语法: <code>grep 模式 文件名列表</code></p>
+<p><code>egrep</code> 使用扩展正则表达式ERE描述模式,在指定模式方面比grep更灵活</p>
+<p><code>fgrep</code> 快速搜索指定字符串,按字符串搜索而不是按模式搜索,可以使用数据结构中的kmp，以及AC算法来加速</p>
+<p><code>grep</code>选项 :
+<code>-F</code>, &ndash;fixed-strings：固定字符串(而不是正则表达式)
+<code>-G</code>, &ndash;basic-regexp：基本正则表达式(BRE)
+<code>-E</code>, &ndash;extended-regexp：扩展正则表达式(ERE)
+<code>-P</code>, &ndash;perl-regexp： perl兼容正则表达式(PCRE)
+查PCRE语法: <code>man pcresyntax</code></p>
+<p><code>grep/fgrep/egrep</code>选项:
+<code>-n</code>：显示时每行前面显示行号
+<code>-v</code>：显示所有不包含模式的行
+<code>-i</code>：字母比较时忽略字母的大小写</p>
+<ul>
+<li>
+<p><code>grep -n main *.c</code> ：查找所有.c文件中含有正则表达式main的行，并打印行号，当文件数超过一个时，除了输出行号，还输出文件名</p>
+</li>
+<li>
+<p><code>grep -v '[Dd]isable' dev.stat&gt;dev.active</code>:从 dev.stat中读取内容，并查找所有不包含 disable 或 Disable 的行，将这些行写入到 dev.active中</p>
+</li>
+<li>
+<p><code>grep -i richard telnos</code>:在telnos文件中检索字符串richard，不顾字母的大小写</p>
+</li>
+</ul>
+<p><strong>2、sed：流编辑</strong>
+用法:
+<code>sed '命令' 文件名列表</code>
+<code>sed –e '命令1' –e '命令2' –e '命令3' 文件名列表</code>
+<code>sed -f 命令文件 文件名列表</code></p>
+<p><code>tail -f pppd.log | sed 's/145\.37\.23\.26/桥西/g'</code>:持续监视 <code>pppd.log</code> 文件中的新内容，并将所有出现的 IP 地址<code>145.37.23.26</code>替换为 <code>桥西</code></p>
+<p><code>cat pm.txt | sed 's/\[[^][]*]//g'</code>
+<code>\[ 和 ]</code>：表示匹配方括号 <code>[ 和 ]</code>，由于方括号是特殊字符，需要用反斜杠转义。
+<code>[^][]*</code>：表示匹配<strong>任意数量</strong>的**不是[或]**的字符（即匹配方括号内的内容）</p>
+<p>在正则表达式中，使用 ( 和 ) 来匹配字面上的圆括号，而不是用于分组:
+<code>echo &quot;(test)&quot; | grep -E &quot;\(test\)&quot;  # 匹配 &quot;(test)&quot;</code></p>
+<p><code>[a-zA-Z_][a-zA-Z0-9_]*</code> 匹配一个合法的<strong>标识符</strong>，开始字符可以是字母或下划线，后续字符可以是字母、数字或下划线。</p>
+<p><strong>后向引用</strong>:在替换字符串中，使用 <code>\0</code> 表示整个匹配的字符串，<code>\1</code>, <code>\2</code>, 等表示第1、第2个子表达式的匹配结果:<code>s/\([a-zA-Z_][a-zA-Z0-9_]*\)-&gt;number/\1-&gt;num/g</code>
+将形如 <code>标识符-&gt;number</code> 的字符串替换为 <code>标识符-&gt;num</code>，保留标识符。</p>
+<p><code>s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g</code>:将日期格式从“月-日-年”转换为“年.月.日”</p>
+<pre tabindex="0"><code>echo &#34;04-26-1997&#34; | sed &#39;s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g&#39;
+# 输出: 1997.04.26
+</code></pre><p><strong>3、awk：逐行扫描进行文本处理的一门语言</strong>
+<strong>用法:</strong>
+<code>awk '程序' 文件名列表</code>
+<code>awk -f 程序文件名 文件名列表</code>
+程序结构： <code>条件 { 动作 }</code>
+awk自动对每行文本执行条件判断，满足条件执行动作 （内置循环）
+允许多段程序：多段程序间用空格或分号隔开</p>
+<p><strong>处理方式: 符合条件的行，执行相应的动作</strong>
+输入文件的每行作为一个<strong>记录</strong>，变量<strong>NR</strong>就是行号
+每行用空格分隔开的部分，叫做记录的<strong>域</strong>
+内置变量<code>$1</code>是第1域内容，<code>$2</code>是第2域内容，……
+特别的，<code>$0</code>指的是整个这一行的内容</p>
+<p><strong>awk描述条件的方法:</strong></p>
+<ul>
+<li>使用与C语言类似的关系算符</li>
+<li>使用与C语言类似的逻辑算符</li>
+<li>正则表达式的模式匹配 /regexpr/,包含该模式的行，执行动作</li>
+</ul>
+<p>特殊的条件:
+不指定任何条件，对所有文本行执行动作
+BEGIN 开始处理所有文本行之前执行动作
+END 处理完所有文本行之后执行动作</p>
+<p><strong>awk描述动作的方法:</strong></p>
+<ul>
+<li><strong>自定义变量</strong>:在 awk 中可以使用变量存储数据并进行操作。变量可以在 BEGIN 块中初始化，也可以在处理数据时进行赋值
+定义了一个变量 sum，在每行中累加第一列的值，最后输出总和:</li>
+</ul>
+<pre tabindex="0"><code>echo -e &#34;10\n20\n30&#34; | awk &#39;{ sum += $1 } END { print sum }&#39;
+# 输出: 60
+</code></pre><ul>
+<li><strong>加减乘除等算术逻辑运算</strong>:awk 支持基本的算术运算，如加 (+)、减 (-)、乘 (*)、除 (/) 和取模 (%),逻辑运算符包括与 (&amp;&amp;)、或 (||)、非 (!) 等
+对每行的第一列和第二列进行乘法运算:</li>
+</ul>
+<pre tabindex="0"><code>echo -e &#34;5 3\n10 2&#34; | awk &#39;{ print $1 * $2 }&#39;
+# 输出: 15
+</code></pre><ul>
+<li><strong>正则表达式匹配运算符</strong>:使用 ~ 表示匹配，使用 !~ 表示不匹配,只有符合正则表达式（只包含小写字母的单词）的行才会被打印</li>
+</ul>
+<pre tabindex="0"><code>echo -e &#34;apple\nbanana\ncherry\n45&#34; | awk &#39;$1 ~ /^[a-z]+$/ { print $1 }&#39;
+# 输出: apple
+# 输出: banana
+# 输出: cherry
+</code></pre><ul>
+<li><strong>流程控制</strong>:awk 提供 if 语句用于条件判断，for 循环用于遍历范围、数组或其他集合(语法类似于 C 语言)
+输出第一列大于 15 的值:</li>
+</ul>
+<pre tabindex="0"><code>echo -e &#34;10\n20\n30&#34; | awk &#39;{ if ($1 &gt; 15) print $1 }&#39;
+# 输出: 20
+# 输出: 30
+</code></pre><p>对每行的每个字段（单词）进行遍历并打印:</p>
+<pre tabindex="0"><code>echo &#34;1 2 3 4 5&#34; | awk &#39;{ for (i = 1; i &lt;= NF; i++) print $i }&#39;
+# 输出:
+# 1
+# 2
+# 3
+# 4
+# 5
+</code></pre><ul>
+<li><strong>输出</strong>:
+print 用于输出文本或变量，可以输出多个变量，使用逗号分隔
+printf 用于格式化输出，类似于 C 语言的 printf 函数,可以控制输出格式，例如小数点位数、填充字符等</li>
+</ul>
+<p>打印每行的第一列和第二列:</p>
+<pre tabindex="0"><code>echo -e &#34;name age\nAlice 30\nBob 25&#34; | awk &#39;{ print $1, $2 }&#39;
+# 输出:
+# name age
+# Alice 30
+# Bob 25
+</code></pre><p>使用格式化字符串输出姓名和年龄:</p>
+<pre tabindex="0"><code>echo -e &#34;name age\nAlice 30\nBob 25&#34; | awk &#39;{ printf &#34;%s is %d years old\n&#34;, $1, $2 }&#39;
+# 输出:
+# Alice is 30 years old
+# Bob is 25 years old
+</code></pre><p><strong>补充：</strong>
+<code>NR</code> (记录数)：表示输入的记录数，从 1 开始计数;当读取多个文件时，计数是全局的，即不会在新文件开始时重置</p>
+<pre tabindex="0"><code>echo -e &#34;line 1\nline 2\nline 3&#34; | awk &#39;{ print &#34;Record number:&#34;, NR }&#39;
+#输出: 
+Record number: 1
+Record number: 2
+Record number: 3
+</code></pre><p><code>NF</code> (字段个数)：表示当前记录（行）中的字段数量,每个字段是由输入字段分隔符（默认为空格）分隔的</p>
+<pre tabindex="0"><code>echo -e &#34;apple orange banana\ncat dog&#34; | awk &#39;{ print &#34;Number of fields in line:&#34;, NF }&#39;
+#输出: 
+Number of fields in line: 3
+Number of fields in line: 2
+</code></pre><p><code>FNR</code> (读取文件的记录数)：表示当前文件中读取的记录数，从 1 开始计数;当读取多个文件时，每个文件的计数会重置为 1</p>
+<pre tabindex="0"><code>echo -e &#34;file1 line 1\nfile1 line 2&#34; &gt; file1.txt
+echo -e &#34;file2 line 1\nfile2 line 2\nfile2 line 3&#34; &gt; file2.txt
+awk &#39;{ print &#34;FNR:&#34;, FNR, &#34;NR:&#34;, NR }&#39; file1.txt file2.txt
+#输出: 
+FNR: 1 NR: 1
+FNR: 2 NR: 2
+FNR: 1 NR: 3
+FNR: 2 NR: 4
+FNR: 3 NR: 5
+</code></pre><p><code>FS</code> (输入字段分隔符)：定义如何分隔输入行中的字段，默认是空格</p>
+<pre tabindex="0"><code>echo -e &#34;name,age,gender\nAlice,30,F\nBob,25,M&#34; | awk &#39;BEGIN { FS=&#34;,&#34; } { print $1 &#34; is &#34; $2 &#34; years old.&#34; }&#39;
+#输出: 
+name is age years old.
+Alice is 30 years old.
+Bob is 25 years old.
+</code></pre><p><code>OFS</code> (输出字段分隔符):定义在输出时字段之间的分隔符，默认为空格</p>
+<pre tabindex="0"><code>echo -e &#34;1 2 3&#34; | awk &#39;BEGIN { OFS=&#34;:&#34; } { print $1, $2, $3 }&#39;
+#输出: 1:2:3
+</code></pre><p><code>RS</code> (输入行分隔符)：定义输入记录的分隔符，默认为换行符</p>
+<pre tabindex="0"><code>echo -e &#34;line1\nline2\nline3&#34; | awk &#39;BEGIN { RS=&#34;\n&#34; } { print &#34;Record:&#34;, $0 }&#39;
+#输出: 
+Record: line1
+Record: line2
+Record: line3
+</code></pre><p><code>ORS</code> (输出行分隔符)：定义输出记录的分隔符，默认为换行符</p>
+<pre tabindex="0"><code>echo -e &#34;1 2 3\n4 5 6&#34; | awk &#39;BEGIN { ORS=&#34; | &#34; } { print $0 }&#39;
+#输出: 1 2 3 | 4 5 6 | 
+</code></pre></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-09-30</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" data-title="Linux开发环境及应用(第4章)" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" data-title="Linux开发环境及应用(第4章)"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" data-title="Linux开发环境及应用(第4章)"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" data-title="Linux开发环境及应用(第4章)"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/" class="prev" rel="prev" title="Linux开发环境及应用（1~3章）"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux开发环境及应用（1~3章）</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

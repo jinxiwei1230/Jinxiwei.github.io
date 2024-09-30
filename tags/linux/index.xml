@@ -3,14 +3,82 @@
         <title>Linux - Tag - My New Hugo Site</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/</link>
         <description>Linux - Tag - My New Hugo Site</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
-    <title>Linux开发环境及应用</title>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux开发环境及应用(第4章)</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/</link>
+    <pubDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/</guid>
+    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
+<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+<h3 id="元字符和集合">元字符和集合</h3>
+<p>1、<strong>正则表达式的概念</strong>
+应用范围：字符串匹配操作和替换操作</p>
+<p>正则表达式的功能：描述一个字符串模式</p>
+<p><strong>注意:</strong>
+正则表达式规则与文件名通配符规则不同
+正则表达式规则用于文本处理的场合
+文件名匹配规则用于文件处理的场合</p>
+<p>不同软件对正则表达式的定义会有差异</p>
+<p>2、<strong>正则表达式中的特殊字符</strong>
+6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
+<p>转义:用反斜线可以取消特殊字符的特殊含义
+如：正则表达end.只与字符串end.匹配</p>
+<p>3、<strong>单字符正则表达式</strong>
+转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
+<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
+<p>4、<strong>单字符正则表达式:定义集合</strong>
+<strong>在[]之间的字符为集合的内容</strong>
+如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
+<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
+如:<code>[\*.]</code>可匹配3个单字符</p>
+<p><strong>用减号-定义一个区间</strong></p>
+<ul>
+<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
+<li><code>[][]</code> 集合含左右中括号两个字符</li>
+<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
+</ul>
+<p><strong>用^表示补集</strong>
+^在开头,则表示与集合内字符之外的任意字符匹配.
+<code>[^a-z]</code>匹配任一非小写字母.
+-<code>[^][]</code>匹配任一非中括号字符.</p>
+<p>^不在开头,则失去其表示补集的意义
+<code>[a-z^]</code>能匹配27个单字符</p>
+<h3 id="组合与锚点">组合与锚点</h3>
+<p><strong>1、单字符正则表达式的组合</strong>
+<strong>串结</strong>
+如abc， <code>[A-Z].[0-9]</code></p>
+<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
+<ul>
+<li>正则表达式<code>12*4 </code>
+与字符串1234不匹配，与1224，12224，14匹配</li>
+<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
+<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
+</ul>
+<p><strong>2、锚点:$和^</strong>
+<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
+<li><code>$123</code>与字符串<code>$123</code>匹配</li>
+<li><code>.$</code>匹配行尾的任意字符</li>
+</ul>
+<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
+<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
+<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
+</ul>
+<p><strong>3、正则表达式扩展</strong>
+<strong>基本正则表达式（BRE）</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux开发环境及应用（1~3章）</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/</link>
     <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
     <author>Author</author>
     <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/</guid>
     <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
-<h2 id="linux入门">Linux入门</h2>
+<h2 id="第一章-linux入门">第一章 Linux入门</h2>
 <h3 id="linux的历史">Linux的历史</h3>
 <p>1、 <strong>操作系统的演变</strong></p>
 <ul>
@@ -84,14 +152,7 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 当终端类型不对时，可能全屏幕操作失败</p>
 </li>
 </ul>
-<p>7、 <strong>主机和终端之间的流量控制</strong></p>
-<ul>
-<li>
-<p>必要性
-终端的显示速度跟不上主机的发送速度
-主机送来数据终端需要打印出来，但打印速度慢
-主机送来的显示内容，需暂停显示，仔细分析
-需要一种机制控制主机方向来的数据流量</p>]]></description>
+<p>7、 <strong>主机和终端之间的流量控制</strong></p>]]></description>
 </item>
 </channel>
 </rss>
