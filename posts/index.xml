@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>All Posts - My New Hugo Site</title>
+        <title>All Posts - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/</link>
-        <description>All Posts | My New Hugo Site</description>
+        <description>All Posts | Jinxiwei</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
     <title>Linux开发环境及应用(第4章)</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/</link>
@@ -199,29 +199,95 @@ Esc[1;31m 七字节序列，红色字符</em></p>
     <pubDate>Sat, 28 Sep 2024 15:53:01 &#43;0800</pubDate>
     <author>Author</author>
     <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</guid>
-    <description><![CDATA[<h2 id="第一章">第一章</h2>
-<p>人工智能的三大流派</p>
-<h2 id="第二章">第二章</h2>
+    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
+<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
+<ul>
+<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
+<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
+<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
+</ul>
+<h4 id="人工智能研究方法">人工智能研究方法</h4>
+<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
+主要观点：</p>
+<ul>
+<li>智能活动的基元是神经细胞；</li>
+<li>智能活动过程是神经网络的状态演化过程</li>
+<li>智能活动的基础是神经细胞的突触联结机制</li>
+<li>智能系统的工作模式是模仿人脑模式</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>通过神经元之间的并行协同作用实现信息
+处理，具有并行性、动态性、全局性。</li>
+<li>通过神经元间分布式的物理联接存储信息。
+联想记忆、容错性。</li>
+<li>通过神经元间连接强度的动态调整实现自
+学习和自适应功能。</li>
+<li>善于模拟人类的形象思维过程。</li>
+</ul>
+<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
+主要观点：</p>
+<ul>
+<li>思维的基元是符号；</li>
+<li>思维的过程是符号运算；</li>
+<li>智能的核心是知识，利用知识推理进行问题求解；</li>
+<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
+<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
+<li>知识用显式的符号表示，容易表达人的心理模型。</li>
+<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
+<li>能与传统的符号数据库进行链接，易于模块化。</li>
+<li>以知识为基础。</li>
+</ul>
+<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
+主要观点：</p>
+<ul>
+<li>智能行为的基础是感知－行动的反应机制；</li>
+<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
+<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
+<li>智能行为可以不要知识。</li>
+</ul>
+<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
+<p><strong>1、研究角度分：</strong></p>
+<ul>
+<li>符号智能：运用知识解决问题；</li>
+<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
+<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
+</ul>
+<p><strong>2、功能分：</strong></p>
+<ul>
+<li>机器感知/知识获取：机器听觉、视觉</li>
+<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
+<li>机器行为/知识运用：智能机器系统</li>
+</ul>
+<h2 id="第二章-知识表示">第二章 知识表示</h2>
 <h3 id="21知识及其特性">2.1知识及其特性</h3>
-<p>1、数据、信息和知识
-数据(fact)
-信息(how)
-知识(why)
-(wise)</p>
+<p>1、数据、信息和知识</p>
+<ul>
+<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
+<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
+<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
+规律解决问题的方法和策略</li>
+<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
+</ul>
 <p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
-<p>3、知识的层次</p>
-<p>4、知识的分类</p>
-<p>5、知识的表示方法（问题求解的基础）
-非形式化的自然语言描述-形式化的易于计算的计算机语言</p>
+<p>3、知识的特性</p>
 <ul>
-<li>状态空间表示</li>
+<li>客观性</li>
+<li>相对正确性：一定条件、时间、环境</li>
+<li>进化性</li>
+<li>依附性：离开载体的知识是没有的</li>
+<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
+<li>经验性</li>
+<li>可表示性</li>
+<li>可利用性</li>
+<li>可重用性</li>
+<li>共享性</li>
 </ul>
-<h3 id="22状态空间表示">2.2状态空间表示</h3>
-<p>1、概念</p>
-<ul>
-<li>三元组（S,F,G）</li>
-</ul>
-<h3 id="23与或树表示">2.3与或树表示</h3>]]></description>
+<p>4、知识的层次</p>]]></description>
 </item>
 </channel>
 </rss>
