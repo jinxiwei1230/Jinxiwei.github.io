@@ -9,8 +9,7 @@
     <pubDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</pubDate>
     <author>Author</author>
     <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/</guid>
-    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
-<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+    <description><![CDATA[<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
 <h3 id="元字符和集合">元字符和集合</h3>
 <p>1、<strong>正则表达式的概念</strong>
 应用范围：字符串匹配操作和替换操作</p>
@@ -77,8 +76,7 @@
     <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
     <author>Author</author>
     <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/</guid>
-    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
-<h2 id="第一章-linux入门">第一章 Linux入门</h2>
+    <description><![CDATA[<h2 id="第一章-linux入门">第一章 Linux入门</h2>
 <h3 id="linux的历史">Linux的历史</h3>
 <p>1、 <strong>操作系统的演变</strong></p>
 <ul>
@@ -152,7 +150,14 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 当终端类型不对时，可能全屏幕操作失败</p>
 </li>
 </ul>
-<p>7、 <strong>主机和终端之间的流量控制</strong></p>]]></description>
+<p>7、 <strong>主机和终端之间的流量控制</strong></p>
+<ul>
+<li>
+<p>必要性
+终端的显示速度跟不上主机的发送速度
+主机送来数据终端需要打印出来，但打印速度慢
+主机送来的显示内容，需暂停显示，仔细分析
+需要一种机制控制主机方向来的数据流量</p>]]></description>
 </item>
 <item>
     <title>人工智能</title>

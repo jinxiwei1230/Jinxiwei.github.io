@@ -7,7 +7,7 @@
         <title>Linux开发环境及应用（1~3章） - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/">
   <meta property="og:site_name" content="My New Hugo Site">
   <meta property="og:title" content="Linux开发环境及应用（1~3章）">
-  <meta property="og:description" content="Linux开发环境及应用 第一章 Linux入门 Linux的历史 1、 操作系统的演变
+  <meta property="og:description" content="第一章 Linux入门 Linux的历史 1、 操作系统的演变
 手工操作 单道批处理操作系统 多道批处理系统 分时系统 2、 Unix发展史
 UNiplexed Information and Computing System Unix早期的两大流派：贝尔实验室、加州大学伯克利分校 Linux字符终端 1、 Unix/Linux是多用户系统：
 主机连接多台字符终端 字符终端作为交互式输入输出设备 2、 终端和主机
@@ -24,7 +24,8 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
 6、 终端类型
 定义:定义一组转移序列以及相对应的操作
 主机和终端之间的类型匹配 主机根据终端类型，实现相应功能时发送对应的控制码 当终端类型不对时，可能全屏幕操作失败
-7、 主机和终端之间的流量控制">
+7、 主机和终端之间的流量控制
+必要性 终端的显示速度跟不上主机的发送速度 主机送来数据终端需要打印出来，但打印速度慢 主机送来的显示内容，需暂停显示，仔细分析 需要一种机制控制主机方向来的数据流量">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -34,7 +35,7 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux开发环境及应用（1~3章）">
-  <meta name="twitter:description" content="Linux开发环境及应用 第一章 Linux入门 Linux的历史 1、 操作系统的演变
+  <meta name="twitter:description" content="第一章 Linux入门 Linux的历史 1、 操作系统的演变
 手工操作 单道批处理操作系统 多道批处理系统 分时系统 2、 Unix发展史
 UNiplexed Information and Computing System Unix早期的两大流派：贝尔实验室、加州大学伯克利分校 Linux字符终端 1、 Unix/Linux是多用户系统：
 主机连接多台字符终端 字符终端作为交互式输入输出设备 2、 终端和主机
@@ -51,7 +52,8 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
 6、 终端类型
 定义:定义一组转移序列以及相对应的操作
 主机和终端之间的类型匹配 主机根据终端类型，实现相应功能时发送对应的控制码 当终端类型不对时，可能全屏幕操作失败
-7、 主机和终端之间的流量控制">
+7、 主机和终端之间的流量控制
+必要性 终端的显示速度跟不上主机的发送速度 主机送来数据终端需要打印出来，但打印速度慢 主机送来的显示内容，需暂停显示，仔细分析 需要一种机制控制主机方向来的数据流量">
 <meta name="application-name" content="My blog">
 <meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -66,7 +68,7 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0\/"
-        },"genre": "posts","keywords": "Linux","wordcount":  705 ,
+        },"genre": "posts","keywords": "Linux","wordcount":  704 ,
         "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0\/","datePublished": "2024-09-29T00:00:00+00:00","dateModified": "2024-09-29T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -108,7 +110,7 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux开发环境及应用（1~3章）</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-29">2024-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;705 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-29">2024-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;704 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
@@ -138,8 +140,7 @@ Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除�
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
-<h2 id="第一章-linux入门">第一章 Linux入门</h2>
+            </div><div class="content" id="content"><h2 id="第一章-linux入门">第一章 Linux入门</h2>
 <h3 id="linux的历史">Linux的历史</h3>
 <p>1、 <strong>操作系统的演变</strong></p>
 <ul>
