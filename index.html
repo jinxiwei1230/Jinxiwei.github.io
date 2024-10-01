@@ -208,6 +208,37 @@ Esc[1;31m 七字节序列，红色字符</em></p>
         <a href="/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Linux补充知识</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
+解析：输出黄色的Hello
+<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
+<ul>
+<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
+<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
+<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
+<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
+<ul>
+<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
+<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
+<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
+</ul>
+</li>
+</ul>
+<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
+<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
+<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
+<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
+<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
+<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
+<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
+<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
+<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。</p>
+<ul>
+<li>字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</li>
+</ul></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章">第一章</h2>
 <p>人工智能的三大流派</p>
