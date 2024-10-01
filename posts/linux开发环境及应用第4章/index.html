@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Linux开发环境及应用(第4章) - My New Hugo Site</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/">
+        <title>Linux开发环境及应用(第4章) - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/">
   <meta property="og:site_name" content="My New Hugo Site">
   <meta property="og:title" content="Linux开发环境及应用(第4章)">
   <meta property="og:description" content="Linux开发环境及应用 第四章 正则表达式 元字符和集合 1、正则表达式的概念 应用范围：字符串匹配操作和替换操作
@@ -52,8 +52,8 @@
 正则表达式12*4 与字符串1234不匹配，与1224，12224，14匹配 正则表达式[A-Z][0-9]* 与A,A1,C45,D768匹配，与b64512,T56t不匹配 [Cc]hapter *[1-4] 在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等 2、锚点:$和^ $ 在尾部时有特殊意义，否则与其自身匹配
 123$ 匹配文件中行尾的123，不在行尾的123字符不匹配 $123与字符串$123匹配 .$匹配行尾的任意字符 ^ 在首部时有特殊意义，否则与其自身匹配
 ^printf匹配行首的printf字符串，不在行首的printf串不匹配 Hel^lo与字符串Hel^lo匹配 在vi中使用:10,50s/^ //g,删除10-50行的每行行首的4个空格,s/匹配内容/替换内容/、g： global（全局替换） 3、正则表达式扩展 基本正则表达式（BRE）">
-<meta name="application-name" content="My cool site">
-<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A8%E7%AC%AC4%E7%AB%A0/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%BA%94%E7%94%A81~3%E7%AB%A0/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -80,7 +80,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My cool site</a>
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -92,7 +92,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My cool site</a>
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -110,7 +110,7 @@
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-30">2024-09-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;748 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
+        </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

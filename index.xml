@@ -2,7 +2,7 @@
     <channel>
         <title>My New Hugo Site</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
-        <description>This is my cool site</description>
+        <description>This is my blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
