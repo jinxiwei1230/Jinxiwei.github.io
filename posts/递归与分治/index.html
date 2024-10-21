@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">
+        <title>递归与分治 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">
   <meta property="og:site_name" content="Jinxiwei">
-  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:title" content="递归与分治">
   <meta property="og:description" content="递归与分治策略 递归 直接或间接地调用自身的算法称为递归算法。 用函数自身给出定义的函数称为递归函数。 边界条件与递归方程是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。
 优点：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。 缺点：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。
 分治法 divide、conquer、combine
@@ -19,9 +19,12 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-20T00:00:00+00:00">
+    <meta property="article:tag" content="算法设计与分析">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:title" content="递归与分治">
   <meta name="twitter:description" content="递归与分治策略 递归 直接或间接地调用自身的算法称为递归算法。 用函数自身给出定义的函数称为递归函数。 边界条件与递归方程是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。
 优点：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。 缺点：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。
 分治法 divide、conquer、combine
@@ -34,19 +37,19 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
 <meta name="application-name" content="My blog">
 <meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "递归与分治",
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB\/"
-        },"genre": "posts","wordcount":  1274 ,
-        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB\/","publisher": {
+        },"genre": "posts","keywords": "算法设计与分析","wordcount":  1274 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB\/","datePublished": "2024-10-20T00:00:00+00:00","dateModified": "2024-10-20T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -85,9 +88,9 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1274 words&nbsp;
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">递归与分治</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-20">2024-10-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1274 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
@@ -592,25 +595,24 @@ void copyTable(pos,right)
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 0001-01-01</span>
+                <span>Updated on 2024-10-20</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治" data-hashtags="算法设计与分析"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-hashtag="算法设计与分析"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav">
-            <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" class="prev" rel="prev" title="Linux:文件和目录管理"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux:文件和目录管理</a></div>
 </div>
 </article></div>
             </main><footer class="footer">

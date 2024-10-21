@@ -3,9 +3,66 @@
         <title>Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
         <description>This is my blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Oct 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>递归与分治</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</link>
+    <pubDate>Sun, 20 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</guid>
+    <description><![CDATA[<h1 id="递归与分治策略">递归与分治策略</h1>
+<h3 id="递归">递归</h3>
+<ul>
+<li>直接或间接地调用自身的算法称为<strong>递归算法</strong>。</li>
+<li>用函数自身给出定义的函数称为<strong>递归函数</strong>。</li>
+</ul>
+<p><strong>边界条件</strong>与<strong>递归方程</strong>是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。</p>
+<p><strong>优点</strong>：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。
+<strong>缺点</strong>：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。</p>
+<h3 id="分治法">分治法</h3>
+<p><strong>divide、conquer、combine</strong></p>
+<p><strong>算法总体思想</strong>
+<strong>Divide, Conquer</strong>：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。
+<strong>Combine</strong>：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。</p>
+<p><strong>分割原则</strong>：子问题的规模大致相同</p>
+<p><strong>分治法的复杂性分析</strong>：
+一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。
+设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。
+再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。
+用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：</p>
+<p><strong>分治法的适用条件</strong>：
+分治法所能解决的问题一般具有以下几个特征：</p>
+<ul>
+<li>该问题的规模缩小到一定的程度就可以容易地解决；</li>
+<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有<strong>最优子结构性质</strong></li>
+<li>利用该问题分解出的子问题的解可以合并为该问题的解；</li>
+<li>该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题。</li>
+</ul>
+<h1 id="example">example</h1>
+<h2 id="二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</h2>
+<p>Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x</p>
+<pre tabindex="0"><code>public static int vinarySearch(int[]a, int x, int n)
+{
+    int left = 0;
+    int right = n - 1;
+    while(left &lt;= right)
+    {
+        int middle = (left + right)/2;
+        if (x == a[middle])
+            return middle;
+        else if(x &gt; a[middle])
+            left = middle + 1;
+        else
+            right = middle - 1;
+    }
+    return -1;
+}
+</code></pre><h2 id="大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</h2>
+<p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
+分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。</p>]]></description>
+</item>
+<item>
     <title>Linux:文件和目录管理</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</link>
     <pubDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</pubDate>
@@ -102,6 +159,147 @@ normal格式：列出一个如何将file1转化为file2的指令</p>
 <strong>&gt;</strong> /* max signed 32-bit integer */
 <strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
 将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
+</item>
+<item>
+    <title>大数据存储</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</guid>
+    <description><![CDATA[<h2 id="第三章-大数据存储">第三章 大数据存储</h2>
+<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
+<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
+• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
+• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
+<h4 id="数据序列化">数据序列化</h4>
+<p>1、背景</p>
+<ul>
+<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
+<li>阶段二：采用编程语言内置的序列化机制。</li>
+<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
+<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
+</ul>
+<p>2、意义
+阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
+<h4 id="数据序列化方案">数据序列化方案</h4>
+<p>1、序列化框架 Thrift
+Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
+<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
+struct中每个域由四个属性构成：</p>
+<ul>
+<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
+<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
+<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
+<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
+</ul>
+<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
+// 定义枚举类型DocLevel,表示网页内容级别
+enum DocLevel {
+CLEAN = 0,
+NORMAL = 1,
+MAYBE = 2,
+BAD = 3,
+}
+
+struct MergedDoc { // 定义网页,类似于Java和C++中的类
+1:required i64 docId, //每个网页被赋予一个64位唯一ID
+2: required string url, //网页URL
+3: optional string title, //网页标题
+4: optional string segBody, //经分词后的网页主体
+5: optional i32 pagerank, //网页pagerank,网页排名使用
+10: optional DocLevel docLevel, //网页内容级别
+11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
+12: optional list&lt;i64&gt; outLinks //网页出链
+}
+</code></pre><p>2、序列化框架 Protobuf
+Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p>]]></description>
+</item>
+<item>
+    <title>数据收集、分布式队列</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/</guid>
+    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p>1、运营式系统阶段
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p>2、用户原创内容阶段
+数据爆发产生于Web 2.0 时代，重要标志是用户原创内容；
+以博客、微博为代表的新型社交网络出现并快速发展；
+以智能手机、平板电脑为代表的新型移动设备的出现；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p>3、感知式系统阶段
+感知式系统，如VR/AR等，广泛使用；
+数据第三次大飞跃导致大数据的产生</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>]]></description>
 </item>
 <item>
     <title>Linux：正则表达式</title>
@@ -381,204 +579,6 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 <li>共享性</li>
 </ul>
 <p>4、知识的层次</p>]]></description>
-</item>
-<item>
-    <title></title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</guid>
-    <description><![CDATA[<h2 id="第三章-大数据存储">第三章 大数据存储</h2>
-<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
-<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
-• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
-• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
-<h4 id="数据序列化">数据序列化</h4>
-<p>1、背景</p>
-<ul>
-<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
-<li>阶段二：采用编程语言内置的序列化机制。</li>
-<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
-<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
-</ul>
-<p>2、意义
-阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
-<h4 id="数据序列化方案">数据序列化方案</h4>
-<p>1、序列化框架 Thrift
-Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
-<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
-struct中每个域由四个属性构成：</p>
-<ul>
-<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
-<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
-<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
-<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
-</ul>
-<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
-// 定义枚举类型DocLevel,表示网页内容级别
-enum DocLevel {
-CLEAN = 0,
-NORMAL = 1,
-MAYBE = 2,
-BAD = 3,
-}
-
-struct MergedDoc { // 定义网页,类似于Java和C++中的类
-1:required i64 docId, //每个网页被赋予一个64位唯一ID
-2: required string url, //网页URL
-3: optional string title, //网页标题
-4: optional string segBody, //经分词后的网页主体
-5: optional i32 pagerank, //网页pagerank,网页排名使用
-10: optional DocLevel docLevel, //网页内容级别
-11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
-12: optional list&lt;i64&gt; outLinks //网页出链
-}
-</code></pre><p>2、序列化框架 Protobuf
-Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p>]]></description>
-</item>
-<item>
-    <title></title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/</guid>
-    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
-<h3 id="大数据的历史">大数据的历史</h3>
-<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
-<h4 id="大数据的挑战">大数据的挑战</h4>
-<p>1、大数据带来的思维转变</p>
-<ul>
-<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
-<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
-<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
-</ul>
-<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
-<ul>
-<li>Volume：量大</li>
-<li>Velocity：快速化</li>
-<li>Value：价值密度低</li>
-<li>Variety：多样化</li>
-</ul>
-<h4 id="大数据的产生">大数据的产生</h4>
-<p>1、运营式系统阶段
-数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
-<p>2、用户原创内容阶段
-数据爆发产生于Web 2.0 时代，重要标志是用户原创内容；
-以博客、微博为代表的新型社交网络出现并快速发展；
-以智能手机、平板电脑为代表的新型移动设备的出现；
-数据的产生方式是<strong>主动</strong>的。</p>
-<p>3、感知式系统阶段
-感知式系统，如VR/AR等，广泛使用；
-数据第三次大飞跃导致大数据的产生</p>
-<p>4、大数据 vs 大规模数据 vs 海量数据</p>
-<p>5、科学研究四范式</p>
-<ul>
-<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
-<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
-</ul>
-<h4 id="大数据计算模式">大数据计算模式</h4>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">大数据计算模式</th>
-          <th style="text-align: left">解决问题</th>
-          <th style="text-align: left">代表产品</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">批处理计算</td>
-          <td style="text-align: left">针对大规模数据的批量处理</td>
-          <td style="text-align: left">MapReduceSpark等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">流计算</td>
-          <td style="text-align: left">针对流数据的实时计算</td>
-          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">图计算</td>
-          <td style="text-align: left">针对大规模图结构数据的处理</td>
-          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">查询分析计算</td>
-          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
-          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="大数据技术框架">大数据技术框架</h3>
-<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
-<p><strong>2、数据收集层</strong>
-数据源特点
-<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
-<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
-<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
-频和视频等非关系型数据
-<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
-<p>收集系统特点
-<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
-<strong>可靠性</strong>：数据在传输过程中不能够丢失
-<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
-<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>]]></description>
-</item>
-<item>
-    <title></title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</guid>
-    <description><![CDATA[<h1 id="递归与分治策略">递归与分治策略</h1>
-<h3 id="递归">递归</h3>
-<ul>
-<li>直接或间接地调用自身的算法称为<strong>递归算法</strong>。</li>
-<li>用函数自身给出定义的函数称为<strong>递归函数</strong>。</li>
-</ul>
-<p><strong>边界条件</strong>与<strong>递归方程</strong>是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。</p>
-<p><strong>优点</strong>：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。
-<strong>缺点</strong>：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。</p>
-<h3 id="分治法">分治法</h3>
-<p><strong>divide、conquer、combine</strong></p>
-<p><strong>算法总体思想</strong>
-<strong>Divide, Conquer</strong>：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。
-<strong>Combine</strong>：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。</p>
-<p><strong>分割原则</strong>：子问题的规模大致相同</p>
-<p><strong>分治法的复杂性分析</strong>：
-一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。
-设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。
-再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。
-用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：</p>
-<p><strong>分治法的适用条件</strong>：
-分治法所能解决的问题一般具有以下几个特征：</p>
-<ul>
-<li>该问题的规模缩小到一定的程度就可以容易地解决；</li>
-<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有<strong>最优子结构性质</strong></li>
-<li>利用该问题分解出的子问题的解可以合并为该问题的解；</li>
-<li>该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题。</li>
-</ul>
-<h1 id="example">example</h1>
-<h2 id="二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</h2>
-<p>Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x</p>
-<pre tabindex="0"><code>public static int vinarySearch(int[]a, int x, int n)
-{
-    int left = 0;
-    int right = n - 1;
-    while(left &lt;= right)
-    {
-        int middle = (left + right)/2;
-        if (x == a[middle])
-            return middle;
-        else if(x &gt; a[middle])
-            left = middle + 1;
-        else
-            right = middle - 1;
-    }
-    return -1;
-}
-</code></pre><h2 id="大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</h2>
-<p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
-分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。</p>]]></description>
 </item>
 </channel>
 </rss>

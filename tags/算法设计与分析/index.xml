@@ -1,0 +1,64 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>算法设计与分析 - Tag - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/</link>
+        <description>算法设计与分析 - Tag - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" rel="self" type="application/rss+xml" /><item>
+    <title>递归与分治</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</link>
+    <pubDate>Sun, 20 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</guid>
+    <description><![CDATA[<h1 id="递归与分治策略">递归与分治策略</h1>
+<h3 id="递归">递归</h3>
+<ul>
+<li>直接或间接地调用自身的算法称为<strong>递归算法</strong>。</li>
+<li>用函数自身给出定义的函数称为<strong>递归函数</strong>。</li>
+</ul>
+<p><strong>边界条件</strong>与<strong>递归方程</strong>是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。</p>
+<p><strong>优点</strong>：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。
+<strong>缺点</strong>：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。</p>
+<h3 id="分治法">分治法</h3>
+<p><strong>divide、conquer、combine</strong></p>
+<p><strong>算法总体思想</strong>
+<strong>Divide, Conquer</strong>：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。
+<strong>Combine</strong>：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。</p>
+<p><strong>分割原则</strong>：子问题的规模大致相同</p>
+<p><strong>分治法的复杂性分析</strong>：
+一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。
+设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。
+再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。
+用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：</p>
+<p><strong>分治法的适用条件</strong>：
+分治法所能解决的问题一般具有以下几个特征：</p>
+<ul>
+<li>该问题的规模缩小到一定的程度就可以容易地解决；</li>
+<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有<strong>最优子结构性质</strong></li>
+<li>利用该问题分解出的子问题的解可以合并为该问题的解；</li>
+<li>该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题。</li>
+</ul>
+<h1 id="example">example</h1>
+<h2 id="二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</h2>
+<p>Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x</p>
+<pre tabindex="0"><code>public static int vinarySearch(int[]a, int x, int n)
+{
+    int left = 0;
+    int right = n - 1;
+    while(left &lt;= right)
+    {
+        int middle = (left + right)/2;
+        if (x == a[middle])
+            return middle;
+        else if(x &gt; a[middle])
+            left = middle + 1;
+        else
+            right = middle - 1;
+    }
+    return -1;
+}
+</code></pre><h2 id="大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</h2>
+<p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
+分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。</p>]]></description>
+</item>
+</channel>
+</rss>

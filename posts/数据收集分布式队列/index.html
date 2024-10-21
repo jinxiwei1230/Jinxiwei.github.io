@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/">
+        <title>数据收集、分布式队列 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/">
   <meta property="og:site_name" content="Jinxiwei">
-  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:title" content="数据收集、分布式队列">
   <meta property="og:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
 全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
 2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
@@ -19,9 +19,12 @@
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="大数据技术基础">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:title" content="数据收集、分布式队列">
   <meta name="twitter:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
 全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
 2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
@@ -34,19 +37,19 @@
 <meta name="application-name" content="My blog">
 <meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "数据收集、分布式队列",
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97\/"
-        },"genre": "posts","wordcount":  524 ,
-        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97\/","publisher": {
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  524 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -85,9 +88,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;524 words&nbsp;
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据收集、分布式队列</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;524 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
@@ -592,25 +595,25 @@ URL的抓取
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 0001-01-01</span>
+                <span>Updated on 2024-10-10</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="prev" rel="prev" title="Linux：正则表达式"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：正则表达式</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" class="next" rel="next" title="大数据存储">大数据存储<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
