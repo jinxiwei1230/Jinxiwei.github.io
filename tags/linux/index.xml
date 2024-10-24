@@ -3,7 +3,84 @@
         <title>Linux - Tag - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/</link>
         <description>Linux - Tag - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux：命令风格与目录存储结构</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</link>
+    <pubDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</guid>
+    <description><![CDATA[<h1 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h1>
+<h2 id="命令风格">命令风格</h2>
+<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
+<p>配置信息等硬编码是不可取的</p>
+<ul>
+<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
+<li>运行时获取信息的常见方式，易变性从小到大为 :
+<ul>
+<li>配置文件</li>
+<li>环境变量</li>
+<li>命令行参数</li>
+<li>交互式键盘输入</li>
+</ul>
+</li>
+</ul>
+<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
+<ul>
+<li>
+<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
+<ul>
+<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
+<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
+</li>
+<li>
+<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
+</li>
+<li>
+<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
+</li>
+</ul>
+<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
+<p><strong>命令<code>env</code></strong>：
+- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
+<code>bash env </code>
+这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
+<p><strong>设置环境变量</strong>：
+环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
+<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
+这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
+<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
+<p><strong>系统级与用户级环境变量</strong>：</p>
+<ul>
+<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
+<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
+</ul>
+<p><strong>示例</strong>：
+- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
+- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
+<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
+<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
+- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
+- <strong><code>HOME</code></strong>：当前用户的主目录路径。
+- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
+- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
+- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
+- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
+<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
+<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
+<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
+<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
+<h4 id="4命令行参数">4、命令行参数</h4>
+<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
+<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
+<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
+<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
+<p><strong>1、 根文件系统（root filesystem）</strong></p>]]></description>
+</item>
+<item>
     <title>Linux:文件和目录管理</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</link>
     <pubDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</pubDate>
