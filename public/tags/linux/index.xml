@@ -1,0 +1,365 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux - Tag - My New Hugo Site</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/</link>
+        <description>Linux - Tag - My New Hugo Site</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux：命令风格与目录存储结构</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</link>
+    <pubDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</guid>
+    <description><![CDATA[<h1 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h1>
+<h2 id="命令风格">命令风格</h2>
+<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
+<p>配置信息等硬编码是不可取的</p>
+<ul>
+<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
+<li>运行时获取信息的常见方式，易变性从小到大为 :
+<ul>
+<li>配置文件</li>
+<li>环境变量</li>
+<li>命令行参数</li>
+<li>交互式键盘输入</li>
+</ul>
+</li>
+</ul>
+<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
+<ul>
+<li>
+<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
+<ul>
+<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
+<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
+</li>
+<li>
+<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
+</li>
+<li>
+<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
+</li>
+</ul>
+<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
+<p><strong>命令<code>env</code></strong>：
+- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
+<code>bash env </code>
+这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
+<p><strong>设置环境变量</strong>：
+环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
+<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
+这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
+<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
+<p><strong>系统级与用户级环境变量</strong>：</p>
+<ul>
+<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
+<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
+</ul>
+<p><strong>示例</strong>：
+- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
+- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
+<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
+<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
+- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
+- <strong><code>HOME</code></strong>：当前用户的主目录路径。
+- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
+- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
+- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
+- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
+<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
+<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
+<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
+<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
+<h4 id="4命令行参数">4、命令行参数</h4>
+<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
+<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
+<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
+<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
+<p><strong>1、 根文件系统（root filesystem）</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux:文件和目录管理</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</link>
+    <pubDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</guid>
+    <description><![CDATA[<h1 id="第六章-文件和目录管理">第六章 文件和目录管理</h1>
+<h3 id="列出文件目录-ls">列出文件目录 ls</h3>
+<p><strong>1、ls基本功能:</strong></p>
+<ul>
+<li>在同一命令行中可以指定0~n个实参</li>
+<li>不给出实参时，列出当前目录下所有文件和目录</li>
+<li>实参为文件时，列出文件项</li>
+<li>实参为目录时，列出目录下的所有文件项</li>
+</ul>
+<hr>
+<p><strong>2、选项-F (Flag)</strong></p>
+<ul>
+<li>若列出的是目录，就在名字后面缀以斜线 /</li>
+<li>若列出的是可执行文件，就在名字后面缀以星号 *</li>
+<li>若列出的是符号连接文件，就在名字后面缀以符号 @</li>
+<li>若列出的是普通文件，则名字面后无任何标记</li>
+</ul>
+<hr>
+<p><strong>3、ls选项-l: 长格式列表（ll）</strong>
+例: <code>drwxr-xr-x. 2 bupt2022211264 bupt2022211264  4096 Oct 10 06:11 ch04</code>
+<code>-rw-rw-r--. 1 bupt2022211264 bupt2022211264 13892 Oct 10 06:34 index.html</code></p>
+<p><strong>第1列</strong>：文件属性
+<code>-</code> 普通文件            <code>b</code> 块设备文件(Block)
+<code>D</code> 目录文件(Dir)       <code>c</code> 字符设备文件(Char)
+<code>L</code> 符号连接文件(Link)   <code>p</code> 命名管道文件(Pipe)</p>
+<p>文件的访问权限(rwx读权限，写权限，可执行权限)
+2-4字符: 文件所有者对文件的访问权限
+5-7字符: 同组用户对文件的访问权限
+8-10字符:其它用户对文件的访问权限</p>
+<p><strong>第2列</strong>：文件link数，涉及到此文件的目录项数</p>
+<p><strong>第3列</strong>，第4列：文件主的名字和组名</p>
+<p><strong>第5列</strong>:
+普通磁盘文件：列出文件大小(字节数)
+目录：列出目录表大小，不是目录下文件长度和
+符号连接文件：列出符号连接文件自身的长度
+字符设备和块设备文件：列出主设备号和次设备号
+管道文件：列出管道内的数据长度</p>
+<p><strong>第6列</strong>：文件最后一次被修改的日期和时间</p>
+<h2 id="对于符号连接文件附带列出符号连接文件的内容"><strong>第7列</strong>：文件名
+对于符号连接文件，附带列出符号连接文件的内容</h2>
+<p><strong>4、ls其他选项</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux文件比较、vi、文件通配符</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</guid>
+    <description><![CDATA[<h1 id="第五章-文件比较vi文件通配符">第五章 文件比较、vi、文件通配符</h1>
+<h3 id="文件内容比对">文件内容比对</h3>
+<h4 id="两文件逐字节比较cmp">两文件逐字节比较：cmp</h4>
+<p><strong>用法</strong>
+<code>cmp file1 file2</code></p>
+<p><strong>功能</strong></p>
+<ul>
+<li>逐字节比较两个文件是否完全相同</li>
+<li>两个文件完全相同时，不给出任何提示</li>
+<li>两个文件不同时，打印出第一个不同之处</li>
+<li>在Windows中有类似的命令COMP</li>
+</ul>
+<h4 id="md5sumsha1sum文件内容比较">md5sum/sha1sum：文件内容比较</h4>
+<p>使用MD5算法（散列函数）根据文件内容生成16/32字节hash值，比较hash值是否相同，就可断定两文件内容是否完全相同
+输出：
+<code>4db9bfbea050ed07aa07d4ca55ad5cb0  8.txt</code>
+<code>8634a498b15d80ca59ac3d852b63fe35  a.txt</code></p>
+<p>使用SHA-1算法的命令名为sha1sum (40字节hash值) ： 160位，用40个16进制字节表示
+输出：
+<code>34150c466e7ca3550766cdd457418656a2a808b8  8.txt</code>
+<code>60a08508708a55279d298d123f0efeece7c41590  a.txt</code></p>
+<p>常用于数据完整性（Data Integrity）验证和判断位于网络不同机器上的两个文件内容是否相同
+其他散列函数也可以用来完成这一任务: sha512sum</p>
+<h4 id="diff查找文本文件版本之间的差异">diff：查找文本文件版本之间的差异</h4>
+<p><strong>用法</strong>
+<code>diff file1 file2 </code>
+<code>diff -u file1 file2 </code></p>
+<p><strong>功能</strong>
+比较两个版本的文本文件，以寻找两者间差别
+输出格式 normal，unified (-u)
+normal格式：列出一个如何将file1转化为file2的指令</p>
+<ul>
+<li>这些指令有<strong>a（Add）</strong>，<strong>c（Change）<strong>和</strong>d（Delete）</strong></li>
+<li>指令字母左边的行号是file1的行号，右面是file2的行号</li>
+<li>列出内容时，大于号后边的内容是需要在file1文件中增加的内容；小于号后边的内容是需从file1中删除的内容</li>
+</ul>
+<p><strong>normal格式文件转化指令</strong>
+1、25<strong>c</strong>25,26
+<strong>&lt;</strong> #define MAX_WEIGHT 2000000000
+<strong>&mdash;</strong>
+<strong>&gt;</strong> /* max signed 32-bit integer */
+<strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
+将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
+</item>
+<item>
+    <title>Linux：正则表达式</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+    <pubDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
+    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
+<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+<h3 id="元字符和集合">元字符和集合</h3>
+<p>1、<strong>正则表达式的概念</strong>
+应用范围：字符串匹配操作和替换操作</p>
+<p>正则表达式的功能：描述一个字符串模式</p>
+<p><strong>注意:</strong>
+正则表达式规则与文件名通配符规则不同
+正则表达式规则用于文本处理的场合
+文件名匹配规则用于文件处理的场合</p>
+<p>不同软件对正则表达式的定义会有差异</p>
+<p>2、<strong>正则表达式中的特殊字符</strong>
+6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
+<p>转义:用反斜线可以取消特殊字符的特殊含义
+如：正则表达end.只与字符串end.匹配</p>
+<p>3、<strong>单字符正则表达式</strong>
+转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
+<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
+<p>4、<strong>单字符正则表达式:定义集合</strong>
+<strong>在[]之间的字符为集合的内容</strong>
+如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
+<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
+如:<code>[\*.]</code>可匹配3个单字符</p>
+<p><strong>用减号-定义一个区间</strong></p>
+<ul>
+<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
+<li><code>[][]</code> 集合含左右中括号两个字符</li>
+<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
+</ul>
+<p><strong>用^表示补集</strong>
+^在开头,则表示与集合内字符之外的任意字符匹配.
+<code>[^a-z]</code>匹配任一非小写字母.
+-<code>[^][]</code>匹配任一非中括号字符.</p>
+<p>^不在开头,则失去其表示补集的意义
+<code>[a-z^]</code>能匹配27个单字符</p>
+<h3 id="组合与锚点">组合与锚点</h3>
+<p><strong>1、单字符正则表达式的组合</strong>
+<strong>串结</strong>
+如abc， <code>[A-Z].[0-9]</code></p>
+<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
+<ul>
+<li>正则表达式<code>12*4 </code>
+与字符串1234不匹配，与1224，12224，14匹配</li>
+<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
+<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
+</ul>
+<p><strong>2、锚点:$和^</strong>
+<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
+<li><code>$123</code>与字符串<code>$123</code>匹配</li>
+<li><code>.$</code>匹配行尾的任意字符</li>
+</ul>
+<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
+<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
+<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
+</ul>
+<p><strong>3、正则表达式扩展</strong>
+<strong>基本正则表达式（BRE）</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux：命令和工具、文本文件处理</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</link>
+    <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</guid>
+    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
+<h2 id="第一章-linux入门">第一章 Linux入门</h2>
+<h3 id="linux的历史">Linux的历史</h3>
+<p>1、 <strong>操作系统的演变</strong></p>
+<ul>
+<li>手工操作</li>
+<li>单道批处理操作系统</li>
+<li>多道批处理系统</li>
+<li>分时系统</li>
+</ul>
+<p>2、 <strong>Unix发展史</strong></p>
+<ul>
+<li>UNiplexed Information and Computing System</li>
+<li>Unix早期的两大流派：贝尔实验室、加州大学伯克利分校</li>
+</ul>
+<h3 id="linux字符终端">Linux字符终端</h3>
+<p>1、 <strong>Unix/Linux是多用户系统：</strong></p>
+<ul>
+<li>主机连接多台字符终端</li>
+<li>字符终端作为交互式输入输出设备</li>
+</ul>
+<p>2、 <strong>终端和主机</strong></p>
+<ul>
+<li>
+<p>终端: 主机的输入和输出设备
+终端通过电缆把用户的按键信息送到主机，把主机发来的信息在屏幕上显示</p>
+</li>
+<li>
+<p>主机: 程序和数据的存储及处理
+数据及程序存放在主机的硬盘上，程序的运行也都由主机内的CPU占用主机内存来完成</p>
+</li>
+</ul>
+<p>3、 <strong>行律与驱动程序</strong></p>
+<ul>
+<li>
+<p>驱动程序：
+不同的硬件需要不同的驱动程序
+与行律模块的接口：上行和下行字符流</p>
+</li>
+<li>
+<p>行律的作用
+一行内字符的缓冲、回显与编辑，直到按下回车键
+数据加工，如：将\n转化为\r\n
+将Ctrl-C字符转化为中止进程运行的信号(signal)</p>
+</li>
+</ul>
+<p>4、 <strong>主机与终端间的通信过程</strong></p>
+<p>5、 <strong>终端转义序列</strong></p>
+<ul>
+<li>
+<p>转义字符
+Esc：ASCII码1B（十进制27，八进制033）</p>
+</li>
+<li>
+<p>主机发往终端方向数据中的转义序列的功能
+控制光标位置、字符颜色、字符大小等等
+选择终端的字符集
+控制终端上的打印机、刷卡机、磁条器、密码键盘</p>
+</li>
+</ul>
+<p><em>Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除屏幕
+Esc[8A 四字节序列，光标上移8行
+Esc[16;8H 七字节序列，光标移到16行8列
+Esc[1;31m 七字节序列，红色字符</em></p>
+<p>6、 <strong>终端类型</strong></p>
+<ul>
+<li>
+<p>定义:定义一组转移序列以及相对应的操作</p>
+</li>
+<li>
+<p>主机和终端之间的类型匹配
+主机根据终端类型，实现相应功能时发送对应的控制码
+当终端类型不对时，可能全屏幕操作失败</p>
+</li>
+</ul>
+<p>7、 <strong>主机和终端之间的流量控制</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux补充知识</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/</link>
+    <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/</guid>
+    <description><![CDATA[<p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
+解析：输出黄色的Hello
+<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
+<ul>
+<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
+<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
+<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
+<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
+<ul>
+<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
+<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
+<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
+</ul>
+</li>
+</ul>
+<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
+<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
+<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
+<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
+<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
+<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
+<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
+<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
+<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
+字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p>]]></description>
+</item>
+</channel>
+</rss>

@@ -1,9 +1,9 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>All Posts - My New Hugo Site</title>
-        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/</link>
-        <description>All Posts | My New Hugo Site</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <title>Basic Course - Category - My New Hugo Site</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/basic-course/</link>
+        <description>Basic Course - Category - My New Hugo Site</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/basic-course/" rel="self" type="application/rss+xml" /><item>
     <title>Linux：命令风格与目录存储结构</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</link>
     <pubDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</pubDate>

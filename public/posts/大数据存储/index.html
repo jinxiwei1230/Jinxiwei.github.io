@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>大数据存储 - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="大数据存储">
+  <meta property="og:description" content="第三章 大数据存储 数据序列化与文件存储格式 • 数据序列化是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。 • 文件存储格式是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。 • 针对不同类型的数据，可采用不同的存储系统，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。
+数据序列化 1、背景
+阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。 阶段二：采用编程语言内置的序列化机制。 阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML 阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。 2、意义 阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。
+数据序列化方案 1、序列化框架 Thrift Thrift是Facebook开源的RPC框架，同时具有序列化和RPC两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。
+Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift struct中每个域由四个属性构成：
+域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性； 域修饰：包括required和optional两个关键字，用以对域的数值进行限制； 域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型； 域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。 namespace java com.hadoopspark.generated.thrift// 定义枚举类型DocLevel,表示网页内容级别enum DocLevel {CLEAN = 0,NORMAL = 1,MAYBE = 2,BAD = 3,}struct MergedDoc { // 定义网页,类似于Java和C&#43;&#43;中的类1:required i64 docId, //每个网页被赋予一个64位唯一ID2: required string url, //网页URL3: optional string title, //网页标题4: optional string segBody, //经分词后的网页主体5: optional i32 pagerank, //网页pagerank,网页排名使用10: optional DocLevel docLevel, //网页内容级别11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId12: optional list&lt;i64&gt; outLinks //网页出链} 2、序列化框架 Protobuf Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C&#43;&#43;和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="大数据技术基础">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="大数据存储">
+  <meta name="twitter:description" content="第三章 大数据存储 数据序列化与文件存储格式 • 数据序列化是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。 • 文件存储格式是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。 • 针对不同类型的数据，可采用不同的存储系统，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。
+数据序列化 1、背景
+阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。 阶段二：采用编程语言内置的序列化机制。 阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML 阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。 2、意义 阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。
+数据序列化方案 1、序列化框架 Thrift Thrift是Facebook开源的RPC框架，同时具有序列化和RPC两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。
+Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift struct中每个域由四个属性构成：
+域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性； 域修饰：包括required和optional两个关键字，用以对域的数值进行限制； 域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型； 域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。 namespace java com.hadoopspark.generated.thrift// 定义枚举类型DocLevel,表示网页内容级别enum DocLevel {CLEAN = 0,NORMAL = 1,MAYBE = 2,BAD = 3,}struct MergedDoc { // 定义网页,类似于Java和C&#43;&#43;中的类1:required i64 docId, //每个网页被赋予一个64位唯一ID2: required string url, //网页URL3: optional string title, //网页标题4: optional string segBody, //经分词后的网页主体5: optional i32 pagerank, //网页pagerank,网页排名使用10: optional DocLevel docLevel, //网页内容级别11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId12: optional list&lt;i64&gt; outLinks //网页出链} 2、序列化框架 Protobuf Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C&#43;&#43;和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "大数据存储",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8\/"
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  319 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">大数据存储</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;319 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第三章-大数据存储">第三章 大数据存储</a>
+      <ul>
+        <li><a href="#数据序列化与文件存储格式">数据序列化与文件存储格式</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第三章-大数据存储">第三章 大数据存储</h2>
+<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
+<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
+• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
+• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
+<h4 id="数据序列化">数据序列化</h4>
+<p>1、背景</p>
+<ul>
+<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
+<li>阶段二：采用编程语言内置的序列化机制。</li>
+<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
+<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
+</ul>
+<p>2、意义
+阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
+<h4 id="数据序列化方案">数据序列化方案</h4>
+<p><strong>1、序列化框架 Thrift</strong>
+Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
+<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
+struct中每个域由四个属性构成：</p>
+<ul>
+<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
+<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
+<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
+<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
+</ul>
+<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
+// 定义枚举类型DocLevel,表示网页内容级别
+enum DocLevel {
+CLEAN = 0,
+NORMAL = 1,
+MAYBE = 2,
+BAD = 3,
+}
+
+struct MergedDoc { // 定义网页,类似于Java和C++中的类
+1:required i64 docId, //每个网页被赋予一个64位唯一ID
+2: required string url, //网页URL
+3: optional string title, //网页标题
+4: optional string segBody, //经分词后的网页主体
+5: optional i32 pagerank, //网页pagerank,网页排名使用
+10: optional DocLevel docLevel, //网页内容级别
+11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
+12: optional list&lt;i64&gt; outLinks //网页出链
+}
+</code></pre><p><strong>2、序列化框架 Protobuf</strong>
+Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p>
+<p>Protocol Buffers用message关键字描述一类对象的统称，经Protobuf编译器编译后，翻译成目标语言中的类。Protobuf message中每个域也由四个属性构成：</p>
+<ul>
+<li>域编号：每个域必须是唯一（但可以不连续）的整数，Protobuf用该编号实现向后向前兼容性；</li>
+<li>域修饰：包括required、optional和repeated三个关键字，用以对域的数值进行限制；</li>
+<li>域类型：Protobuf支持常用数据类型，包括bool，int32，float，double和string等基本类型，自定义类型，数组，map容器等；</li>
+<li>域名称：同一message下每个域名称必须唯一，可为域设置默认数值</li>
+</ul>
+<pre tabindex="0"><code>// 定义网页,类似于Java和C++中的类
+message MergedDoc { 
+    required int64 docId = 1;
+    required string url = 2;
+    optional string title = 3;
+    optional string segBody = 4;
+    optional int32 pagerank = 5;
+    // 定义枚举类型DocLevel,表示网页内容级别
+    enum DocLevel {
+        CLEAN = 0;
+        NORMAL = 1;
+        MAYBE = 2;
+        BAD = 3;
+    }
+    optional DocLevel docLevel = 10;
+    repeated int64 inLinks = 11;
+    repeated int64 outLinks = 12;
+}
+</code></pre><p><strong>3、序列化框架 Avro</strong>
+Avro是Hadoop生态系统中的序列化及RPC框架，设计之初的意图是为Hadoop提供一个高效、灵活且易于演化的序列化及RPC基础库，目前已经发展成一个独立的项目</p>
+<p>相比于Thrift和Protobuf，Avro具有以下几个特点：</p>
+<ul>
+<li>动态类型：Avro将数据和schema存放在一起，这样数据处理过程并不需要生成代码，方便构建通用的数据处理系统和语言；</li>
+<li>未标记的数据：读取Avro数据时schema是已知的，这使得编码到数据中的类型信息变少，进而使得序列化后的数据量变少；</li>
+<li>不需要显式指定域编号：处理数据时新旧schema都是已知的，因此通过使用字段名称即可解决兼容性问题。</li>
+</ul>
+<p>使用Avro提供的编译器可生成目标语言代码，通常分成两步：转换成JSON定义方式；生成目标语言代码</p>
+<pre tabindex="0"><code>@namespace(&#34;com.hadoopspark.generated.avro&#34;)
+protocol MergedDocHolder {
+    enum DocLevel {
+    CLEAN, NORMAL, MAYBE, BAD
+    }
+    record MergedDoc {
+        long docId;
+        string url;
+        string title;
+        string segBody;
+        int pagerank;
+        DocLevel docLevel;
+        array&lt;long&gt; inLinks;
+        array&lt;long&gt; outLinks;
+    }
+}
+</code></pre><h4 id="文件存储格式">文件存储格式</h4>
+<ul>
+<li>
+<p>行式存储以文本格式Text File、key/value二进制存储格式Sequence File为典型代表；</p>
+</li>
+<li>
+<p>列式存储以ORC、Parquet和Carbon Data三种文件格式为代表。</p>
+</li>
+<li>
+<p>行存储以行为单位进行存储，读写过程是一致的，都是连续读取或写入同一行的所有列；</p>
+</li>
+<li>
+<p>列存储写数据时将数据拆分成列，并以列为单位存储（相同列存储在一起），读数据时，分别读取对应的列，并拼装成行</p>
+</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">对比</th>
+          <th style="text-align: left">行存储</th>
+          <th style="text-align: left">列存储</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">写性能</td>
+          <td style="text-align: left">一次完成，性能更高</td>
+          <td style="text-align: left">把一行记录分成单列，写入次数多，花费时间多</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">读性能</td>
+          <td style="text-align: left">读少数几列时会遍历无关列，IO开销大；读取整行数据时性能高</td>
+          <td style="text-align: left">读取少数几列时，无需读取无关列，性能高；读取几行时要读取所有列拼装成行，性能低</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据压缩</td>
+          <td style="text-align: left">每行数据压缩在一起，压缩比较低</td>
+          <td style="text-align: left">以列为单位存储，相同数据类型压缩在一起，对压缩算法友好，压缩比高</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">典型代表</td>
+          <td style="text-align: left">Text File、Sequence File</td>
+          <td style="text-align: left">ORC、Parquet、Carbon Data</td>
+      </tr>
+  </tbody>
+</table>
+<p>Hadoop存储格式
+Hadoop将文件读取和写入模块抽象成InputFormat和OutputFormat组件，其中InputFormat可将数据文件逻辑上划分成多个可并行处理的InputSplit，OuputFormat可将数据以指定的格式写入输出文件。</p>
+<h4 id="行存储格式">行存储格式</h4>
+<p>1、文本格式（Text File）是以文本字符串方式保存数据，具有简单、易查看等优点，是使用最广泛的行式存
+储格式。</p>
+<p>2、Sequence File是Hadoop中提供的简单key/value二进制行式存储格式，可用于存储文本格式无法存储的数据，比如二进制对象、图片、视频等。</p>
+<p>3、为了方便上层计算框架并行处理，Sequence File物理存储上是分块的，根据压缩方式不同，Sequence File存在<strong>未压缩</strong>、<strong>行级压缩</strong>和<strong>块级压缩</strong>三种存储格式。</p>
+<h5 id="未压缩的-sequence-file">未压缩的 Sequence File</h5>
+<p>1、未压缩的Sequence File由头部开始，顺序跟着一系列record，为了便于对数据分块和按块压缩，每隔一定数目的record会写入一个同部位SyncMark。</p>
+<p>2、头部中包含版本、key对应类、value对应类、是否压缩等信息;每条record以key/value的形式组织。</p>
+<h5 id="行级压缩的-sequence-file">行级压缩的 Sequence File</h5>
+<p>行级压缩与未压缩的Sequence File类似，区别在于头部加入了压缩相关的信息（压缩标记位设为true，并记录了压缩器类），而record中的value值是经压缩后存储的。</p>
+<h5 id="块级压缩的-sequence-file">块级压缩的 Sequence File</h5>
+<p>块级压缩的Sequence File是以块为单位组织record的，在每块数据中，所有record的key长度、key值，value长度和value值将分别被存放在一起，并一起压缩存储。</p>
+<h4 id="列式存储格式">列式存储格式</h4>
+<p>列式存储格式的代表有ORC（Optimized Row Columnar）、Parquet和Carbondata三种。</p>
+<h5 id="orc-文件">ORC 文件</h5>
+<p>1、ORC是专为Hadoop设计的<strong>自描述</strong>的列式存储格式，重点关注提高数据处理系统效率和降低数据存储空间，它<strong>支持复杂数据类型、ACID及内置索引支持</strong>，非常适合海量数据的存储。</p>
+<p>2、 支持复杂数据类型</p>
+<ul>
+<li>ORC支持Hive所有数据类型，包括int、string、date等基本类型，也包括struct、list、map和union等复杂数据类型，尤其是对复杂数据类型的支持使得ORC能够定义非结构化的数据；</li>
+<li>ORC以列为单位存储数据，并根据列的类型进行编码，比如对整数列采用变长编码和差值编码，对字符串采用字典编码等，列式存储与数据编码的引入，使得ORC文件可达到很高的压缩比。</li>
+</ul>
+<p>3、 支持ACID
+Hive在ORC File基础上，基于“base file+delta file”的模型实现了对ACID的支持，即数据首先被写入一个base file中，之后的修改数据被写入一个delta file，Hive将定期合并这两个文件。</p>
+<p>4、 内置索引</p>
+<ul>
+<li>
+<p>ORC提供了file、stripe以及row级别的索引，方便用户查找定位目标数据：</p>
+<ul>
+<li>file级别索引：文件级别的统计信息（如最大值，最小值等）；</li>
+<li>stripe级别索引：ORC文件将数据划分成若干个固定大小的stripe，每个stripe可定义记录内部数据统计信息；</li>
+<li>row级别索引：每个stripe内部每10000行会生成数据索引信息和统计信息。</li>
+</ul>
+</li>
+<li>
+<p>ORC是按列存储数据的，支持投影操作，结合各级别索引，ORC可轻易过滤掉查询无关的数据行和数据。ORC File由<strong>stripe</strong>、<strong>footer</strong>和<strong>postscript</strong>三部分构成：</p>
+<ul>
+<li>stripe是数据存储单元，每个stripe包含索引域、数据域和尾部域三部分，其中索引域记录每列最大值、最小值等信息，数据域以列为单位组织数据，尾部域存储了每列数据在数据域中的位置、编码方式等；</li>
+<li>footer记录了ORC File文件主体的布局，包括schema信息、行总数、每行的统计信息等；</li>
+<li>postscript记录了ORC文件级别的元信息，包括footer长度、ORC版本号、采用的压缩算法等。</li>
+</ul>
+</li>
+</ul>
+<h5 id="parquet-文件">Parquet 文件</h5>
+<p>1、列式Parquet是由Twitter实现并开源的，解决Twitter内部日益增长的数据存储和处理问题。Parquet文件存储格式的设计与ORC较为类似，是一种<strong>自描述</strong>的列式存储格式，它先<strong>按照行切分数据</strong>，形成一个<strong>Row Group</strong>，在每个Group内部，以<strong>列</strong>为单位存储数据。</p>
+<p>2、<strong>Row Group</strong>：一组行数据，内部以<strong>列</strong>为单位存储这些行。当向Parquet文件写入数据时，Row Group中的数据会缓冲到内存中直到达到预定大小，之后才会刷新到磁盘上；当从Parquet文件读取数据时，每个RowGroup可作为一个独立数据单元由一个任务处理；</p>
+<p>3、<strong>Column Chunk</strong>：每个Column Chunk由若干个Page构成；</p>
+<p>4、<strong>Data Page</strong>：数据压缩的基本单元，数据读取的<strong>最小单元</strong>。</p>
+<h5 id="carbondata-文件">Carbondata 文件</h5>
+<p>1、CarbonData是华为开源的一种高性能数据存储格式，主要针对当前大数据领域分析场景需求各异而导致的<strong>存储冗余</strong>问题，相比Parquet和ORC，CarbonData的优势在于以下几点：</p>
+<ul>
+<li><strong>独特的数据组织方式</strong>：更加灵活的行列式存储格式，对于经常一起出现的列，可以将其设置为列组，设置为列组的列会按行的方式进行存储，然后与其他列或列组一起按列存储；</li>
+<li><strong>多层次索引</strong>：CarbonData实现了文件和数据块级别的索引，同时引入多维主键和倒排索引实现行级别和列级别的索引；</li>
+<li><strong>全局字典编码</strong>：CarbonData实现了字符串的全局字典编码，这样仅需要在磁盘上保存较小的整数而无需保存原始字符串，这大大增加了数据处理速度，并减少了存储空间；</li>
+<li><strong>支持数据的更新与删除</strong>：CarbonData支持批量和离线数据更新和加载，以更好地支持OLAP场景。</li>
+</ul>
+<p>CarbonData文件中每一个存储单元称为一个<strong>Blocklet</strong>，对应于Parquet的一个Row Group。每个Blocklet内按列分为多个Column Chunk，用以存储某列数据，而每个Column Chunk由连续的多个Page组成。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" data-title="大数据存储" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" data-title="大数据存储"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" data-title="大数据存储"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" data-title="大数据存储"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" class="prev" rel="prev" title="数据收集"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>数据收集</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" class="next" rel="next" title="分布式队列">分布式队列<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

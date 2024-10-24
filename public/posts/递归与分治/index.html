@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>递归与分治 - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="递归与分治">
+  <meta property="og:description" content="递归与分治策略 递归 直接或间接地调用自身的算法称为递归算法。 用函数自身给出定义的函数称为递归函数。 边界条件与递归方程是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。
+优点：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。 缺点：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。
+分治法 divide、conquer、combine
+算法总体思想 Divide, Conquer：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。 Combine：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。
+分割原则：子问题的规模大致相同
+分治法的复杂性分析： 一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。 设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。 再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。 用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：
+分治法的适用条件： 分治法所能解决的问题一般具有以下几个特征：
+该问题的规模缩小到一定的程度就可以容易地解决； 该问题可以分解为若干个规模较小的相同问题，即该问题具有最优子结构性质 利用该问题分解出的子问题的解可以合并为该问题的解； 该问题所分解出的各个子问题是相互独立的，即子问题之间不包含公共的子问题。 example 二分搜索（减小规模？== 提高效率？） Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x
+public static int vinarySearch(int[]a, int x, int n){int left = 0;int right = n - 1;while(left &lt;= right){int middle = (left &#43; right)/2;if (x == a[middle])return middle;else if(x &gt; a[middle])left = middle &#43; 1;elseright = middle - 1;}return -1;} 大整数乘法(提高效率？ 乘法减少？) 问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。 分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。 你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-20T00:00:00+00:00">
+    <meta property="article:tag" content="算法设计与分析">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="递归与分治">
+  <meta name="twitter:description" content="递归与分治策略 递归 直接或间接地调用自身的算法称为递归算法。 用函数自身给出定义的函数称为递归函数。 边界条件与递归方程是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。
+优点：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。 缺点：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。
+分治法 divide、conquer、combine
+算法总体思想 Divide, Conquer：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。 Combine：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。
+分割原则：子问题的规模大致相同
+分治法的复杂性分析： 一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。 设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。 再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。 用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：
+分治法的适用条件： 分治法所能解决的问题一般具有以下几个特征：
+该问题的规模缩小到一定的程度就可以容易地解决； 该问题可以分解为若干个规模较小的相同问题，即该问题具有最优子结构性质 利用该问题分解出的子问题的解可以合并为该问题的解； 该问题所分解出的各个子问题是相互独立的，即子问题之间不包含公共的子问题。 example 二分搜索（减小规模？== 提高效率？） Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x
+public static int vinarySearch(int[]a, int x, int n){int left = 0;int right = n - 1;while(left &lt;= right){int middle = (left &#43; right)/2;if (x == a[middle])return middle;else if(x &gt; a[middle])left = middle &#43; 1;elseright = middle - 1;}return -1;} 大整数乘法(提高效率？ 乘法减少？) 问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。 分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。 你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "递归与分治",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB\/"
+        },"genre": "posts","keywords": "算法设计与分析","wordcount":  1585 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB\/","datePublished": "2024-10-20T00:00:00+00:00","dateModified": "2024-10-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">递归与分治</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-20">2024-10-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1585 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#递归">递归</a></li>
+        <li><a href="#分治法">分治法</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</a></li>
+    <li><a href="#大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</a>
+      <ul>
+        <li><a href="#算法步骤">算法步骤</a></li>
+        <li><a href="#时间复杂度分析">时间复杂度分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#strassen矩阵乘法提高效率-乘法减少">Strassen矩阵乘法(提高效率？ 乘法减少？)</a>
+      <ul>
+        <li><a href="#1-基本原理">1. 基本原理</a></li>
+        <li><a href="#2-算法步骤">2. 算法步骤</a></li>
+        <li><a href="#3-复杂度分析">3. 复杂度分析</a></li>
+        <li><a href="#4-优势和劣势">4. 优势和劣势</a></li>
+      </ul>
+    </li>
+    <li><a href="#归并排序分治法在排序中的应用">归并排序(分治法在排序中的应用！)</a>
+      <ul>
+        <li><a href="#插入排序--直接插入排序稳定排序">插入排序 —— 直接插入排序(稳定排序)</a></li>
+        <li><a href="#归并排序稳定排序">归并排序(稳定排序)</a></li>
+      </ul>
+    </li>
+    <li><a href="#快速排序不稳定">快速排序(不稳定)</a></li>
+    <li><a href="#选择问题最小线性表选择">选择问题\最小线性表选择</a>
+      <ul>
+        <li><a href="#选择问题">选择问题</a></li>
+        <li><a href="#pivot划分基准的选择">Pivot/划分基准的选择</a></li>
+      </ul>
+    </li>
+    <li><a href="#最接近点对问题">最接近点对问题</a></li>
+    <li><a href="#循环赛问题">循环赛问题</a>
+      <ul>
+        <li><a href="#解决步骤">解决步骤：</a></li>
+        <li><a href="#复杂度分析">复杂度分析：</a></li>
+        <li><a href="#总比赛次数">总比赛次数：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="递归与分治策略">递归与分治策略</h1>
+<h3 id="递归">递归</h3>
+<ul>
+<li>直接或间接地调用自身的算法称为<strong>递归算法</strong>。</li>
+<li>用函数自身给出定义的函数称为<strong>递归函数</strong>。</li>
+</ul>
+<p><strong>边界条件</strong>与<strong>递归方程</strong>是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。</p>
+<p><strong>优点</strong>：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。
+<strong>缺点</strong>：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。</p>
+<h3 id="分治法">分治法</h3>
+<p><strong>divide、conquer、combine</strong></p>
+<p><strong>算法总体思想</strong>
+<strong>Divide, Conquer</strong>：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。
+<strong>Combine</strong>：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。</p>
+<p><strong>分割原则</strong>：子问题的规模大致相同</p>
+<p><strong>分治法的复杂性分析</strong>：
+一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。
+设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。
+再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。
+用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：</p>
+<p><strong>分治法的适用条件</strong>：
+分治法所能解决的问题一般具有以下几个特征：</p>
+<ul>
+<li>该问题的规模缩小到一定的程度就可以容易地解决；</li>
+<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有<strong>最优子结构性质</strong></li>
+<li>利用该问题分解出的子问题的解可以合并为该问题的解；</li>
+<li>该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题。</li>
+</ul>
+<h1 id="example">example</h1>
+<h2 id="二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</h2>
+<p>Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x</p>
+<pre tabindex="0"><code>public static int vinarySearch(int[]a, int x, int n)
+{
+    int left = 0;
+    int right = n - 1;
+    while(left &lt;= right)
+    {
+        int middle = (left + right)/2;
+        if (x == a[middle])
+            return middle;
+        else if(x &gt; a[middle])
+            left = middle + 1;
+        else
+            right = middle - 1;
+    }
+    return -1;
+}
+</code></pre><h2 id="大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</h2>
+<p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
+分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。
+你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：</p>
+<h3 id="算法步骤">算法步骤</h3>
+<ol>
+<li>
+<p><strong>输入</strong>：两个n位的二进制整数X和Y。</p>
+</li>
+<li>
+<p><strong>分解</strong>：</p>
+<ul>
+<li>将X和Y分别分为高位和低位：
+<ul>
+<li>( X = A \cdot 2^{n/2} + B )</li>
+<li>( Y = C \cdot 2^{n/2} + D )</li>
+</ul>
+</li>
+<li>其中，A和C是高位，B和D是低位。</li>
+</ul>
+</li>
+<li>
+<p><strong>乘法展开</strong>：</p>
+<ul>
+<li>根据分治法，乘积可以表示为：
+[
+XY = AC \cdot 2^n + (AD + BC) \cdot 2^{n/2} + BD
+]</li>
+</ul>
+</li>
+</ol>
+<p><strong>计算次数</strong>：</p>
+<ul>
+<li>乘法次数：4次n/2位的整数乘法；</li>
+<li>加法次数：3次整数加法；</li>
+<li>移位次数：2次</li>
+</ul>
+<ol start="4">
+<li><strong>改进的算法</strong>：
+<ul>
+<li>通过重新排列计算，可以减少乘法次数：
+[
+XY = AC \cdot 2^n + ((A - B)(D - C) + AC + BD) \cdot 2^{n/2} + BD
+]</li>
+<li>在这个表达式中，乘法次数减少为3次n/2位的整数乘法。</li>
+</ul>
+</li>
+</ol>
+<p><strong>加法和移位次数</strong>：</p>
+<ul>
+<li>加法次数：6次</li>
+<li>加法：6次整数加法</li>
+<li>移位次数：2次</li>
+</ul>
+<h3 id="时间复杂度分析">时间复杂度分析</h3>
+<ul>
+<li>
+<p>对于原始的乘法，递归关系为：
+[
+T(n) = 4T(n/2) + O(n)
+]
+根据主定理，得出时间复杂度为 ( T(n) = O(n^2) )。</p>
+</li>
+<li>
+<p>对于改进后的乘法，递归关系为：
+[
+T(n) = 3T(n/2) + O(n)
+]
+根据主定理，这样的递归关系的时间复杂度为 ( T(n) = O(n^{\log_2 3}) = O(n^{1.59}) )。</p>
+</li>
+</ul>
+<h2 id="strassen矩阵乘法提高效率-乘法减少">Strassen矩阵乘法(提高效率？ 乘法减少？)</h2>
+<h3 id="1-基本原理">1. 基本原理</h3>
+<p>传统的矩阵乘法对于两个 ( n \times n ) 的矩阵，使用标准的算法需要 ( O(n^3) ) 的时间复杂度。Strassen算法通过将矩阵拆分为更小的矩阵块，并利用一些数学关系减少乘法运算的次数。</p>
+<h3 id="2-算法步骤">2. 算法步骤</h3>
+<p>假设我们要计算两个 ( n \times n ) 的矩阵 ( A ) 和 ( B ) 的乘积 ( C = A \times B )。Strassen算法的步骤如下：</p>
+<ol>
+<li>
+<p><strong>拆分矩阵</strong>：
+将矩阵 ( A ) 和 ( B ) 拆分为四个子矩阵：
+[
+A = \begin{pmatrix}
+A_{11} &amp; A_{12} \
+A_{21} &amp; A_{22}
+\end{pmatrix}, \quad
+B = \begin{pmatrix}
+B_{11} &amp; B_{12} \
+B_{21} &amp; B_{22}
+\end{pmatrix}
+]</p>
+</li>
+<li>
+<p><strong>定义中间变量</strong>：
+根据Strassen算法，我们定义七个中间变量：
+[
+\begin{align*}
+M_1 &amp; = (A_{11} + A_{22})(B_{11} + B_{22}) \
+M_2 &amp; = (A_{21} + A_{22})B_{11} \
+M_3 &amp; = A_{11}(B_{12} - B_{22}) \
+M_4 &amp; = A_{22}(B_{21} - B_{11}) \
+M_5 &amp; = (A_{11} + A_{12})B_{22} \
+M_6 &amp; = (A_{21} - A_{11})(B_{11} + B_{12}) \
+M_7 &amp; = (A_{12} - A_{22})(B_{21} + B_{22})
+\end{align*}
+]</p>
+</li>
+<li>
+<p><strong>组合结果</strong>：
+使用这些中间变量组合出最终的结果矩阵 ( C )：
+[
+\begin{align*}
+C_{11} &amp; = M_1 + M_4 - M_5 + M_7 \
+C_{12} &amp; = M_3 + M_5 \
+C_{21} &amp; = M_2 + M_4 \
+C_{22} &amp; = M_1 - M_2 + M_3 + M_6
+\end{align*}
+]</p>
+</li>
+</ol>
+<h3 id="3-复杂度分析">3. 复杂度分析</h3>
+<ul>
+<li><strong>乘法次数</strong>：Strassen算法将乘法次数从8次减少到7次。</li>
+<li><strong>时间复杂度</strong>：
+<ul>
+<li>递归关系为：
+[
+T(n) = 7T(n/2) + O(n^2)
+]</li>
+<li>根据主定理，这个关系的解为：
+[
+T(n) = O(n^{\log_2 7}) \approx O(n^{2.81})
+]</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-优势和劣势">4. 优势和劣势</h3>
+<h4 id="优势">优势：</h4>
+<ul>
+<li><strong>减少乘法次数</strong>：通过减少乘法次数，Strassen算法在处理大规模矩阵时比传统方法更高效。</li>
+<li><strong>适合大矩阵</strong>：在处理大矩阵时，Strassen算法的优势更加明显。</li>
+</ul>
+<h4 id="劣势">劣势：</h4>
+<ul>
+<li><strong>常数因子高</strong>：Strassen算法的常数因子比传统算法高，因此在较小矩阵时可能反而慢。</li>
+<li><strong>内存占用</strong>：需要额外的内存来存储中间结果，尤其是在递归调用时。</li>
+<li><strong>数值稳定性</strong>：Strassen算法在某些情况下可能不够稳定，特别是对于浮点数计算。</li>
+</ul>
+<h2 id="归并排序分治法在排序中的应用">归并排序(分治法在排序中的应用！)</h2>
+<p>1、稳定排序与不稳定排序
+保证排序前2个相等的数其在序列的前后位置顺序和排序后它们两个的前后位置顺序相同</p>
+<p>2、内部排序与外部排序</p>
+<ul>
+<li>内部排序: 指的是待排序记录存放在计算机随机存储器中进行的排序过程。</li>
+<li>外部排序: 指的是待排序记录的数量很大，以致内存一次不能容纳全部记录，在排序过程中尚需对外存进行访问的排序过程。</li>
+</ul>
+<p>3、排序过程主要是对记录的排序码进行<strong>比较</strong>和记录的<strong>移动</strong>过程。
+因此排序的时间复杂性以算法执行中的数据比较次数及数据移动次数来衡量。
+当一种排序方法使排序过程在最坏或平均情况下所进行的比较和移动次数越少，则认为该方法的时间复杂性就越好。
+分析一种排序方法，不仅要分析它的<strong>时间复杂性</strong>，而且要分析它的<strong>空间复杂性</strong>、<strong>稳定性</strong>和<strong>简单性</strong>等。</p>
+<h3 id="插入排序--直接插入排序稳定排序">插入排序 —— 直接插入排序(稳定排序)</h3>
+<p>1、思想:   利用有序表的插入操作进行排序
+初始，令第 1 个元素作为初始有序表；依次插入第 2 , 3 , …, k 个元素构造新的有序表；直至最后一个元素；</p>
+<pre tabindex="0"><code>void insertasort(ElemType R[], int n)
+{
+    for(int i = 1; i &lt; n; i++)
+    {
+        ElemType temp = R[i];
+        int j = i - 1;
+        while((j &gt;= 0) &amp;&amp; (temp &lt; R[j]))
+        {
+            R[j + 1] = R[j];
+            j--;
+        }
+        R[j + 1] = temp;
+    }
+}
+</code></pre><p>2、直接插入排序的效率分析</p>
+<ul>
+<li>从空间来看，它只需一个元素的辅助空间，用于元素的位置交换。</li>
+<li>从时间分析，首先外层循环要进行n-1次插入，每次插入：
+<ul>
+<li>最少比较一次（正序），移动两次；</li>
+<li>最多比较i次，移动i＋2次（逆序）（i=1，2，…，n-1）。
+直接插入排序的时间复杂度为O（n^2）</li>
+</ul>
+</li>
+</ul>
+<h3 id="归并排序稳定排序">归并排序(稳定排序)</h3>
+<p><strong>1、归并排序基本思想：</strong>
+将待排序元素分成大小大致相同的2个子集合，分别对2个子集合进行排序，最终将排好序的子集合合并成为所要求的排好序的集合。</p>
+<pre tabindex="0"><code> public static void mergeSort(Comparable a[], int left, int right)
+ {
+      if (left &lt; right) {//至少有2个元素
+           int i=(left+right)/2;  //取中点
+           mergeSort(a, left, i);
+           mergeSort(a, i+1, right);
+           merge(a, b, left, i, right);  //合并到数组b
+           copy(a, b, left, right);    //复制回数组a
+      }
+ }
+
+
+merge(A,p,q,r)
+{
+    n1 = q-p+1; //左边长度
+    n2 = r - q; //右边长度
+    creat_arrays L[n1],R[n2]
+    L[n1] = MAX
+    R[n2] = MAX
+
+    for k = p:r
+    if L[i] &lt;= R[j]
+    {
+        A[k] = L[i];
+        i++;
+    }
+    else
+    {
+        A[k] = R[j];
+        j++;
+    }
+}
+</code></pre><p><strong>2、归并排序的灵活革新</strong></p>
+<ul>
+<li>首先将长度为1的n个数组相邻元素两两配对，构成了长度为2的n/2个数组，合并时用比较算法对这每个子数组中元素进行排序；</li>
+<li>再将这些长度为2的n/2个数组两两合并，构成了长度为4，个数为n/4的子数组，合并时用比较算法对每个子数组元素排序。</li>
+<li>继续直到形成长度为n，子数组个数=1的整个数组为止。</li>
+</ul>
+<p>算法最坏情况的复杂度为O(nlogn)
+算法平均时间复杂度为O(nlogn)
+算法需要O(n)的辅助空间</p>
+<p>非递归的归并排序，即通过两两合并子数组的方式对数组进行排序:</p>
+<pre tabindex="0"><code>//将两个有序的子数组合并为一个有序数组。
+void merge(type c[], type d[], int l, int m, int r)
+{
+    int i = 1, j = m + 1, k = 1;
+    while((i &lt;= m) &amp;&amp; (j &lt;= r))
+    {
+        if(c[i] &lt; d[j])
+            d[k++] = c[i++]
+        else
+            d[k++] = c[j++]
+    }
+    if(i &gt; m)
+    {
+        for(int q = j;q &lt;= r; q++)
+            d[k++] = c[q];
+    }
+    else
+    {
+        for(int q = i;q &lt;= m; q++)
+            d[k++] = c[q];
+    }
+}
+
+//用于逐步合并数组中的子数组。
+void mergePass(type x[], type y[], int n)
+{
+    int s = 1;
+    int i = 0;
+    while(i &lt;= n - 2 * s) // 合并大小为s的相邻两段子数组
+    {
+        merge(x, y, i, i + s - 1, i + 2 * s - 1);
+        i += 2 * s;
+    }
+    if(i + s &lt; n) // 剩下的元素不足2*s
+        merge(x, y, i, i + s - 1, n - 1);
+    else // 复制剩余未处理的元素
+        for(int j = i; j &lt; n; j++)
+            y[j] = x[j];
+}
+//为什么剩余部分可以直接复制？
+//在 mergePass 中，每一轮只处理大小为 2 * s 的子数组。如果剩余的元素不足以构成大小为 2 * s 的完整子数组，那么这部分数据实际上在后续的 merge 操作中会参与更大规模的合并。
+//由于这些剩余的子数组在当前轮次并未参与合并，所以它们保持原本的顺序，并且在后续的轮次中会被合并处理。因此，直接将它们复制到目标数组即可。
+
+//非递归归并排序的入口
+void mergeSort(type a[], int n)
+{
+    type *b = new type[n];
+    int s = 1;
+    while(s &lt; n)
+    {
+        mergePass(a, b, n); // 合并a[]中的子数组，将结果放到b[]中
+        s += s; // 子数组大小翻倍
+        mergePass(b, a, n); // 合并b[]中的子数组，将结果放回a[]中
+        s += s;
+    }
+    delete[] b; // 释放动态分配的数组
+}
+</code></pre><h2 id="快速排序不稳定">快速排序(不稳定)</h2>
+<p>1、分解：数组A[p … r]被划分成两个子数组A[p&hellip;q-1]和A[q+1…r],且A[q]为标杆元素。使得A[p..q-1]都≤A[q]， A[q+1…r] ＞A[q]
+2、解决：递归地调用快速排序，对子数组A[p..q-1]和A[q+1…r],排序
+3、合并：因为两个子数组就地排序，将它们的合并不需要操作，整个数组已经排序了。</p>
+<pre tabindex="0"><code>QUICKSORT(A, p, r)
+    if p &lt; r
+        q = PARTITION(A, p, r)
+        QUICKSORT(A, p, q-1)
+        QUICKSORT(A, q+1, r)
+
+Initial call: QUICKSORT(A, 1, n)
+
+PARTITION(A, p ,q)  //A[p...q], pivot=A[p]
+    x = A[p]
+    i = p
+    for j = p + 1 to 
+        if A[j] &lt;= x
+            i = i + 1
+            exchange A[i]和A[j]
+    exchange A[p]和A[i]
+    return i
+</code></pre><p>4、Worst-case:
+Input: sorted or reverse sorted  T(n) = O(n^2)</p>
+<p>5、Best-case:PARTITION splits the array evenly.
+<strong>快速排序算法性能取决于划分的对称性</strong></p>
+<p>平均时间复杂度O(nlogn)</p>
+<h2 id="选择问题最小线性表选择">选择问题\最小线性表选择</h2>
+<h3 id="选择问题">选择问题</h3>
+<p>1、给定线性序集中n个元素和一个整数k，1≤k≤n，要求找出这n个元素中第k小的元素</p>
+<ul>
+<li>找第1小元素：即转换为找最小值元素问题</li>
+<li>找第n小元素：即转换为找最大值元素问题</li>
+<li>找中间小元素：找中位数，k = (n+1)/2问题</li>
+</ul>
+<p>2、利用 快速选择（QuickSelect）算法，它的基本概念与快速排序类似。快速选择是一种能够在 期望线性时间 内从无序数组中找出第 k 小的元素。
+T(n)=O(n)</p>
+<pre tabindex="0"><code>// 随机化划分函数
+int randomizedPartition(int a[], int p, int r) {
+    int i = p + rand() % (r - p + 1);  // 随机选择一个划分点
+    swap(&amp;a[i], &amp;a[r]);  // 将随机选择的元素与最后一个元素交换
+    int pivot = a[r];
+    int j = p - 1;
+    for (int k = p; k &lt; r; k++) {
+        if (a[k] &lt;= pivot) {
+            j++;
+            swap(&amp;a[j], &amp;a[k]);
+        }
+    }
+    swap(&amp;a[j + 1], &amp;a[r]);
+    return j + 1;
+}
+
+// 快速选择函数，返回第k小的元素
+int randomizedSelect(int a[], int p, int r, int k) {
+    if (p == r) return a[p];  // 极值情况：数组中只有一个元素
+    int x = randomizedPartition(a, p, r);  // 划分数组
+    int i = x - p + 1;  // 左半部分元素的个数
+    if (k == i) return a[x];  // 如果第k小的元素是划分点
+    else if (k &lt; i) return randomizedSelect(a, p, x - 1, k);  // 在左半部分递归查找
+    else return randomizedSelect(a, x + 1, r, k - i);  // 在右半部分递归查找第k-i小的元素
+}
+
+//int a[]：待查找的数组。
+//int p：数组的起始索引。
+//int r：数组的结束索引（表示当前子数组的最后一个元素的索引）。
+//int k：想要查找的第 k 小元素的位置。
+</code></pre><h3 id="pivot划分基准的选择">Pivot/划分基准的选择</h3>
+<ol>
+<li>
+<p>将n个输入元素划分成 n/5 个组，每组5个元素，只可能有一个组不是5个元素。用任意一种排序算法，将每组中的元素排好序，并取出每组的中位数，共 n/5 个。</p>
+</li>
+<li>
+<p>递归调用select来找出这 n/5 个元素的中位数。如果 n/5 是偶数，就找它的2个中位数中较大的一个。</p>
+</li>
+<li>
+<p>以这个元素作为划分基准。</p>
+</li>
+</ol>
+<p>设所有元素互不相同。在这种情况下，找出的基准x至少比3(n-5)/10个元素大，因为在每一组中有2个元素小于本组的中位数，而n/5个中位数中又有(n-5)/10个小于基准x。同理，基准x也至少比3(n-5)/10个元素小。而当n≥75时，3(n-5)/10≥n/4所以按此基准划分所得的2个子数组的长度都至少缩短1/4。</p>
+<p><strong>选择算法（Selection Algorithm）</strong>：具体来说，它使用了 &ldquo;<strong>Median of Medians</strong>&rdquo; 方法来找到数组中的第 k 小的元素。该算法的核心思想是使用递归地选择** 中位数的中位数 <strong>来作为划分点，保证划分的平衡性，最终实现</strong>最坏时间复杂度为 O(n)** 的选择操作。
+T(n)=O(n)</p>
+<pre tabindex="0"><code>Type Select(Type a[], int p, int r, int k)
+{
+    if (r - p &lt; 75) 
+    {
+        // 用某个简单排序算法对数组a[p:r]排序;
+        // 直接返回排序后第 k 小的元素，位于 a[p+k-1]
+        return a[p + k - 1];
+    };
+    for ( int i = 0; i &lt;= (r - p - 4) / 5; i++ ) //(r - p - 4) / 5 表示有多少个完整的 5 元素组
+    {
+        // 将a[p+5*i] 至 a[p+5*i+4]的第3小元素与a[p+i]交换位置;
+    }
+
+    // 在上一步找出的中位数中找到它们的 中位数，将其作为新的划分点 x
+    // p + (r - p - 4) / 5 是包含所有 5 元素组中位数的数组区间，(r - p - 4) / 10 是这些中位数的中位数的位置。
+    Type x = Select(a, p, p + (r - p - 4) / 5, (r - p - 4) / 10);
+    
+    
+    // 调用 Partition 函数使用 x（中位数的中位数）对数组进行划分，返回 x 在数组中的位置 i
+    int i = Partition(a, p, r, x),
+    j = i - p + 1;
+
+    // 第 k 小的元素在划分后的左半部分 [p, i]
+    if (k &lt;= j) 
+        return Select(a, p, i, k);
+    // 第 k 小的元素在右半部分 [i+1, r]
+    else 
+        return Select(a, i + 1, r, k - j);
+}
+</code></pre><h2 id="最接近点对问题">最接近点对问题</h2>
+<p>给定平面上n个点，找其中的一对点，使得在n个点的所有点对中，该点对的距离最小。</p>
+<p>1、直线上</p>
+<ul>
+<li>只要将每一点与其他n-1个点距离算出，找出达到最小距离的两点即可。O(n^2)</li>
+<li>在直线上，最近点对问题可以通过1次排序和1维扫描来解决.O(nlogn)</li>
+</ul>
+<p><strong>分析</strong>：
+<strong>划分问题：</strong></p>
+<ul>
+<li>将点集 <strong>S</strong> 按横坐标排序，然后划分为两个子集 <strong>S1</strong> 和 <strong>S2</strong>。递归划分，直到每个子集只有 2-3 个点时，直接计算最近点对。</li>
+</ul>
+<p><strong>找到子集的最小距离：</strong></p>
+<ul>
+<li>分别在 <strong>S1</strong> 和 <strong>S2</strong> 中递归找出最近点对，得到距离 <strong>d1</strong> 和 <strong>d2</strong>。取较小的为 <strong>d</strong>：
+[
+d = \min(d1, d2)
+]</li>
+</ul>
+<p><strong>合并子问题的解：</strong></p>
+<ul>
+<li>为了找到跨越 <strong>S1</strong> 和 <strong>S2</strong> 的最近点对，只需检查中点两侧距离不超过 <strong>d</strong> 的点对。这个过程在线性时间内完成。</li>
+</ul>
+<p><strong>选择最小距离：</strong></p>
+<ul>
+<li>最终比较 <strong>S1</strong> 的解、<strong>S2</strong> 的解，以及跨越 <strong>S1</strong> 和 <strong>S2</strong> 的解，选出最小的距离。</li>
+</ul>
+<p>T(n):
+O(1)   (n&lt;4)
+[
+T(n) = 2T\left(\frac{n}{2}\right) + O(n) (n&gt;=4)
+]</p>
+<pre tabindex="0"><code>//一维   T(n) = O(nlogn)
+bool Cpairl(s, d)
+{
+    n = |s|;
+    if(n&lt;2)
+    {
+        d为无穷大；
+        return false;
+    }
+    //构造s1和s2
+    //s1 = {x&lt;m}   s2 = {x&gt;m}
+    Cpairl(s1, d1);
+    Cpairl(s2, d2);
+    p = max(s1);
+    q = min(s2);
+    d = min(d1, d2, q-p)
+    return true;
+}
+</code></pre><p>2、平面上
+在二维空间中，这个思路是行不通的：1次排序和1维扫描来解决。
+体会分治的策略：缩小问题的规模
+① 划分成子规模点集
+② 找到极值情况
+③ 合并
+④ 提高效率（平衡子问题）</p>
+<ul>
+<li>选取一垂直线l : x = m来作为分割直线。其中m为S中各点x坐标的中位数。由此将S分割为S1和S2。</li>
+<li>递归地在S1和S2上找出其最小距离d1和d2，并设d=min{d1,d2}，S中的最接近点对或者是d，或者是某个{p,q}，其中p∈P1且q∈P2。</li>
+<li>考虑P1中任意一点p，它若与P2中的点q构成最接近点对的候选者，则必有distance(p，q)＜d。满足这个条件的P2中的点一定落在一个d×2d的矩形R中</li>
+<li>由d的意义可知，P2中任何2个S中的点的距离都不小于d。由此可以推出矩形R中最多只有6个S中的点。</li>
+<li>因此，在分治法的合并步骤中最多只需要检查<strong>n/2×6=3n</strong>个候选者</li>
+</ul>
+<pre tabindex="0"><code>double cpair2(S) {      
+    n = |S|;                     // 获取集合 S 的大小 n
+    if (n &lt; 2) return false;      // 基本情况：如果 S 中的点数少于 2，返回 false 表示没有最近点对
+    
+    m = 中位数(S 中各点的 x 坐标);  //1、线性时间
+    构造 S1 和 S2;
+
+    d1 = cpair2(S1);        //2、2T(n/2)
+    d2 = cpair2(S2);
+    
+    dm = min(d1, d2);    //3、常数时间
+
+    P1 = {p ∈ S1 | x(p) 在 dm 距离内};  //4、O(nlogn)
+    P2 = {p ∈ S2 | x(p) 在 dm 距离内};
+    Y1 = 按 y 坐标排序的 P1 点集;
+    Y2 = 按 y 坐标排序的 P2 点集;
+
+    dl = 通过扫描找到的最近点对的距离;    //5、线性时间
+    
+    d = min(dm, dl);    //6、常数时间
+    return d;
+}
+</code></pre><p><strong>最近点对问题时间复杂度：</strong></p>
+<ul>
+<li>当输入规模 ( n &lt; 4 ) 时，时间复杂度为常数 ( O(1) )。</li>
+<li>当输入规模 ( n \geq 4 ) 时，时间复杂度可以表示为递推式 ( T(n) = 2T(n/2) + O(n) )。
+<strong>递推式</strong>：
+[
+T(n) = 2T\left(\frac{n}{2}\right) + O(n)
+]</li>
+</ul>
+<h2 id="循环赛问题">循环赛问题</h2>
+<p>设计一个满足以下要求的比赛日程表：
+有n=2^k个运动员
+(1)每个选手必须与其他n-1个选手各赛一次；
+(2)每个选手一天只能赛一次；
+(3)循环赛一共进行n-1天。</p>
+<p>按分治策略，将所有的选手分为两半，n个选手的比赛日程表就可以通过为n/2个选手设计的比赛日程表来决定。
+递归地用对选手进行分割，直到只剩下2个选手时，比赛日程表的制定就变得很简单。这时只要让这2个选手进行比赛就可以了。</p>
+<h3 id="解决步骤">解决步骤：</h3>
+<ol>
+<li>
+<p><strong>找到第1名选手</strong>：</p>
+<ul>
+<li>通过比赛找到第1名胜者。这需要 ( n - 1 ) 场比赛。</li>
+</ul>
+</li>
+<li>
+<p><strong>找到第2名选手</strong>：</p>
+<ul>
+<li>第2名选手一定是在所有曾经输给第1名选手的选手中。因此，我们只需要对这些曾经输给第1名的选手进行额外的比赛，来确定谁是其中最强的。</li>
+</ul>
+</li>
+</ol>
+<h3 id="复杂度分析">复杂度分析：</h3>
+<ol>
+<li><strong>找到第1名的比赛次数</strong>：需要进行 ( n - 1 ) 场比赛，来确定唯一的第1名选手。</li>
+<li><strong>找到第2名的比赛次数</strong>：第1名选手在整个比赛过程中击败了 ( \log_2 n ) 个选手（因为是单淘汰赛，每轮淘汰对手数量减半），因此为了确定第2名，我们只需要在这些 ( \log_2 n ) 个选手中找到最强的一个，这最多需要 ( \log_2 n - 1 ) 场比赛。</li>
+</ol>
+<h3 id="总比赛次数">总比赛次数：</h3>
+<ul>
+<li>找到第1名的比赛次数：( n - 1 )。</li>
+<li>找到第2名的比赛次数：( \log_2 n - 1 )。</li>
+<li>总比赛次数：( n - 1 + \log_2 n - 1 = n + \log_2 n - 2 )。
+因此，循环赛问题的最优算法需要<strong>总共 ( n + \log_2 n - 2 ) 场比赛</strong>。</li>
+</ul>
+<pre tabindex="0"><code>void raceTable(int left,int right) //待求的左边界和右边界
+{
+    if(size==2)
+    {
+        填表格，结束
+    }
+    if(size为奇数)
+    {
+        计算 raceTable(pos,size+1);
+    }
+    else{
+        raceTable(pos,size/2); //分治策略，计算前半部分
+        copyTable(pos,right); //根据上式前半部分的计算，直接写出后半部分。
+        Union(pos,size/2);//合并两部分
+    }
+}
+void Union(int left,int mid,int right)
+{
+    if(mid为奇数)
+    两组相对于，填补前n天的空闲时间;
+    
+    循环左下边放入到右上角，同时放置对应的右下角（同时进行的）
+}
+void copyTable(pos,right)
+</code></pre></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治" data-hashtags="算法设计与分析"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-hashtag="算法设计与分析"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" data-title="递归与分治"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" class="prev" rel="prev" title="Linux:文件和目录管理"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux:文件和目录管理</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" class="next" rel="next" title="分布式存储">分布式存储<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

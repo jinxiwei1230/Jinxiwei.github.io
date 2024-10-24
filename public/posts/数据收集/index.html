@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>数据收集 - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="数据收集">
+  <meta property="og:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
+全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
+2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
+3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用； 数据第三次大飞跃导致大数据的产生
+4、大数据 vs 大规模数据 vs 海量数据
+5、科学研究四范式
+图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了实验、理论和计算三种范式。 基于这种考虑，Jim Gray 提出了一种新的数据探索型研究方式，被他自己称之为科学研究的“第四种范式 ”。 大数据计算模式 大数据计算模式 解决问题 代表产品 批处理计算 针对大规模数据的批量处理 MapReduceSpark等 流计算 针对流数据的实时计算 Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等 图计算 针对大规模图结构数据的处理 Pregel、GraphX、Giraph等 查询分析计算 大规模数据的存储管理和查询分析 Dremel、Hive、Cassandra、Impala等 大数据技术框架 1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括数据收集、数据存储、资源管理与服务协调、计算引擎、数据分析和可视化。
+2、数据收集层 数据源特点 分布式：数据源通常分布在不同机器或设备上，并通过网络连接在一起 异构性：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等 多样化：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音 频和视频等非关系型数据 流式产生：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析
+收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="大数据技术基础">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据收集">
+  <meta name="twitter:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
+全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
+2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
+3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用； 数据第三次大飞跃导致大数据的产生
+4、大数据 vs 大规模数据 vs 海量数据
+5、科学研究四范式
+图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了实验、理论和计算三种范式。 基于这种考虑，Jim Gray 提出了一种新的数据探索型研究方式，被他自己称之为科学研究的“第四种范式 ”。 大数据计算模式 大数据计算模式 解决问题 代表产品 批处理计算 针对大规模数据的批量处理 MapReduceSpark等 流计算 针对流数据的实时计算 Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等 图计算 针对大规模图结构数据的处理 Pregel、GraphX、Giraph等 查询分析计算 大规模数据的存储管理和查询分析 Dremel、Hive、Cassandra、Impala等 大数据技术框架 1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括数据收集、数据存储、资源管理与服务协调、计算引擎、数据分析和可视化。
+2、数据收集层 数据源特点 分布式：数据源通常分布在不同机器或设备上，并通过网络连接在一起 异构性：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等 多样化：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音 频和视频等非关系型数据 流式产生：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析
+收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "数据收集",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86\/"
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  292 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据收集</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;292 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第一章-概述">第一章 概述</a>
+      <ul>
+        <li><a href="#大数据的历史">大数据的历史</a></li>
+        <li><a href="#大数据的产生和应用">大数据的产生和应用</a></li>
+        <li><a href="#大数据技术框架">大数据技术框架</a></li>
+        <li><a href="#大数据架构">大数据架构</a></li>
+        <li><a href="#关系型数据收集">关系型数据收集</a></li>
+        <li><a href="#非关系型数据收集">非关系型数据收集</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p>1、运营式系统阶段
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p>2、用户原创内容阶段
+数据爆发产生于Web 2.0 时代，重要标志是用户原创内容；
+以博客、微博为代表的新型社交网络出现并快速发展；
+以智能手机、平板电脑为代表的新型移动设备的出现；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p>3、感知式系统阶段
+感知式系统，如VR/AR等，广泛使用；
+数据第三次大飞跃导致大数据的产生</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
+<p><strong>3、数据存储层</strong>
+数据存储层主要负责海量结构化与非结构化数据的存储。
+收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p>
+<ul>
+<li>扩展性</li>
+<li>容错性</li>
+<li>存储模型</li>
+</ul>
+<p><strong>4、资源管理与服务协调层</strong>
+既存在运行时间较短的批处理作业，也存在运行时间很长的服务。为防止不同应用之间相互干扰，传统做法将每类应用单独部署到独立服务器上，但存在资源利用率低、运维成本高和数据共享困难等问题。
+为了解决上述问题，需要将这些应用部署到一个公共集群中，让它们共享集群的资源，并对资源进行统一使用，同时采用轻量级隔离方案对各个应用进行隔离，因此便诞生了轻量级弹性资源管理平台。引入资源统一管理层有以下好处：
+资源利用率高
+运维成本低
+数据共享</p>
+<p><strong>5、计算引擎层</strong>
+不同应用场景，对数据处理的要求不同。有些场景下，只需离线处理数据，对实时性要求不高，但要求系统吞吐率高，如搜索引擎构建索引；有些场景需要对数据进行实时分析，要求每条数据处理延迟尽可能低，如广告系统及信用卡欺诈检测。
+总体上讲，可按照对时间性能的要求，将计算引擎分为三类：</p>
+<ul>
+<li><strong>批处理</strong>：对时间要求最低，一般处理时间为分钟到小时级别，甚至天级别，它追求的是高吞吐率，即单位时间内处理的数据量尽可能大；</li>
+<li><strong>交互式处理</strong>：对时间要求比较高，一般处理时间为秒级别，这类系统需要跟人进行交互，因此会提供类SQL的语言便于用户使用；</li>
+<li><strong>实时处理</strong>：对时间要求最高，一般处理延迟在秒级以内</li>
+</ul>
+<p><strong>6、数据分析层及数据可视化层</strong>
+数据分析层
+数据分析层直接跟用户应用程序对接，为其提供易用的数据处理工具，包括应用程序API、类SQL查询语言、数据挖掘SDK等。
+典型的使用模式是：首先使用批处理框架对原始海量数据进行分析，产生较小规模的数据集，
+在此基础上，再使用交互式处理工具对该数据集进行快速查询，获取最终结果。</p>
+<p>数据可视化
+数据可视化技术指的是运用计算机图形学和图像处理技术，将数据转换为图形或图像在屏幕上显示出来，并进行交互处理的理论、方法和技术。</p>
+<h3 id="大数据架构">大数据架构</h3>
+<p>1、Lambda Architecture
+LA是一种大数据软件设计架构，其目的是指导用户充分利用批处理和流式计算技术各自的优点实现一个复杂的大数据处理系统。LA主要思想是将数据处理流程分解成三层：<strong>批处理层、流式处理层和服务层</strong>；</p>
+<ul>
+<li>批处理层：主要思想是利用分布式批处理计算，以批为单位处理数据，并产生一个经预计算产生的只读数据视图。它可以一次性处理大量数据，引入复杂的计算逻辑，其优点是吞吐率高，缺点是数据处理延迟高；</li>
+<li>流式处理层：为了降低批处理层带来的高延迟，LA引入了流式处理层，该层采用流式计算技术，降低了数据处理延迟。其优点是数据处理延迟低，缺点是无法进行复杂的逻辑计算；</li>
+<li>服务层：批处理层和流式处理层结合在一起，可以既保证数据延迟低，也能完成复杂的逻辑计算，因此LA引入了服务层，对外提供了统一的访问接口。</li>
+</ul>
+<h3 id="关系型数据收集">关系型数据收集</h3>
+<h4 id="sqoop概述">Sqoop概述</h4>
+<p>1、Sqoop通常可完成以下类型的任务:数据迁移、可视化分析结果、数据增量导入</p>
+<p>2、sqoop基本思想及特点
+Sqoop 采用插拔式 Connector 架构，Connector 是与特定数据源相关的组件，主要负责从特定数据源中抽取和加载数据。</p>
+<p>Sqoop 主要具备以下特点：</p>
+<ul>
+<li>性能高：Sqoop 采用 MapReduce 完成数据的导入导出，具备了 MapReduce 所具有的优点，包括并发度可控、容错性高、扩展性高等；</li>
+<li>自动类型转换：Sqoop 可读取数据源元信息，自动完成数据类型映射，用户也可根据需要自定义类型映射关系；</li>
+<li>自动传播元信息：Sqoop 在数据发送端和接收端之间传递数据的同时，也会将元信息传递过去，保证接收端和发送端有一致的元信息</li>
+</ul>
+<h4 id="数据增量收集cdc">数据增量收集CDC</h4>
+<p>1、捕获数据源中数据的更新，进而获取增量数据的过程，被称为 CDC(Change Data Capture)。实现 CDC 的方案有定时扫描整表、写双份数据、利用触发器机制等（存在明显缺点）。
+新方案：基于事务或提交日志解析的方案，<strong>通过解析数据库更新日志，还原更新的数据，能够在不对业务层代码做任何修改的前提下，高效地获取更新数据</strong>；</p>
+<p>CDC 系统主要功能是<strong>捕获数据库中的数据更新</strong>，将增量数据发送给各个订阅者和消费者；</p>
+<h4 id="cdc开源实现canal">CDC开源实现Canal</h4>
+<p>1、原理：模拟数据库的主备复制协议，接收主数据库产生的 binary log，进而捕获更新数据</p>
+<p>2、Canal 基本架构：</p>
+<ul>
+<li>Canal Server：代表一个 Canal 运行实例，对应一个JVM</li>
+<li>Canal Instance：对应于一个数据队列 (1个 Canal Server 对应1到n个 instance)，主要包含以下几个模块：</li>
+<li>
+<ul>
+<li>EventParser：数据源接入，模拟 slave 协议和 master 进行交互，协议解析；</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>EventSink：Parser 和 Store 链接器，进行数据过滤、加工、分发的工作；</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>EventStore：数据存储；</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>MetaManager：增量订阅和消息信息管理器</li>
+</ul>
+</li>
+</ul>
+<h4 id="多机房数据同步系统otter">多机房数据同步系统Otter</h4>
+<p>1、Otter 基于 Canal 开源产品，基于数据库增量日志解析，准实时同步到本机房或异地机房的 MySQL/Oracle 数据库，本身采用典型的管理系统架构：Manager(Web 管理) + Node(工作节点)</p>
+<ul>
+<li>Manager 负责发布同步任务配置，接收同步任务反馈的状态信息等；</li>
+<li>Node工作节点负责执行同步任务，并将同步状态反馈给 Manager；
+为了解决分布式状态调度，允许多 Node 节点之间协同工作，Otter 采用了开源分布式协调组件ZooKeeper</li>
+</ul>
+<p>2、Otter S、E、T、L 阶段模型
+Otter 将整个同步流程抽象为 <strong>Select、Extract、Transform、Load</strong> 四个阶段；
+（数据接入-数据提取-数据转换-数据转入）</p>
+<h3 id="非关系型数据收集">非关系型数据收集</h3>
+<h4 id="flume概述">Flume概述</h4>
+<p>1、设计动机：在生产环境中。各种服务产生大量日志：数据源种类繁多、物理分布在不同机房、流式的不断产生、要求可靠性。
+Flume系统便是解决以上问题的，一个通用的流式数据收集系统，可以将不同数据源产生的流式数据近实时的发送到后端中心化的存储系统，具有分布式、良好的可靠性及可用性等优点。</p>
+<p>2、基本思想及特点</p>
+<ul>
+<li>采用<strong>插拔式</strong>软件架构，所有组件均可插拔</li>
+<li>本质上是一个中间件，屏蔽了流式数据源和后端中心化存储系统之间的异构性，使得整个数据流非常容易扩展和演化；</li>
+<li>特点：良好的扩展性、高度定制化、声明式动态化配置、语意路由、良好可靠性。</li>
+</ul>
+<h4 id="flume-ng基本架构">Flume NG基本架构</h4>
+<p>1、Flume 基本构成
+Flume的数据流是通过一系列称为Agent的组件构成的，一个Agent可从客户端或前一个Agent接收数据，经过过滤、路由等操作后，传递给下一个或多个Agent(完全分布式)，直到抵达指定的目标系统，用户可根据需要拼接任意多个Agent构成一个数据流水线。</p>
+<p>2、Flume将数据流水线中传递的数据称为“<strong>Event</strong>”，每个Event由<strong>头部</strong>和**字节数组(数据内容)**两部分构成；其中，<em>头部由一系列key/value对构成，可用于数据路由</em>，字节数组封装了实际要传递的数据内容。</p>
+<p>3、Agent 基本构成
+Agent内部主要由三个组件构成，分别是Source，Channel和Sink</p>
+<p><strong>Source</strong>：Flume数据流中接收Event的组件，通常从Client程序或上一个Agent接收数据，并写入一个或多个Channel。</p>
+<ul>
+<li>Avro Source：内置Avro Server，可接收Avro客户端发送的数据，并写入Channel</li>
+<li>Thrift Source：内置Thrift Server，可接收Thrift客户端发送的数据，并写入Channel</li>
+<li>Exec Source：执行指定的shell，并从该命令的标准输出中获取数据，写入Channel</li>
+<li>Spooling Directory Source：可监控指定目录池下文件的变化，发现有新的文件，会将之写入Channel</li>
+<li>Kafka Source：内置Kafka Consumer，可从Kafka Broker中读取某个topic的数据，写入Channel</li>
+<li>Syslog Source：可以接收TCP和UDP协议发过来的数据，并写入Channel</li>
+<li>HTTP Source：可接收HTTP协议发来的数据，并写入Channel</li>
+</ul>
+<p><strong>Channel</strong>：Channel是一个缓存区，它暂存Source写入的Event，直到被Sink发送出去，目前Flume
+主要提供了以下几种Channel实现：</p>
+<ul>
+<li>Memory Channel：在内存队列中缓存Event</li>
+<li>File Channel：在磁盘文件中缓存Event</li>
+<li>JDBC Channel：支持JDBC驱动，进而可将Event写入数据库中</li>
+<li>Kafka Channel：在Kafka中缓存Event</li>
+</ul>
+<p><strong>Sink</strong>：Sink负责从Channel中读取数据，并发送给下一个Agent
+Flume主要提供了以下几种Sink实现：</p>
+<ul>
+<li>HDFS Sink：负责将Channel中的数据写入HDFS</li>
+<li>HBase Sink：可将Channel中的数据写入HBase</li>
+<li>Avro/Thrift Sink：可将Event数据通过Avro/Thrift RPC发送给指定的Avro/Thrift Server</li>
+<li>MorphlineSolrSink/ElasticSearchSink：将Channel中的Event数据写入Solr/ElasticSearch搜索引擎</li>
+<li>Kafka Sink：将Channel中的数据写入Kafka中</li>
+</ul>
+<p>4、Flume NG 高级组件
+Flume Agent允许用户设置其他组件更灵活地控制数据流，包括Interceptor，Channel Selector和Sink Processor等</p>
+<p><strong>Interceptor</strong>：允许用户修改或丢弃传输过程中的Event，用户可配置多个Interceptor，形成一个Interceptor链。
+Flume中常用的Interceptor实现有：</p>
+<ul>
+<li>Timestamp Interceptor：该Interceptor在每个Event头部插入时间戳</li>
+<li>Host Interceptor：该Interceptor在每个Event头部插入当前Agent所在机器的host或者IP</li>
+<li>UUID Interceptor：该Interceptor在每个Event头部插入一个128位的全局唯一标识</li>
+<li>Regex Filtering Interceptor：该Interceptor可根据正则表达式过滤或者保留符合要求的Event</li>
+<li>Regex Extractor Interceptor：该Interceptor可根据正则表达式提取出对应的值，并插入到头部</li>
+</ul>
+<p><strong>Sink Processor</strong>：允许将多个Sink组装在一起形成一个逻辑实体(Sink Group)，而Sink Processor则在Sink Group基础上提供负载均衡以及容错的功能。
+Flume提供多种Sink Processor实现，分别如下：</p>
+<ul>
+<li>Default Sink Processor：最简单的“Source→Channel→Sink”数据流，每个组件只有一个</li>
+<li>Failover Sink Processor：Sink Group中每个Sink均被赋予一个优先级，Event优先由高优先级的Sink发送，如果高优先级的Sink挂了，则次高优先级的Sink接替</li>
+<li>Load balancing Sink Processor：Channel中的Event通过某种负载均衡机制，交给Sink Group中的所有Sink发送，目前Flume支持round_robin和random两种负载均衡机制</li>
+</ul>
+<h4 id="flume-ng数据流拓扑">Flume NG数据流拓扑</h4>
+<p>常见的Flume拓扑架构有两种：<strong>多路合并</strong>和<strong>多路复用</strong></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="prev" rel="prev" title="Linux：正则表达式"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：正则表达式</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" class="next" rel="next" title="大数据存储">大数据存储<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

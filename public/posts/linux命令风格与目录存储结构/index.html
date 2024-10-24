@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux：命令风格与目录存储结构 - My New Hugo Site</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="Linux：命令风格与目录存储结构">
+  <meta property="og:description" content="第七章 命令风格与目录存储结构 命令风格 Linux系统命令和用户程序(ap)运行时获取信息的方式 配置信息等硬编码是不可取的
+硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活 运行时获取信息的常见方式，易变性从小到大为 : 配置文件 环境变量 命令行参数 交互式键盘输入 1、配置文件 系统级配置与用户级配置：
+系统级配置文件通常存储在系统目录下（如/etc），这些文件影响整个系统的行为，所有用户使用相同的配置。例如/etc/profile是所有用户登录时读取的Shell环境配置文件。 用户级配置文件存储在用户的家目录下（如~/.bash_profile）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。 持久化存储：配置文件通常用于存储相对不频繁改变的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。
+灵活性：配置文件为程序提供了灵活性。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。
+优势：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。
+2、环境变量 命令env： - 在Linux或类Unix系统中，env命令可以用来打印出当前用户会话中的所有环境变量。例如： bashenv这会显示诸如PATH、HOME、USER、SHELL等环境变量。
+设置环境变量： 环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如： bashexport SERVER=&#34;180.249.151.131&#34;这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的~/.bash_profile或~/.bashrc文件中。
+用途：环境变量非常适合那些在程序运行时需要灵活调整的参数，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。
+系统级与用户级环境变量：
+系统级环境变量可以设置在系统的配置文件中（如/etc/environment），会影响整个系统所有用户的环境。 用户级环境变量则设置在用户的Shell配置文件中（如~/.bash_profile或~/.bashrc），仅影响当前用户的Shell会话。 示例： - 系统级环境变量：/etc/environment 中设置 JAVA_HOME 以指示所有用户的Java安装路径。 - 用户级环境变量：用户可以在~/.bashrc中设置自己的环境变量，比如export PATH=&#34;$PATH:/home/user/myapp/bin&#34;，为自己的程序添加自定义路径。
+优势：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。
+与环境相关：环境变量通常存储一些与系统环境或用户环境有关的参数。例如： - LANG：系统的语言设置，决定程序运行时的语言环境。 - HOME：当前用户的主目录路径。 - TERM：终端类型，影响终端显示和交互行为。 - PATH：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。 - CLASSPATH：在Java程序中，指定查找Java类文件的位置。 - CVSROOT：版本控制系统CVS的根路径，指示CVS操作的默认目录。
+感知环境差异：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的HOME目录，程序读取此环境变量后会在用户自己的目录中执行操作。
+环境变量的获取与设置： C语言中的getenv()函数：C语言提供了getenv()函数，用来从环境中获取指定变量的值。
+3、交互式键盘输入 这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数
+4、命令行参数 程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象
+命令行参数的三种风格 文件系统的创建与安装 根文件系统与子文件系统 1、 根文件系统（root filesystem）">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-24T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux：命令风格与目录存储结构">
+  <meta name="twitter:description" content="第七章 命令风格与目录存储结构 命令风格 Linux系统命令和用户程序(ap)运行时获取信息的方式 配置信息等硬编码是不可取的
+硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活 运行时获取信息的常见方式，易变性从小到大为 : 配置文件 环境变量 命令行参数 交互式键盘输入 1、配置文件 系统级配置与用户级配置：
+系统级配置文件通常存储在系统目录下（如/etc），这些文件影响整个系统的行为，所有用户使用相同的配置。例如/etc/profile是所有用户登录时读取的Shell环境配置文件。 用户级配置文件存储在用户的家目录下（如~/.bash_profile）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。 持久化存储：配置文件通常用于存储相对不频繁改变的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。
+灵活性：配置文件为程序提供了灵活性。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。
+优势：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。
+2、环境变量 命令env： - 在Linux或类Unix系统中，env命令可以用来打印出当前用户会话中的所有环境变量。例如： bashenv这会显示诸如PATH、HOME、USER、SHELL等环境变量。
+设置环境变量： 环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如： bashexport SERVER=&#34;180.249.151.131&#34;这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的~/.bash_profile或~/.bashrc文件中。
+用途：环境变量非常适合那些在程序运行时需要灵活调整的参数，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。
+系统级与用户级环境变量：
+系统级环境变量可以设置在系统的配置文件中（如/etc/environment），会影响整个系统所有用户的环境。 用户级环境变量则设置在用户的Shell配置文件中（如~/.bash_profile或~/.bashrc），仅影响当前用户的Shell会话。 示例： - 系统级环境变量：/etc/environment 中设置 JAVA_HOME 以指示所有用户的Java安装路径。 - 用户级环境变量：用户可以在~/.bashrc中设置自己的环境变量，比如export PATH=&#34;$PATH:/home/user/myapp/bin&#34;，为自己的程序添加自定义路径。
+优势：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。
+与环境相关：环境变量通常存储一些与系统环境或用户环境有关的参数。例如： - LANG：系统的语言设置，决定程序运行时的语言环境。 - HOME：当前用户的主目录路径。 - TERM：终端类型，影响终端显示和交互行为。 - PATH：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。 - CLASSPATH：在Java程序中，指定查找Java类文件的位置。 - CVSROOT：版本控制系统CVS的根路径，指示CVS操作的默认目录。
+感知环境差异：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的HOME目录，程序读取此环境变量后会在用户自己的目录中执行操作。
+环境变量的获取与设置： C语言中的getenv()函数：C语言提供了getenv()函数，用来从环境中获取指定变量的值。
+3、交互式键盘输入 这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数
+4、命令行参数 程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象
+命令行参数的三种风格 文件系统的创建与安装 根文件系统与子文件系统 1、 根文件系统（root filesystem）">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux：命令风格与目录存储结构",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  536 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84\/","datePublished": "2024-10-24T00:00:00+00:00","dateModified": "2024-10-24T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="My New Hugo Site">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux：命令风格与目录存储结构</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-24">2024-10-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;536 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#命令风格">命令风格</a>
+      <ul>
+        <li><a href="#linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件系统的创建与安装">文件系统的创建与安装</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#linux文件系统存储结构">Linux文件系统存储结构</a>
+      <ul>
+        <li><a href="#文件系统的结构">文件系统的结构</a></li>
+        <li><a href="#i节点区和文件存储区">i节点区和文件存储区</a></li>
+        <li><a href="#目录的存储结构">目录的存储结构</a></li>
+        <li><a href="#目录存储结构示意图">目录存储结构示意图</a></li>
+        <li><a href="#目录表和i节点两级结构">目录表和i节点两级结构</a></li>
+        <li><a href="#命令stat读取i节点信息">命令stat：读取i节点信息</a></li>
+      </ul>
+    </li>
+    <li><a href="#硬连接">硬连接</a>
+      <ul>
+        <li><a href="#硬连接-1">硬连接</a></li>
+        <li><a href="#ln-普通文件的硬连接">ln: 普通文件的硬连接</a></li>
+        <li><a href="#目录表的硬连接">目录表的硬连接</a></li>
+        <li><a href="#目录表的硬连接示意图">目录表的硬连接示意图</a></li>
+      </ul>
+    </li>
+    <li><a href="#符号连接">符号连接</a>
+      <ul>
+        <li><a href="#符号连接的实现">符号连接的实现</a></li>
+        <li><a href="#符号连接中的相对路径">符号连接中的相对路径</a></li>
+        <li><a href="#硬连接与符号连接的比较">硬连接与符号连接的比较</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux系统调用">Linux系统调用</a>
+      <ul>
+        <li><a href="#系统调用system-call">系统调用(System call)</a></li>
+        <li><a href="#系统调用函数的返回值">系统调用函数的返回值</a></li>
+        <li><a href="#库函数strerror与printf的格式符m">库函数strerror与printf的格式符%m</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h1>
+<h2 id="命令风格">命令风格</h2>
+<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
+<p>配置信息等硬编码是不可取的</p>
+<ul>
+<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
+<li>运行时获取信息的常见方式，易变性从小到大为 :
+<ul>
+<li>配置文件</li>
+<li>环境变量</li>
+<li>命令行参数</li>
+<li>交互式键盘输入</li>
+</ul>
+</li>
+</ul>
+<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
+<ul>
+<li>
+<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
+<ul>
+<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
+<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
+</li>
+<li>
+<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
+</li>
+<li>
+<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
+</li>
+</ul>
+<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
+<p><strong>命令<code>env</code></strong>：
+- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
+<code>bash env </code>
+这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
+<p><strong>设置环境变量</strong>：
+环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
+<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
+这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
+<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
+<p><strong>系统级与用户级环境变量</strong>：</p>
+<ul>
+<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
+<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
+</ul>
+<p><strong>示例</strong>：
+- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
+- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
+<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
+<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
+- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
+- <strong><code>HOME</code></strong>：当前用户的主目录路径。
+- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
+- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
+- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
+- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
+<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
+<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
+<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
+<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
+<h4 id="4命令行参数">4、命令行参数</h4>
+<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
+<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
+<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
+<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
+<p><strong>1、 根文件系统（root filesystem）</strong></p>
+<p><strong>定义</strong>：根文件系统是整个操作系统的文件系统树的基础，是Linux启动后挂载的第一个文件系统，通常通过<code>/</code>符号来表示。</p>
+<p><strong>特性</strong>：</p>
+<ul>
+<li><strong>不能卸载</strong>：根文件系统是系统的基础，所有的文件操作和目录访问都基于它，因此它不能被“卸载”（<code>umount</code>）。</li>
+<li><strong>关键性</strong>：它包含了系统启动时需要的所有核心文件，包括内核、基本命令和库文件等。</li>
+<li><strong>存储内容</strong>：根文件系统通常存储基本的操作系统目录结构，如<code>/bin</code>, <code>/lib</code>, <code>/etc</code>, <code>/dev</code>, <code>/sbin</code>等。</li>
+</ul>
+<p><strong>作用</strong>：系统启动时，内核会加载根文件系统中的内容来启动系统，并且该文件系统必须始终保持挂载状态。它是所有文件和目录的起点。</p>
+<p><strong>2、子文件系统（sub-filesystem）</strong></p>
+<p><strong>定义</strong>：子文件系统是指除了根文件系统之外，其他可以挂载在根文件系统某个子目录上的独立文件系统。它们可以来自不同的设备或存储介质。</p>
+<p><strong>典型的子文件系统</strong>：</p>
+<ul>
+<li>硬盘分区</li>
+<li>软盘</li>
+<li>CD-ROM</li>
+<li>USB盘</li>
+<li>网络文件系统（NFS）</li>
+</ul>
+<p><strong>与根文件系统的关系</strong>：</p>
+<ul>
+<li>子文件系统必须挂载到根文件系统的某个目录上，才能与系统交互。它们以根文件系统中某一子目录的形式出现，而不像Windows系统那样将每个逻辑盘分为不同的盘符（如C:、D:）。</li>
+<li>一旦挂载，子文件系统的内容就完全替代了挂载点原有的内容，所有对该目录的访问实际上都是对子文件系统的访问。</li>
+</ul>
+<p><strong>3、 独立的存储结构</strong></p>
+<p><strong>文件系统的独立性</strong>：每个子文件系统在挂载前都是一个独立的存储单元，它拥有自己的文件系统结构和文件组织方式。即使被挂载到根文件系统，它们的独立性并不会受到影响。</p>
+<h4 id="mkfs-和-mount文件系统的创建与挂载"><code>mkfs</code> 和 <code>mount</code>：文件系统的创建与挂载</h4>
+<p><strong>1、 创建文件系统：<code>mkfs</code></strong>
+<code>mkfs</code>（Make FileSystem）命令用于在块设备上创建一个新的文件系统，类似于“格式化”磁盘的操作。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkfs /dev/sdb
+</span></span></code></pre></div><ul>
+<li><strong>/dev/sdb</strong>：这是要创建文件系统的块设备。这个块设备可以是硬盘、分区、USB设备等。</li>
+<li>默认情况下，<code>mkfs</code>会根据系统配置使用最常见的文件系统格式（通常是<code>ext4</code>）。</li>
+</ul>
+<p><strong>更多格式化选项：</strong></p>
+<ul>
+<li>您可以指定文件系统类型，例如创建<code>ext4</code>文件系统：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkfs.ext4 /dev/sdb
+</span></span></code></pre></div></li>
+</ul>
+<p><strong>2、挂载文件系统：<code>mount</code></strong>
+<code>mount</code>命令用于将文件系统挂载到根文件系统中的某个目录下，使用户可以通过该目录访问挂载的子文件系统。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mount /dev/sdb /mnt
+</span></span></code></pre></div><ul>
+<li><strong>/dev/sdb</strong>：这是您要挂载的设备（在之前已经创建了文件系统）。</li>
+<li><strong>/mnt</strong>：这是您希望挂载的目标目录。<code>/mnt</code>目录必须事先存在且为空，通常用来作为临时挂载点。</li>
+</ul>
+<p><strong>挂载后的效果</strong>：</p>
+<ul>
+<li>挂载完成后，您可以通过访问<code>/mnt</code>目录来查看和操作<code>/dev/sdb</code>上的文件系统。</li>
+<li>对于应用程序来说，它并不关心文件系统是来自根文件系统还是子文件系统，访问<code>/mnt</code>与访问根目录中的其他文件和目录没有区别。</li>
+</ul>
+<p><strong>不带参数的<code>mount</code></strong>：</p>
+<ul>
+<li>如果您运行<code>mount</code>命令时不带任何参数，系统会列出所有当前已挂载的文件系统：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mount
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="umount文件系统的卸载">umount：文件系统的卸载</h4>
+<p>不再需要访问已挂载的设备时，可以使用<code>umount</code>命令来卸载它：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>umount /mnt
+</span></span></code></pre></div><p><strong>/mnt</strong>：这是之前挂载的目录。卸载后，该目录将返回为空，且子文件系统将不再可访问。</p>
+<h4 id="df-文件系统空闲空间">df: 文件系统空闲空间</h4>
+<p><code>df</code>命令用于查看磁盘使用情况，方便管理和监控文件系统的磁盘空间。</p>
+<p>使用<code>-h</code>选项可以让输出结果以更易读的格式展示，方便用户快速理解磁盘的使用状况。</p>
+<ul>
+<li><strong>Filesystem</strong>：显示设备或文件系统的名称。</li>
+<li><strong>1K-blocks</strong>：表示总容量，以1K块为单位。</li>
+<li><strong>Used</strong>：已使用的空间，以1K块为单位。</li>
+<li><strong>Available</strong>：可用的空间，以1K块为单位。</li>
+<li><strong>Use%</strong>：已使用空间的百分比。</li>
+<li><strong>Mounted on</strong>：该文件系统挂载的目录。</li>
+<li><strong>Size</strong>：显示文件系统的总大小（如20G）。</li>
+<li><strong>Avail</strong>：显示可用的空间（如6.8G）。</li>
+</ul>
+<h2 id="linux文件系统存储结构">Linux文件系统存储结构</h2>
+<h3 id="文件系统的结构">文件系统的结构</h3>
+<p>在Linux系统中，磁盘的逻辑设备可以被划分为多个块（或扇区），每个块的大小通常是512字节或其他2的幂的字节大小（如1024、2048等）。</p>
+<p><strong>1、块和引导块</strong></p>
+<ul>
+<li>
+<p><strong>块（扇区）</strong>：</p>
+<ul>
+<li>磁盘被划分为多个逻辑块，每个块有一个唯一的编号（从0开始）。例如，编号为0、1、2等。</li>
+<li>每个块通常包含512字节或其他较大尺寸（如1KB、2KB等）。</li>
+</ul>
+</li>
+<li>
+<p><strong>引导块（0号块）</strong>：</p>
+<ul>
+<li>0号块被称为引导块，用于系统的启动过程。它包含了启动引导程序的信息。</li>
+<li>在根文件系统的情况下，只有引导块是有效的。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、专用块（1号块）</strong></p>
+<ul>
+<li>也称为管理块或超级块（superblock），它用于存储文件系统的管理信息。</li>
+<li>主要包含以下信息：
+<ul>
+<li><strong>文件系统的大小</strong>：整个文件系统的总容量。</li>
+<li><strong>i节点区的大小</strong>：i节点（inode）区域的大小，i节点用于存储文件的元数据（如权限、所有者、时间戳等）。</li>
+<li><strong>空闲空间大小</strong>：文件系统中未使用的空间的总大小。</li>
+<li><strong>空闲块链表的头</strong>：用于管理空闲块的链表，以便在写入新数据时能够快速找到可用块。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、<code>mkfs</code> 和 <code>df</code> 命令</strong></p>
+<ul>
+<li>
+<p><strong><code>mkfs</code> 命令</strong>：</p>
+<ul>
+<li><code>mkfs</code>（Make FileSystem）命令用于在设备上创建文件系统。在创建文件系统时，会初始化引导块和专用块，设置必要的管理信息。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>df</code> 命令</strong>：</p>
+<ul>
+<li><code>df</code>（Disk Free）命令用于显示文件系统的磁盘使用情况。它读取文件系统的管理信息，包括专用块中的信息，显示已用和可用的空间。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>df -i</code> 命令</strong>：</p>
+<ul>
+<li><code>df -i</code>命令用于显示i节点的使用情况。它提供每个文件系统的i节点总数、已用i节点和可用i节点的信息，这些信息也来源于专用块中的管理信息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="i节点区和文件存储区">i节点区和文件存储区</h3>
+<p><strong>1、i节点区（inode area）</strong>
+<strong>定义</strong>：</p>
+<ul>
+<li>i节点（index node，简记为inode）是文件系统中用于存储<strong>文件元数据</strong>的数据结构。i节点区由若干块构成，在使用<code>mkfs</code>命令创建文件系统时确定其大小。</li>
+</ul>
+<p><strong>i节点的特征</strong>：</p>
+<ul>
+<li>每块可以容纳多个i节点，每个i节点的大小是固定的（通常是64字节）。</li>
+<li>i节点从0开始编号，系统可以通过这些编号快速索引到磁盘上的块。</li>
+</ul>
+<p><strong>i节点内容</strong>：
+每个文件对应一个i节点，i节点中包含的信息包括：</p>
+<ul>
+<li><strong>指向文件存储区数据块的索引指针</strong>：这些指针用于映射文件的逻辑块与硬盘的物理块，使得系统能够定位文件的数据。</li>
+<li><strong>文件类型</strong>：指示文件是普通文件、目录、符号链接等。</li>
+<li><strong>属主</strong>：文件的拥有者用户ID（UID）。</li>
+<li><strong>组</strong>：文件所属的组ID（GID）。</li>
+<li><strong>权限</strong>：文件的访问权限（如读、写、执行）。</li>
+<li><strong>链接数</strong>：指向该文件的硬链接数量。</li>
+<li><strong>大小</strong>：文件的字节大小。</li>
+<li><strong>时间戳</strong>：包括创建时间、修改时间和访问时间。</li>
+</ul>
+<p><strong>i节点内不含文件名</strong>：
+i节点仅存储文件的元数据，不包括文件名。文件名与i节点之间的关联存储在目录表中，目录表映射文件名到相应的i节点。</p>
+<p><strong>2、文件存储区（data area）</strong>
+<strong>定义</strong>：
+文件存储区是文件系统中用于存放实际文件数据的区域，包括目录表。它包含了文件的内容和其他相关信息。</p>
+<p><strong>文件存储区的特征</strong>：</p>
+<ul>
+<li>文件数据存储在一个或多个数据块中，数据块的大小通常与块设备的块大小相同（如512字节、1KB等）。</li>
+<li>当文件被创建时，其数据会被写入文件存储区，i节点会记录这些数据块的位置。</li>
+<li>目录表是文件存储区的一个重要组成部分，存储了文件名到i节点的映射关系。</li>
+</ul>
+<h3 id="目录的存储结构">目录的存储结构</h3>
+<p><strong>1、Linux目录结构</strong></p>
+<ul>
+<li><strong>树形结构</strong></li>
+<li><strong>带交叉勾连</strong>
+<ul>
+<li>目录之间可以有交叉链接，例如使用符号链接（symlink）可以让不同的目录指向同一个文件，从而实现文件的共享和重复使用。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、目录表</strong></p>
+<ul>
+<li>
+<p><strong>定义</strong>：</p>
+<ul>
+<li>每个目录在文件系统中都有一个对应的目录表，目录表本身被视为一个文件，存储在文件存储区中，并有其独立的i节点和数据存储块。</li>
+</ul>
+</li>
+<li>
+<p><strong>目录表的组成</strong>：</p>
+<ul>
+<li>目录表由若干个“目录项”（directory entries）构成。每个目录项包含两部分信息：
+<ol>
+<li><strong>文件名</strong>：指示文件或子目录的名称。</li>
+<li><strong>i节点号</strong>：指向文件或子目录的i节点，允许系统访问其元数据和实际数据。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、目录表与i节点</strong></p>
+<ul>
+<li>
+<p><strong>i节点</strong>：</p>
+<ul>
+<li>每个目录和文件都有一个对应的i节点，i节点中存储了文件或目录的元数据（如权限、拥有者、链接数、文件大小、时间戳等）和指向实际数据块的指针。</li>
+<li>目录的i节点与普通文件的i节点类似，只是它们的内容指向的是其他文件或目录的i节点，而不是实际的数据。</li>
+</ul>
+</li>
+<li>
+<p><strong>目录大小</strong>：</p>
+<ul>
+<li>使用<code>ls</code>命令列出的目录大小表示的是该目录表文件本身的长度，而不是其中包含的文件和子目录的总大小。</li>
+</ul>
+</li>
+</ul>
+<h3 id="目录存储结构示意图">目录存储结构示意图</h3>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="../images/%e7%9b%ae%e5%bd%95%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png"
+        data-srcset="../images/%e7%9b%ae%e5%bd%95%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png, ../images/%e7%9b%ae%e5%bd%95%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png 1.5x, ../images/%e7%9b%ae%e5%bd%95%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png 2x"
+        data-sizes="auto"
+        alt="../images/目录存储结构示意图.png"
+        title="目录存储结构示意图" /></p>
+<h3 id="目录表和i节点两级结构">目录表和i节点两级结构</h3>
+<pre tabindex="0"><code>假设环境中：
+- 文件名使用定长14字节。
+- 索引信息需要64字节。
+- 每个磁盘块的大小为512字节。
+- 当前目录下有100个文件，其中要访问的文件名是`mydata.bin`，并且它位于目录表的最末尾。
+</code></pre><p><strong>1、方案一：一级结构</strong></p>
+<ul>
+<li>
+<p><strong>结构</strong>：</p>
+<ul>
+<li>在该方案中，文件名和索引信息都存放在同一个目录表中。</li>
+<li>每个目录项的大小为：<code>14字节（文件名） + 64字节（索引信息） = 78字节</code>。</li>
+<li>每个磁盘块可以容纳的目录项数量为：<code>512字节 ÷ 78字节 ≈ 6个目录项</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>磁盘操作次数</strong>：</p>
+<ul>
+<li>总共需要进行17次磁盘操作。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、方案二：两级结构</strong></p>
+<ul>
+<li>
+<p><strong>结构</strong>：</p>
+<ul>
+<li>文件名和索引信息分开存储，索引信息存放在i节点中，而目录表中仅记录文件名和i节点的编号。</li>
+<li>每个目录项的大小为：<code>14字节（文件名） + 2字节（i节点编号） = 16字节</code>。</li>
+<li>每个磁盘块可以容纳的目录项数量为：<code>512字节 ÷ 16字节 = 32个目录项</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>检索过程</strong>：</p>
+<ul>
+<li>通过该结构，系统可以在4个块内找到<code>mydata.bin</code>的i节点号。</li>
+<li>一旦得到i节点号，系统可以根据该号访问对应的磁盘块，并读取i节点中的索引信息。</li>
+</ul>
+</li>
+<li>
+<p><strong>磁盘操作次数</strong>：</p>
+<ul>
+<li>总共需要进行5次磁盘操作（4次读取目录块 + 1次读取i节点）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、两种方案的比较</strong></p>
+<ul>
+<li>
+<p><strong>访问效率</strong>：</p>
+<ul>
+<li>方案二（两级结构）相比方案一（一级结构）显著减少了磁盘访问次数（从17次减少到5次）。</li>
+<li>这意味着文件系统在查找文件时更加高效，尤其是在目录项较多时，检索时间大大缩短。</li>
+</ul>
+</li>
+<li>
+<p><strong>存储灵活性</strong>：</p>
+<ul>
+<li>在两级结构中，目录项仅存储文件名和对应的i节点号，允许同一i节点号在同一目录或不同目录中对应多个目录项。这种方式支持硬链接和符号链接的实现。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件系统设计的优势</strong>：</p>
+<ul>
+<li>采用两级结构的文件系统能够更好地管理文件，提供更高的检索效率和灵活性，尤其在处理大量文件时，性能提升显著。</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令stat读取i节点信息">命令stat：读取i节点信息</h3>
+<p><code>stat</code>命令在Linux系统中用于显示文件或文件系统的详细信息，包括与i节点相关的各类元数据。
+<strong>1、基本语法</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>stat <span style="color:#f92672">[</span>选项<span style="color:#f92672">]</span> &lt;文件名&gt;
+</span></span></code></pre></div><p>执行<code>stat</code>命令的基本形式：<code>stat filename</code></p>
+<p><strong>2、常用选项</strong></p>
+<ul>
+<li><code>-c</code>：使用自定义格式输出。例如：这将输出文件名和文件大小。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>stat -c <span style="color:#e6db74">&#34;%n: %s bytes&#34;</span> filename
+</span></span></code></pre></div></li>
+<li><code>-f</code>：显示文件系统的信息，而不是文件的信息。</li>
+<li><code>--help</code>：显示帮助信息。</li>
+</ul>
+<h2 id="硬连接">硬连接</h2>
+<h3 id="硬连接-1">硬连接</h3>
+<ul>
+<li>目录表由目录项构成，<strong>目录项</strong>是一个“<strong>文件名-i节点号</strong>”对</li>
+<li>根据文件系统的存储结构，可以在<strong>同一目录或者不同目录中的两个目录项，有相同的i节点号</strong></li>
+<li>每个目录项指定的“文件名-i节点号”映射关系，叫做1个硬连接</li>
+<li><strong>硬连接数目(link数)：同一i节点被目录项引用的次数</strong></li>
+</ul>
+<h3 id="ln-普通文件的硬连接">ln: 普通文件的硬连接</h3>
+<p><strong>1、硬连接的概念</strong></p>
+<ul>
+<li>
+<p><strong>硬连接（Hard Link）</strong>：在文件系统中，一个硬连接是对文件的直接引用。多个文件名可以共享同一个i节点，这意味着它们实际上是同一个文件，内容相同。</p>
+</li>
+<li>
+<p><strong>i节点</strong>：每个文件在文件系统中都有一个唯一的i节点，存储了文件的元数据（如文件大小、权限、数据块位置等）。硬连接通过共享同一个i节点，使得不同文件名可以引用相同的数据。</p>
+</li>
+</ul>
+<p><strong>2、创建硬连接</strong>
+使用<code>ln</code>命令可以创建硬连接，基本语法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln &lt;源文件&gt; &lt;目标文件&gt;
+</span></span><span style="display:flex;"><span>$ ln chapt0 intro
+</span></span></code></pre></div><p>此命令创建了一个名为<code>intro</code>的硬连接，指向<code>chapt0</code>文件。</p>
+<p><strong>3、查看硬连接的信息</strong></p>
+<ul>
+<li>
+<p>可以使用<code>ls -l</code>命令查看文件的详细信息，包括链接数：
+<code>ls -l chapt0 intro</code></p>
+</li>
+<li>
+<p>可以使用<code>ls -i</code>命令查看文件的i节点号：
+<code>ls -i chapt0 intro</code></p>
+</li>
+</ul>
+<p><strong>4、硬连接的特性</strong></p>
+<ul>
+<li>
+<p><strong>地位平等</strong>：<code>chapt0</code>和<code>intro</code>是完全平等的；删除其中一个文件并不会影响另一个文件的存在。即使删除<code>chapt0</code>，<code>intro</code>仍然存在，且文件内容不变。</p>
+</li>
+<li>
+<p><strong>链接计数</strong>：硬连接的链接计数表示指向同一i节点的文件名数量。如果一个硬连接被删除，链接计数减少，直到链接计数为0时，文件内容才会被实际删除。</p>
+</li>
+<li>
+<p><strong>文件系统限制</strong>：硬连接只限于在同一文件系统内创建，因为i节点在不同文件系统间是不可共享的。</p>
+</li>
+</ul>
+<p><strong>5、删除硬连接</strong>
+如果删除<code>chapt0</code>：<code>rm chapt0</code></p>
+<ul>
+<li><code>intro</code>仍然存在，但链接计数将减少1。</li>
+</ul>
+<h3 id="目录表的硬连接">目录表的硬连接</h3>
+<p><strong>硬连接的限制</strong>：在Linux系统中，通常不允许对目录使用<code>ln</code>命令创建硬连接。这是为了维护文件系统的完整性和防止循环引用的问题。如果允许对目录创建硬连接，可能导致复杂的循环结构，使得文件系统的遍历变得困难。</p>
+<p><strong>特殊链接数</strong>：对于每个目录，其链接数（link count）表示指向该目录的硬连接数量。一般来说，目录的链接数可以用以下公式来计算：</p>
+<p>[
+\text{link数} = \text{直属子目录数} + 2
+]</p>
+<ul>
+<li><strong><code>+2</code></strong>：这个“2”代表：
+<ul>
+<li>一个链接指向自己（<code>.</code>），即当前目录的引用。</li>
+<li>另一个链接指向父目录（<code>..</code>），即上级目录的引用。</li>
+</ul>
+</li>
+</ul>
+<h3 id="目录表的硬连接示意图">目录表的硬连接示意图</h3>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="../images/%e7%9b%ae%e5%bd%95%e8%a1%a8%e7%9a%84%e7%a1%ac%e8%bf%9e%e6%8e%a5%e7%a4%ba%e6%84%8f%e5%9b%be.png"
+        data-srcset="../images/%e7%9b%ae%e5%bd%95%e8%a1%a8%e7%9a%84%e7%a1%ac%e8%bf%9e%e6%8e%a5%e7%a4%ba%e6%84%8f%e5%9b%be.png, ../images/%e7%9b%ae%e5%bd%95%e8%a1%a8%e7%9a%84%e7%a1%ac%e8%bf%9e%e6%8e%a5%e7%a4%ba%e6%84%8f%e5%9b%be.png 1.5x, ../images/%e7%9b%ae%e5%bd%95%e8%a1%a8%e7%9a%84%e7%a1%ac%e8%bf%9e%e6%8e%a5%e7%a4%ba%e6%84%8f%e5%9b%be.png 2x"
+        data-sizes="auto"
+        alt="../images/目录表的硬连接示意图.png"
+        title="目录表的硬连接示意图" /></p>
+<h2 id="符号连接">符号连接</h2>
+<p><strong>1、符号连接（Soft Link）</strong>：符号连接是指创建一个特殊的文件，该文件中只存储指向另一个文件或目录的路径名。它并不直接指向文件的i节点，而是通过路径引用原始文件。</p>
+<p><strong>2、创建符号连接</strong>
+使用<code>ln -s</code>命令创建符号连接。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s &lt;目标文件&gt; &lt;符号链接名&gt;
+</span></span></code></pre></div><p>假设为<code>users_on</code>文件创建一个名为<code>sym.link</code>的符号连接：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s users_on sym.link
+</span></span></code></pre></div><p><strong>3、查看符号连接的信息</strong>
+可以使用<code>ls -l</code>命令查看符号连接的详细信息，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -l sym.link
+</span></span></code></pre></div><p>输出示例：
+<code>lrwxrwxrwx 1 guest other 8 Jul 26 16:57 sym.link -&gt; users_on</code></p>
+<ul>
+<li><strong>类型</strong>：以<code>l</code>开头，表示这是一个符号连接。</li>
+<li><strong>权限</strong>：显示连接的权限（通常是<code>lrwxrwxrwx</code>）。</li>
+<li><strong>链接数</strong>：符号链接的链接数通常为<code>1</code>。</li>
+<li><strong>大小</strong>：显示为<code>8</code>字节，表示存储路径字符串<code>users_on</code>的长度。</li>
+<li><strong>目标</strong>：<code>-&gt; users_on</code> 表示符号链接<code>sym.link</code>指向文件<code>users_on</code>。</li>
+</ul>
+<p><strong>4、符号连接的特性</strong></p>
+<ul>
+<li><strong>删除符号连接</strong>：删除符号连接文件不会影响原始文件。</li>
+<li><strong>原始文件的存在</strong>：如果原始文件被删除，符号连接将失效，访问符号连接将导致“文件未找到”的错误。此时，符号连接称为“悬挂链接”（dangling link）。</li>
+<li><strong>路径依赖</strong>：符号连接可以跨文件系统创建，因为它只保存路径，而不是直接引用i节点。</li>
+</ul>
+<h3 id="符号连接的实现">符号连接的实现</h3>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="../images/%e7%ac%a6%e5%8f%b7%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%ae%9e%e7%8e%b0.png"
+        data-srcset="../images/%e7%ac%a6%e5%8f%b7%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%ae%9e%e7%8e%b0.png, ../images/%e7%ac%a6%e5%8f%b7%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%ae%9e%e7%8e%b0.png 1.5x, ../images/%e7%ac%a6%e5%8f%b7%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%ae%9e%e7%8e%b0.png 2x"
+        data-sizes="auto"
+        alt="../images/符号连接的实现.png"
+        title="符号连接的实现" /></p>
+<h3 id="符号连接中的相对路径">符号连接中的相对路径</h3>
+<p><strong>1、符号连接中的路径解析</strong></p>
+<ul>
+<li><strong>绝对路径名的符号链接</strong>：如果符号链接包含绝对路径，访问该符号链接时，系统将直接访问指定的绝对路径。</li>
+<li><strong>相对路径名的符号链接</strong>：如果符号链接使用相对路径，路径的解析是相对于符号链接文件的位置，而不是相对于调用进程的当前工作目录。这意味着符号链接的相对路径是固定的，始终相对于链接本身的位置。</li>
+</ul>
+<p>假设有以下目录结构：</p>
+<pre tabindex="0"><code>d/
+├── d1/
+│   ├── dlb
+│   └── dx (符号连接)
+</code></pre><p>在当前目录<code>d</code>下，执行命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s d1/dlb d1/dx
+</span></span></code></pre></div><ul>
+<li><strong>创建符号链接</strong>：这条命令在<code>d1</code>目录中创建一个名为<code>dx</code>的符号链接，指向<code>d1</code>目录中的<code>dlb</code>文件。</li>
+<li><strong>路径解析示例</strong>：
+在<code>d</code>目录下，执行以下命令：<code>cat d1/dx</code>等同于<code>cat d1/dlb</code></li>
+</ul>
+<h3 id="硬连接与符号连接的比较">硬连接与符号连接的比较</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">硬连接</th>
+          <th style="text-align: left">符号连接</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>实现层次</strong></td>
+          <td style="text-align: left">数据结构层次上实现</td>
+          <td style="text-align: left">算法软件层次上实现</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用对象</strong></td>
+          <td style="text-align: left">仅适用于普通文件</td>
+          <td style="text-align: left">适用于普通文件和目录</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>跨文件系统</strong></td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>链接结构</strong></td>
+          <td style="text-align: left">直接指向文件的i节点</td>
+          <td style="text-align: left">存储目标路径（绝对或相对路径）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>占用资源</strong></td>
+          <td style="text-align: left">资源占用少</td>
+          <td style="text-align: left">占用操作系统内核的一部分开销</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>文件删除影响</strong></td>
+          <td style="text-align: left">删除任何一个硬连接，文件数据仍然存在</td>
+          <td style="text-align: left">删除符号连接文件，不影响原文件数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>循环引用</strong></td>
+          <td style="text-align: left">不存在</td>
+          <td style="text-align: left">可能发生，需要特殊处理</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="循环式符号连接处理">循环式符号连接处理</h4>
+<p>在处理符号连接时，若存在循环引用，可能导致程序或命令行工具在访问文件时陷入无限循环。</p>
+<ol>
+<li>
+<p><strong>解析计数器</strong>：</p>
+<ul>
+<li>每次解析符号连接时，增加一个计数器。</li>
+<li>设置一个最大阈值，如果解析次数超过该阈值，则停止解析并报告错误。例如，如果计数器超过10次，则认为存在循环连接。</li>
+</ul>
+</li>
+<li>
+<p><strong>路径缓存</strong>：</p>
+<ul>
+<li>维护一个路径缓存，记录当前解析的路径。</li>
+<li>如果在解析过程中发现路径已经存在于缓存中，则可以推断出循环并停止解析。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户警告</strong>：</p>
+<ul>
+<li>当检测到循环连接时，向用户提供警告信息，提示可能的循环引用，并建议用户检查符号连接。</li>
+</ul>
+</li>
+</ol>
+<h2 id="linux系统调用">Linux系统调用</h2>
+<h3 id="系统调用system-call">系统调用(System call)</h3>
+<p>1、系统调用（System Call）是应用程序与操作系统内核之间进行交互的主要方式，提供了一种标准化的接口，使得程序可以请求操作系统执行各种操作。以下是关于系统调用的一些重要信息和特性：</p>
+<p><strong>2、定义</strong>：系统调用是操作系统提供的一组接口，允许用户级应用程序请求内核执行特权操作，例如文件管理、进程控制和设备管理等。</p>
+<p><strong>3、形式</strong>：系统调用通常以 C 语言函数调用的方式实现。例如，常见的文件操作系统调用包括 <code>open</code>、<code>read</code>、<code>write</code> 和 <code>close</code>。</p>
+<p><strong>4、执行方式的区别</strong></p>
+<ul>
+<li>
+<p><strong>系统调用</strong>：</p>
+<ul>
+<li><strong>进入内核模式</strong>：系统调用通过软中断（例如 CPU 的 <code>INT</code> 指令）进行。当程序需要执行特权操作时，它会产生一个中断，导致 CPU 切换到内核模式,如<code>getpid()</code>，这种模式允许操作系统直接访问硬件和系统资源。</li>
+<li><strong>开销较大</strong>：因为系统调用涉及上下文切换和内核模式与用户模式之间的转换，其执行开销通常高于普通的函数调用。</li>
+</ul>
+</li>
+<li>
+<p><strong>库函数</strong>：</p>
+<ul>
+<li><strong>用户模式执行</strong>：库函数在用户模式下执行，调用时不会切换到内核模式。例如，字符串拷贝函数 <code>strcpy()</code> 只是简单地复制内存中的数据，不涉及任何系统资源的管理。</li>
+<li><strong>开销较小</strong>：库函数的调用通常比系统调用快，因为它们不需要上下文切换。</li>
+</ul>
+</li>
+</ul>
+<p><strong>5、库函数对系统调用的封装（API）</strong>
+<strong>封装目的</strong>：</p>
+<ul>
+<li><strong>提高效率</strong>：库函数可以对系统调用进行优化，减少重复的系统调用，提高效率。</li>
+<li><strong>方便调用</strong>：库函数提供了简化的接口，使得开发者可以更方便地使用复杂的系统功能。</li>
+</ul>
+<p><strong>例子</strong>：</p>
+<ul>
+<li><code>printf()</code> 库函数内部实际上可能调用了 <code>write()</code> 系统调用来输出数据。</li>
+<li><code>malloc()</code> 和 <code>free()</code> 库函数通常封装了 <code>sbrk()</code> 系统调用，以管理内存分配和释放。</li>
+</ul>
+<p><strong>6、可移植性</strong>
+<strong>标准化接口</strong>：系统调用和库函数的名称、参数顺序、参数类型、返回值类型等通常遵循 POSIX 标准规范，这使得不同 Unix 系统之间的程序具有良好的可移植性。</p>
+<p><strong>实现功能的相似性</strong>：尽管不同操作系统可能对系统调用的具体实现有所不同，但它们通常提供类似的功能，这使得开发者可以编写在多种系统上运行的代码。</p>
+<h3 id="系统调用函数的返回值">系统调用函数的返回值</h3>
+<p><strong>1、 返回值</strong>：</p>
+<ul>
+<li>成功的返回值通常大于或等于零。</li>
+<li>如果系统调用失败，返回值为 <code>-1</code>，表示操作未成功。</li>
+</ul>
+<p><strong>2、整型变量 <code>errno</code></strong></p>
+<ul>
+<li>
+<p><strong><code>errno</code> 的作用</strong>：</p>
+<ul>
+<li>在标准库中，<code>errno</code> 是一个全局整型变量，用于存储最近一次系统调用或库函数调用失败的错误码。当某个系统调用失败时，操作系统将相应的错误代码赋值给 <code>errno</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>常用错误代码</strong>：</p>
+<ul>
+<li><code>EACCES</code>：权限被拒绝。</li>
+<li><code>EIO</code>：输入输出错误。</li>
+<li><code>ENOMEM</code>：内存不足。</li>
+<li><code>EINTR</code>：系统调用被信号中断。</li>
+</ul>
+</li>
+</ul>
+<h3 id="库函数strerror与printf的格式符m">库函数strerror与printf的格式符%m</h3>
+<p><strong>strerror:</strong></p>
+<ul>
+<li>char *strerror(int errno);</li>
+<li>errno是个整数，便于程序识别错误原因，不便于操作员理解失败原因</li>
+<li>库函数strerror将数字形式的错误代码转换成一个可阅读的字符串</li>
+</ul>
+<p><strong>printf的%m:</strong></p>
+<ul>
+<li>printf类函数格式字符串中的%m会被替换成上次系统调用失败的错误代码对应的消息（message）</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" data-title="Linux：命令风格与目录存储结构" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" data-title="Linux：命令风格与目录存储结构"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" data-title="Linux：命令风格与目录存储结构"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" data-title="Linux：命令风格与目录存储结构"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" class="prev" rel="prev" title="分布式存储"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>分布式存储</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
