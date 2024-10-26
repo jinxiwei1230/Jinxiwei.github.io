@@ -81,6 +81,77 @@
 <p><strong>1、 根文件系统（root filesystem）</strong></p>]]></description>
 </item>
 <item>
+    <title>分布式存储</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</link>
+    <pubDate>Wed, 23 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</guid>
+    <description><![CDATA[<h2 id="第四章-分布式存储">第四章 分布式存储</h2>
+<h3 id="分布式文件系统">分布式文件系统</h3>
+<p><strong>HDFS正是GFS的开源实现</strong></p>
+<p>1、背景
+为了应对数据存储扩容问题，存在两种解决方案:</p>
+<ul>
+<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
+<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
+</ul>
+<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
+<p>2、横向扩展存在的难点：</p>
+<ul>
+<li>因故障导致丢失数据</li>
+<li>文件通常较大</li>
+<li>一次写入多次读取</li>
+</ul>
+<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
+<h4 id="文件级别">文件级别</h4>
+<p>1、**主从架构(Master/Slaves)**的文件系统
+给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
+<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
+<p>3、文件级别分布式系统的缺点：</p>
+<ul>
+<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
+<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
+</ul>
+<h4 id="块级别">块级别</h4>
+<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
+<ul>
+<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
+<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
+<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
+</ul>
+<h4 id="hdfs基本架构">HDFS基本架构</h4>
+<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
+<p>2、HDFS采用了<strong>主从架构</strong>：</p>
+<ul>
+<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
+<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
+</ul>
+<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
+<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
+<ul>
+<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
+<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
+</ul>
+<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
+<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
+<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
+此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
+<h4 id="hdfs-的部署">HDFS 的部署</h4>
+<ol>
+<li>
+<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
+</li>
+<li>
+<p><strong>典型的部署场景</strong>：</p>
+<ul>
+<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
+<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>简化的架构：单一 Namenode</strong>：</p>]]></description>
+</item>
+<item>
     <title>递归与分治</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/</link>
     <pubDate>Sun, 20 Oct 2024 00:00:00 &#43;0000</pubDate>
@@ -237,6 +308,89 @@ normal格式：列出一个如何将file1转化为file2的指令</p>
 将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
 </item>
 <item>
+    <title>分布式队列</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/</guid>
+    <description><![CDATA[<h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
+<h3 id="kafka">Kafka</h3>
+<h4 id="kafka-概述">Kafka 概述</h4>
+<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
+<ul>
+<li>数据生产者和消费者耦合度过高</li>
+<li>生产者和消费者间数据处理速率不对等</li>
+<li>大量并发的网络连接对后端消费者不够友好</li>
+</ul>
+<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
+<ul>
+<li>
+<p><strong>消息中间件</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
+<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息队列</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
+<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
+</ul>
+</li>
+<li>
+<p><strong>发布-订阅系统</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
+<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息总线</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
+</ul>
+</li>
+</ul>
+<p>2、Kafka 特点：
+高吞吐量、良好的扩展性、持久性和可靠性</p>
+<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
+<strong>Kafka</strong></p>
+<ol>
+<li>
+<p><strong>发布-订阅模型</strong>：</p>
+<ul>
+<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
+<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>实时消息传递</strong>：</p>
+<ul>
+<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
+<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
+</ul>
+</li>
+<li>
+<p><strong>丰富的 API 和流处理集成</strong>：</p>
+<ul>
+<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
+</ul>
+</li>
+</ol>
+<p><strong>Flume</strong></p>
+<ol>
+<li>
+<p><strong>数据流模型</strong>：</p>
+<ul>
+<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
+<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
+</ul>
+</li>
+<li>
+<p><strong>Hadoop 集成优化</strong>：</p>]]></description>
+</item>
+<item>
     <title>大数据存储</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</link>
     <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
@@ -258,7 +412,7 @@ normal格式：列出一个如何将file1转化为file2的指令</p>
 <p>2、意义
 阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
 <h4 id="数据序列化方案">数据序列化方案</h4>
-<p>1、序列化框架 Thrift
+<p><strong>1、序列化框架 Thrift</strong>
 Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
 <p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
 struct中每个域由四个属性构成：</p>
@@ -287,8 +441,95 @@ struct MergedDoc { // 定义网页,类似于Java和C++中的类
 11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
 12: optional list&lt;i64&gt; outLinks //网页出链
 }
-</code></pre><p>2、序列化框架 Protobuf
+</code></pre><p><strong>2、序列化框架 Protobuf</strong>
 Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p>]]></description>
+</item>
+<item>
+    <title>数据收集</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/</guid>
+    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p><strong>1、运营式系统阶段</strong>
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p><strong>2、用户原创内容阶段</strong>
+以博客、微博为代表的新型社交网络出现并快速发展；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p><strong>3、感知式系统阶段</strong>
+感知式系统，如VR/AR等，广泛使用；</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
+<p><strong>3、数据存储层</strong>
+数据存储层主要负责海量结构化与非结构化数据的存储。
+收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p>]]></description>
 </item>
 <item>
     <title>数据收集、分布式队列</title>
@@ -444,217 +685,6 @@ Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++
 </ul>
 <p><strong>3、正则表达式扩展</strong>
 <strong>基本正则表达式（BRE）</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux：命令和工具、文本文件处理</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</link>
-    <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</guid>
-    <description><![CDATA[<h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
-<h2 id="第一章-linux入门">第一章 Linux入门</h2>
-<h3 id="linux的历史">Linux的历史</h3>
-<p>1、 <strong>操作系统的演变</strong></p>
-<ul>
-<li>手工操作</li>
-<li>单道批处理操作系统</li>
-<li>多道批处理系统</li>
-<li>分时系统</li>
-</ul>
-<p>2、 <strong>Unix发展史</strong></p>
-<ul>
-<li>UNiplexed Information and Computing System</li>
-<li>Unix早期的两大流派：贝尔实验室、加州大学伯克利分校</li>
-</ul>
-<h3 id="linux字符终端">Linux字符终端</h3>
-<p>1、 <strong>Unix/Linux是多用户系统：</strong></p>
-<ul>
-<li>主机连接多台字符终端</li>
-<li>字符终端作为交互式输入输出设备</li>
-</ul>
-<p>2、 <strong>终端和主机</strong></p>
-<ul>
-<li>
-<p>终端: 主机的输入和输出设备
-终端通过电缆把用户的按键信息送到主机，把主机发来的信息在屏幕上显示</p>
-</li>
-<li>
-<p>主机: 程序和数据的存储及处理
-数据及程序存放在主机的硬盘上，程序的运行也都由主机内的CPU占用主机内存来完成</p>
-</li>
-</ul>
-<p>3、 <strong>行律与驱动程序</strong></p>
-<ul>
-<li>
-<p>驱动程序：
-不同的硬件需要不同的驱动程序
-与行律模块的接口：上行和下行字符流</p>
-</li>
-<li>
-<p>行律的作用
-一行内字符的缓冲、回显与编辑，直到按下回车键
-数据加工，如：将\n转化为\r\n
-将Ctrl-C字符转化为中止进程运行的信号(signal)</p>
-</li>
-</ul>
-<p>4、 <strong>主机与终端间的通信过程</strong></p>
-<p>5、 <strong>终端转义序列</strong></p>
-<ul>
-<li>
-<p>转义字符
-Esc：ASCII码1B（十进制27，八进制033）</p>
-</li>
-<li>
-<p>主机发往终端方向数据中的转义序列的功能
-控制光标位置、字符颜色、字符大小等等
-选择终端的字符集
-控制终端上的打印机、刷卡机、磁条器、密码键盘</p>
-</li>
-</ul>
-<p><em>Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除屏幕
-Esc[8A 四字节序列，光标上移8行
-Esc[16;8H 七字节序列，光标移到16行8列
-Esc[1;31m 七字节序列，红色字符</em></p>
-<p>6、 <strong>终端类型</strong></p>
-<ul>
-<li>
-<p>定义:定义一组转移序列以及相对应的操作</p>
-</li>
-<li>
-<p>主机和终端之间的类型匹配
-主机根据终端类型，实现相应功能时发送对应的控制码
-当终端类型不对时，可能全屏幕操作失败</p>
-</li>
-</ul>
-<p>7、 <strong>主机和终端之间的流量控制</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux补充知识</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/</link>
-    <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/</guid>
-    <description><![CDATA[<p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
-解析：输出黄色的Hello
-<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
-<ul>
-<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
-<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
-<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
-<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
-<ul>
-<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
-<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
-<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
-</ul>
-</li>
-</ul>
-<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
-<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
-<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
-<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
-<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
-<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
-<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
-<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
-<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
-字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p>]]></description>
-</item>
-<item>
-    <title>人工智能</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</link>
-    <pubDate>Sat, 28 Sep 2024 15:53:01 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</guid>
-    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
-<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
-<ul>
-<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
-<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
-<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
-</ul>
-<h4 id="人工智能研究方法">人工智能研究方法</h4>
-<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
-主要观点：</p>
-<ul>
-<li>智能活动的基元是神经细胞；</li>
-<li>智能活动过程是神经网络的状态演化过程</li>
-<li>智能活动的基础是神经细胞的突触联结机制</li>
-<li>智能系统的工作模式是模仿人脑模式</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>通过神经元之间的并行协同作用实现信息
-处理，具有并行性、动态性、全局性。</li>
-<li>通过神经元间分布式的物理联接存储信息。
-联想记忆、容错性。</li>
-<li>通过神经元间连接强度的动态调整实现自
-学习和自适应功能。</li>
-<li>善于模拟人类的形象思维过程。</li>
-</ul>
-<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
-主要观点：</p>
-<ul>
-<li>思维的基元是符号；</li>
-<li>思维的过程是符号运算；</li>
-<li>智能的核心是知识，利用知识推理进行问题求解；</li>
-<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
-<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
-<li>知识用显式的符号表示，容易表达人的心理模型。</li>
-<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
-<li>能与传统的符号数据库进行链接，易于模块化。</li>
-<li>以知识为基础。</li>
-</ul>
-<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
-主要观点：</p>
-<ul>
-<li>智能行为的基础是感知－行动的反应机制；</li>
-<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
-<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
-<li>智能行为可以不要知识。</li>
-</ul>
-<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
-<p><strong>1、研究角度分：</strong></p>
-<ul>
-<li>符号智能：运用知识解决问题；</li>
-<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
-<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
-</ul>
-<p><strong>2、功能分：</strong></p>
-<ul>
-<li>机器感知/知识获取：机器听觉、视觉</li>
-<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
-<li>机器行为/知识运用：智能机器系统</li>
-</ul>
-<h2 id="第二章-知识表示">第二章 知识表示</h2>
-<h3 id="21知识及其特性">2.1知识及其特性</h3>
-<p>1、数据、信息和知识</p>
-<ul>
-<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
-<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
-<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
-规律解决问题的方法和策略</li>
-<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
-</ul>
-<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
-<p>3、知识的特性</p>
-<ul>
-<li>客观性</li>
-<li>相对正确性：一定条件、时间、环境</li>
-<li>进化性</li>
-<li>依附性：离开载体的知识是没有的</li>
-<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
-<li>经验性</li>
-<li>可表示性</li>
-<li>可利用性</li>
-<li>可重用性</li>
-<li>共享性</li>
-</ul>
-<p>4、知识的层次</p>]]></description>
 </item>
 </channel>
 </rss>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>分布式存储 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="分布式存储">
+  <meta property="og:description" content="第四章 分布式存储 分布式文件系统 HDFS正是GFS的开源实现
+1、背景 为了应对数据存储扩容问题，存在两种解决方案:
+纵向扩展(scale-up)：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求 横向扩展(scale-out)：以网络互连的节点为单位扩大存储容量(集群) 3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。
+2、横向扩展存在的难点：
+因故障导致丢失数据 文件通常较大 一次写入多次读取 文件级别和块级别的分布式文件系统 文件级别 1、**主从架构(Master/Slaves)**的文件系统 给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。
+2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。
+3、文件级别分布式系统的缺点：
+**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。 **难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率 块级别 1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题
+Master：负载存储和管理元信息，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。 Slave：存储实际的数据块，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。 Client：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。 HDFS基本架构 1、HDFS属于块级别的分布式文件系统
+2、HDFS采用了主从架构：
+主节点被称为NameNode，只有一个，管理元信息和所有从节点； 从节点称为DataNode，通常存在多个，存储实际的数据块。 HDFS 各组件功能 1、 NameNode：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。
+管理元信息： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。 管理DataNode：DataNode周期性向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。 2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个备用NameNode，称为StandbyNameNode ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的切换和状态同步问题。
+3、DataNode：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。
+4、 Client：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。 此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。
+HDFS 的部署 Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发
+典型的部署场景：
+通常情况下，Namenode 和 Datanode 是分开部署的。一个集群中通常只有一台机器运行 Namenode 实例，而集群中的其他机器会分别运行 Datanode 实例。 虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是每台机器只运行一个 Datanode。 简化的架构：单一 Namenode：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-23T00:00:00+00:00">
+    <meta property="article:tag" content="大数据技术基础">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="分布式存储">
+  <meta name="twitter:description" content="第四章 分布式存储 分布式文件系统 HDFS正是GFS的开源实现
+1、背景 为了应对数据存储扩容问题，存在两种解决方案:
+纵向扩展(scale-up)：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求 横向扩展(scale-out)：以网络互连的节点为单位扩大存储容量(集群) 3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。
+2、横向扩展存在的难点：
+因故障导致丢失数据 文件通常较大 一次写入多次读取 文件级别和块级别的分布式文件系统 文件级别 1、**主从架构(Master/Slaves)**的文件系统 给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。
+2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。
+3、文件级别分布式系统的缺点：
+**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。 **难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率 块级别 1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题
+Master：负载存储和管理元信息，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。 Slave：存储实际的数据块，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。 Client：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。 HDFS基本架构 1、HDFS属于块级别的分布式文件系统
+2、HDFS采用了主从架构：
+主节点被称为NameNode，只有一个，管理元信息和所有从节点； 从节点称为DataNode，通常存在多个，存储实际的数据块。 HDFS 各组件功能 1、 NameNode：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。
+管理元信息： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。 管理DataNode：DataNode周期性向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。 2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个备用NameNode，称为StandbyNameNode ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的切换和状态同步问题。
+3、DataNode：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。
+4、 Client：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。 此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。
+HDFS 的部署 Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发
+典型的部署场景：
+通常情况下，Namenode 和 Datanode 是分开部署的。一个集群中通常只有一台机器运行 Namenode 实例，而集群中的其他机器会分别运行 Datanode 实例。 虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是每台机器只运行一个 Datanode。 简化的架构：单一 Namenode：">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "分布式存储",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8\/"
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  198 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8\/","datePublished": "2024-10-23T00:00:00+00:00","dateModified": "2024-10-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">分布式存储</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-23">2024-10-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;198 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第四章-分布式存储">第四章 分布式存储</a>
+      <ul>
+        <li><a href="#分布式文件系统">分布式文件系统</a></li>
+        <li><a href="#文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</a></li>
+        <li><a href="#4-viewfs-提供统一的命名空间">4. <strong>ViewFs 提供统一的命名空间</strong>：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第四章-分布式存储">第四章 分布式存储</h2>
+<h3 id="分布式文件系统">分布式文件系统</h3>
+<p><strong>HDFS正是GFS的开源实现</strong></p>
+<p>1、背景
+为了应对数据存储扩容问题，存在两种解决方案:</p>
+<ul>
+<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
+<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
+</ul>
+<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
+<p>2、横向扩展存在的难点：</p>
+<ul>
+<li>因故障导致丢失数据</li>
+<li>文件通常较大</li>
+<li>一次写入多次读取</li>
+</ul>
+<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
+<h4 id="文件级别">文件级别</h4>
+<p>1、**主从架构(Master/Slaves)**的文件系统
+给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
+<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
+<p>3、文件级别分布式系统的缺点：</p>
+<ul>
+<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
+<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
+</ul>
+<h4 id="块级别">块级别</h4>
+<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
+<ul>
+<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
+<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
+<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
+</ul>
+<h4 id="hdfs基本架构">HDFS基本架构</h4>
+<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
+<p>2、HDFS采用了<strong>主从架构</strong>：</p>
+<ul>
+<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
+<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
+</ul>
+<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
+<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
+<ul>
+<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
+<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
+</ul>
+<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
+<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
+<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
+此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
+<h4 id="hdfs-的部署">HDFS 的部署</h4>
+<ol>
+<li>
+<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
+</li>
+<li>
+<p><strong>典型的部署场景</strong>：</p>
+<ul>
+<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
+<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>简化的架构：单一 Namenode</strong>：</p>
+<ul>
+<li>集群中使用单个 <strong>Namenode</strong> 大大简化了 HDFS 的架构设计。因为 Namenode 作为所有元数据的“仲裁者”和管理者，它控制整个文件系统的目录结构和文件元数据。</li>
+<li>这里特别提到，<strong>用户的数据并不会经过 Namenode</strong>，即：
+单一 Namenode 的架构简化了系统设计，Namenode 只负责元数据管理，不直接处理用户数据，确保高效的架构设计。</li>
+</ul>
+</li>
+</ol>
+<h4 id="文件系统的命名空间">文件系统的命名空间</h4>
+<ol>
+<li>
+<p><strong>传统层次型文件组织结构</strong>：
+HDFS 的目录结构和大多数文件系统类似，可以进行基本的文件操作（如创建、删除、移动、重命名）。</p>
+</li>
+<li>
+<p><strong>HDFS 不支持的一些功能</strong>：
+目前不支持磁盘配额、权限控制、硬链接和软链接。</p>
+</li>
+<li>
+<p><strong>Namenode 的作用</strong>：</p>
+<ul>
+<li><strong>Namenode 负责管理文件系统的命名空间</strong>。</li>
+<li><strong>任何修改都会记录</strong>：无论是创建、删除、移动或重命名文件等操作，都会由 Namenode 负责，并记录这些变更。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件的副本系数</strong>：
+文件可以设置副本数，副本数由 Namenode 记录，用于提高数据的容错和可用性。</p>
+</li>
+</ol>
+<h4 id="namenode-federation机制">NameNode Federation机制</h4>
+<ol>
+<li>
+<p><strong>NameNode 的瓶颈问题</strong>：</p>
+<ul>
+<li>当数据块的数量和访问请求逐渐增多时，单个 NameNode 可能面临<strong>性能瓶颈</strong>，因为它需要处理整个集群的元数据和请求。</li>
+</ul>
+</li>
+<li>
+<p><strong>NameNode Federation 机制</strong>：</p>
+<ul>
+<li><strong>Federation</strong> 允许在一个 HDFS 集群中有<strong>多个 NameNode</strong> 对外提供服务。每个 NameNode 管理不同部分的文件系统目录树（水平分片）。比如：
+<ul>
+<li>NameNode A 负责管理目录 <code>/user</code> 下的所有数据。</li>
+<li>NameNode B 负责管理目录 <code>/data</code> 下的所有数据。</li>
+</ul>
+</li>
+<li>通过这种<strong>水平分片</strong>，每个 NameNode 只负责管理一部分目录树中的文件元数据，从而减轻了单个 NameNode 的负担，提升了系统的<strong>扩展性</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>单点故障问题</strong>：</p>
+<ul>
+<li>尽管 Federation 允许多个 NameNode 并行工作，但<strong>每个 NameNode 仍然是一个单点故障</strong>。如果一个 NameNode 出现故障，它管理的那部分文件系统将不可用。</li>
+<li>为了解决这个问题，HDFS 提供了备用的 NameNode，称为<strong>备用 NameNode</strong>。如果主 NameNode 出现故障，备用 NameNode 可以接管工作，确保文件系统的持续可用性。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-viewfs-提供统一的命名空间">4. <strong>ViewFs 提供统一的命名空间</strong>：</h3>
+<ul>
+<li>在 NameNode Federation 中，每个 NameNode 只管理一部分目录树。这样虽然解决了扩展性问题，但对用户来说，访问不同 NameNode 时可能会感到复杂，不够直观。</li>
+<li>为了提供一个统一的目录结构，HDFS 引入了<strong>ViewFs</strong> 机制。ViewFs 是一层文件系统视图，可以把多个 NameNode 管理的目录统一起来，给用户展示一个<strong>统一的命名空间</strong>。
+<ul>
+<li>比如，用户看到的文件系统是一个完整的层次结构 <code>/user</code>、<code>/data</code> 等，实际上这些目录背后是由多个 NameNode 分别管理的。</li>
+</ul>
+</li>
+<li>通过 ViewFs，用户不需要关心文件系统背后有多少个 NameNode，访问操作对用户而言依然是透明的、统一的。</li>
+</ul>
+<h4 id="hdfs关键技术">HDFS关键技术</h4>
+<p><strong>1、容错性设计（重点）</strong></p>
+<ul>
+<li>
+<p><strong>NameNode故障</strong>： NameNode内存中记录了文件系统的元信息，这些元信息一旦丢失，将导致整个文件系统数据不可用。HDFS允许为每个Active NameNode分配一个Standby NameNode ，以防止单个NameNode宕机后导致元信息丢失和整个集群不可访问。</p>
+</li>
+<li>
+<p><strong>DataNode故障</strong>：每个DataNode保存了实际的数据块，这些数据块在其他DataNode上存在相同的副本。DataNode 能通过<strong>心跳机制</strong>向NameNode汇报状态信息，当某个DataNode宕机后，NameNode可在其他节点上<strong>重构该DataNode上的数据块</strong>，以保证每个文件的副本数在正常水平线上。</p>
+</li>
+<li>
+<p><strong>数据块损坏</strong>： DataNode保存 数据块时，会同时生成一个<strong>校验码</strong>。当存取数据块时，如果发现校验码不一致则认为该数据块已经损坏，NameNode会通过其他节点上的正常副本重构受损的数据块。</p>
+</li>
+</ul>
+<p><strong>2、副本放置策略</strong></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" data-title="分布式存储" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" data-title="分布式存储"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" data-title="分布式存储"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" data-title="分布式存储"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" class="prev" rel="prev" title="递归与分治"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>递归与分治</a>
+            <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" class="next" rel="next" title="Linux：命令风格与目录存储结构">Linux：命令风格与目录存储结构<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

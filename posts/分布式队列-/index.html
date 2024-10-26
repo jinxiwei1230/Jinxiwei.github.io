@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>分布式队列 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="分布式队列">
+  <meta property="og:description" content="第二章 分布式消息队列 Kafka Kafka 概述 0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：
+数据生产者和消费者耦合度过高 生产者和消费者间数据处理速率不对等 大量并发的网络连接对后端消费者不够友好 1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：
+消息中间件：
+作用：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。 好处：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。 消息队列：
+作用：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。 好处：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。 发布-订阅系统：
+作用：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。 好处：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。 消息总线：
+作用：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。 2、Kafka 特点： 高吞吐量、良好的扩展性、持久性和可靠性
+3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下： Kafka
+发布-订阅模型：
+Kafka 基于发布-订阅模型，主要由 生产者、主题 和 消费者 组成。 用途：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。 实时消息传递：
+Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。 应用场景：适合实时数据分析、监控和流式处理场景。 丰富的 API 和流处理集成：
+Kafka 提供多种 API，可以与流处理框架（如 Spark Streaming、Flink）和其他系统（如 Storm、Hadoop）无缝集成，尤其适合构建实时数据管道。 Flume
+数据流模型：
+Flume 基于数据流模型，架构上有 source（源）、channel（通道）和 sink（汇）三大组件，数据流从 source 经 channel 传递至 sink。 用途：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。 Hadoop 集成优化：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="大数据技术基础">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="分布式队列">
+  <meta name="twitter:description" content="第二章 分布式消息队列 Kafka Kafka 概述 0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：
+数据生产者和消费者耦合度过高 生产者和消费者间数据处理速率不对等 大量并发的网络连接对后端消费者不够友好 1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：
+消息中间件：
+作用：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。 好处：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。 消息队列：
+作用：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。 好处：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。 发布-订阅系统：
+作用：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。 好处：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。 消息总线：
+作用：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。 2、Kafka 特点： 高吞吐量、良好的扩展性、持久性和可靠性
+3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下： Kafka
+发布-订阅模型：
+Kafka 基于发布-订阅模型，主要由 生产者、主题 和 消费者 组成。 用途：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。 实时消息传递：
+Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。 应用场景：适合实时数据分析、监控和流式处理场景。 丰富的 API 和流处理集成：
+Kafka 提供多种 API，可以与流处理框架（如 Spark Streaming、Flink）和其他系统（如 Storm、Hadoop）无缝集成，尤其适合构建实时数据管道。 Flume
+数据流模型：
+Flume 基于数据流模型，架构上有 source（源）、channel（通道）和 sink（汇）三大组件，数据流从 source 经 channel 传递至 sink。 用途：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。 Hadoop 集成优化：">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "分布式队列",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-\/"
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  612 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">分布式队列</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;612 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第二章-分布式消息队列">第二章 分布式消息队列</a>
+      <ul>
+        <li><a href="#kafka">Kafka</a></li>
+        <li><a href="#日志收集与分析-elk-stack">日志收集与分析-ELK Stack</a></li>
+        <li><a href="#商业化大数据解决方案-splunk">商业化大数据解决方案-Splunk</a></li>
+        <li><a href="#网络数据采集-爬虫">网络数据采集-爬虫</a></li>
+        <li><a href="#scrapy-框架简介">Scrapy 框架简介</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
+<h3 id="kafka">Kafka</h3>
+<h4 id="kafka-概述">Kafka 概述</h4>
+<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
+<ul>
+<li>数据生产者和消费者耦合度过高</li>
+<li>生产者和消费者间数据处理速率不对等</li>
+<li>大量并发的网络连接对后端消费者不够友好</li>
+</ul>
+<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
+<ul>
+<li>
+<p><strong>消息中间件</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
+<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息队列</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
+<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
+</ul>
+</li>
+<li>
+<p><strong>发布-订阅系统</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
+<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息总线</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
+</ul>
+</li>
+</ul>
+<p>2、Kafka 特点：
+高吞吐量、良好的扩展性、持久性和可靠性</p>
+<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
+<strong>Kafka</strong></p>
+<ol>
+<li>
+<p><strong>发布-订阅模型</strong>：</p>
+<ul>
+<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
+<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>实时消息传递</strong>：</p>
+<ul>
+<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
+<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
+</ul>
+</li>
+<li>
+<p><strong>丰富的 API 和流处理集成</strong>：</p>
+<ul>
+<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
+</ul>
+</li>
+</ol>
+<p><strong>Flume</strong></p>
+<ol>
+<li>
+<p><strong>数据流模型</strong>：</p>
+<ul>
+<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
+<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
+</ul>
+</li>
+<li>
+<p><strong>Hadoop 集成优化</strong>：</p>
+<ul>
+<li>Flume 专门为日志数据到 Hadoop 生态系统的传输进行了优化，与 <strong>HDFS</strong> 和 <strong>HBase</strong> 集成效果好。</li>
+<li><strong>应用场景</strong>：适合批量数据传输、日志数据存储和离线数据传输等场景。</li>
+</ul>
+</li>
+</ol>
+<h4 id="kafka-设计架构">Kafka 设计架构</h4>
+<h5 id="kafka-的基本架构">Kafka 的基本架构</h5>
+<ol>
+<li><strong>Producer（生产者）</strong>：</li>
+</ol>
+<ul>
+<li>生产者负责将数据发送到 Kafka 集群中的 Broker。它将数据写入指定的 Topic。</li>
+</ul>
+<ol start="2">
+<li><strong>Broker（代理）</strong>：</li>
+</ol>
+<ul>
+<li>Broker 是 <strong>Kafka 的核心组件，负责接收、存储和转发数据</strong>。多个 Broker 组成一个 Kafka 集群，形成一个可靠的分布式消息存储系统。</li>
+<li>每个 Broker 负责一个或多个 Topic 的数据，并将每个 Topic 的数据分为多个分区（Partition），以实现负载均衡和数据的并行处理。</li>
+</ul>
+<ol start="3">
+<li><strong>Consumer（消费者）</strong>：</li>
+</ol>
+<ul>
+<li>消费者从 Broker 中读取数据进行处理。它可以订阅一个或多个 Topic，并按照自身需求处理数据。</li>
+</ul>
+<ol start="4">
+<li><strong>ZooKeeper</strong>：</li>
+</ol>
+<ul>
+<li>ZooKeeper 用于协调和管理 Kafka 集群，负责 Broker 的注册、配置管理、服务发现等功能。它提供了集群的元数据存储。</li>
+</ul>
+<h5 id="数据存储和分区">数据存储和分区</h5>
+<ul>
+<li><strong>Topic 和 Partition</strong>：
+<ul>
+<li>在 Kafka 中，数据按照主题（Topic）进行组织。同一 Topic 的数据根据策略分为多个 Partition，这样可以实现数据的并行处理和负载均衡。</li>
+<li>每个 Partition 中的消息是有序的，并且可以设置多个副本以提高数据的可靠性，防止数据丢失。</li>
+</ul>
+</li>
+</ul>
+<h5 id="push-pull-架构">Push-Pull 架构</h5>
+<ul>
+<li>
+<p><strong>Push（生产者）</strong>：</p>
+<ul>
+<li>生产者将数据直接推送（push）到 Broker。生产者可以选择向特定的 Partition 发送数据，这样可以根据需求进行负载分配。</li>
+</ul>
+</li>
+<li>
+<p><strong>Pull（消费者）</strong>：</p>
+<ul>
+<li>消费者从 Broker 拉取（pull）数据。这种方式使消费者可以根据自己的实际负载和需求来获取数据，避免了生产者将数据强制推送给消费者，导致消费者过载的情况。</li>
+</ul>
+</li>
+</ul>
+<h5 id="优势">优势</h5>
+<ol>
+<li>
+<p><strong>灵活的负载管理</strong>：</p>
+<ul>
+<li>消费者根据自身的处理能力动态拉取数据，从而控制数据的消费速度，避免由于数据推送带来的压力。</li>
+</ul>
+</li>
+<li>
+<p><strong>高效的资源利用</strong>：</p>
+<ul>
+<li>消费者维护自己读取消息的偏移量（offset），而不是由 Broker 维护。这样大大减轻了 Broker 的负担，使其更加轻量化，提升了系统的整体性能和可扩展性。</li>
+</ul>
+</li>
+</ol>
+<h5 id="kafka-各组件详解">Kafka 各组件详解</h5>
+<p><strong>1. Kafka Producer</strong></p>
+<ul>
+<li>
+<p><strong>定义</strong>：Kafka Producer 是使用 Kafka 提供的 SDK 开发的应用程序，它将数据转换为消息，并通过网络发送给 Broker。</p>
+</li>
+<li>
+<p><strong>消息结构</strong>：每条消息表示为一个三元组：<code>&lt;topic, key, message&gt;</code>。</p>
+<ul>
+<li><strong>topic</strong>：消息所属的主题，Kafka 将消息按照主题进行逻辑分区，一个主题可以分布在多个 Broker 上。</li>
+<li><strong>key</strong>：消息的主键，Kafka 根据主键将同一主题下的消息划分到不同的 Partition，默认使用哈希取模算法，用户也可以自定义分区算法。</li>
+<li><strong>message</strong>：消息的值，可以是字符串、JSON 对象，或者经过序列化框架（如 JSON、Avro、Thrift、Protobuf 等）序列化后的对象。</li>
+</ul>
+</li>
+<li>
+<p><strong>连接 Broker</strong>：生产者不需要指定所有 Broker 的地址，只需提供一个或几个初始化 Broker 的地址。Producer 会通过指定的 Broker 获取其他 Broker 的位置信息，并<strong>自动实现负载均衡</strong>。</p>
+</li>
+</ul>
+<p><strong>2. Kafka Broker</strong></p>
+<ul>
+<li>
+<p><strong>定义</strong>：Kafka Broker 是 <strong>Kafka 集群中的单个服务器</strong>，是实现发布-订阅模型的核心组件。</p>
+</li>
+<li>
+<p><strong>职责</strong>：</p>
+<ul>
+<li>接收 Producer 和 Consumer 的请求，并将消息持久化到本地磁盘。</li>
+<li>以主题为单位将消息划分为不同的分区（Partition），每个分区可以有多个副本（Replica），以实现容错。</li>
+<li>在 Partition 存在多个副本时，选举一个作为 Leader，对外提供读写请求，其余为 Follower，仅同步 Leader 中的数据。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息顺序</strong>：Kafka 保证同一 Topic 下同一 Partition 内的消息有序，但不同 Partition 之间的消息无全局顺序。这意味着消费者从多个 Partition 中读取消息时，可能得到与写入顺序不一致的消息序列。</p>
+</li>
+<li>
+<p><strong>写入方式</strong>：Broker 以追加的方式将消息写到磁盘文件中，消息被赋予唯一整数标识，称为 “offset”。Broker 不维护消费者的 offset，而是由消费者自行维护已读取消息的进度。</p>
+</li>
+</ul>
+<p><strong>3. Kafka Consumer</strong></p>
+<ul>
+<li>
+<p><strong>定义</strong>：Kafka Consumer 主动从 Kafka Broker <strong>拉取</strong>消息进行处理。</p>
+</li>
+<li>
+<p><strong>offset 管理</strong>：每个消费者维护最后一个已读取消息的 offset，并在下一次请求中从该 offset 开始拉取消息。这种基于拉取（pull）的机制大大降低了 Broker 的压力，提高了吞吐率。</p>
+</li>
+<li>
+<p><strong>Consumer Group</strong>：多个消费者可以组成一个 Consumer Group，共同读取同一主题中的数据，从而提高数据读取效率。Kafka 会自动为同一 Group 中的消费者分摊负载，并在某个消费者故障时，将其处理的 Partition 转移给其他消费者。</p>
+</li>
+</ul>
+<p><strong>4. ZooKeeper</strong></p>
+<ul>
+<li>
+<p><strong>作用</strong>：ZooKeeper 在 Kafka 集群中负责分布式服务的协调。Broker 和 Consumer 都依赖于 ZooKeeper 的服务才能正常工作。</p>
+</li>
+<li>
+<p><strong>Broker 与 ZooKeeper</strong>：</p>
+<ul>
+<li>所有 Broker 向 ZooKeeper 注册，记录自身位置、健康状态、维护的 Topic、Partition 等信息，以便于其他消费者发现并获取这些数据。</li>
+<li>当某个 Consumer 宕掉时，其他 Consumer 可以通过 ZooKeeper 发现故障并自动分摊负载，触发容错机制。</li>
+</ul>
+</li>
+<li>
+<p><strong>Consumer 与 ZooKeeper</strong>：</p>
+<ul>
+<li>Consumer Group 通过 ZooKeeper 保证各个 Consumer 的负载均衡。在某个 Consumer 或 Broker 出现故障时，ZooKeeper 会重新分配负载。</li>
+<li>Consumer 将最近获取的消息的 offset 写入 ZooKeeper，以便在故障重启后能够从故障前的断点继续读取数据。</li>
+</ul>
+</li>
+</ul>
+<h5 id="kafka-关键技术点">Kafka 关键技术点</h5>
+<p><strong>1. 可控的可靠性级别</strong></p>
+<ul>
+<li><strong>发送方式</strong>：
+<ul>
+<li><strong>同步方式</strong>：Producer 在发送数据时等待 Broker 的确认，适合对数据可靠性要求高的场景，但会增加延迟。</li>
+<li><strong>异步方式</strong>：Producer 不等待 Broker 的确认，快速发送消息，适合对性能要求高的场景，可以通过批处理来提升效率。</li>
+</ul>
+</li>
+<li><strong>消息应答方式</strong>：Kafka 允许 Producer 通过 <code>request.required.acks</code> 参数来控制消息应答的级别，平衡写性能与可靠性。常见的应答方式有：
+<ul>
+<li><strong>0</strong>：Producer 不等待 Broker 的确认，可能导致消息丢失。</li>
+<li><strong>1</strong>：Leader Broker 确认消息写入后即可返回，可能导致数据丢失，若 Leader 故障则无法恢复。</li>
+<li><strong>-1</strong>（all）：等待所有副本确认，确保消息持久化到所有副本，提供最强的数据可靠性。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 数据多副本</strong></p>
+<ul>
+<li>
+<p><strong>副本机制</strong>：每个 Topic 中的消息可以存储多个副本，以增强系统的容错能力。Kafka 采用<strong>强一致</strong>的数据复制策略：</p>
+<ul>
+<li>消息首先写入 Leader Partition，然后 Leader 将消息同步到 Follower Partition。</li>
+<li>Leader Partition 负责对外的读写请求，而 Follower Partition 仅进行数据同步。</li>
+<li>在 Leader 出现故障时，其他 Follower 可以通过选举机制提升为 Leader，保证数据的持续可用性。</li>
+</ul>
+<p><em>强一致：确保了在任何时候，对系统的读操作都能获取到最新的写操作结果。简单来说，当一个节点更新数据后，任何其他节点在访问这份数据时都能立即看到这个更新的结果</em></p>
+</li>
+</ul>
+<p><strong>3. 高效的持久化机制</strong></p>
+<ul>
+<li><strong>数据写入方式</strong>：Kafka 直接将消息持久化到磁盘，采用顺序写入策略，提高写入和读取速度。</li>
+<li><strong>数据组织方式</strong>：结合 offset 进行数据组织，使得 Kafka 能够高效地读写大量数据，适应大数据场景。</li>
+</ul>
+<p><strong>4. 数据传输优化：批处理与 Zero-Copy 技术</strong></p>
+<ul>
+<li><strong>批处理</strong>：将多条消息组合在一起进行发送，减少了单条消息发送的开销，提高了性能。</li>
+<li><strong>Zero-Copy 技术</strong>：减少数据在内存中的复制次数，通常需要四次拷贝的过程被优化为三次拷贝，显著提高了数据发送效率。具体步骤如下：
+<ol>
+<li>内核态的读取缓冲区（read buffer）到内核态的 socket 缓冲区（socket buffer）。</li>
+<li>内核态的 socket 缓冲区直接发送到网卡（NIC buffer）。</li>
+</ol>
+</li>
+</ul>
+<p><strong>5. 可控的消息传递语义</strong>
+Kafka 提供三种消息传递语义，以适应不同的应用需求：</p>
+<ul>
+<li><strong>At Most Once</strong>：消息发送后不关心接收者是否成功接收，可能导致消息丢失。</li>
+<li><strong>At Least Once</strong>：发送者需等待确认，如果未收到确认，则重发消息，保证消息能被接收，但可能会重复。</li>
+<li><strong>Exactly Once</strong>：保证每条消息只被接收和处理一次，是对可靠性和性能的最佳平衡，但实现较为复杂。</li>
+</ul>
+<h4 id="kafka程序设计">Kafka程序设计</h4>
+<p><strong>1. Producer 程序设计</strong></p>
+<ul>
+<li><strong>创建配置对象</strong>：设置Kafka Broker地址、序列化器和ACK策略等参数。</li>
+<li><strong>定义分区器</strong>（可选）：决定消息分配到哪个Partition的逻辑。</li>
+<li><strong>发送数据</strong>：创建Producer实例并将消息写入指定的Topic。</li>
+</ul>
+<p><strong>2. Consumer 程序设计</strong></p>
+<ul>
+<li><strong>创建配置对象</strong>：设置Kafka Broker地址、消费者组ID和反序列化器等参数。</li>
+<li><strong>创建Consumer Group</strong>：实例化Consumer并订阅Topic以读取消息。</li>
+<li><strong>拉取消息</strong>：循环从Broker中拉取数据进行处理。</li>
+</ul>
+<h4 id="kafka典型应用场景">Kafka典型应用场景</h4>
+<ol>
+<li>消息队列</li>
+<li>流处理和实时分析</li>
+<li>流式计算框架的数据源</li>
+<li>分布式日志收集</li>
+<li>Lambda架构中的Source</li>
+</ol>
+<h3 id="日志收集与分析-elk-stack">日志收集与分析-ELK Stack</h3>
+<p>1、ELK Stack架构</p>
+<ul>
+<li>E代表<strong>ElasticSearch</strong>：搜索和索引(Data Process)</li>
+<li>L代表<strong>LogStash</strong>：收集日志和事件数据，甚至可以解析和转换数据(Storage)</li>
+<li>K代表<strong>Kibana</strong>：可视化和共享(Visualize)</li>
+<li>稍微复杂一些的ELK Stack架构包含了<strong>beats</strong>，这是一个轻量级的数据采集平台，集合了多种单一用途的数据采集器，可以应对更多样的数据收集和传输任务，具有以下特性：
+<ul>
+<li>跟踪数据沿袭：可以从服务器环境中收集日志和指标，对必要元数据进行记录后传输人到ELK Stack中；</li>
+<li>可扩展：允许用户自行构建监督某个专用协议的工具。</li>
+</ul>
+</li>
+<li>当处理规模非常庞大的数据时，还可以加入<strong>RabbitMQ</strong>和<strong>Kafka以</strong>增加数据传输过程中的缓冲和弹性。</li>
+<li>同时还可以加入<strong>Nginx</strong>来保证数据的安全性。</li>
+</ul>
+<p>2、ELK应用
+日志会记录一些比较重要的信息，如应用程序的log记录的error，warn级别的log，ELK就是处理日志信息高手。
+如果线上环境出了故障，ELK能够立刻准确定位。ELK也经常在运维工作中大放光彩，在应用级别的实时监控，非常适合一些重要核心服务的预警。</p>
+<h4 id="elasticsearch">ElasticSearch</h4>
+<p>1、Elasticsearch介绍</p>
+<ul>
+<li>一个NoSQL数据库。它基于Lucene搜索引擎，并使用RESTful API构建。它提供简单的部署，可靠性和易管理性，还提供高级查询以执行详细分析并集中存储所有数据</li>
+<li>Elasticsearch允许<strong>存储</strong>，<strong>搜索</strong>和<strong>分析</strong>大量数据。它主要用做底层引擎，为完成搜索要求的应用程序提供支持。</li>
+<li>Elasticsearch具备以下特性：
+<ul>
+<li>开源搜索服务器使用Java编写</li>
+<li>可用于索引任何类型的异构数据</li>
+<li>具备带有JSON输出的REST API Web界面</li>
+<li>全文检索</li>
+<li>近实时（NRT）搜索，实时分析</li>
+<li>具备可搜索的JSON文档存储，并允许分片和复制</li>
+<li>基于REST和JSON的模式自由（schema-free）分布式文档存储</li>
+<li>多语言和地理位置支持</li>
+</ul>
+</li>
+</ul>
+<p>2、Elasticsearch中比较重要的概念</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">概念</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Cluster（集群）</td>
+          <td style="text-align: left">集群是节点的集合，它们共同保存数据并提供连接的索引和搜索功能。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Type（类型）</td>
+          <td style="text-align: left">每个索引里都可以有一个或多个 Type，Type 是索引中的一个逻辑数据分类，一个 Type 下的文档，都有相同的字段（Field）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Node（节点）</td>
+          <td style="text-align: left">节点表示弹性搜索实例，它是在弹性搜索实例开始时创建的。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Index（索引）</td>
+          <td style="text-align: left">索引是具有类似特征的文档集合，如客户数据、产品目录，在执行索引、搜索、更新和删除操作时有用，一个集群中可以定义多个索引。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Document（文档）</td>
+          <td style="text-align: left">文档是可以被索引的基本信息单位，以JSON键值对表示，如{“user”:“nullcon”},每个文档都与一个类型和一个唯一ID相关联。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Shard（分片）</td>
+          <td style="text-align: left">每个索引都可以拆分为多个分片，以便能够分发数据。分片是索引的原子部分，如果要添加更多节点，则可以将其分发到集群上</td>
+      </tr>
+  </tbody>
+</table>
+<p>3、ElasticSearch特性：
+优点：</p>
+<ul>
+<li>天生分片、天生集群</li>
+<li>天生索引（空间换时间）</li>
+<li>支持PB级海量数据实时全文搜索</li>
+<li>支持多语言访问，支持TCP和RESTful API两种方式访问</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不合适做复杂聚合，会影响ES集群的性能</li>
+<li>不支持高并发写入数据</li>
+<li>ES耗CPU和内存资源，需要用高配置的机器来搭建集群，成本高</li>
+</ul>
+<p>4、ElasticSearch应用场景</p>
+<ul>
+<li>日志分析</li>
+<li>信息检索</li>
+<li>数据智能</li>
+</ul>
+<h4 id="logstash">Logstash</h4>
+<p>1、Logstash 是一个轻量级、开源的日志收集处理框架，可以方便的把分散、多样化的日志搜集起来，并进行自定义过滤分析处理，然后传输到指定位置（如送入 Elasticsearch）
+Logstash 使用 JRuby 语言编写；
+Logstash 可以统一来自不同来源的数据，并将数据标准化为想要的格式；允许清理和本地化所有数据，以便对用例进行分析和可视化。</p>
+<p>2、Logstash 的设计简单，其功能由三部分组成：
+Input：数据收集
+Filter：数据加工，如过滤，改写等
+Output：数据输出</p>
+<p>3、Logstash 的特点</p>
+<ul>
+<li>使用内部队列将事件传递到每个阶段</li>
+<li>允许日志的不同输入</li>
+<li>过滤/解析日志</li>
+</ul>
+<p>4、Logstash 的优点</p>
+<ul>
+<li>几乎可以访问任何数据</li>
+<li>可以和多种外部应用整合</li>
+<li>支持动态、弹性拓展</li>
+</ul>
+<p>5、Logstash 运行逻辑</p>
+<ul>
+<li><strong>Shipper</strong>: 主要用来收集日志数据，负责监控本地日志文件的变化，及时把日志文件的最新内容收集起来，然后经过加工、过滤，输出到 Broker。</li>
+<li><strong>Broker</strong>: 相当于日志Hub，用来连接多个 Shipper 和多个 Indexer。</li>
+<li><strong>Indexer</strong>: 从 Broker 读取文本，经过加工、过滤，输出到指定的介质 (可以是文件、网络、elasticsearch 等) 中。</li>
+</ul>
+<h4 id="kibana">Kibana</h4>
+<p>1、Kibana 是一个开源的数据分析可视化平台，可以为 Logstash 和 ElasticSearch 提供的日志数据进行高效的搜索、可视化汇总和多维度分析，还可以与 Elasticsearch 搜索引擎之中的数据进行交互。
+它基于浏览器的界面操作可以快速创建动态仪表板，实时监控ElasticSearch的数据状态与更改。
+在Kibana中，有不同的方法可以对数据执行搜索。 以下是最常见的搜索类型：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">搜索类型</th>
+          <th style="text-align: left">用法</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">自由文本搜索</td>
+          <td style="text-align: left">用于搜索特定字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">字段级搜索</td>
+          <td style="text-align: left">用于搜索特定字段中的字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">逻辑语句</td>
+          <td style="text-align: left">用于将搜索组合成逻辑语句</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">近似搜索</td>
+          <td style="text-align: left">用于搜索特定字符的近似项</td>
+      </tr>
+  </tbody>
+</table>
+<p>2、Kinbana 的优点：</p>
+<ul>
+<li>强大的前端仪表板，能够可视化集群的索引信息</li>
+<li>实现索引信息的实时搜索</li>
+<li>可以搜索，查看和与 Elasticsearch 中存储的数据进行交互</li>
+<li>对数据执行查询并可视化图表，表格和映射中的结果</li>
+<li>可配置的仪表板，用于在 elasticsearch 中对日志记录日志进行切片和切块</li>
+<li>能够以图表，图表等形式提供历史数据</li>
+<li>实时仪表板，可轻松配置</li>
+<li>实现索引信息的实时搜索</li>
+</ul>
+<h3 id="商业化大数据解决方案-splunk">商业化大数据解决方案-Splunk</h3>
+<p>1、Splunk是什么？</p>
+<ul>
+<li>面向机器数据的全文搜索引擎（使用搜索引擎的方式处理数据；支持海量级数据处理）</li>
+<li>准实时的日志处理平台</li>
+<li>基于时间序列的索引器</li>
+<li>大数据分析平台</li>
+</ul>
+<p>2、Splunk特性</p>
+<ul>
+<li>数据摄取（data ingestion）</li>
+<li>数据索引（data indexing）</li>
+<li>数据搜索（data searching）</li>
+<li>使用警报（using alert）</li>
+<li>仪表盘（dashboard）</li>
+<li>数据模型（ data model）</li>
+</ul>
+<p>3、Splunk应用场景</p>
+<ul>
+<li>IT运营</li>
+<li>SIME（Security Information and Management）</li>
+<li>物联网</li>
+</ul>
+<h3 id="网络数据采集-爬虫">网络数据采集-爬虫</h3>
+<p>1、网络数据采集</p>
+<p>2、爬虫：通过程序代码模拟浏览器向网站发起请求，把站点（服务器）返回的HTML代码/JSON数据/二进制数据（图片、视频） 爬取到本地，进而通过解析代码分析并提取自己需要的数据；（若将爬虫比喻为蜘蛛，互联网将是一张蜘蛛网）</p>
+<p>3、网络爬虫原理</p>
+<ul>
+<li>网络爬虫是一种按照一定的规则，自动地抓取web信息的程序或者脚本</li>
+<li>网络爬虫可以自动采集所有其能够访问到的页面内容，为搜索引擎和大数据分析提供数据来源。</li>
+<li>从功能上讲，爬虫一般数据<strong>采集</strong>，<strong>处理</strong>和<strong>存储</strong>三部分功能</li>
+</ul>
+<p>4、网络爬虫原理
+URL的抓取
+网页的遍历
+构造URL队列</p>
+<p>5、网络爬虫工作流程</p>
+<ul>
+<li>初始时将预先设定的种子URL放入待抓取URL队列。</li>
+<li>从待抓取队列中取出URL，进行DNS解析并下载网页内容，然后放入已抓取URL队列。</li>
+<li>从已抓取队列中抽取出新的URL放入待抓取队列，重复步骤二直到定停</li>
+</ul>
+<h3 id="scrapy-框架简介">Scrapy 框架简介</h3>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" data-title="分布式队列" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" data-title="分布式队列"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" data-title="分布式队列"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" data-title="分布式队列"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" class="prev" rel="prev" title="大数据存储"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>大数据存储</a>
+            <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/" class="next" rel="next" title="Linux文件比较、vi、文件通配符">Linux文件比较、vi、文件通配符<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

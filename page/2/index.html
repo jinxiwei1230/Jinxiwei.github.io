@@ -58,6 +58,225 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">大数据存储</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第三章-大数据存储">第三章 大数据存储</h2>
+<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
+<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
+• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
+• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
+<h4 id="数据序列化">数据序列化</h4>
+<p>1、背景</p>
+<ul>
+<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
+<li>阶段二：采用编程语言内置的序列化机制。</li>
+<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
+<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
+</ul>
+<p>2、意义
+阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
+<h4 id="数据序列化方案">数据序列化方案</h4>
+<p><strong>1、序列化框架 Thrift</strong>
+Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
+<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
+struct中每个域由四个属性构成：</p>
+<ul>
+<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
+<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
+<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
+<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
+</ul>
+<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
+// 定义枚举类型DocLevel,表示网页内容级别
+enum DocLevel {
+CLEAN = 0,
+NORMAL = 1,
+MAYBE = 2,
+BAD = 3,
+}
+
+struct MergedDoc { // 定义网页,类似于Java和C++中的类
+1:required i64 docId, //每个网页被赋予一个64位唯一ID
+2: required string url, //网页URL
+3: optional string title, //网页标题
+4: optional string segBody, //经分词后的网页主体
+5: optional i32 pagerank, //网页pagerank,网页排名使用
+10: optional DocLevel docLevel, //网页内容级别
+11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
+12: optional list&lt;i64&gt; outLinks //网页出链
+}
+</code></pre><p><strong>2、序列化框架 Protobuf</strong>
+Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">数据收集</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p><strong>1、运营式系统阶段</strong>
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p><strong>2、用户原创内容阶段</strong>
+以博客、微博为代表的新型社交网络出现并快速发展；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p><strong>3、感知式系统阶段</strong>
+感知式系统，如VR/AR等，广泛使用；</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
+<p><strong>3、数据存储层</strong>
+数据存储层主要负责海量结构化与非结构化数据的存储。
+收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/">数据收集、分布式队列</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p>1、运营式系统阶段
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p>2、用户原创内容阶段
+数据爆发产生于Web 2.0 时代，重要标志是用户原创内容；
+以博客、微博为代表的新型社交网络出现并快速发展；
+以智能手机、平板电脑为代表的新型移动设备的出现；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p>3、感知式系统阶段
+感知式系统，如VR/AR等，广泛使用；
+数据第三次大飞跃导致大数据的产生</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Linux：正则表达式</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-30">2024-09-30</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h1 id="linux开发环境及应用">Linux开发环境及应用</h1>
 <h2 id="第四章-正则表达式">第四章 正则表达式</h2>
@@ -231,99 +450,6 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
-<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
-<ul>
-<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
-<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
-<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
-</ul>
-<h4 id="人工智能研究方法">人工智能研究方法</h4>
-<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
-主要观点：</p>
-<ul>
-<li>智能活动的基元是神经细胞；</li>
-<li>智能活动过程是神经网络的状态演化过程</li>
-<li>智能活动的基础是神经细胞的突触联结机制</li>
-<li>智能系统的工作模式是模仿人脑模式</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>通过神经元之间的并行协同作用实现信息
-处理，具有并行性、动态性、全局性。</li>
-<li>通过神经元间分布式的物理联接存储信息。
-联想记忆、容错性。</li>
-<li>通过神经元间连接强度的动态调整实现自
-学习和自适应功能。</li>
-<li>善于模拟人类的形象思维过程。</li>
-</ul>
-<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
-主要观点：</p>
-<ul>
-<li>思维的基元是符号；</li>
-<li>思维的过程是符号运算；</li>
-<li>智能的核心是知识，利用知识推理进行问题求解；</li>
-<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
-<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
-<li>知识用显式的符号表示，容易表达人的心理模型。</li>
-<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
-<li>能与传统的符号数据库进行链接，易于模块化。</li>
-<li>以知识为基础。</li>
-</ul>
-<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
-主要观点：</p>
-<ul>
-<li>智能行为的基础是感知－行动的反应机制；</li>
-<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
-<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
-<li>智能行为可以不要知识。</li>
-</ul>
-<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
-<p><strong>1、研究角度分：</strong></p>
-<ul>
-<li>符号智能：运用知识解决问题；</li>
-<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
-<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
-</ul>
-<p><strong>2、功能分：</strong></p>
-<ul>
-<li>机器感知/知识获取：机器听觉、视觉</li>
-<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
-<li>机器行为/知识运用：智能机器系统</li>
-</ul>
-<h2 id="第二章-知识表示">第二章 知识表示</h2>
-<h3 id="21知识及其特性">2.1知识及其特性</h3>
-<p>1、数据、信息和知识</p>
-<ul>
-<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
-<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
-<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
-规律解决问题的方法和策略</li>
-<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
-</ul>
-<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
-<p>3、知识的特性</p>
-<ul>
-<li>客观性</li>
-<li>相对正确性：一定条件、时间、环境</li>
-<li>进化性</li>
-<li>依附性：离开载体的知识是没有的</li>
-<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
-<li>经验性</li>
-<li>可表示性</li>
-<li>可利用性</li>
-<li>可重用性</li>
-<li>共享性</li>
-</ul>
-<p>4、知识的层次</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ai/">AI</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -331,6 +457,10 @@ Esc[1;31m 七字节序列，红色字符</em></p>
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/2/">2</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/3/">3</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

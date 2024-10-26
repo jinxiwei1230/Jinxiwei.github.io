@@ -4,18 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>数据收集、分布式队列 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/">
+        <title>数据收集 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">
   <meta property="og:site_name" content="Jinxiwei">
-  <meta property="og:title" content="数据收集、分布式队列">
+  <meta property="og:title" content="数据收集">
   <meta property="og:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
 全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
-2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
-3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用； 数据第三次大飞跃导致大数据的产生
+2、用户原创内容阶段 以博客、微博为代表的新型社交网络出现并快速发展； 数据的产生方式是主动的。
+3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用；
 4、大数据 vs 大规模数据 vs 海量数据
 5、科学研究四范式
 图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了实验、理论和计算三种范式。 基于这种考虑，Jim Gray 提出了一种新的数据探索型研究方式，被他自己称之为科学研究的“第四种范式 ”。 大数据计算模式 大数据计算模式 解决问题 代表产品 批处理计算 针对大规模数据的批量处理 MapReduceSpark等 流计算 针对流数据的实时计算 Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等 图计算 针对大规模图结构数据的处理 Pregel、GraphX、Giraph等 查询分析计算 大规模数据的存储管理和查询分析 Dremel、Hive、Cassandra、Impala等 大数据技术框架 1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括数据收集、数据存储、资源管理与服务协调、计算引擎、数据分析和可视化。
 2、数据收集层 数据源特点 分布式：数据源通常分布在不同机器或设备上，并通过网络连接在一起 异构性：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等 多样化：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音 频和视频等非关系型数据 流式产生：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析
-收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中">
+收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中
+3、数据存储层 数据存储层主要负责海量结构化与非结构化数据的存储。 收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -24,32 +25,33 @@
     <meta property="article:tag" content="大数据技术基础">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="数据收集、分布式队列">
+  <meta name="twitter:title" content="数据收集">
   <meta name="twitter:description" content="第一章 概述 大数据的历史 大数据的产生和应用 大数据的挑战 1、大数据带来的思维转变
 全样而非抽样：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样； 效率而非精确：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性； 相关而非因果：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。 大数据的特征 4V Volume：量大 Velocity：快速化 Value：价值密度低 Variety：多样化 大数据的产生 1、运营式系统阶段 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是被动的。
-2、用户原创内容阶段 数据爆发产生于Web 2.0 时代，重要标志是用户原创内容； 以博客、微博为代表的新型社交网络出现并快速发展； 以智能手机、平板电脑为代表的新型移动设备的出现； 数据的产生方式是主动的。
-3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用； 数据第三次大飞跃导致大数据的产生
+2、用户原创内容阶段 以博客、微博为代表的新型社交网络出现并快速发展； 数据的产生方式是主动的。
+3、感知式系统阶段 感知式系统，如VR/AR等，广泛使用；
 4、大数据 vs 大规模数据 vs 海量数据
 5、科学研究四范式
 图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了实验、理论和计算三种范式。 基于这种考虑，Jim Gray 提出了一种新的数据探索型研究方式，被他自己称之为科学研究的“第四种范式 ”。 大数据计算模式 大数据计算模式 解决问题 代表产品 批处理计算 针对大规模数据的批量处理 MapReduceSpark等 流计算 针对流数据的实时计算 Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等 图计算 针对大规模图结构数据的处理 Pregel、GraphX、Giraph等 查询分析计算 大规模数据的存储管理和查询分析 Dremel、Hive、Cassandra、Impala等 大数据技术框架 1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括数据收集、数据存储、资源管理与服务协调、计算引擎、数据分析和可视化。
 2、数据收集层 数据源特点 分布式：数据源通常分布在不同机器或设备上，并通过网络连接在一起 异构性：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等 多样化：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音 频和视频等非关系型数据 流式产生：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析
-收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中">
+收集系统特点 扩展性：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈 可靠性：数据在传输过程中不能够丢失 安全性：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患 低延迟：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中
+3、数据存储层 数据存储层主要负责海量结构化与非结构化数据的存储。 收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：">
 <meta name="application-name" content="My blog">
 <meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "数据收集、分布式队列",
+        "headline": "数据收集",
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97\/"
-        },"genre": "posts","keywords": "大数据技术基础","wordcount":  524 ,
-        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86\/"
+        },"genre": "posts","keywords": "大数据技术基础","wordcount":  287 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -88,10 +90,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据收集、分布式队列</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据收集</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;524 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;287 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -107,16 +109,6 @@
         <li><a href="#大数据架构">大数据架构</a></li>
         <li><a href="#关系型数据收集">关系型数据收集</a></li>
         <li><a href="#非关系型数据收集">非关系型数据收集</a></li>
-      </ul>
-    </li>
-    <li><a href="#第二章-分布式消息队列">第二章 分布式消息队列</a>
-      <ul>
-        <li><a href="#kafka">Kafka</a></li>
-        <li><a href="#kafka典型应用场景">Kafka典型应用场景</a></li>
-        <li><a href="#日志收集与分析-elk-stack">日志收集与分析-ELK Stack</a></li>
-        <li><a href="#商业化大数据解决方案-splunk">商业化大数据解决方案-Splunk</a></li>
-        <li><a href="#网络数据采集-爬虫">网络数据采集-爬虫</a></li>
-        <li><a href="#scrapy-框架简介">Scrapy 框架简介</a></li>
       </ul>
     </li>
   </ul>
@@ -139,16 +131,13 @@
 <li>Variety：多样化</li>
 </ul>
 <h4 id="大数据的产生">大数据的产生</h4>
-<p>1、运营式系统阶段
+<p><strong>1、运营式系统阶段</strong>
 数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
-<p>2、用户原创内容阶段
-数据爆发产生于Web 2.0 时代，重要标志是用户原创内容；
+<p><strong>2、用户原创内容阶段</strong>
 以博客、微博为代表的新型社交网络出现并快速发展；
-以智能手机、平板电脑为代表的新型移动设备的出现；
 数据的产生方式是<strong>主动</strong>的。</p>
-<p>3、感知式系统阶段
-感知式系统，如VR/AR等，广泛使用；
-数据第三次大飞跃导致大数据的产生</p>
+<p><strong>3、感知式系统阶段</strong>
+感知式系统，如VR/AR等，广泛使用；</p>
 <p>4、大数据 vs 大规模数据 vs 海量数据</p>
 <p>5、科学研究四范式</p>
 <ul>
@@ -353,244 +342,6 @@ Flume提供多种Sink Processor实现，分别如下：</p>
 </ul>
 <h4 id="flume-ng数据流拓扑">Flume NG数据流拓扑</h4>
 <p>常见的Flume拓扑架构有两种：<strong>多路合并</strong>和<strong>多路复用</strong></p>
-<h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
-<h3 id="kafka">Kafka</h3>
-<h4 id="kafka-概述">Kafka 概述</h4>
-<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
-<ul>
-<li>数据生产者和消费者耦合度过高</li>
-<li>生产者和消费者间数据处理速率不对等</li>
-<li>大量并发的网络连接对后端消费者不够友好</li>
-</ul>
-<p>1、为降低数据生产者（比如Web Server）与消费者（比如Hodoop集群、实时监控系统等）之间的耦合性，使系统更易扩展，需引入一层“中间件”。
-可以下几个角度理解Kafka的重要性：</p>
-<ul>
-<li><strong>消息中间件</strong>：避免生产者和消费者直接互通产生的彼此高度依赖，两者中任何一个有变化都不会影响另一方。</li>
-<li><strong>消息队列</strong>：缓存生产者产生的数据，使得消费者可以重复消费历史数据（比如数据处理后发现结果存在问题，需要重新读取数据进行处理）；平滑生产者产生数据速度和消费者处理数据速度的不对等。</li>
-<li><strong>发布订阅系统</strong>：消费者可订阅某类主题的数据，当生产者产生对应主题的数据后，所有订阅者会快速获取到数据，即消费者可快速获取新增数据。另外，可随时增加新的消费者而无需进行任何系统层面的修改。</li>
-<li><strong>消息总线</strong>：所有收集到的数据会流经 Kafka,之后由Kafka 分流后，进入各个消费者系统。</li>
-</ul>
-<p>2、Kafka 特点：
-高吞吐量、良好的扩展性、持久性和可靠性</p>
-<p>3、Flume 与 Kafka 的区别</p>
-<h4 id="kafka-设计架构">Kafka 设计架构</h4>
-<p>1、Kafka 是一个分布式消息队列，它将数据分区保存，并将每个分区保存成多份以提高数据可靠性。</p>
-<ul>
-<li>
-<p>Kafka架构由<em><strong>Producer、Broker和Consumer</strong></em>三类组件构成，其中Producer将数据写入Broker，Consumer 则从Broker上读取数据进行处理；Broker构成了连接Producer和Consumer的“缓冲区”，Broker和Consumer通过ZooKeeper做协调和服务发现。</p>
-</li>
-<li>
-<p>多个Broker构成一个<strong>可靠</strong>的分布式消息存储系统，避免数据丢失。Broker中的消息被划分成若干个topic，同属一个topic的所有数据按照某种策略被分成多个partition，以实现负载分摊和数据并行处理。</p>
-</li>
-</ul>
-<p>2、Kafka采用了不同于其他消息队列的 push-push 架构，而是采用了 push-pull 架构， 即Producer将数据直接“push”给Broker，而Consumer从Broker端“pull”数据，这种架构优势主要体现在以下两点:</p>
-<ul>
-<li>Consumer可根据自己的实际负载和需求获取数据，避免采用“push”方式给Consumer带来较大压力。</li>
-<li>Consumer自己维护已读取消息的offset而不是由Broker端维护，这大大缓解了Broker的压力，使得它更加轻量级。</li>
-</ul>
-<h4 id="kafka程序设计">Kafka程序设计</h4>
-<h3 id="kafka典型应用场景">Kafka典型应用场景</h3>
-<h3 id="日志收集与分析-elk-stack">日志收集与分析-ELK Stack</h3>
-<p>1、ELK Stack架构</p>
-<ul>
-<li>E代表<strong>ElasticSearch</strong>：搜索和索引(Data Process)</li>
-<li>L代表<strong>LogStash</strong>：收集日志和事件数据，甚至可以解析和转换数据(Storage)</li>
-<li>K代表<strong>Kibana</strong>：可视化和共享(Visualize)</li>
-<li>稍微复杂一些的ELK Stack架构包含了<strong>beats</strong>，这是一个轻量级的数据采集平台，集合了多种单一用途的数据采集器，可以应对更多样的数据收集和传输任务，具有以下特性：
-<ul>
-<li>跟踪数据沿袭：可以从服务器环境中收集日志和指标，对必要元数据进行记录后传输人到ELK Stack中；</li>
-<li>可扩展：允许用户自行构建监督某个专用协议的工具。</li>
-</ul>
-</li>
-<li>当处理规模非常庞大的数据时，还可以加入<strong>RabbitMQ</strong>和<strong>Kafka以</strong>增加数据传输过程中的缓冲和弹性。</li>
-<li>同时还可以加入<strong>Nginx</strong>来保证数据的安全性。</li>
-</ul>
-<p>2、ELK应用
-日志会记录一些比较重要的信息，如应用程序的log记录的error，warn级别的log，ELK就是处理日志信息高手。
-如果线上环境出了故障，ELK能够立刻准确定位。ELK也经常在运维工作中大放光彩，在应用级别的实时监控，非常适合一些重要核心服务的预警。</p>
-<h4 id="elasticsearch">ElasticSearch</h4>
-<p>1、Elasticsearch介绍</p>
-<ul>
-<li>一个NoSQL数据库。它基于Lucene搜索引擎，并使用RESTful API构建。它提供简单的部署，可靠性和易管理性，还提供高级查询以执行详细分析并集中存储所有数据</li>
-<li>Elasticsearch允许<strong>存储</strong>，<strong>搜索</strong>和<strong>分析</strong>大量数据。它主要用做底层引擎，为完成搜索要求的应用程序提供支持。</li>
-<li>Elasticsearch具备以下特性：
-<ul>
-<li>开源搜索服务器使用Java编写</li>
-<li>可用于索引任何类型的异构数据</li>
-<li>具备带有JSON输出的REST API Web界面</li>
-<li>全文检索</li>
-<li>近实时（NRT）搜索，实时分析</li>
-<li>具备可搜索的JSON文档存储，并允许分片和复制</li>
-<li>基于REST和JSON的模式自由（schema-free）分布式文档存储</li>
-<li>多语言和地理位置支持</li>
-</ul>
-</li>
-</ul>
-<p>2、Elasticsearch中比较重要的概念</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">概念</th>
-          <th style="text-align: left">解释</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">Cluster（集群）</td>
-          <td style="text-align: left">集群是节点的集合，它们共同保存数据并提供连接的索引和搜索功能。</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Type（类型）</td>
-          <td style="text-align: left">每个索引里都可以有一个或多个 Type，Type 是索引中的一个逻辑数据分类，一个 Type 下的文档，都有相同的字段（Field）。</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Node（节点）</td>
-          <td style="text-align: left">节点表示弹性搜索实例，它是在弹性搜索实例开始时创建的。</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Index（索引）</td>
-          <td style="text-align: left">索引是具有类似特征的文档集合，如客户数据、产品目录，在执行索引、搜索、更新和删除操作时有用，一个集群中可以定义多个索引。</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Document（文档）</td>
-          <td style="text-align: left">文档是可以被索引的基本信息单位，以JSON键值对表示，如{“user”:“nullcon”},每个文档都与一个类型和一个唯一ID相关联。</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Shard（分片）</td>
-          <td style="text-align: left">每个索引都可以拆分为多个分片，以便能够分发数据。分片是索引的原子部分，如果要添加更多节点，则可以将其分发到集群上</td>
-      </tr>
-  </tbody>
-</table>
-<p>3、ElasticSearch特性：
-优点：</p>
-<ul>
-<li>天生分片、天生集群</li>
-<li>天生索引（空间换时间）</li>
-<li>支持PB级海量数据实时全文搜索</li>
-<li>支持多语言访问，支持TCP和RESTful API两种方式访问</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>不合适做复杂聚合，会影响ES集群的性能</li>
-<li>不支持高并发写入数据</li>
-<li>ES耗CPU和内存资源，需要用高配置的机器来搭建集群，成本高</li>
-</ul>
-<p>4、ElasticSearch应用场景</p>
-<ul>
-<li>日志分析</li>
-<li>信息检索</li>
-<li>数据智能</li>
-</ul>
-<h4 id="logstash">Logstash</h4>
-<p>1、Logstash 是一个轻量级、开源的日志收集处理框架，可以方便的把分散、多样化的日志搜集起来，并进行自定义过滤分析处理，然后传输到指定位置（如送入 Elasticsearch）
-Logstash 使用 JRuby 语言编写；
-Logstash 可以统一来自不同来源的数据，并将数据标准化为想要的格式；允许清理和本地化所有数据，以便对用例进行分析和可视化。</p>
-<p>2、Logstash 的设计简单，其功能由三部分组成：
-Input：数据收集
-Filter：数据加工，如过滤，改写等
-Output：数据输出</p>
-<p>3、Logstash 的特点</p>
-<ul>
-<li>使用内部队列将事件传递到每个阶段</li>
-<li>允许日志的不同输入</li>
-<li>过滤/解析日志</li>
-</ul>
-<p>4、Logstash 的优点</p>
-<ul>
-<li>几乎可以访问任何数据</li>
-<li>可以和多种外部应用整合</li>
-<li>支持动态、弹性拓展</li>
-</ul>
-<p>5、Logstash 运行逻辑</p>
-<ul>
-<li><strong>Shipper</strong>: 主要用来收集日志数据，负责监控本地日志文件的变化，及时把日志文件的最新内容收集起来，然后经过加工、过滤，输出到 Broker。</li>
-<li><strong>Broker</strong>: 相当于日志Hub，用来连接多个 Shipper 和多个 Indexer。</li>
-<li><strong>Indexer</strong>: 从 Broker 读取文本，经过加工、过滤，输出到指定的介质 (可以是文件、网络、elasticsearch 等) 中。</li>
-</ul>
-<h4 id="kibana">Kibana</h4>
-<p>1、Kibana 是一个开源的数据分析可视化平台，可以为 Logstash 和 ElasticSearch 提供的日志数据进行高效的搜索、可视化汇总和多维度分析，还可以与 Elasticsearch 搜索引擎之中的数据进行交互。
-它基于浏览器的界面操作可以快速创建动态仪表板，实时监控ElasticSearch的数据状态与更改。
-在Kibana中，有不同的方法可以对数据执行搜索。 以下是最常见的搜索类型：</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">搜索类型</th>
-          <th style="text-align: left">用法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">自由文本搜索</td>
-          <td style="text-align: left">用于搜索特定字符串</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">字段级搜索</td>
-          <td style="text-align: left">用于搜索特定字段中的字符串</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">逻辑语句</td>
-          <td style="text-align: left">用于将搜索组合成逻辑语句</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">近似搜索</td>
-          <td style="text-align: left">用于搜索特定字符的近似项</td>
-      </tr>
-  </tbody>
-</table>
-<p>2、Kinbana 的优点：</p>
-<ul>
-<li>强大的前端仪表板，能够可视化集群的索引信息</li>
-<li>实现索引信息的实时搜索</li>
-<li>可以搜索，查看和与 Elasticsearch 中存储的数据进行交互</li>
-<li>对数据执行查询并可视化图表，表格和映射中的结果</li>
-<li>可配置的仪表板，用于在 elasticsearch 中对日志记录日志进行切片和切块</li>
-<li>能够以图表，图表等形式提供历史数据</li>
-<li>实时仪表板，可轻松配置</li>
-<li>实现索引信息的实时搜索</li>
-</ul>
-<h3 id="商业化大数据解决方案-splunk">商业化大数据解决方案-Splunk</h3>
-<p>1、Splunk是什么？</p>
-<ul>
-<li>面向机器数据的全文搜索引擎（使用搜索引擎的方式处理数据；支持海量级数据处理）</li>
-<li>准实时的日志处理平台</li>
-<li>基于时间序列的索引器</li>
-<li>大数据分析平台</li>
-</ul>
-<p>2、Splunk特性</p>
-<ul>
-<li>数据摄取（data ingestion）</li>
-<li>数据索引（data indexing）</li>
-<li>数据搜索（data searching）</li>
-<li>使用警报（using alert）</li>
-<li>仪表盘（dashboard）</li>
-<li>数据模型（ data model）</li>
-</ul>
-<p>3、Splunk应用场景</p>
-<ul>
-<li>IT运营</li>
-<li>SIME（Security Information and Management）</li>
-<li>物联网</li>
-</ul>
-<h3 id="网络数据采集-爬虫">网络数据采集-爬虫</h3>
-<p>1、网络数据采集</p>
-<p>2、爬虫：通过程序代码模拟浏览器向网站发起请求，把站点（服务器）返回的HTML代码/JSON数据/二进制数据（图片、视频） 爬取到本地，进而通过解析代码分析并提取自己需要的数据；（若将爬虫比喻为蜘蛛，互联网将是一张蜘蛛网）</p>
-<p>3、网络爬虫原理</p>
-<ul>
-<li>网络爬虫是一种按照一定的规则，自动地抓取web信息的程序或者脚本</li>
-<li>网络爬虫可以自动采集所有其能够访问到的页面内容，为搜索引擎和大数据分析提供数据来源。</li>
-<li>从功能上讲，爬虫一般数据<strong>采集</strong>，<strong>处理</strong>和<strong>存储</strong>三部分功能</li>
-</ul>
-<p>4、网络爬虫原理
-URL的抓取
-网页的遍历
-构造URL队列</p>
-<p>5、网络爬虫工作流程</p>
-<ul>
-<li>初始时将预先设定的种子URL放入待抓取URL队列。</li>
-<li>从待抓取队列中取出URL，进行DNS解析并下载网页内容，然后放入已抓取URL队列。</li>
-<li>从已抓取队列中抽取出新的URL放入待抓取队列，重复步骤二直到定停</li>
-</ul>
-<h3 id="scrapy-框架简介">Scrapy 框架简介</h3>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -600,7 +351,7 @@ URL的抓取
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" data-title="数据收集、分布式队列"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集" data-hashtags="大数据技术基础"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-hashtag="大数据技术基础"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" data-title="数据收集"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -612,8 +363,8 @@ URL的抓取
         </section>
     </div>
 
-    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="prev" rel="prev" title="Linux：正则表达式"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：正则表达式</a>
-            <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/" class="next" rel="next" title="数据收集">数据收集<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97/" class="prev" rel="prev" title="数据收集、分布式队列"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>数据收集、分布式队列</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" class="next" rel="next" title="大数据存储">大数据存储<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
