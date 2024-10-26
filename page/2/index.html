@@ -58,6 +58,86 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">分布式队列</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
+<h3 id="kafka">Kafka</h3>
+<h4 id="kafka-概述">Kafka 概述</h4>
+<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
+<ul>
+<li>数据生产者和消费者耦合度过高</li>
+<li>生产者和消费者间数据处理速率不对等</li>
+<li>大量并发的网络连接对后端消费者不够友好</li>
+</ul>
+<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
+<ul>
+<li>
+<p><strong>消息中间件</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
+<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息队列</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
+<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
+</ul>
+</li>
+<li>
+<p><strong>发布-订阅系统</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
+<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息总线</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
+</ul>
+</li>
+</ul>
+<p>2、Kafka 特点：
+高吞吐量、良好的扩展性、持久性和可靠性</p>
+<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
+<strong>Kafka</strong></p>
+<ol>
+<li>
+<p><strong>发布-订阅模型</strong>：</p>
+<ul>
+<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
+<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>实时消息传递</strong>：</p>
+<ul>
+<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
+<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
+</ul>
+</li>
+<li>
+<p><strong>丰富的 API 和流处理集成</strong>：</p>
+<ul>
+<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
+</ul>
+</li>
+</ol>
+<p><strong>Flume</strong></p>
+<ol>
+<li>
+<p><strong>数据流模型</strong>：</p>
+<ul>
+<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
+<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
+</ul>
+</li>
+<li>
+<p><strong>Hadoop 集成优化</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">大数据存储</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第三章-大数据存储">第三章 大数据存储</h2>
 <h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
@@ -371,99 +451,6 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
-<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
-<ul>
-<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
-<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
-<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
-</ul>
-<h4 id="人工智能研究方法">人工智能研究方法</h4>
-<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
-主要观点：</p>
-<ul>
-<li>智能活动的基元是神经细胞；</li>
-<li>智能活动过程是神经网络的状态演化过程</li>
-<li>智能活动的基础是神经细胞的突触联结机制</li>
-<li>智能系统的工作模式是模仿人脑模式</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>通过神经元之间的并行协同作用实现信息
-处理，具有并行性、动态性、全局性。</li>
-<li>通过神经元间分布式的物理联接存储信息。
-联想记忆、容错性。</li>
-<li>通过神经元间连接强度的动态调整实现自
-学习和自适应功能。</li>
-<li>善于模拟人类的形象思维过程。</li>
-</ul>
-<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
-主要观点：</p>
-<ul>
-<li>思维的基元是符号；</li>
-<li>思维的过程是符号运算；</li>
-<li>智能的核心是知识，利用知识推理进行问题求解；</li>
-<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
-<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
-<li>知识用显式的符号表示，容易表达人的心理模型。</li>
-<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
-<li>能与传统的符号数据库进行链接，易于模块化。</li>
-<li>以知识为基础。</li>
-</ul>
-<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
-主要观点：</p>
-<ul>
-<li>智能行为的基础是感知－行动的反应机制；</li>
-<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
-<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
-<li>智能行为可以不要知识。</li>
-</ul>
-<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
-<p><strong>1、研究角度分：</strong></p>
-<ul>
-<li>符号智能：运用知识解决问题；</li>
-<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
-<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
-</ul>
-<p><strong>2、功能分：</strong></p>
-<ul>
-<li>机器感知/知识获取：机器听觉、视觉</li>
-<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
-<li>机器行为/知识运用：智能机器系统</li>
-</ul>
-<h2 id="第二章-知识表示">第二章 知识表示</h2>
-<h3 id="21知识及其特性">2.1知识及其特性</h3>
-<p>1、数据、信息和知识</p>
-<ul>
-<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
-<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
-<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
-规律解决问题的方法和策略</li>
-<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
-</ul>
-<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
-<p>3、知识的特性</p>
-<ul>
-<li>客观性</li>
-<li>相对正确性：一定条件、时间、环境</li>
-<li>进化性</li>
-<li>依附性：离开载体的知识是没有的</li>
-<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
-<li>经验性</li>
-<li>可表示性</li>
-<li>可利用性</li>
-<li>可重用性</li>
-<li>共享性</li>
-</ul>
-<p>4、知识的层次</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ai/">AI</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -471,6 +458,10 @@ Esc[1;31m 七字节序列，红色字符</em></p>
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/2/">2</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/3/">3</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

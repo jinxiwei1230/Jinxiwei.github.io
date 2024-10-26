@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Introduction of Machine / Deep Learning - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Introduction of Machine / Deep Learning">
+  <meta property="og:description" content="1、Machine Learning ≈ Looking for Function
+2、函数的不同类型: Regression, Classification, Structured Learning
+3、Training: 1. Function with Unknown Parameters ( y = b &#43; w x_1 )
+2. Define Loss from Training Data ( L = \frac{1}{N} \sum_{n} e_n ) ( e_n = (y_n - \hat{y}_n)^2 )
+3. Optimization
+初始化参数：随机选择 ( w^0 ) 和 ( b^0 ) 作为初始值，分别表示权重 ( w ) 和偏置 ( b ) 的起始点。
+定义目标：寻找 ( w^, b^ = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-26T00:00:00+00:00">
+    <meta property="article:tag" content="Machine Learning">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Introduction of Machine / Deep Learning">
+  <meta name="twitter:description" content="1、Machine Learning ≈ Looking for Function
+2、函数的不同类型: Regression, Classification, Structured Learning
+3、Training: 1. Function with Unknown Parameters ( y = b &#43; w x_1 )
+2. Define Loss from Training Data ( L = \frac{1}{N} \sum_{n} e_n ) ( e_n = (y_n - \hat{y}_n)^2 )
+3. Optimization
+初始化参数：随机选择 ( w^0 ) 和 ( b^0 ) 作为初始值，分别表示权重 ( w ) 和偏置 ( b ) 的起始点。
+定义目标：寻找 ( w^, b^ = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Introduction of Machine / Deep Learning",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/introduction-of-machine-learning\/"
+        },"genre": "posts","keywords": "Machine Learning","wordcount":  223 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/introduction-of-machine-learning\/","datePublished": "2024-10-26T00:00:00+00:00","dateModified": "2024-10-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Introduction of Machine / Deep Learning</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/machine-learning/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Machine Learning</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-26">2024-10-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;223 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>1、Machine Learning ≈ Looking for Function</p>
+<p>2、函数的不同类型: Regression, Classification, Structured Learning</p>
+<p>3、Training:
+<strong>1. Function with Unknown Parameters</strong>
+( y = b + w x_1 )</p>
+<p><strong>2. Define Loss from Training Data</strong>
+( L = \frac{1}{N} \sum_{n} e_n )
+( e_n = (y_n - \hat{y}_n)^2 )</p>
+<p><strong>3. Optimization</strong></p>
+<ul>
+<li>
+<p><strong>初始化参数</strong>：随机选择 ( w^0 ) 和 ( b^0 ) 作为初始值，分别表示权重 ( w ) 和偏置 ( b ) 的起始点。</p>
+</li>
+<li>
+<p><strong>定义目标</strong>：寻找 ( w^<em>, b^</em> = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。</p>
+</li>
+<li>
+<p><strong>计算梯度</strong>：</p>
+<ul>
+<li>在当前 ( w = w^0 ) 和 ( b = b^0 ) 下，计算损失函数对 ( w ) 和 ( b ) 的偏导数：
+[
+\frac{\partial L}{\partial w} \Big|<em>{w = w^0, b = b^0} \quad \text{和} \quad \frac{\partial L}{\partial b} \Big|</em>{w = w^0, b = b^0}。
+]</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>
+<p><strong>更新参数</strong>：</p>
+<ul>
+<li>使用学习率 ( \eta ) 调整 ( w ) 和 ( b ) 的值：
+[
+w^1 \leftarrow w^0 - \eta \frac{\partial L}{\partial w} \Big|<em>{w = w^0, b = b^0}
+]
+[
+b^1 \leftarrow b^0 - \eta \frac{\partial L}{\partial b} \Big|</em>{w = w^0, b = b^0}
+]</li>
+<li>这里 ( w^1 ) 和 ( b^1 ) 是更新后的 ( w ) 和 ( b ) 值。</li>
+</ul>
+</li>
+<li>
+<p><strong>迭代</strong>：用新的 ( w^1 ) 和 ( b^1 ) 代替原来的 ( w^0 ) 和 ( b^0 )，重复以上步骤，直到达到收敛（即损失函数变化足够小）或达到最大迭代次数。</p>
+</li>
+</ol>
+<p>通过这个过程，参数 ( w ) 和 ( b ) 会逐步趋向使损失函数 ( L ) 最小的值，从而提高模型的预测能力。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" data-title="Introduction of Machine / Deep Learning" data-hashtags="Machine Learning"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" data-hashtag="Machine Learning"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" data-title="Introduction of Machine / Deep Learning"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" data-title="Introduction of Machine / Deep Learning"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" data-title="Introduction of Machine / Deep Learning"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/machine-learning/">Machine Learning</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" class="prev" rel="prev" title="Linux：命令风格与目录存储结构"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：命令风格与目录存储结构</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Machine Learning - Tag - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/machine-learning/</link>
+        <description>Machine Learning - Tag - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/machine-learning/" rel="self" type="application/rss+xml" /><item>
+    <title>Introduction of Machine / Deep Learning</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/</link>
+    <pubDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/</guid>
+    <description><![CDATA[<p>1、Machine Learning ≈ Looking for Function</p>
+<p>2、函数的不同类型: Regression, Classification, Structured Learning</p>
+<p>3、Training:
+<strong>1. Function with Unknown Parameters</strong>
+( y = b + w x_1 )</p>
+<p><strong>2. Define Loss from Training Data</strong>
+( L = \frac{1}{N} \sum_{n} e_n )
+( e_n = (y_n - \hat{y}_n)^2 )</p>
+<p><strong>3. Optimization</strong></p>
+<ul>
+<li>
+<p><strong>初始化参数</strong>：随机选择 ( w^0 ) 和 ( b^0 ) 作为初始值，分别表示权重 ( w ) 和偏置 ( b ) 的起始点。</p>
+</li>
+<li>
+<p><strong>定义目标</strong>：寻找 ( w^<em>, b^</em> = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。</p>]]></description>
+</item>
+</channel>
+</rss>
