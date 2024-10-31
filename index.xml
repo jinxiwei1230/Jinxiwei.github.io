@@ -3,9 +3,96 @@
         <title>Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
         <description>This is my blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Linux：文件和目录权限.md</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/</link>
+    <pubDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/</guid>
+    <description><![CDATA[<h2 id="第8章-linux文件和目录权限">第8章 Linux文件和目录权限</h2>
+<h3 id="文件的权限">文件的权限</h3>
+<p>1、用于控制<strong>进程</strong>对系统中<strong>文件和目录</strong>的访问</p>
+<p>2、权限的三个级别</p>
+<ul>
+<li><strong>文件主</strong>，<strong>同组用户</strong>，<strong>其他用户</strong></li>
+<li>每个文件有唯一的属主</li>
+</ul>
+<p>3、普通文件的权限</p>
+<ul>
+<li>读、写、可执行</li>
+<li>不可写文件也可能会被删除</li>
+</ul>
+<p>4、两类可执行文件</p>
+<ol>
+<li><strong>程序文件（可执行文件）</strong>：</li>
+</ol>
+<ul>
+<li>包含二进制的CPU指令集合。</li>
+<li>必须符合操作系统的格式要求才能加载运行。</li>
+<li>例如：Linux系统的ELF格式，Windows系统的PE格式。</li>
+</ul>
+<ol start="2">
+<li><strong>脚本文件</strong>：</li>
+</ol>
+<ul>
+<li>是普通的文本文件。</li>
+<li>默认解释程序为 <code>/bin/sh</code>。</li>
+<li>可以在文件第一行通过 <code>#!</code>（Shebang）指定解释程序，例如 <code>#! /bin/bash</code>。</li>
+<li>解释程序可以是操作系统内置的程序或用户自定义的应用程序。</li>
+</ul>
+<ol start="3">
+<li><strong>脚本程序运行机制</strong>：</li>
+</ol>
+<ul>
+<li>运行时由指定的解释程序解析并执行指令。</li>
+<li>解释程序会创建一个进程来执行脚本的每条指令。</li>
+</ul>
+<h3 id="目录的权限">目录的权限</h3>
+<p><strong>1、目录的读写权限</strong></p>
+<ul>
+<li>目录的<strong>读权限</strong>决定了能否查看目录内容。</li>
+<li>目录的<strong>写权限</strong>决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。</li>
+</ul>
+<p><strong>2、目录的执行权限（x权限）</strong></p>
+<ol>
+<li>
+<p><strong>目录的执行权限</strong>：</p>
+<ul>
+<li><strong>x权限</strong>（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。</li>
+<li>只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>路径解析</strong>：</p>
+<ul>
+<li>当访问某个文件时，例如执行 <code>cat /a/b/c</code>，系统会依次解析路径中的每一级目录。</li>
+<li>要成功访问 <code>/a/b/c</code> 文件，路径中的每个目录（<code>/a</code> 和 <code>/a/b</code>）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 <code>c</code> 文件。</li>
+<li>最终文件 <code>c</code> 本身只需具备<strong>读权限</strong>，以便 <code>cat</code> 命令能读取它的内容。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、STICKY权限（粘着位）</strong></p>
+<ol>
+<li>
+<p><strong>STICKY权限的主要用途——公共目录的文件删除控制</strong>：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的<strong>所有者</strong>或<strong>管理员</strong>删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+</li>
+</ol>
+<ul>
+<li><code>/tmp</code> 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 <code>/tmp</code> 目录权限时可以看到STICKY位标志 <code>t</code>，例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">13</span> root root <span style="color:#ae81ff">20480</span> Mar <span style="color:#ae81ff">22</span> 06:11 /tmp
+</span></span></code></pre></div><ul>
+<li>权限的第一列显示 <code>t</code> 表示 <code>/tmp</code> 目录有STICKY权限。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4、文件权限的验证顺序</strong></p>]]></description>
+</item>
+<item>
     <title>Introduction of Machine / Deep Learning</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/</link>
     <pubDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</pubDate>
@@ -554,73 +641,6 @@ Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++
 <p><strong>3、数据存储层</strong>
 数据存储层主要负责海量结构化与非结构化数据的存储。
 收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p>]]></description>
-</item>
-<item>
-    <title>Linux：正则表达式</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
-    <pubDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
-    <description><![CDATA[<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
-<h3 id="元字符和集合">元字符和集合</h3>
-<p>1、<strong>正则表达式的概念</strong>
-应用范围：字符串匹配操作和替换操作</p>
-<p>正则表达式的功能：描述一个字符串模式</p>
-<p><strong>注意:</strong>
-正则表达式规则与文件名通配符规则不同
-正则表达式规则用于文本处理的场合
-文件名匹配规则用于文件处理的场合</p>
-<p>不同软件对正则表达式的定义会有差异</p>
-<p>2、<strong>正则表达式中的特殊字符</strong>
-6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
-<p>转义:用反斜线可以取消特殊字符的特殊含义
-如：正则表达end.只与字符串end.匹配</p>
-<p>3、<strong>单字符正则表达式</strong>
-转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
-<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
-<p>4、<strong>单字符正则表达式:定义集合</strong>
-<strong>在[]之间的字符为集合的内容</strong>
-如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
-<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
-如:<code>[\*.]</code>可匹配3个单字符</p>
-<p><strong>用减号-定义一个区间</strong></p>
-<ul>
-<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
-<li><code>[][]</code> 集合含左右中括号两个字符</li>
-<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
-</ul>
-<p><strong>用^表示补集</strong>
-^在开头,则表示与集合内字符之外的任意字符匹配.
-<code>[^a-z]</code>匹配任一非小写字母.
--<code>[^][]</code>匹配任一非中括号字符.</p>
-<p>^不在开头,则失去其表示补集的意义
-<code>[a-z^]</code>能匹配27个单字符</p>
-<h3 id="组合与锚点">组合与锚点</h3>
-<p><strong>1、单字符正则表达式的组合</strong>
-<strong>串结</strong>
-如abc， <code>[A-Z].[0-9]</code></p>
-<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
-<ul>
-<li>正则表达式<code>12*4 </code>
-与字符串1234不匹配，与1224，12224，14匹配</li>
-<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
-<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
-</ul>
-<p><strong>2、锚点:$和^</strong>
-<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
-<ul>
-<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
-<li><code>$123</code>与字符串<code>$123</code>匹配</li>
-<li><code>.$</code>匹配行尾的任意字符</li>
-</ul>
-<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
-<ul>
-<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
-<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
-<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
-</ul>
-<p><strong>3、正则表达式扩展</strong>
-<strong>基本正则表达式（BRE）</strong></p>]]></description>
 </item>
 </channel>
 </rss>

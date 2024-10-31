@@ -3,7 +3,94 @@
         <title>Linux - Tag - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/</link>
         <description>Linux - Tag - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux：文件和目录权限.md</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/</link>
+    <pubDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/</guid>
+    <description><![CDATA[<h2 id="第8章-linux文件和目录权限">第8章 Linux文件和目录权限</h2>
+<h3 id="文件的权限">文件的权限</h3>
+<p>1、用于控制<strong>进程</strong>对系统中<strong>文件和目录</strong>的访问</p>
+<p>2、权限的三个级别</p>
+<ul>
+<li><strong>文件主</strong>，<strong>同组用户</strong>，<strong>其他用户</strong></li>
+<li>每个文件有唯一的属主</li>
+</ul>
+<p>3、普通文件的权限</p>
+<ul>
+<li>读、写、可执行</li>
+<li>不可写文件也可能会被删除</li>
+</ul>
+<p>4、两类可执行文件</p>
+<ol>
+<li><strong>程序文件（可执行文件）</strong>：</li>
+</ol>
+<ul>
+<li>包含二进制的CPU指令集合。</li>
+<li>必须符合操作系统的格式要求才能加载运行。</li>
+<li>例如：Linux系统的ELF格式，Windows系统的PE格式。</li>
+</ul>
+<ol start="2">
+<li><strong>脚本文件</strong>：</li>
+</ol>
+<ul>
+<li>是普通的文本文件。</li>
+<li>默认解释程序为 <code>/bin/sh</code>。</li>
+<li>可以在文件第一行通过 <code>#!</code>（Shebang）指定解释程序，例如 <code>#! /bin/bash</code>。</li>
+<li>解释程序可以是操作系统内置的程序或用户自定义的应用程序。</li>
+</ul>
+<ol start="3">
+<li><strong>脚本程序运行机制</strong>：</li>
+</ol>
+<ul>
+<li>运行时由指定的解释程序解析并执行指令。</li>
+<li>解释程序会创建一个进程来执行脚本的每条指令。</li>
+</ul>
+<h3 id="目录的权限">目录的权限</h3>
+<p><strong>1、目录的读写权限</strong></p>
+<ul>
+<li>目录的<strong>读权限</strong>决定了能否查看目录内容。</li>
+<li>目录的<strong>写权限</strong>决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。</li>
+</ul>
+<p><strong>2、目录的执行权限（x权限）</strong></p>
+<ol>
+<li>
+<p><strong>目录的执行权限</strong>：</p>
+<ul>
+<li><strong>x权限</strong>（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。</li>
+<li>只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>路径解析</strong>：</p>
+<ul>
+<li>当访问某个文件时，例如执行 <code>cat /a/b/c</code>，系统会依次解析路径中的每一级目录。</li>
+<li>要成功访问 <code>/a/b/c</code> 文件，路径中的每个目录（<code>/a</code> 和 <code>/a/b</code>）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 <code>c</code> 文件。</li>
+<li>最终文件 <code>c</code> 本身只需具备<strong>读权限</strong>，以便 <code>cat</code> 命令能读取它的内容。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、STICKY权限（粘着位）</strong></p>
+<ol>
+<li>
+<p><strong>STICKY权限的主要用途——公共目录的文件删除控制</strong>：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的<strong>所有者</strong>或<strong>管理员</strong>删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+</li>
+</ol>
+<ul>
+<li><code>/tmp</code> 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 <code>/tmp</code> 目录权限时可以看到STICKY位标志 <code>t</code>，例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">13</span> root root <span style="color:#ae81ff">20480</span> Mar <span style="color:#ae81ff">22</span> 06:11 /tmp
+</span></span></code></pre></div><ul>
+<li>权限的第一列显示 <code>t</code> 表示 <code>/tmp</code> 目录有STICKY权限。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4、文件权限的验证顺序</strong></p>]]></description>
+</item>
+<item>
     <title>Linux：命令风格与目录存储结构</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</link>
     <pubDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</pubDate>

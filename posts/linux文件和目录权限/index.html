@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux：文件和目录权限.md - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Linux：文件和目录权限.md">
+  <meta property="og:description" content="第8章 Linux文件和目录权限 文件的权限 1、用于控制进程对系统中文件和目录的访问
+2、权限的三个级别
+文件主，同组用户，其他用户 每个文件有唯一的属主 3、普通文件的权限
+读、写、可执行 不可写文件也可能会被删除 4、两类可执行文件
+程序文件（可执行文件）： 包含二进制的CPU指令集合。 必须符合操作系统的格式要求才能加载运行。 例如：Linux系统的ELF格式，Windows系统的PE格式。 脚本文件： 是普通的文本文件。 默认解释程序为 /bin/sh。 可以在文件第一行通过 #!（Shebang）指定解释程序，例如 #! /bin/bash。 解释程序可以是操作系统内置的程序或用户自定义的应用程序。 脚本程序运行机制： 运行时由指定的解释程序解析并执行指令。 解释程序会创建一个进程来执行脚本的每条指令。 目录的权限 1、目录的读写权限
+目录的读权限决定了能否查看目录内容。 目录的写权限决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。 2、目录的执行权限（x权限）
+目录的执行权限：
+x权限（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。 只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。 路径解析：
+当访问某个文件时，例如执行 cat /a/b/c，系统会依次解析路径中的每一级目录。 要成功访问 /a/b/c 文件，路径中的每个目录（/a 和 /a/b）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 c 文件。 最终文件 c 本身只需具备读权限，以便 cat 命令能读取它的内容。 3、STICKY权限（粘着位）
+STICKY权限的主要用途——公共目录的文件删除控制：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的所有者或管理员删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。
+示例：
+/tmp 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 /tmp 目录权限时可以看到STICKY位标志 t，例如： drwxrwxrwt 13 root root 20480 Mar 22 06:11 /tmp 权限的第一列显示 t 表示 /tmp 目录有STICKY权限。 4、文件权限的验证顺序">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-31T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-31T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux：文件和目录权限.md">
+  <meta name="twitter:description" content="第8章 Linux文件和目录权限 文件的权限 1、用于控制进程对系统中文件和目录的访问
+2、权限的三个级别
+文件主，同组用户，其他用户 每个文件有唯一的属主 3、普通文件的权限
+读、写、可执行 不可写文件也可能会被删除 4、两类可执行文件
+程序文件（可执行文件）： 包含二进制的CPU指令集合。 必须符合操作系统的格式要求才能加载运行。 例如：Linux系统的ELF格式，Windows系统的PE格式。 脚本文件： 是普通的文本文件。 默认解释程序为 /bin/sh。 可以在文件第一行通过 #!（Shebang）指定解释程序，例如 #! /bin/bash。 解释程序可以是操作系统内置的程序或用户自定义的应用程序。 脚本程序运行机制： 运行时由指定的解释程序解析并执行指令。 解释程序会创建一个进程来执行脚本的每条指令。 目录的权限 1、目录的读写权限
+目录的读权限决定了能否查看目录内容。 目录的写权限决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。 2、目录的执行权限（x权限）
+目录的执行权限：
+x权限（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。 只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。 路径解析：
+当访问某个文件时，例如执行 cat /a/b/c，系统会依次解析路径中的每一级目录。 要成功访问 /a/b/c 文件，路径中的每个目录（/a 和 /a/b）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 c 文件。 最终文件 c 本身只需具备读权限，以便 cat 命令能读取它的内容。 3、STICKY权限（粘着位）
+STICKY权限的主要用途——公共目录的文件删除控制：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的所有者或管理员删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。
+示例：
+/tmp 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 /tmp 目录权限时可以看到STICKY位标志 t，例如： drwxrwxrwt 13 root root 20480 Mar 22 06:11 /tmp 权限的第一列显示 t 表示 /tmp 目录有STICKY权限。 4、文件权限的验证顺序">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux：文件和目录权限.md",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  539 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90\/","datePublished": "2024-10-31T00:00:00+00:00","dateModified": "2024-10-31T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux：文件和目录权限.md</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-31">2024-10-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;539 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第8章-linux文件和目录权限">第8章 Linux文件和目录权限</a>
+      <ul>
+        <li><a href="#文件的权限">文件的权限</a></li>
+        <li><a href="#目录的权限">目录的权限</a></li>
+        <li><a href="#权限相关的命令">权限相关的命令</a></li>
+        <li><a href="#suid权限">SUID权限</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第8章-linux文件和目录权限">第8章 Linux文件和目录权限</h2>
+<h3 id="文件的权限">文件的权限</h3>
+<p>1、用于控制<strong>进程</strong>对系统中<strong>文件和目录</strong>的访问</p>
+<p>2、权限的三个级别</p>
+<ul>
+<li><strong>文件主</strong>，<strong>同组用户</strong>，<strong>其他用户</strong></li>
+<li>每个文件有唯一的属主</li>
+</ul>
+<p>3、普通文件的权限</p>
+<ul>
+<li>读、写、可执行</li>
+<li>不可写文件也可能会被删除</li>
+</ul>
+<p>4、两类可执行文件</p>
+<ol>
+<li><strong>程序文件（可执行文件）</strong>：</li>
+</ol>
+<ul>
+<li>包含二进制的CPU指令集合。</li>
+<li>必须符合操作系统的格式要求才能加载运行。</li>
+<li>例如：Linux系统的ELF格式，Windows系统的PE格式。</li>
+</ul>
+<ol start="2">
+<li><strong>脚本文件</strong>：</li>
+</ol>
+<ul>
+<li>是普通的文本文件。</li>
+<li>默认解释程序为 <code>/bin/sh</code>。</li>
+<li>可以在文件第一行通过 <code>#!</code>（Shebang）指定解释程序，例如 <code>#! /bin/bash</code>。</li>
+<li>解释程序可以是操作系统内置的程序或用户自定义的应用程序。</li>
+</ul>
+<ol start="3">
+<li><strong>脚本程序运行机制</strong>：</li>
+</ol>
+<ul>
+<li>运行时由指定的解释程序解析并执行指令。</li>
+<li>解释程序会创建一个进程来执行脚本的每条指令。</li>
+</ul>
+<h3 id="目录的权限">目录的权限</h3>
+<p><strong>1、目录的读写权限</strong></p>
+<ul>
+<li>目录的<strong>读权限</strong>决定了能否查看目录内容。</li>
+<li>目录的<strong>写权限</strong>决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。</li>
+</ul>
+<p><strong>2、目录的执行权限（x权限）</strong></p>
+<ol>
+<li>
+<p><strong>目录的执行权限</strong>：</p>
+<ul>
+<li><strong>x权限</strong>（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。</li>
+<li>只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>路径解析</strong>：</p>
+<ul>
+<li>当访问某个文件时，例如执行 <code>cat /a/b/c</code>，系统会依次解析路径中的每一级目录。</li>
+<li>要成功访问 <code>/a/b/c</code> 文件，路径中的每个目录（<code>/a</code> 和 <code>/a/b</code>）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 <code>c</code> 文件。</li>
+<li>最终文件 <code>c</code> 本身只需具备<strong>读权限</strong>，以便 <code>cat</code> 命令能读取它的内容。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、STICKY权限（粘着位）</strong></p>
+<ol>
+<li>
+<p><strong>STICKY权限的主要用途——公共目录的文件删除控制</strong>：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的<strong>所有者</strong>或<strong>管理员</strong>删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+</li>
+</ol>
+<ul>
+<li><code>/tmp</code> 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 <code>/tmp</code> 目录权限时可以看到STICKY位标志 <code>t</code>，例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">13</span> root root <span style="color:#ae81ff">20480</span> Mar <span style="color:#ae81ff">22</span> 06:11 /tmp
+</span></span></code></pre></div><ul>
+<li>权限的第一列显示 <code>t</code> 表示 <code>/tmp</code> 目录有STICKY权限。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4、文件权限的验证顺序</strong></p>
+<ol>
+<li><strong>文件和进程的权限属性</strong>：</li>
+</ol>
+<ul>
+<li>每个文件和进程都有<strong>文件主和组属性</strong>。
+<ul>
+<li><strong>文件主和文件组</strong>：记录在文件的元数据（i节点）中。</li>
+<li><strong>进程主和进程组</strong>：记录在进程控制块（PCB）中，通常使用<strong>uid</strong>（用户ID）和<strong>gid</strong>（组ID）表示。</li>
+</ul>
+</li>
+<li><strong>uid和gid的名字和编号</strong>映射关系记录在系统目录 <code>/etc/passwd</code> 和 <code>/etc/group</code> 文件中。</li>
+</ul>
+<ol start="2">
+<li><strong>权限验证顺序</strong>：</li>
+</ol>
+<ul>
+<li>
+<p><strong>文件主与进程主相同</strong>：当文件的文件主和进程的进程主相同时，系统会直接<strong>使用文件主的权限</strong>，忽略组和其他用户的权限。</p>
+</li>
+<li>
+<p><strong>文件主与进程主不同，但同属一个组</strong>：如果文件主和进程主不同，但属于同一组，那么系统会<strong>使用组权限</strong>，忽略其他用户的权限。</p>
+</li>
+<li>
+<p><strong>文件主与进程主不同，且不属于同一组</strong>：系统会使用文件的<strong>其他用户权限</strong>，即最低一层的权限。</p>
+</li>
+<li>
+<p><strong>注意</strong>：超级用户 <code>root</code> 不受权限限制，可访问所有文件。</p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>示例解释</strong>：</li>
+</ol>
+<ul>
+<li>权限示例：<code>---r--rw-</code>
+<ul>
+<li><strong>文件主（user）权限</strong>：<code>---</code>，无任何权限。</li>
+<li><strong>文件所属组（group）权限</strong>：<code>r--</code>，仅有读权限。</li>
+<li><strong>其他用户（others）权限</strong>：<code>rw-</code>，可读写。</li>
+</ul>
+</li>
+</ul>
+<h3 id="权限相关的命令">权限相关的命令</h3>
+<p><strong>1、确定文件的权限</strong></p>
+<ul>
+<li>使用<code>ls</code>命令, 有关选项<code>-l</code>和<code>-d </code></li>
+<li><code>ls -l</code> 可以查当前目录下所有文件和子目录的权限</li>
+<li><code>ls -ld</code> . 列出当前目录自身的权限</li>
+</ul>
+<p><strong>2、<code>chmod</code> 命令（字母形式）</strong></p>
+<ul>
+<li>
+<p><code>chmod [ugoa][+-=][rwxst] 文件名</code>：</p>
+<ul>
+<li><code>[ugoa]</code>：指定权限的对象：
+<ul>
+<li><code>u</code>：用户（user），即文件主。</li>
+<li><code>g</code>：组用户（group），即与文件主同组的用户。</li>
+<li><code>o</code>：其他用户（other），即不属于同组的其他用户。</li>
+<li><code>a</code>：所有用户（all），包括文件主、组用户和其他用户。</li>
+</ul>
+</li>
+<li><code>[+-=]</code>：权限操作符：
+<ul>
+<li><code>+</code>：添加权限。</li>
+<li><code>-</code>：移除权限。</li>
+<li><code>=</code>：设定精确权限（覆盖原权限）。</li>
+</ul>
+</li>
+<li><code>[rwxst]</code>：指定权限类型：
+<ul>
+<li><code>r</code>：读权限（read）。</li>
+<li><code>w</code>：写权限（write）。</li>
+<li><code>x</code>：执行权限（execute）。</li>
+<li><code>t</code>：粘着位（sticky bit），通常用于目录，表示该目录下文件只能由文件主或超级用户删除。</li>
+<li><code>s</code>：SUID/SGID 位，<code>SUID</code> 让程序以文件所有者的权限执行，<code>SGID</code> 让程序以文件所属组的权限执行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>示例说明</p>
+</li>
+<li>
+<p><strong><code>chmod u+rw *</code></strong><br>
+给文件主（<code>u</code>）添加读写权限（<code>rw</code>），作用于所有文件（<code>*</code>）。</p>
+</li>
+<li>
+<p><strong><code>chmod go-rwx *.[ch]</code></strong><br>
+对文件扩展名为 <code>.c</code> 或 <code>.h</code> 的文件，去除组用户和其他用户的读、写、执行权限（<code>go-rwx</code>）。</p>
+</li>
+<li>
+<p><strong><code>chmod a+x batch</code></strong><br>
+给文件 <code>batch</code> 添加执行权限（<code>x</code>），作用于所有用户（<code>a</code>）。</p>
+</li>
+<li>
+<p><strong><code>chmod u=rx try2</code></strong><br>
+将文件 <code>try2</code> 的用户权限精确设定为只读和执行权限（<code>u=rx</code>），移除其他权限。</p>
+</li>
+</ul>
+<p><strong>3、<code>chmod</code> 命令的数字（八进制）形式</strong></p>
+<ul>
+<li>
+<p>每个权限位用一个八进制数字表示，数字对应的权限如下：</p>
+<ul>
+<li><strong>4</strong>：读权限（<code>r</code>）</li>
+<li><strong>2</strong>：写权限（<code>w</code>）</li>
+<li><strong>1</strong>：执行权限（<code>x</code>）</li>
+<li><strong>0</strong>：无权限（<code>-</code>）</li>
+</ul>
+</li>
+<li>
+<p>组合方式：</p>
+<ul>
+<li>读写权限（<code>rw-</code>）= 4 + 2 = 6</li>
+<li>只读权限（<code>r--</code>）= 4</li>
+<li>读和执行权限（<code>r-x</code>）= 4 + 1 = 5</li>
+<li>读、写和执行权限（<code>rwx</code>）= 4 + 2 + 1 = 7</li>
+</ul>
+</li>
+<li>
+<p>示例解析：
+<code>chmod 644 xyz1 xyz2</code><br>
+将文件 <code>xyz1</code> 和 <code>xyz2</code> 的权限设置为 <strong>644</strong>。</p>
+<ul>
+<li><strong>644</strong> 的每一位含义：
+<ul>
+<li><code>6</code>（文件主）：<code>rw-</code>，文件主拥有读写权限。</li>
+<li><code>4</code>（组用户）：<code>r--</code>，组用户仅有读权限。</li>
+<li><code>4</code>（其他用户）：<code>r--</code>，其他用户仅有读权限。</li>
+</ul>
+</li>
+<li>二进制表示为：<code>110 100 100</code>，即 <code>rw- r-- r--</code>。</li>
+</ul>
+</li>
+<li>
+<p>只有<strong>文件主</strong>和<strong>超级用户</strong>（<code>root</code>）才有权限使用 <code>chmod</code> 修改文件权限，其他用户没有权限更改文件权限。</p>
+</li>
+</ul>
+<p><strong>4、<code>umask</code> 命令：控制新建文件或目录的初始权限</strong></p>
+<ol>
+<li><code>umask</code> 的作用</li>
+</ol>
+<ul>
+<li><strong>屏蔽码</strong>：<code>umask</code> 会遮蔽掉某些权限位，从而控制文件和目录的初始权限。
+<ul>
+<li>每个文件或目录在创建时，系统会根据默认的权限模板和 <code>umask</code> 值计算出最终权限。</li>
+<li>默认情况下，文件的权限模板为 <strong>666</strong>（可读写，无执行权限），目录的权限模板为 <strong>777</strong>（可读写执行）。</li>
+<li><code>umask</code> 值中的位会从默认模板中减去相应的权限。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>权限计算方式</li>
+</ol>
+<ul>
+<li><strong>文件权限</strong> = 666 - <code>umask</code></li>
+<li><strong>目录权限</strong> = 777 - <code>umask</code></li>
+<li>例如，<code>umask</code> 为 <strong>022</strong> 时：
+<ul>
+<li>新文件的权限为 <code>666 - 022 = 644</code>（可读写，无执行权限）。</li>
+<li>新目录的权限为 <code>777 - 022 = 755</code>（可读写执行，组用户和其他用户仅有读和执行权限）。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>相关命令</li>
+</ol>
+<ul>
+<li><strong><code>umask</code></strong>：显示当前的 <code>umask</code> 值。例如，执行 <code>umask</code> 会输出一个四位八进制数（例如 <code>0022</code> 或 <code>022</code>），显示当前的屏蔽码。</li>
+<li><strong><code>umask 022</code></strong>：设置 <code>umask</code> 值为 <code>022</code>，表示新文件的初始权限为 <strong>644</strong>，新目录的初始权限为 <strong>755</strong>。</li>
+</ul>
+<ol start="4">
+<li>特点</li>
+</ol>
+<ul>
+<li><code>umask</code> 是<strong>进程的属性</strong>，会影响在该进程下创建的所有文件和目录。</li>
+<li>它是<strong>shell 的内部命令</strong>，可以直接在 shell 中设置，且会影响该 shell 下运行的所有命令的文件权限。</li>
+</ul>
+<p><strong>4、进程umask属性的作用</strong></p>
+<ol>
+<li>
+<p><strong>掩码值的含义</strong>
+掩码值表示在创建新文件或目录时，<strong>要屏蔽掉的权限</strong>。它以八进制数表示，每一位对应于文件主、组用户和其他用户的权限。</p>
+</li>
+<li>
+<p><strong>掩码值示例</strong></p>
+</li>
+</ol>
+<ul>
+<li><strong>掩码值：022</strong>
+<ul>
+<li><strong>二进制表示</strong>：<code>000 010 010</code></li>
+<li>说明：
+<ul>
+<li>第一位（文件主）：<code>0</code>，不屏蔽权限。</li>
+<li>第二位（组用户）：<code>2</code>（<code>010</code>），屏蔽组用户的写权限（<code>w</code>）。</li>
+<li>第三位（其他用户）：<code>2</code>（<code>010</code>），屏蔽其他用户的写权限（<code>w</code>）。</li>
+</ul>
+</li>
+<li><strong>效果</strong>：新创建的文件权限为 <code>644</code>（即 <code>rw-r--r--</code>），新创建的目录权限为 <code>755</code>（即 <code>rwxr-xr-x</code>）。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>自动执行批处理文件</strong></li>
+</ol>
+<ul>
+<li>通常，<code>umask</code> 命令会被放置在 shell 启动时自动执行的批处理文件中，例如：
+<ul>
+<li><strong><code>$HOME/.bash_profile</code></strong>：这个文件在用户登录时被执行，可以在其中设置 <code>umask</code> 值，以便在每次登录时自动应用。</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li><strong>进程 umask 属性的作用</strong></li>
+</ol>
+<ul>
+<li><strong><code>umask</code> 是进程的属性</strong>：每个进程都有自己的 <code>umask</code> 值，决定该进程下创建的文件和目录的默认权限。</li>
+<li>当用户启动一个新的 shell 或脚本时，<code>umask</code> 值会影响所有在该 shell 中运行的命令和程序，确保创建的文件和目录遵循所设定的权限规范。</li>
+<li>通过设置 <code>umask</code> 值，用户可以强化安全性，限制其他用户对新文件或目录的访问权限。</li>
+</ul>
+<p><strong>5、系统调用 <code>umask</code></strong></p>
+<ol>
+<li>
+<p><strong>修改进程的 umask 属性值</strong>：<code>umask</code> 调用允许程序动态地改变自身的 umask 值，从而影响之后创建的文件和目录的权限。</p>
+</li>
+<li>
+<p><strong>影响新创建文件的权限</strong>：当通过 <code>open</code> 系统调用创建新文件时，文件的初始权限由 <code>open</code> 调用中的权限值和进程的 umask 值共同决定。</p>
+</li>
+<li>
+<p><strong>不影响已存在文件的权限</strong>：对于已存在的文件，其权限设置不受 <code>open</code> 和 <code>umask</code> 的影响。即，改变 umask 只影响后续创建的文件。</p>
+</li>
+</ol>
+<ul>
+<li>假设当前进程的 umask 值为 <strong>077</strong>，用 C 程序调用 <code>open</code> 创建文件：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> fd <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>(filename, O_CREAT <span style="color:#f92672">|</span> O_WRONLY, <span style="color:#ae81ff">0666</span>);
+</span></span></code></pre></div><ul>
+<li><strong><code>0666</code></strong> 是 <code>open</code> 指定的权限，表示文件可以被所有用户读写。初始权限 <code>0666</code> 减去 umask <code>077</code> 得到的实际权限为 <code>0600</code>，即文件只能被文件的创建者读写。</li>
+</ul>
+<p>读取而不改变 umask 值：</p>
+<ul>
+<li>调用 <code>umask</code> 获取当前 umask 值，并记录。</li>
+<li>立即再调用一次 <code>umask</code>，将 umask 值设置为之前记录的值，这样实际 umask 值就保持不变。</li>
+</ul>
+<h3 id="suid权限">SUID权限</h3>
+<p>1、三级权限存在的问题：系统中任一个用户，要么对文件的全部内容具有访问权，要么不可访问文件。有的情况下，很不方便。</p>
+<p>2、在 Unix/Linux 系统中，进程的实际 UID（用户标识符）和有效 UID 是管理用户权限的重要概念，尤其是在处理 SUID（Set User ID）权限时。以下是对这些概念的详细解释：</p>
+<p>3、实际 UID 和有效 UID</p>
+<ol>
+<li>
+<p><strong>实际 UID</strong>:</p>
+<ul>
+<li>实际 UID 是指创建进程的用户的 UID，表示进程的真实所有者。</li>
+<li>例如，如果用户 <code>liu</code> 启动一个程序，则该程序的实际 UID 是 <code>liu</code> 的 UID。</li>
+</ul>
+</li>
+<li>
+<p><strong>有效 UID</strong>:</p>
+<ul>
+<li>有效 UID 用于决定进程在系统中可以执行哪些操作，特别是在访问文件和执行程序时。</li>
+<li><strong>当一个程序具有 SUID 权限时，进程的有效 UID 会被设置为该程序的文件所有者的 UID，而实际 UID 保持不变</strong>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>4、SUID 权限</strong>:</p>
+<ul>
+<li>当一个可执行文件被设置为 SUID 时，用户在执行该文件时，将以文件所有者的权限执行。这使得用户能够在某些情况下访问其默认情况下无法访问的文件。</li>
+<li>例如，若文件 <code>query</code> 由用户 <code>liu</code> 拥有并设置为 SUID，则当任何用户（如 <code>liang</code>）执行 <code>query</code> 时，进程的有效 UID 将变为 <code>liu</code> 的 UID。</li>
+</ul>
+<p><strong>5、权限验证过程</strong></p>
+<ol>
+<li>
+<p><strong>打开文件</strong>:</p>
+<ul>
+<li>当进程调用 <code>open()</code> 等系统调用来打开文件时，系统会根据进程的有效 UID 和文件的所有者 UID 进行访问合法性验证。</li>
+<li>如果进程的有效 UID 与文件的所有者 UID 匹配，或者文件的权限设置允许当前用户访问，则访问将被允许。</li>
+</ul>
+</li>
+<li>
+<p><strong>SUID 的访问控制</strong>:</p>
+<ul>
+<li>通过 SUID，用户可以通过文件主提供的程序访问文件，但这种访问是有限的，仅限于该程序的功能。</li>
+<li>例如，<code>query</code> 可能允许 <code>liang</code> 访问 <code>liu</code> 拥有的文件，但 <code>liang</code> 不能直接访问 <code>list.txt</code>，只有通过 <code>query</code> 才能实现。</li>
+</ul>
+</li>
+</ol>
+<p>6、示例</p>
+<ol>
+<li>
+<p><strong>设置 SUID 权限</strong>:</p>
+<ul>
+<li>命令 <code>chmod u+s query</code> 为 <code>query</code> 文件设置了 SUID 权限。此时，文件的权限变化为 <code>-rws--x--x</code>，其中 <code>s</code> 表示 SUID 位已被设置。</li>
+<li>这意味着当任何用户运行 <code>query</code> 时，该程序将以 <code>liu</code> 的用户身份执行。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件权限查看</strong>:</p>
+<ul>
+<li>执行命令 <code>ls -l list.txt query</code> 的输出如下：
+<pre tabindex="0"><code>-rw------- 1 liu leader 722 Dec 10 23:04 list.txt
+-rws--x--x 1 liu leader 56134 Dec 10 23:07 query
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>用户 <code>liang</code> 运行 <code>query</code></strong>:</p>
+<ul>
+<li>当用户 <code>liang</code> 运行 <code>query</code> 命令时，进程的有效 UID 将变为 <code>liu</code> 的 UID。因此，<code>query</code> 将能够以 <code>liu</code> 的权限来访问文件 <code>list.txt</code>。</li>
+<li>如果 <code>query</code> 程序的代码被编写为在内部读取 <code>list.txt</code>，则它可以成功访问该文件并返回所需的信息。</li>
+</ul>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" data-title="Linux：文件和目录权限.md" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" data-title="Linux：文件和目录权限.md"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" data-title="Linux：文件和目录权限.md"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" data-title="Linux：文件和目录权限.md"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/introduction-of-machine-learning/" class="prev" rel="prev" title="Introduction of Machine / Deep Learning"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Introduction of Machine / Deep Learning</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
