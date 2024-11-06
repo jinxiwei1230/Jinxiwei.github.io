@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>计算学习理论 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="计算学习理论">
+  <meta property="og:description" content="计算学习理论（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：
+什么是成功的学习？
+成功的学习指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。 在什么样的条件下，成功的学习是可能的？
+成功的学习通常在以下条件下更可能实现： 充分的数据量：学习算法需要足够多的训练数据来捕捉数据中的规律。 合适的模型：模型的表达能力必须能够捕捉到数据中的重要特征。 可分性与假设空间：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。 噪声与偏差控制：数据中噪声水平较低，且偏差和方差适中。 在什么条件下，某个特定的学习算法可保证成功运行？
+对于一个特定的学习算法，成功运行通常依赖于以下条件： 理论保证：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。 假设空间与数据分布的匹配：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。 有效的正则化：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。 充足的训练集：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。 PAC可学习性 –（probably approximately correct）可能近似正确 标准机器学习基本框架 未知的目标函数 ( c: X \rightarrow Y )
+机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。 训练集
+我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。 假设函数集合 ( H )
+假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。 机器学习算法 ( A )
+机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。 问题（困惑）">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:tag" content="机器学习">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="计算学习理论">
+  <meta name="twitter:description" content="计算学习理论（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：
+什么是成功的学习？
+成功的学习指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。 在什么样的条件下，成功的学习是可能的？
+成功的学习通常在以下条件下更可能实现： 充分的数据量：学习算法需要足够多的训练数据来捕捉数据中的规律。 合适的模型：模型的表达能力必须能够捕捉到数据中的重要特征。 可分性与假设空间：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。 噪声与偏差控制：数据中噪声水平较低，且偏差和方差适中。 在什么条件下，某个特定的学习算法可保证成功运行？
+对于一个特定的学习算法，成功运行通常依赖于以下条件： 理论保证：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。 假设空间与数据分布的匹配：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。 有效的正则化：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。 充足的训练集：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。 PAC可学习性 –（probably approximately correct）可能近似正确 标准机器学习基本框架 未知的目标函数 ( c: X \rightarrow Y )
+机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。 训练集
+我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。 假设函数集合 ( H )
+假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。 机器学习算法 ( A )
+机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。 问题（困惑）">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "计算学习理论",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA\/"
+        },"genre": "posts","keywords": "机器学习","wordcount":  603 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">计算学习理论</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;603 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</a>
+      <ul>
+        <li><a href="#标准机器学习基本框架">标准机器学习基本框架</a></li>
+        <li><a href="#加入概率分布--p--的机器学习框架">加入概率分布 ( P ) 的机器学习框架</a></li>
+        <li><a href="#独立同分布假设iid-是机器学习的基础假设要求训练和测试数据来自相同的概率分布--p-且样本之间相互独立"><strong>独立同分布假设（iid）</strong> 是机器学习的基础假设，要求训练和测试数据来自相同的概率分布 ( P )，且样本之间相互独立。</a></li>
+        <li><a href="#概念学习中假设--h--的错误率-主要分为两种"><strong>概念学习中假设 ( h ) 的错误率</strong> 主要分为两种：</a></li>
+        <li><a href="#备注hoeffding不等式"><strong>备注：Hoeffding不等式</strong></a></li>
+        <li><a href="#pac学习的核心概念">PAC学习的核心概念：</a></li>
+        <li><a href="#pac学习的数学表达">PAC学习的数学表达：</a></li>
+        <li><a href="#pac学习的含义">PAC学习的含义：</a></li>
+        <li><a href="#有限假设空间的可分">有限假设空间的可分：</a></li>
+        <li><a href="#不可分情形的pac学习分析">不可分情形的PAC学习分析：</a></li>
+      </ul>
+    </li>
+    <li><a href="#vc维">VC维</a>
+      <ul>
+        <li><a href="#维度扩展-n--维感知器的-vc-维">维度扩展：( N ) 维感知器的 VC 维</a></li>
+      </ul>
+    </li>
+    <li><a href="#无限假设空间的样本复杂度">无限假设空间的样本复杂度</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
+<ol>
+<li>
+<p><strong>什么是成功的学习？</strong></p>
+<ul>
+<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
+</ul>
+</li>
+<li>
+<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
+<ul>
+<li>成功的学习通常在以下条件下更可能实现：
+<ul>
+<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
+<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
+<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
+<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
+<ul>
+<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
+<ul>
+<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
+<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
+<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
+<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
+<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
+<ol>
+<li>
+<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
+<ul>
+<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
+</ul>
+</li>
+<li>
+<p><strong>训练集</strong></p>
+<ul>
+<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
+</ul>
+</li>
+<li>
+<p><strong>假设函数集合 ( H )</strong></p>
+<ul>
+<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
+</ul>
+</li>
+<li>
+<p><strong>机器学习算法 ( A )</strong></p>
+<ul>
+<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
+</ul>
+</li>
+<li>
+<p><strong>问题（困惑）</strong></p>
+<ul>
+<li>机器学习算法尝试找到一个最优假设函数 ( g )，但这个过程面临一些问题：
+<ul>
+<li>由于真实的目标函数 ( c ) 是未知的，算法只能基于训练数据进行学习，这可能导致“过拟合”或“欠拟合”问题。</li>
+<li><strong>泛化问题</strong>：算法在训练集上表现良好，但在测试集上可能效果不佳。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="加入概率分布--p--的机器学习框架">加入概率分布 ( P ) 的机器学习框架</h3>
+<ol>
+<li>
+<p><strong>概率分布 ( P(X) ) 的加入</strong></p>
+<ul>
+<li>在原有框架上加入了数据分布 ( P(X) ) 的概念，即引入了概率分布。通过这种方式，机器学习可以在统计学上更好地理解数据。</li>
+</ul>
+</li>
+<li>
+<p><strong>条件概率 ( P(y|x) )</strong></p>
+<ul>
+<li>通过条件概率 ( P(y|x) = \frac{P(x, y)}{P(x)} )，模型可以更好地处理不确定性，提高预测的准确性。</li>
+</ul>
+</li>
+<li>
+<p><strong>最优假设函数 ( g )</strong></p>
+<ul>
+<li>由于引入了概率，最优假设函数 ( g ) 的选择不仅依赖于训练数据本身，还要考虑到<strong>数据的概率分布</strong>，这样可以在一定程度上减少误差，提高泛化能力。</li>
+</ul>
+</li>
+<li>
+<p><strong>假设误差</strong></p>
+<ul>
+<li>中指出，尽管加入了概率分布 ( P )，依然存在“泛化误差”，即假设函数 ( g ) 和真实目标函数 ( c ) 之间依然可能存在一定的差距。</li>
+</ul>
+</li>
+</ol>
+<h3 id="独立同分布假设iid-是机器学习的基础假设要求训练和测试数据来自相同的概率分布--p-且样本之间相互独立"><strong>独立同分布假设（iid）</strong> 是机器学习的基础假设，要求训练和测试数据来自相同的概率分布 ( P )，且样本之间相互独立。</h3>
+<ul>
+<li><strong>意义</strong>：机器学习模型通过<strong>训练数据</strong>学到<strong>特征</strong>和<strong>标签</strong>之间的关联性，这种关联性是一种统计特性，依赖于数据的分布。保证模型在训练中学到的特征与标签的关联性适用于测试数据。</li>
+<li><strong>问题</strong>：若测试数据分布与训练数据不一致，模型的效果可能会大幅下降。</li>
+<li><strong>挑战</strong>：新的研究：<strong>因果学习</strong>和<strong>分布外泛化</strong>，旨在提升模型对非iid数据的适应性。</li>
+</ul>
+<h3 id="概念学习中假设--h--的错误率-主要分为两种"><strong>概念学习中假设 ( h ) 的错误率</strong> 主要分为两种：</h3>
+<ol>
+<li>
+<p><strong>训练错误率</strong>：在训练数据中，假设 ( h ) 错误分类的样例所占的比例（即<strong>经验误差</strong>）。这是模型在训练数据上表现的直接反馈。</p>
+</li>
+<li>
+<p><strong>真实错误率</strong>：在整体实例分布 ( D ) 上，假设 ( h ) 对目标概念 ( C ) 的期望错误率（即<strong>泛化误差</strong>）。它表示模型在未知数据上可能的表现。</p>
+</li>
+</ol>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>真实错误率与数据分布 ( D ) 密切相关。若 ( D ) 是独立同分布（iid），则错误率是 ( h ) 和 ( C ) 不一致区域在整个实例空间的比例。</li>
+<li>如果某些不一致区域实例的概率较高，错误率也会随之增高。</li>
+</ul>
+<h3 id="备注hoeffding不等式"><strong>备注：Hoeffding不等式</strong></h3>
+<ol>
+<li>
+<p><strong>定义</strong>：Hoeffding不等式适用于独立同分布的有界随机变量 ( X_1, &hellip;, X_n )，且每个 ( X_i ) 满足 ( P(X_i \in [a_i, b_i]) = 1 )。</p>
+</li>
+<li>
+<p><strong>经验期望 ( \bar{x} )</strong>：多个随机变量的平均值。Hoeffding不等式描述了经验期望与期望值 ( E(\bar{x}) ) 之间的偏差概率：
+[
+P(|\bar{x} - E(\bar{x})| \geq \epsilon) \leq 2 \exp\left(-\frac{2 \epsilon^2 n^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)
+]</p>
+</li>
+<li>
+<p><strong>伯努利变量的特例</strong>：当 ( X_i ) 是伯努利变量（取值0或1）时，不等式简化为：
+[
+P(|\bar{x} - E(\bar{x})| \geq \epsilon) \leq 2 \exp(-2 \epsilon^2 n)
+]</p>
+</li>
+</ol>
+<p><strong>要点</strong>：</p>
+<ul>
+<li><strong>样本数越多</strong>，结果越可靠。</li>
+<li><strong>误差容忍度越大</strong>（精度越低），得到的结果越可信。</li>
+</ul>
+<h3 id="pac学习的核心概念">PAC学习的核心概念：</h3>
+<ul>
+<li><strong>PAC可学习</strong>意味着，对于一个给定的概念类（比如一个分类器的集合），存在一个学习算法，该算法能以高概率（至少为 ( 1 - \delta )）从训练数据中找到一个近似于目标概念的假设 ( h )，其误差小于某个容忍度 ( \epsilon )。</li>
+</ul>
+<h3 id="pac学习的数学表达">PAC学习的数学表达：</h3>
+<ul>
+<li>( P(E(h) \leq \epsilon) \geq 1 - \delta )
+<ul>
+<li><strong>( E(h) )</strong>：假设 ( h ) 的误差（通常是测试集上的误差或泛化误差）。</li>
+<li><strong>( \epsilon )</strong>：容忍的误差阈值（误差容忍度）。</li>
+<li><strong>( \delta )</strong>：置信度，表示以 ( 1 - \delta ) 的概率，误差不超过 ( \epsilon )。</li>
+</ul>
+</li>
+</ul>
+<h3 id="pac学习的含义">PAC学习的含义：</h3>
+<ul>
+<li>存在一个常数 ( M )，只要样本数量 ( m ) 大于或等于 ( M )，就能够保证以至少 ( 1 - \delta ) 的概率找到一个误差小于 ( \epsilon ) 的假设 ( h )。</li>
+<li>这种类型的学习并不要求在训练集上没有误差，而是强调当训练集很大时，测试集的泛化误差将接近于一个小阈值 ( \epsilon )。</li>
+</ul>
+<p>总结来说，PAC可学习理论告诉我们，<strong>只要样本数足够大，就可以以高概率找到一个误差小于阈值的假设</strong>。</p>
+<h3 id="有限假设空间的可分">有限假设空间的可分：</h3>
+<p>在有限假设空间的可分情形下，为了保证以 ( 1 - \delta ) 的概率输出一个泛化误差小于 ( \epsilon ) 的假设，需要满足以下条件：</p>
+<ul>
+<li>假设空间的大小 ( |H| ) 和容忍的泛化误差 ( \epsilon ) 决定了所需的样本数 ( m )。</li>
+<li>样本数 ( m ) 至少要满足：
+[
+m \geq \frac{1}{\epsilon} \left( \ln |H| + \ln \frac{1}{\delta} \right)
+]</li>
+</ul>
+<h3 id="不可分情形的pac学习分析">不可分情形的PAC学习分析：</h3>
+<h4 id="不可知pac可学习的定义"><strong>不可知PAC可学习的定义</strong></h4>
+<ul>
+<li><strong>不可知PAC可学习</strong>：如果一个学习算法 ( L ) 能够在给定的样本数 ( m \geq M ) 下，从假设空间 ( H ) 中输出一个假设 ( h )，使得：
+[
+P \left( E_h - \min_{h&rsquo; \in H} E_{h&rsquo;} \leq \epsilon \right) \geq 1 - \delta
+]
+即能够以至少 ( 1 - \delta ) 的概率找到泛化误差最小的假设 ( h )，则称 ( H ) 在该情形下是<strong>不可知PAC可学习</strong>的。</li>
+</ul>
+<p>为了保证这个概率小于 ( \delta )，则需要满足：
+[
+m \geq \frac{1}{2 \epsilon^2} \left( \ln 2|H| + \ln \frac{1}{\delta} \right)
+]
+这里，( |H| ) 是假设空间的大小，( \epsilon ) 是误差容忍度，( \delta ) 是置信度。</p>
+<h4 id="核心思想"><strong>核心思想</strong></h4>
+<ul>
+<li><strong>PAC可学习</strong>：目标是尽量逼近目标概念 ( c )，评估目标概念与学习得到的假设 ( h ) 之间的误差。</li>
+<li><strong>不可知PAC可学习</strong>：目标是尽量逼近泛化误差最小的假设 ( h&rsquo; )，评估学习得到的假设与最优假设 ( h&rsquo; ) 之间的误差。</li>
+</ul>
+<h2 id="vc维">VC维</h2>
+<p><strong>增长函数</strong>：表示假设空间 ( H ) 对 ( m ) 个示例的最大标记组合数，反映假设空间的分类能力。</p>
+<ul>
+<li><strong>例子</strong>：
+<ul>
+<li>对于 2 个示例点的二分类问题，增长函数为 4（4种标记组合）。</li>
+<li>对于 3 个示例点，增长函数为 8。</li>
+</ul>
+</li>
+<li><strong>与假设空间复杂度关系</strong>：增长函数越大，假设空间的分类能力越强，模型的适应能力越高，但也可能引起过拟合。</li>
+<li><strong>增长函数与泛化误差</strong>：样本数 ( m ) 越大，经验误差和泛化误差趋于一致，但假设空间的复杂度限制了最大增长函数值。</li>
+<li><strong>打散（Shattering）</strong>：如果假设空间 ( H ) 能为数据集 ( D ) 实现所有可能的标记组合，称为打散，增长函数达到最大值 ( 2^m )。</li>
+</ul>
+<h3 id="维度扩展-n--维感知器的-vc-维">维度扩展：( N ) 维感知器的 VC 维</h3>
+<p>根据感知器的结构，猜测 ( N ) 维感知器的 VC 维是 ( N + 1 )，即对于 ( N ) 维输入空间，感知器最多能够打散 ( N + 1 ) 个点。原因在于，感知器的分类能力由线性超平面决定，超平面最多可以划分 ( N + 1 ) 个点而不发生冲突。</p>
+<h2 id="无限假设空间的样本复杂度">无限假设空间的样本复杂度</h2>
+<ol>
+<li>
+<p><strong>VC 维</strong>：假设空间 ( H ) 的 VC 维是能够被 ( H ) 打散的最大示例集的大小。VC 维度反映了假设空间的表达能力。</p>
+</li>
+<li>
+<p><strong>增长函数</strong>：增长函数表示假设空间 ( H ) 对 ( m ) 个示例能赋予的最大标记数。它和样本数 ( m ) 以及 VC 维度 ( d ) 相关。对于 ( m &gt; d )，增长函数的最大值为 ( 2^m )。</p>
+</li>
+<li>
+<p><strong>泛化误差与训练误差</strong>：基于增长函数的公式描述了训练误差和泛化误差之间的关系，样本数 ( m ) 增加时，误差差距收敛，且收敛速度由 VC 维度和误差界限控制。</p>
+</li>
+<li>
+<p><strong>样本复杂度</strong>：根据 VC 维度和误差要求，样本数 ( m ) 的下界可通过公式估算，确保泛化误差在高置信度下小于某个界限。</p>
+</li>
+<li>
+<p><strong>PAC 可学习性</strong>：任何 VC 维有限的假设空间都可以被学习，保证在给定样本数下，学习算法能够以高概率输出一个满足误差界限的假设。</p>
+</li>
+</ol>
+<p>简而言之，VC 维和增长函数为我们提供了关于假设空间的复杂度和样本需求的理论依据。有限 VC 维的假设空间可以保证在有限样本下学习出具有良好泛化能力的模型。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" data-title="计算学习理论" data-hashtags="机器学习"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" data-hashtag="机器学习"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" data-title="计算学习理论"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" data-title="计算学习理论"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" data-title="计算学习理论"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" class="next" rel="next" title="模型的评估和选择">模型的评估和选择<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

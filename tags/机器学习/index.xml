@@ -1,0 +1,129 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>机器学习 - Tag - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+        <description>机器学习 - Tag - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+    <title>模型的评估和选择</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/</guid>
+    <description><![CDATA[<h3 id="测试集和训练集">测试集和训练集</h3>
+<h3 id="经验误差与泛化误差">经验误差与泛化误差</h3>
+<p>1、就<strong>分类</strong>问题而言，通常把分类错误的样本数占样本总数的比例称为<strong>错误率</strong>.</p>
+<p>2、对于<strong>回归</strong>问题，把学习器的<strong>实际预测输出</strong>与样本的<strong>真实标值</strong>之间的差异称为<strong>误差</strong>.</p>
+<p>3、如果以<strong>训练集</strong>样本数据为测量参考，模型在训练集上的误差称为“<strong>训练误差</strong>”（training error）或者“<strong>经验误差</strong>”（empirical error）.</p>
+<p>4、在<strong>测试集</strong>上的误差称为“测试误差”（testing error），在<strong>新样本</strong>上的误差称为“<strong>泛化误差</strong>”（generalization error）</p>
+<h3 id="过拟合和欠拟合">过拟合和欠拟合</h3>
+<p>1、在机器学习中太多反映训练样本个性化属性而导致<strong>普遍规律受重视不够</strong> 引起的，使模型<strong>泛化误差大于测试误差</strong>的现象称为“过拟合”（overfitting）。
+（1）有噪声的数据导致过拟合
+（2）训练数据量过少（有限的训练数据）导致过拟合
+（3）过于复杂的模型导致过拟合</p>
+<p><strong>常用的处理过拟合的一些方法</strong></p>
+<ul>
+<li>early stopping：当训练精度不再增加的时候停止迭代。</li>
+<li>数据集扩增：通过扩充数据集，让训练集中的噪音数据占比越来越小。</li>
+<li>正则化：限制模型的复杂度</li>
+<li>Dropout：
+<ul>
+<li>每个训练的batch,随机（依概率p）让一些隐层的节点不工作， 来进行训练（进行参数调整）</li>
+<li>测试的时候使用全部网络， 但是权值上乘以概率p（否则预测值会有所扩张）</li>
+</ul>
+</li>
+<li>挑选合适的模型</li>
+</ul>
+<p>2、欠拟合是由于模型不能全面反映样本“普遍规律”造成的。训练误差和<strong>测试误差、泛化误差都很大</strong>。
+欠拟合的主要原因是模型不能很好的捕捉数据特征
+<strong>常用的处理欠拟合的一些方法</strong></p>
+<ul>
+<li>添加其他特征项，特征组合、多项式特征等</li>
+<li>减少正则化参数</li>
+<li>增加模型复杂性</li>
+</ul>
+<h3 id="测试样本数据获取方法">测试样本数据获取方法</h3>
+<h3 id="方法1留出法-hold-out">方法1：留出法 (Hold-out)</h3>
+<ol>
+<li>
+<p><strong>数据划分</strong>：</p>
+<ul>
+<li>将数据集 ( D ) 划分为两个互斥的集合：训练集 ( S ) 和测试集 ( T )，即 ( D = S \cup T ) 且 ( S \cap T = \emptyset )。</li>
+<li>( S ) 用于训练模型，( T ) 用于评估模型的测试误差。</li>
+</ul>
+</li>
+<li>
+<p><strong>保持数据分布一致性</strong>：</p>]]></description>
+</item>
+<item>
+    <title>计算学习理论</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</guid>
+    <description><![CDATA[<p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
+<ol>
+<li>
+<p><strong>什么是成功的学习？</strong></p>
+<ul>
+<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
+</ul>
+</li>
+<li>
+<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
+<ul>
+<li>成功的学习通常在以下条件下更可能实现：
+<ul>
+<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
+<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
+<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
+<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
+<ul>
+<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
+<ul>
+<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
+<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
+<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
+<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
+<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
+<ol>
+<li>
+<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
+<ul>
+<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
+</ul>
+</li>
+<li>
+<p><strong>训练集</strong></p>
+<ul>
+<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
+</ul>
+</li>
+<li>
+<p><strong>假设函数集合 ( H )</strong></p>
+<ul>
+<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
+</ul>
+</li>
+<li>
+<p><strong>机器学习算法 ( A )</strong></p>
+<ul>
+<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
+</ul>
+</li>
+<li>
+<p><strong>问题（困惑）</strong></p>]]></description>
+</item>
+</channel>
+</rss>
