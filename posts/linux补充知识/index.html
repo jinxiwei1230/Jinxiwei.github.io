@@ -44,7 +44,7 @@ echo 是一个用于在终端打印输出字符串的命令。它可以输出文
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86\/"
-        },"genre": "posts","keywords": "Linux","wordcount":  75 ,
+        },"genre": "posts","keywords": "Linux","wordcount":  308 ,
         "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86\/","datePublished": "2024-09-29T00:00:00+00:00","dateModified": "2024-09-29T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -86,8 +86,8 @@ echo 是一个用于在终端打印输出字符串的命令。它可以输出文
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux补充知识</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-29">2024-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;75 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-29">2024-09-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;308 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -120,6 +120,89 @@ echo 是一个用于在终端打印输出字符串的命令。它可以输出文
 <p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
 字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p>
 <p>7、<code>\[[^][]*\]</code>: 匹配包括方括号和其中内容的整体字符串</p>
+<p>8、</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>expr <span style="color:#e6db74">`</span>pwd<span style="color:#e6db74">`</span> : <span style="color:#e6db74">&#39;^/\([^/]*\).*$&#39;</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>pwd</code></strong>：获取当前工作目录的绝对路径，例如 <code>/home/user/documents</code>。</li>
+<li><strong><code>expr</code></strong>：<strong>命令用于执行字符串匹配和模式替换</strong>。</li>
+<li><strong><code>: '^/\([^/]*\).*$'</code></strong>：这是一个正则表达式，用于匹配字符串。</li>
+</ul>
+<p><strong>正则表达式详解：</strong></p>
+<ul>
+<li><code>^</code>: 匹配字符串的开始。</li>
+<li><code>/</code>: 匹配一个字面上的 <code>/</code>。</li>
+<li><code>\([^/]*\)</code>: 匹配 <code>/</code> 后面的第一个路径分量（即以 <code>/</code> 为分隔符的第一个部分）。这里的 <code>[^/]*</code> 匹配除 <code>/</code> 外的任意字符，并且 <code>\(</code> 和 <code>\)</code> 是用来捕获该部分的。</li>
+<li><code>.*$</code>: 匹配剩余的字符串。
+该正则表达式的目标是从当前工作目录路径中提取出第一个路径分量（即 <code>/</code> 后面的部分）。
+<strong>示例</strong>
+假设当前工作目录是 <code>/home/user/documents</code>，<code>pwd</code> 返回的是这个路径。然后：</li>
+<li>正则表达式 <code>'^/\([^/]*\).*$'</code> 会从路径 <code>/home/user/documents</code> 中匹配出第一个路径分量，即 <code>home</code>（不包括 <code>/</code>）。</li>
+<li>因此，<code>expr</code> 会返回 <code>home</code>。</li>
+</ul>
+<p><strong>^ 在正则表达式开头：用于匹配字符串的开始。</strong>
+<strong>^ 在方括号中：用于表示取反，匹配不在指定字符集中的字符。</strong></p>
+<p>9、这道题要求将一段 Bash 代码改写为等效的代码。
+原始代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> test -w errfile 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>    cat errfile &gt;&gt; $LOGFILE 
+</span></span><span style="display:flex;"><span>    rm errfile 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p><strong>解析原始代码：</strong></p>
+<ol>
+<li><strong><code>test -w errfile</code></strong>：这个命令检查文件 <code>errfile</code> 是否具有写权限。如果文件是可写的，条件成立。</li>
+<li><strong><code>then</code></strong>：如果条件成立，执行接下来的语句：
+<ul>
+<li><strong><code>cat errfile &gt;&gt; $LOGFILE</code></strong>：将 <code>errfile</code> 的内容追加到 <code>$LOGFILE</code>。</li>
+<li><strong><code>rm errfile</code></strong>：删除 <code>errfile</code> 文件。</li>
+</ul>
+</li>
+<li><strong><code>fi</code></strong>：结束 <code>if</code> 语句块。</li>
+</ol>
+<p><strong>等效代码：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> -w errfile <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">{</span> cat errfile &gt;&gt; $LOGFILE; rm errfile; <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这段代码是 Bash 中非常简洁且常用的写法：</p>
+<ul>
+<li><code>[ -w errfile ]</code> 用于检查 <code>errfile</code> 是否可写。</li>
+<li><code>&amp;&amp;</code> 是逻辑与操作符，表示如果前面的条件为真，后面的命令才会执行。</li>
+<li><code>{ ... }</code> 包括了两条命令：将 <code>errfile</code> 内容追加到 <code>$LOGFILE</code> 并删除 <code>errfile</code>。</li>
+<li>语法正确，并且符合题目要求。</li>
+</ul>
+<p>10、### 1. <strong>修改已有文件的权限使用的命令是</strong></p>
+<ul>
+<li><strong>A. chown</strong>：改变文件的所有者或所属组</li>
+<li><strong>B. umask</strong>：设置文件创建的默认权限掩码</li>
+<li><strong>C. chgrp</strong>：改变文件的所属组</li>
+<li><strong>D. chmod</strong>：改变文件的权限
+<strong>答案</strong>：<strong>D. chmod</strong></li>
+</ul>
+<p>11、</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./myap &gt; myap.log 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p><strong>解释：</strong></p>
+<ol>
+<li><code>&gt; myap.log</code>：将标准输出 (<code>stdout</code>) 重定向到 <code>myap.log</code> 文件。</li>
+<li><code>2&gt;&amp;1</code>：将标准错误输出 (<code>stderr</code>) 合并到标准输出 (<code>stdout</code>) 中。<code>2</code> 是文件描述符，表示 <code>stderr</code>，<code>1</code> 是文件描述符，表示 <code>stdout</code>。<code>2&gt;&amp;1</code> 表示将 <code>stderr</code> 指向与 <code>stdout</code> 相同的位置。</li>
+</ol>
+<p>这样做的效果是：</p>
+<ul>
+<li><code>stderr</code> 和 <code>stdout</code> 都会被合并并重定向到 <code>myap.log</code> 文件中。</li>
+<li>终端上不会显示任何输出，因为所有输出都已经重定向到了文件 <code>myap.log</code>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./myap 2&gt;&amp;<span style="color:#ae81ff">1</span> &gt;myap.log
+</span></span></code></pre></div><p>由于重定向顺序问题，<code>stderr</code> 会被合并到 <code>stdout</code>，然后 <code>stdout</code> 被重定向到 <code>myap.log</code> 文件。因此，<code>stderr</code> 不会被保存，而是会丢失。</p>
+<p>12、 <strong>一个文件如果具有只读权限，也就是权限为 r&ndash;r&ndash;r&ndash;，那么，不允许任何人修改这一文件的内容，也就意味着文件不可以被删除。</strong>
+这说法错误。文件具有只读权限并不意味着不能删除它。删除文件的权限依赖于父目录的 <code>w</code>（写）权限，而不是文件本身的权限。如果你对父目录有写权限，可以删除文件，即使文件本身是只读的。</p>
+<p>13、 <strong>命令执行时在终端上显示的信息有些属于标准输出 stdout，有些属于标准错误输出 stderr。显示信息到底属于 stdout 还是 stderr，这取决于命令提供者如何设计的程序，与操作员无关。</strong></p>
+<ul>
+<li><strong>A. √</strong>：这是正确的。标准输出 (<code>stdout</code>) 和标准错误输出 (<code>stderr</code>) 是由程序的设计决定的。程序设计者决定哪些信息通过标准输出打印，哪些通过标准错误打印。</li>
+</ul>
+<p>14、正则表达式替换 不是 bash 内建的替换机制，通常用于其他工具（如 sed 或 awk）中，而不是 bash 自身的替换。</p>
+<p>15、单引号 (<code>'</code>) 和双引号 (<code>&quot;</code>) 的行为不同。双引号内的字符串会允许变量替换和命令替换，而单引号会将其中的所有内容视为字面字符串，元字符（如 <code>$</code>、<code>*</code>、<code>(</code> 等）不被解释为特殊符号。也就是说，双引号保留了变量和命令替换的功能，单引号则完全保留字面值。</p>
+<ul>
+<li><code>echo \*</code> 会打印一个星号 <code>*</code>。</li>
+<li><code>echo '*'</code> 会打印星号 <code>*</code>，但因为是单引号，星号不会被解释为通配符。</li>
+<li><code>echo &quot;*&quot;</code> 会打印出当前目录下的所有文件名，因为双引号中的 <code>*</code> 会被解释为通配符（shell 扩展）。</li>
+</ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

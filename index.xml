@@ -3,9 +3,314 @@
         <title>Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
         <description>This is my blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Linux：信号</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</link>
+    <pubDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</guid>
+    <description><![CDATA[<h3 id="信号的产生及类型">信号的产生及类型</h3>
+<p><strong>1、命令kill</strong></p>
+<ul>
+<li><strong>功能</strong>：用于向进程发送信号。</li>
+<li><strong>基本用法</strong>：
+<ul>
+<li><code>kill -signal PID-list</code>：发送指定信号到一个或多个进程。</li>
+<li>默认信号为 <code>SIGTERM</code>（15），用于正常终止进程。</li>
+<li>示例：
+<ul>
+<li><code>kill 1275</code>：向进程 1275 发送 <code>SIGTERM</code> 信号。</li>
+<li><code>kill -9 1326</code>：向进程 1326 发送 <code>SIGKILL</code> 信号，强制终止进程。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、进程组</strong></p>
+<ul>
+<li><strong>定义</strong>：
+<ul>
+<li>进程组由 <code>p_pgrp</code> 字段标识，相同 <code>p_pgrp</code> 值的进程属于同一组。</li>
+<li>如果 <code>p_pgrp</code> 等于 <code>p_pid</code>，则该进程是组长。</li>
+</ul>
+</li>
+<li><strong>行为</strong>：
+<ul>
+<li><strong>创建新组</strong>：<code>setsid()</code> 系统调用让进程脱离原组并成为新组组长。</li>
+<li><strong>继承</strong>：子进程通过 <code>fork</code> 继承父进程的 <code>p_pgrp</code>。</li>
+<li>示例：<code>kill -0 0</code> 会向与当前进程同组的所有进程发送信号。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、信号机制</strong></p>
+<ul>
+<li><strong>功能</strong>：信号是一种“软件中断”，用于通知进程处理异常事件。</li>
+<li><strong>信号产生</strong>：
+<ol>
+<li><strong>用户态进程</strong>：
+<ul>
+<li>通过 <code>kill()</code> 或 <code>alarm()</code> 调用发送信号。</li>
+</ul>
+</li>
+<li><strong>内核触发</strong>：
+<ul>
+<li>由中断或异常事件触发。</li>
+<li>例子：
+<ul>
+<li><code>SIGSEGV</code>（段违例）：进程访问非法内存地址时触发。</li>
+<li><code>SIGFPE</code>（浮点溢出）：如零做除数。</li>
+<li><code>SIGPIPE</code>：管道读端关闭时写端触发。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>4、信号类型</strong></p>
+<ul>
+<li>信号在 <code>&lt;sys/signal.h&gt;</code> 文件中以宏定义，种类有限（约几十种）。</li>
+<li><strong>关键信号及其作用</strong>：
+<ul>
+<li><code>SIGTERM</code>（15）：软件终止信号（默认信号）。</li>
+<li><code>SIGHUP</code>（1）：挂断信号，用户退出 shell 时触发。</li>
+<li><code>SIGINT</code>（2）：中断信号，用户按 <code>Ctrl-C</code> 触发。</li>
+<li><code>SIGQUIT</code>（3）：退出信号，按 <code>Ctrl-\</code> 触发，产生 core 文件。</li>
+<li><code>SIGKILL</code>（9）：强制终止信号，不可被捕获或忽略。</li>
+<li><code>SIGALRM</code>（14）：计时器信号，由 <code>alarm()</code> 触发。</li>
+<li><code>SIGPIPE</code>：管道写端对已关闭读端写操作。</li>
+<li>用户自定义信号：<code>SIGUSR1</code>、<code>SIGUSR2</code>。</li>
+<li>异常信号：
+<ul>
+<li><code>SIGSEGV</code>：段违例。</li>
+<li><code>SIGFPE</code>：浮点溢出。</li>
+<li><code>SIGILL</code>：非法指令。</li>
+</ul>
+</li>
+<li>其他信号：
+<ul>
+<li><code>SIGCLD</code>：子进程终止。</li>
+<li><code>SIGWINCH</code>：终端窗口大小改变。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="进程对信号的处理">进程对信号的处理</h3>
+<p><strong>1、设置为默认处理方式</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux：进程</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/</link>
+    <pubDate>Thu, 05 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/</guid>
+    <description><![CDATA[<h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
+<p><strong>1、进程与程序</strong></p>
+<ul>
+<li>
+<p><strong>程序</strong>：</p>
+<ul>
+<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
+<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程</strong>：</p>
+<ul>
+<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
+<li>提供执行环境。</li>
+</ul>
+</li>
+<li>
+<p><strong>程序与进程的关系</strong>：</p>
+<ul>
+<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
+<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
+<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
+<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、进程的组成部分</strong></p>
+<ul>
+<li>
+<p><strong>指令段 (Text)</strong>：</p>
+<ul>
+<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
+<li><strong>大小固定且只读</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户数据段(支持动态调整)</strong>：</p>
+<ul>
+<li>包括全局变量、静态变量、字符串常量等。</li>
+<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
+<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户栈段</strong>：</p>
+<ul>
+<li>提供程序执行所需的栈空间。</li>
+<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
+<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
+<li>支持动态增长，但有增长限制。</li>
+</ul>
+</li>
+<li>
+<p><strong>系统数据段</strong>：</p>
+<ul>
+<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
+<li>与指令段、数据段、栈段分离，由内核管理。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进程的执行状态">进程的执行状态</h2>
+<p><strong>1、进程的系统数据（PCB）</strong></p>
+<ul>
+<li>
+<p><strong>内存管理</strong>：</p>
+<ul>
+<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件管理</strong>：</p>
+<ul>
+<li>打开的文件描述符表：记录进程打开的文件。</li>
+<li>当前目录：记录当前目录的 i 节点。</li>
+<li>根目录：记录根目录位置。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程状态信息</strong>：</p>
+<ul>
+<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
+<li>进程状态：如运行、等待、就绪等。</li>
+<li>优先级：用于调度决策。</li>
+</ul>
+</li>
+<li>
+<p><strong>标识信息</strong>：</p>
+<ul>
+<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
+<li>进程组号：进程所属的组号。</li>
+</ul>
+</li>
+<li>
+<p><strong>权限管理</strong>：</p>
+<ul>
+<li>主 UID/GID：实际用户 ID 和组 ID。</li>
+<li>有效 UID/GID：用于权限验证。</li>
+<li>umask 值：文件权限掩码。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p>]]></description>
+</item>
+<item>
+    <title>Linux：重定向</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/</link>
+    <pubDate>Thu, 05 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/</guid>
+    <description><![CDATA[<h2 id="进程与文件描述符">进程与文件描述符</h2>
+<h3 id="活动文件目录afd及文件管理系统分析">活动文件目录（AFD）及文件管理系统分析</h3>
+<p><strong>1、磁盘文件目录（Disk File Directory）</strong>
+磁盘文件目录通常包括两级：</p>
+<ul>
+<li><strong>文件名</strong>：文件在磁盘上的名字。</li>
+<li><strong>i节点</strong>：每个文件在文件系统中的元数据（inode）记录，包含文件的属性，如文件大小、权限、创建时间、修改时间等。
+在磁盘上的文件目录结构中，文件名和对应的 i 节点是最重要的信息。i 节点为文件提供了关于文件内容的描述，但是不包含文件的实际数据。</li>
+</ul>
+<p><strong>2、活动文件目录（Active File Directory）</strong>
+活动文件目录通常分为三级，其中包括<strong>文件描述符表（FDT）</strong>、<strong>系统文件表（SFT）<strong>和</strong>活动 i 节点表（AIT）</strong>。</p>
+<ol>
+<li>文件描述符表（FDT）
+每个进程都有的一张表，通常存储在进程的 PCB（进程控制块）的 <code>user</code> 结构中。
+FDT 维护每个进程打开的文件的描述信息。它的主要作用是将文件描述符（fd）映射到具体的文件操作，如文件读写等。</li>
+</ol>
+<ul>
+<li><strong>文件描述符</strong>：<code>fd</code> 是进程打开的文件在 <code>u_ofile</code> 数组中的下标，每个进程有一张自己的文件描述符表。</li>
+<li><strong><code>user</code> 结构</strong>：在每个进程的 <code>user</code> 结构中，整型数组 <code>u_ofile</code> 用来记录该进程已打开的文件。<code>u_ofile</code> 数组的下标即为文件描述符（fd）。</li>
+</ul>
+<ol start="2">
+<li>系统文件表（SFT）
+系统文件表（SFT）是<strong>整个操作系统共享的一张表</strong>，存储在内核中，包含对文件的管理信息。每个文件在系统中有一个 <code>file</code> 结构，该结构包含文件的操作标志、引用计数、偏移量和对应的 i 节点等信息。</li>
+</ol>
+<ul>
+<li><strong><code>struct file</code></strong>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> file {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> f_flag;      <span style="color:#75715e">// 读写操作标志（例如：只读、只写等）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> f_count;     <span style="color:#75715e">// 文件的引用计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> f_offset;    <span style="color:#75715e">// 文件读写位置指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> f_inode;      <span style="color:#75715e">// 文件的 i 节点索引
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div></li>
+</ul>
+<ol start="3">
+<li>活动 i 节点表（AIT）
+活动 i 节点表存储了操作系统内核当前正在使用的 i 节点，<strong>整个系统只有一张活动 i 节点表</strong>。它缓存了磁盘上对应的 inode 信息，避免每次访问文件时都需要从磁盘读取。</li>
+</ol>
+<ul>
+<li><strong><code>inode</code> 结构</strong>：i 节点描述了文件的元数据，例如文件权限、所有者、文件大小、时间戳等信息。</li>
+<li><strong>引用计数</strong>：内存中的 i 节点表有一个专用的引用计数，用来记录 i 节点当前被多少个进程引用。如果一个进程打开了一个文件，i 节点的引用计数会增加。引用计数为零时，表示该 i 节点已经不再被使用，可以释放。</li>
+</ul>
+<p><strong>3、各表结构的关系</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux：shell的基本机理</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/</link>
+    <pubDate>Thu, 07 Nov 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="第九章-shell的基本原理">第九章 Shell的基本原理</h2>
+<h3 id="shell-概述">shell 概述</h3>
+<p>1、 Unix Shell 概述
+Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。</p>
+<p>2、 Shell的功能</p>
+<ol>
+<li><strong>命令解释器</strong>：Shell是用户与系统的接口，解释和执行用户的命令。</li>
+<li><strong>文件名替换、命令替换、变量替换</strong></li>
+<li><strong>历史替换与别名替换</strong></li>
+<li><strong>流程控制的内部命令</strong></li>
+</ol>
+<p>3、 Shell的特点</p>
+<ul>
+<li><strong>主要用途</strong>：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。</li>
+<li><strong>编程风格</strong>：Shell脚本语言是<strong>面向命令处理</strong>的，流程控制结构通过对内部命令的解释实现，简洁灵活。</li>
+</ul>
+<p>4、 常见的Shell种类</p>
+<ol>
+<li><strong>Bourne Shell (B-shell)</strong>：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为<code>/bin/sh</code>。</li>
+<li><strong>C Shell (C-shell)</strong>：路径为<code>/bin/csh</code>，最早应用于BSD系统。</li>
+<li><strong>Korn Shell (K-shell)</strong>：是B-shell的超集，路径为<code>/bin/ksh</code>，支持类型变量和数组。</li>
+<li><strong>Bourne Again Shell (bash)</strong>：Linux系统的标准Shell，路径为<code>/bin/bash</code>，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。</li>
+</ol>
+<h3 id="bash-启动">bash 启动</h3>
+<p>1、启动交互式bash</p>
+<ol>
+<li><strong>注册 Shell</strong>：通过系统注册的方式启动 bash 作为用户的默认登录 shell。</li>
+<li><strong>键入 <code>bash</code> 命令</strong>：在命令行中输入 <code>bash</code>，进入一个新的交互式 shell 实例。</li>
+<li><strong>脚本解释器</strong>：通过执行 bash 脚本文件，将命令批量自动执行。</li>
+</ol>
+<p>2、Bash 的启动与退出行为</p>
+<ol>
+<li>
+<p>用户偏好的自动执行命令
+- <strong>作为注册 Shell 启动时</strong>：自动执行用户主目录中的 <code>.bash_profile</code> 文件。该文件通常位于 <code>~/.bash_profile</code> 或 <code>$HOME/.bash_profile</code>，用于设置用户的环境变量和启动项。
+- <strong>作为注册 Shell 退出时</strong>：自动执行 <code>$HOME/.bash_logout</code> 文件中的命令，用于用户退出登录时清理环境。
+- <strong>作为交互式 Shell 启动时</strong>：自动执行 <code>$HOME/.bashrc</code> 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。
+&gt; <strong>注意</strong>：如 <code>umask</code> 等命令应写在 <code>.profile</code> 文件中，以便在所有登录会话中生效。</p>]]></description>
+</item>
+<item>
     <title>Linux：文件和目录权限</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/</link>
     <pubDate>Thu, 31 Oct 2024 00:00:00 &#43;0000</pubDate>
@@ -367,280 +672,6 @@
 <h2 id="对于符号连接文件附带列出符号连接文件的内容"><strong>第7列</strong>：文件名
 对于符号连接文件，附带列出符号连接文件的内容</h2>
 <p><strong>4、ls其他选项</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux文件比较、vi、文件通配符</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</link>
-    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</guid>
-    <description><![CDATA[<h2 id="第五章-文件比较vi文件通配符">第五章 文件比较、vi、文件通配符</h2>
-<h3 id="文件内容比对">文件内容比对</h3>
-<h4 id="两文件逐字节比较cmp">两文件逐字节比较：cmp</h4>
-<p><strong>用法</strong>
-<code>cmp file1 file2</code></p>
-<p><strong>功能</strong></p>
-<ul>
-<li>逐字节比较两个文件是否完全相同</li>
-<li>两个文件完全相同时，不给出任何提示</li>
-<li>两个文件不同时，打印出第一个不同之处</li>
-<li>在Windows中有类似的命令COMP</li>
-</ul>
-<h4 id="md5sumsha1sum文件内容比较">md5sum/sha1sum：文件内容比较</h4>
-<p>使用MD5算法（散列函数）根据文件内容生成16/32字节hash值，比较hash值是否相同，就可断定两文件内容是否完全相同
-输出：
-<code>4db9bfbea050ed07aa07d4ca55ad5cb0  8.txt</code>
-<code>8634a498b15d80ca59ac3d852b63fe35  a.txt</code></p>
-<p>使用SHA-1算法的命令名为sha1sum (40字节hash值) ： 160位，用40个16进制字节表示
-输出：
-<code>34150c466e7ca3550766cdd457418656a2a808b8  8.txt</code>
-<code>60a08508708a55279d298d123f0efeece7c41590  a.txt</code></p>
-<p>常用于数据完整性（Data Integrity）验证和判断位于网络不同机器上的两个文件内容是否相同
-其他散列函数也可以用来完成这一任务: sha512sum</p>
-<h4 id="diff查找文本文件版本之间的差异">diff：查找文本文件版本之间的差异</h4>
-<p><strong>用法</strong>
-<code>diff file1 file2 </code>
-<code>diff -u file1 file2 </code></p>
-<p><strong>功能</strong>
-比较两个版本的文本文件，以寻找两者间差别
-输出格式 normal，unified (-u)
-normal格式：列出一个如何将file1转化为file2的指令</p>
-<ul>
-<li>这些指令有<strong>a（Add）</strong>，<strong>c（Change）<strong>和</strong>d（Delete）</strong></li>
-<li>指令字母左边的行号是file1的行号，右面是file2的行号</li>
-<li>列出内容时，大于号后边的内容是需要在file1文件中增加的内容；小于号后边的内容是需从file1中删除的内容</li>
-</ul>
-<p><strong>normal格式文件转化指令</strong>
-1、25<strong>c</strong>25,26
-<strong>&lt;</strong> #define MAX_WEIGHT 2000000000
-<strong>&mdash;</strong>
-<strong>&gt;</strong> /* max signed 32-bit integer */
-<strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
-将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
-</item>
-<item>
-    <title>分布式队列</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/</link>
-    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/</guid>
-    <description><![CDATA[<h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
-<h3 id="kafka">Kafka</h3>
-<h4 id="kafka-概述">Kafka 概述</h4>
-<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
-<ul>
-<li>数据生产者和消费者耦合度过高</li>
-<li>生产者和消费者间数据处理速率不对等</li>
-<li>大量并发的网络连接对后端消费者不够友好</li>
-</ul>
-<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
-<ul>
-<li>
-<p><strong>消息中间件</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
-<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
-</ul>
-</li>
-<li>
-<p><strong>消息队列</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
-<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
-</ul>
-</li>
-<li>
-<p><strong>发布-订阅系统</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
-<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
-</ul>
-</li>
-<li>
-<p><strong>消息总线</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
-</ul>
-</li>
-</ul>
-<p>2、Kafka 特点：
-高吞吐量、良好的扩展性、持久性和可靠性</p>
-<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
-<strong>Kafka</strong></p>
-<ol>
-<li>
-<p><strong>发布-订阅模型</strong>：</p>
-<ul>
-<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
-<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
-</ul>
-</li>
-<li>
-<p><strong>实时消息传递</strong>：</p>
-<ul>
-<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
-<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
-</ul>
-</li>
-<li>
-<p><strong>丰富的 API 和流处理集成</strong>：</p>
-<ul>
-<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
-</ul>
-</li>
-</ol>
-<p><strong>Flume</strong></p>
-<ol>
-<li>
-<p><strong>数据流模型</strong>：</p>
-<ul>
-<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
-<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
-</ul>
-</li>
-<li>
-<p><strong>Hadoop 集成优化</strong>：</p>]]></description>
-</item>
-<item>
-    <title>大数据存储</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</link>
-    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/</guid>
-    <description><![CDATA[<h2 id="第三章-大数据存储">第三章 大数据存储</h2>
-<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
-<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
-• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
-• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
-<h4 id="数据序列化">数据序列化</h4>
-<p>1、背景</p>
-<ul>
-<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
-<li>阶段二：采用编程语言内置的序列化机制。</li>
-<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
-<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
-</ul>
-<p>2、意义
-阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
-<h4 id="数据序列化方案">数据序列化方案</h4>
-<p><strong>1、序列化框架 Thrift</strong>
-Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
-<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
-struct中每个域由四个属性构成：</p>
-<ul>
-<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
-<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
-<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
-<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
-</ul>
-<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
-// 定义枚举类型DocLevel,表示网页内容级别
-enum DocLevel {
-CLEAN = 0,
-NORMAL = 1,
-MAYBE = 2,
-BAD = 3,
-}
-
-struct MergedDoc { // 定义网页,类似于Java和C++中的类
-1:required i64 docId, //每个网页被赋予一个64位唯一ID
-2: required string url, //网页URL
-3: optional string title, //网页标题
-4: optional string segBody, //经分词后的网页主体
-5: optional i32 pagerank, //网页pagerank,网页排名使用
-10: optional DocLevel docLevel, //网页内容级别
-11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
-12: optional list&lt;i64&gt; outLinks //网页出链
-}
-</code></pre><p><strong>2、序列化框架 Protobuf</strong>
-Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p>]]></description>
-</item>
-<item>
-    <title>数据收集</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/</link>
-    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/</guid>
-    <description><![CDATA[<h2 id="第一章-概述">第一章 概述</h2>
-<h3 id="大数据的历史">大数据的历史</h3>
-<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
-<h4 id="大数据的挑战">大数据的挑战</h4>
-<p>1、大数据带来的思维转变</p>
-<ul>
-<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
-<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
-<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
-</ul>
-<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
-<ul>
-<li>Volume：量大</li>
-<li>Velocity：快速化</li>
-<li>Value：价值密度低</li>
-<li>Variety：多样化</li>
-</ul>
-<h4 id="大数据的产生">大数据的产生</h4>
-<p><strong>1、运营式系统阶段</strong>
-数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
-<p><strong>2、用户原创内容阶段</strong>
-以博客、微博为代表的新型社交网络出现并快速发展；
-数据的产生方式是<strong>主动</strong>的。</p>
-<p><strong>3、感知式系统阶段</strong>
-感知式系统，如VR/AR等，广泛使用；</p>
-<p>4、大数据 vs 大规模数据 vs 海量数据</p>
-<p>5、科学研究四范式</p>
-<ul>
-<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
-<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
-</ul>
-<h4 id="大数据计算模式">大数据计算模式</h4>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">大数据计算模式</th>
-          <th style="text-align: left">解决问题</th>
-          <th style="text-align: left">代表产品</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">批处理计算</td>
-          <td style="text-align: left">针对大规模数据的批量处理</td>
-          <td style="text-align: left">MapReduceSpark等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">流计算</td>
-          <td style="text-align: left">针对流数据的实时计算</td>
-          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">图计算</td>
-          <td style="text-align: left">针对大规模图结构数据的处理</td>
-          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">查询分析计算</td>
-          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
-          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="大数据技术框架">大数据技术框架</h3>
-<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
-<p><strong>2、数据收集层</strong>
-数据源特点
-<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
-<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
-<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
-频和视频等非关系型数据
-<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
-<p>收集系统特点
-<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
-<strong>可靠性</strong>：数据在传输过程中不能够丢失
-<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
-<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
-<p><strong>3、数据存储层</strong>
-数据存储层主要负责海量结构化与非结构化数据的存储。
-收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p>]]></description>
 </item>
 </channel>
 </rss>

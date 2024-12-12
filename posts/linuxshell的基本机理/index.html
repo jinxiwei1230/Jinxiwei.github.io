@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux：shell的基本机理 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Linux：shell的基本机理">
+  <meta property="og:description" content="第九章 Shell的基本原理 shell 概述 1、 Unix Shell 概述 Shell是Unix操作系统中的命令解释器，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。
+2、 Shell的功能
+命令解释器：Shell是用户与系统的接口，解释和执行用户的命令。 文件名替换、命令替换、变量替换 历史替换与别名替换 流程控制的内部命令 3、 Shell的特点
+主要用途：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。 编程风格：Shell脚本语言是面向命令处理的，流程控制结构通过对内部命令的解释实现，简洁灵活。 4、 常见的Shell种类
+Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为/bin/sh。 C Shell (C-shell)：路径为/bin/csh，最早应用于BSD系统。 Korn Shell (K-shell)：是B-shell的超集，路径为/bin/ksh，支持类型变量和数组。 Bourne Again Shell (bash)：Linux系统的标准Shell，路径为/bin/bash，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。 bash 启动 1、启动交互式bash
+注册 Shell：通过系统注册的方式启动 bash 作为用户的默认登录 shell。 键入 bash 命令：在命令行中输入 bash，进入一个新的交互式 shell 实例。 脚本解释器：通过执行 bash 脚本文件，将命令批量自动执行。 2、Bash 的启动与退出行为
+用户偏好的自动执行命令 - 作为注册 Shell 启动时：自动执行用户主目录中的 .bash_profile 文件。该文件通常位于 ~/.bash_profile 或 $HOME/.bash_profile，用于设置用户的环境变量和启动项。 - 作为注册 Shell 退出时：自动执行 $HOME/.bash_logout 文件中的命令，用于用户退出登录时清理环境。 - 作为交互式 Shell 启动时：自动执行 $HOME/.bashrc 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。 &gt; 注意：如 umask 等命令应写在 .profile 文件中，以便在所有登录会话中生效。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-11-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-07T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux：shell的基本机理">
+  <meta name="twitter:description" content="第九章 Shell的基本原理 shell 概述 1、 Unix Shell 概述 Shell是Unix操作系统中的命令解释器，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。
+2、 Shell的功能
+命令解释器：Shell是用户与系统的接口，解释和执行用户的命令。 文件名替换、命令替换、变量替换 历史替换与别名替换 流程控制的内部命令 3、 Shell的特点
+主要用途：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。 编程风格：Shell脚本语言是面向命令处理的，流程控制结构通过对内部命令的解释实现，简洁灵活。 4、 常见的Shell种类
+Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为/bin/sh。 C Shell (C-shell)：路径为/bin/csh，最早应用于BSD系统。 Korn Shell (K-shell)：是B-shell的超集，路径为/bin/ksh，支持类型变量和数组。 Bourne Again Shell (bash)：Linux系统的标准Shell，路径为/bin/bash，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。 bash 启动 1、启动交互式bash
+注册 Shell：通过系统注册的方式启动 bash 作为用户的默认登录 shell。 键入 bash 命令：在命令行中输入 bash，进入一个新的交互式 shell 实例。 脚本解释器：通过执行 bash 脚本文件，将命令批量自动执行。 2、Bash 的启动与退出行为
+用户偏好的自动执行命令 - 作为注册 Shell 启动时：自动执行用户主目录中的 .bash_profile 文件。该文件通常位于 ~/.bash_profile 或 $HOME/.bash_profile，用于设置用户的环境变量和启动项。 - 作为注册 Shell 退出时：自动执行 $HOME/.bash_logout 文件中的命令，用于用户退出登录时清理环境。 - 作为交互式 Shell 启动时：自动执行 $HOME/.bashrc 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。 &gt; 注意：如 umask 等命令应写在 .profile 文件中，以便在所有登录会话中生效。">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux：shell的基本机理",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  1143 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86\/","datePublished": "2024-11-07T00:00:00+00:00","dateModified": "2024-11-07T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux：shell的基本机理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-11-07">2024-11-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1143 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第九章-shell的基本原理">第九章 Shell的基本原理</a>
+      <ul>
+        <li><a href="#shell-概述">shell 概述</a></li>
+        <li><a href="#bash-启动">bash 启动</a></li>
+        <li><a href="#历史与别名">历史与别名</a></li>
+        <li><a href="#shell替换">shell替换</a></li>
+        <li><a href="#元字符">元字符</a></li>
+        <li><a href="#引号及转义处理">引号及转义处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第九章-shell的基本原理">第九章 Shell的基本原理</h2>
+<h3 id="shell-概述">shell 概述</h3>
+<p>1、 Unix Shell 概述
+Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。</p>
+<p>2、 Shell的功能</p>
+<ol>
+<li><strong>命令解释器</strong>：Shell是用户与系统的接口，解释和执行用户的命令。</li>
+<li><strong>文件名替换、命令替换、变量替换</strong></li>
+<li><strong>历史替换与别名替换</strong></li>
+<li><strong>流程控制的内部命令</strong></li>
+</ol>
+<p>3、 Shell的特点</p>
+<ul>
+<li><strong>主要用途</strong>：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。</li>
+<li><strong>编程风格</strong>：Shell脚本语言是<strong>面向命令处理</strong>的，流程控制结构通过对内部命令的解释实现，简洁灵活。</li>
+</ul>
+<p>4、 常见的Shell种类</p>
+<ol>
+<li><strong>Bourne Shell (B-shell)</strong>：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为<code>/bin/sh</code>。</li>
+<li><strong>C Shell (C-shell)</strong>：路径为<code>/bin/csh</code>，最早应用于BSD系统。</li>
+<li><strong>Korn Shell (K-shell)</strong>：是B-shell的超集，路径为<code>/bin/ksh</code>，支持类型变量和数组。</li>
+<li><strong>Bourne Again Shell (bash)</strong>：Linux系统的标准Shell，路径为<code>/bin/bash</code>，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。</li>
+</ol>
+<h3 id="bash-启动">bash 启动</h3>
+<p>1、启动交互式bash</p>
+<ol>
+<li><strong>注册 Shell</strong>：通过系统注册的方式启动 bash 作为用户的默认登录 shell。</li>
+<li><strong>键入 <code>bash</code> 命令</strong>：在命令行中输入 <code>bash</code>，进入一个新的交互式 shell 实例。</li>
+<li><strong>脚本解释器</strong>：通过执行 bash 脚本文件，将命令批量自动执行。</li>
+</ol>
+<p>2、Bash 的启动与退出行为</p>
+<ol>
+<li>
+<p>用户偏好的自动执行命令
+- <strong>作为注册 Shell 启动时</strong>：自动执行用户主目录中的 <code>.bash_profile</code> 文件。该文件通常位于 <code>~/.bash_profile</code> 或 <code>$HOME/.bash_profile</code>，用于设置用户的环境变量和启动项。
+- <strong>作为注册 Shell 退出时</strong>：自动执行 <code>$HOME/.bash_logout</code> 文件中的命令，用于用户退出登录时清理环境。
+- <strong>作为交互式 Shell 启动时</strong>：自动执行 <code>$HOME/.bashrc</code> 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。
+&gt; <strong>注意</strong>：如 <code>umask</code> 等命令应写在 <code>.profile</code> 文件中，以便在所有登录会话中生效。</p>
+</li>
+<li>
+<p>系统级的自动执行命令
+- <strong>作为注册 Shell 启动时</strong>：系统自动执行 <code>/etc/profile</code> 文件，设置所有用户的系统级环境变量。
+- <strong>作为交互式 Shell 启动时</strong>：系统自动执行 <code>/etc/bash.bashrc</code> 文件，用于定义系统范围的别名、变量和函数。
+- <strong>作为注册 Shell 退出时</strong>：自动执行 <code>/etc/bash.logout</code> 文件中设置的命令，适用于所有用户的退出操作。</p>
+</li>
+</ol>
+<p>2、脚本文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span></code></pre></div><p>3、执行脚本文件的几种方式</p>
+<ol>
+<li>使用 <code>bash &lt; lsdir</code></li>
+</ol>
+<ul>
+<li><strong>命令</strong>：<code>bash &lt; lsdir</code></li>
+<li><strong>描述</strong>：通过<strong>输入重定向</strong>的方式执行脚本，将 <code>lsdir</code> 文件的内容传递给 <code>bash</code> 解释器。</li>
+<li><strong>特点</strong>：生成一个新的子进程执行脚本，但 <strong>无法携带命令行参数</strong>。</li>
+</ul>
+<ol start="2">
+<li>使用 <code>bash lsdir</code></li>
+</ol>
+<ul>
+<li><strong>命令</strong>：<code>bash lsdir</code> 或 <code>bash lsdir /usr/lib/gcc</code></li>
+<li><strong>描述</strong>：直接用 <code>bash</code> 解释器执行脚本，可以携带命令行参数。</li>
+<li><strong>特点</strong>：生成一个新的子进程执行脚本。</li>
+</ul>
+<ol start="3">
+<li>使用 <code>bash -x lsdir</code></li>
+</ol>
+<ul>
+<li><strong>命令</strong>：<code>bash -x lsdir</code></li>
+<li><strong>描述</strong>：以<strong>调试模式</strong>执行脚本。<code>-x</code> 选项会将每一条执行的命令逐行打印，便于查看脚本的执行过程。</li>
+<li><strong>特点</strong>：生成一个新的子进程，并以调试模式运行，适合用于调试脚本。</li>
+</ul>
+<ol start="4">
+<li>给脚本文件设置可执行权限后直接执行</li>
+</ol>
+<ul>
+<li><strong>命令</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod u+x lsdir    <span style="color:#75715e"># 设置可执行权限</span>
+</span></span><span style="display:flex;"><span>./lsdir /usr/lib/gcc
+</span></span></code></pre></div></li>
+<li><strong>描述</strong>：通过 <code>chmod u+x</code> 为 <code>lsdir</code> 脚本赋予执行权限，之后可以直接使用 <code>./lsdir</code> 执行脚本。</li>
+<li><strong>特点</strong>：生成一个新的子进程执行脚本，<code>./</code> 表示在当前目录中执行脚本。</li>
+</ul>
+<ol start="5">
+<li>在当前 Shell 进程中执行脚本</li>
+</ol>
+<ul>
+<li><strong>命令</strong>：<code>. lsdir /usr/lib/gcc</code> 或 <code>source lsdir /usr/lib/gcc</code></li>
+<li><strong>描述</strong>：使用 <code>.</code> 或 <code>source</code> 运行脚本，这两种方式都会在 <strong>当前 Shell 进程</strong> 中执行脚本，而不是新创建子进程。</li>
+<li><strong>特点</strong>：适用于需要在当前 Shell 中执行脚本的场景，例如，执行脚本中的变量定义或环境变量设置使其在当前 Shell 中生效。</li>
+</ul>
+<ol start="6">
+<li>总结
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">是否创建新进程</th>
+          <th style="text-align: left">是否可携带参数</th>
+          <th style="text-align: left">适用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>bash &lt; lsdir</code></td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">否</td>
+          <td style="text-align: left">不需参数的简单脚本执行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>bash lsdir</code></td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">标准脚本执行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>bash -x lsdir</code></td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">调试脚本</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>./lsdir</code></td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">脚本已赋执行权限的标准执行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>. lsdir</code> / <code>source lsdir</code></td>
+          <td style="text-align: left">否</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">在当前 Shell 中运行脚本</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ol>
+<h3 id="历史与别名">历史与别名</h3>
+<p>1、历史表</p>
+<ul>
+<li>
+<p><strong>存储机制</strong>：历史表记录先前输入的命令，按编号递增，以 <strong>FIFO</strong> 方式刷新。</p>
+</li>
+<li>
+<p><strong>大小控制</strong>：历史表大小由 <code>HISTSIZE</code> 控制。设置方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;HISTSIZE=500&#34;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div></li>
+<li>
+<p><strong>查看历史</strong>：</p>
+<ul>
+<li><code>history</code>：查看当前会话的历史命令。</li>
+<li><code>$HOME/.bash_history</code>：退出 Bash 时保存命令记录的文件。</li>
+</ul>
+</li>
+</ul>
+<p>2、历史替换</p>
+<ul>
+<li>
+<p><strong>上下箭头键</strong></p>
+</li>
+<li>
+<p><strong><code>!!</code></strong>：引用上一条命令。</p>
+</li>
+<li>
+<p><strong><code>!str</code></strong>：引用以 <code>str</code> 开头的最近执行过的命令。例如：</p>
+<ul>
+<li><code>!v</code>：引用以 <code>v</code> 开头的最近命令。</li>
+<li><code>!m</code>：引用以 <code>m</code> 开头的最近命令。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>!.</code></strong>：引用最后一个参数的值（即上一条命令的最后一个参数）。</p>
+</li>
+<li>
+<p><strong>Ctrl + R</strong>：输入部分命令后按 <code>Ctrl + R</code> 可以快速查找历史命令。</p>
+</li>
+</ul>
+<p>3、别名和别名替换</p>
+<ul>
+<li>为了在每次启动 Bash 时自动加载别名，可以将 <code>alias</code> 命令放入 <code>~/.bashrc</code> 文件中：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;alias dir=&#34;ls -flad&#34;&#39;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div><p>然后运行 <code>source ~/.bashrc</code> 来使更改生效。</p>
+<ul>
+<li>
+<p>使用 <code>alias</code> 命令查看当前所有的别名：</p>
+</li>
+<li>
+<p>使用 <code>unalias</code> 命令取消已定义的别名。例如，要取消 <code>n</code> 别名：</p>
+</li>
+</ul>
+<p>4、TAB键补全</p>
+<ul>
+<li>每行的首个单词：TAB键补全搜索$PATH下的命令</li>
+<li>行中的其它单词：TAB键补全当前目录下的文件名</li>
+</ul>
+<h4 id="输入重定向">输入重定向</h4>
+<ol>
+<li>从<strong>文件</strong>获取标准输入 <code>&lt;filename</code></li>
+</ol>
+<ul>
+<li>使用 <code>&lt;</code> 将文件内容作为标准输入提供给命令。
+<code>sort &lt; telno.txt</code>
+将 <code>telno.txt</code> 文件的内容作为输入传递给 <code>sort</code> 命令进行排序。</li>
+</ul>
+<ol start="2">
+<li><strong>从 Shell 获取标准输入：允许替换 <code>&lt;&lt;word</code></strong></li>
+</ol>
+<ul>
+<li>使用 <code>&lt;&lt;</code> 可以从 Shell 脚本中获取数据，直到再次遇到指定的定界符 <code>word</code>。在这种模式下，Shell 会进行变量替换和命令替换。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; TOAST
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">* Now : `date`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">* My Home Directory is $HOME
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">TOAST</span>
+</span></span></code></pre></div><ul>
+<li><strong>输出</strong>：
+<pre tabindex="0"><code>* Now : Thu Nov 7 10:00:00 UTC 2024
+* My Home Directory is /home/user
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>禁止替换的输入重定向：不允许替换 <code>&lt;&lt;'word'</code></strong></li>
+</ol>
+<ul>
+<li>
+<p>使用定界符两侧的单引号 <code>'</code>，Shell 不会对定界符之间的内容进行变量替换或命令替换。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; &#39;TOAST&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">* Now : `date`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">* My Home Directory is $HOME
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">TOAST</span>
+</span></span></code></pre></div><ul>
+<li><strong>输出</strong>：
+<pre tabindex="0"><code>* Now : `date`
+* My Home Directory is $HOME
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>从<strong>命令行</strong>获取信息作为标准输入 <code>&lt;&lt;&lt;word</code></li>
+</ol>
+<ul>
+<li>使用 <code>&lt;&lt;&lt;</code> 可以将命令行输入作为标准输入传递给命令。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 <span style="color:#f92672">&lt;&lt;&lt;</span> meiyoumima
+</span></span></code></pre></div>将字符串 <code>meiyoumima</code> 转换为 Base64 编码。</li>
+</ul>
+<h4 id="输出重定向与管道">输出重定向与管道</h4>
+<ol>
+<li>
+<p>标准输入：stdin,fd=0
+标准输出：stdout,fd=1
+标准错误输出：stderr,fd=2</p>
+</li>
+<li>
+<p>使用系统调用 (原始 I/O) 的程序示例
+使用 <code>write</code> 函数直接将数据输出到标准输出 (<code>stdout</code>) 和标准错误 (<code>stderr</code>)，数据不经过缓冲区，直接传输到目标文件描述符。
+这种方式属于<strong>原始 I/O</strong>，效率较低，但对于实时性要求较高的任务（如错误日志）是合适的。</p>
+</li>
+</ol>
+<ul>
+<li><code>write(1, str1, strlen(str1));</code>：将 <code>str1</code> 写入文件描述符 <code>1</code>（即 <code>stdout</code>）。</li>
+<li><code>write(2, str2, strlen(str2));</code>：将 <code>str2</code> 写入文件描述符 <code>2</code>（即 <code>stderr</code>）。</li>
+</ul>
+<ol start="3">
+<li>区别</li>
+</ol>
+<ul>
+<li><strong>原始 I/O</strong>：直接使用系统调用，如 <code>write</code>，数据立即写入，不经过缓冲区。</li>
+<li><strong>缓冲 I/O</strong>：使用 C 标准库函数，如 <code>printf</code>、<code>fprintf</code>，数据经过缓冲区后再输出，更适合效率要求高的场景。</li>
+</ul>
+<ol start="4">
+<li><strong>标准输出 (stdout) 重定向</strong></li>
+</ol>
+<ul>
+<li><code>&gt;filename</code>：将标准输出重定向到文件 <code>filename</code>，如果文件已存在，会<strong>先清空</strong>文件内容。</li>
+<li><code>&gt;&gt;filename</code>：将标准输出<strong>追加</strong>到文件 <code>filename</code> 尾部，而不覆盖原内容。</li>
+</ul>
+<ol start="5">
+<li>
+<p><strong>标准错误 (stderr) 重定向</strong>
+<code>2&gt; filename</code>：将标准错误输出 (文件描述符 2) 重定向到文件 <code>filename</code>。</p>
+</li>
+<li>
+<p><strong>分离 stdout 和 stderr</strong></p>
+</li>
+</ol>
+<ul>
+<li><code>2&gt;&amp;1</code>：将标准错误输出重定向到与标准输出相同的地方。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>command &gt; output.log 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div>把 <code>command</code> 的标准输出和标准错误都重定向到 <code>output.log</code>。</li>
+</ul>
+<ol start="7">
+<li><strong>多文件句柄重定向</strong></li>
+</ol>
+<ul>
+<li><code>./myapp 5&lt; a.txt 6&gt; b.dat</code>：指定应用程序 <code>myapp</code> 使用文件描述符 <code>5</code> 从 <code>a.txt</code> 读取输入，使用文件描述符 <code>6</code> 将输出写入 <code>b.dat</code>。</li>
+</ul>
+<ol start="8">
+<li><strong>输出重定向示例</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>示例 1</strong>：将标准输出和标准错误分别重定向到不同的文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>try &gt; try.out 2&gt; try.err
+</span></span></code></pre></div><p>或</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>try 1&gt; try.out 2&gt; try.err
+</span></span></code></pre></div></li>
+<li>
+<p><strong>示例 2</strong>：将标准输出定向到 <code>try.out</code>，忽略标准错误。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./stda 1&gt; try.out 2&gt; /dev/null
+</span></span></code></pre></div></li>
+</ul>
+<ol start="9">
+<li><strong>标准输出和标准错误一起重定向</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>正确用法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./stda &gt; rpt 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>在这个例子中，<code>stdout</code> 和 <code>stderr</code> 都被重定向到 <code>rpt</code> 文件中。</p>
+</li>
+<li>
+<p><strong>错误用法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./stda 2&gt;&amp;<span style="color:#ae81ff">1</span> &gt; rpt
+</span></span></code></pre></div><p>这里，<code>stderr</code> 被重定向到当前的终端（默认目标），而 <code>stdout</code> 被重定向到 <code>rpt</code> 文件。因为 <code>2&gt;&amp;1</code> 指令将 <code>stderr</code> 重定向到 <code>stdout</code> 当前的目标（即终端），然后 <code>stdout</code> 再被重定向到 <code>rpt</code>，这就导致 <code>stderr</code> 依然输出到终端而不是 <code>rpt</code> 文件。</p>
+</li>
+</ul>
+<ol start="10">
+<li><strong>管道 (Pipeline) 用法</strong></li>
+</ol>
+<ul>
+<li>
+<p><code>ls -l | grep '^d'</code>：
+前一命令的stdout作后一命令的stdin</p>
+</li>
+<li>
+<p><strong>同时重定向 stdout 和 stderr 到管道</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cc try.c -o try 2&gt;&amp;<span style="color:#ae81ff">1</span> | more
+</span></span></code></pre></div><p>前一命令的stdout+stderr作为下一命令的stdin</p>
+</li>
+</ul>
+<h4 id="变量的赋值及使用">变量的赋值及使用</h4>
+<ol>
+<li><strong>变量赋值和引用</strong></li>
+</ol>
+<ul>
+<li><strong>赋值</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>addr<span style="color:#f92672">=</span>20.1.1.254  <span style="color:#75715e"># 赋值时等号两侧不能有空格</span>
+</span></span></code></pre></div></li>
+<li><strong>引用</strong>：
+<ul>
+<li>使用 <code>$addr</code> 或 <code>${addr}</code>，如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>addr<span style="color:#e6db74">}</span>A    <span style="color:#75715e"># 正确，输出 &#34;20.1.1.254A&#34;</span>
+</span></span><span style="display:flex;"><span>echo $addrA      <span style="color:#75715e"># 错误，因 shell 无法识别变量边界</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li><strong>特殊字符</strong>：
+<ul>
+<li>赋值时包含空格等特殊字符需要加引号：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Beihang University&#34;</span>
+</span></span><span style="display:flex;"><span>echo $unit       <span style="color:#75715e"># 输出 &#34;Beihang University&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><strong>未定义变量</strong></li>
+</ol>
+<ul>
+<li>使用未定义变量时默认为空字符串：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo Connect to $proto Network  <span style="color:#75715e"># 输出 &#34;Connect to  Network&#34; (若 proto 未定义)</span>
+</span></span></code></pre></div></li>
+</ul>
+<ol start="3">
+<li><strong>Shell内部开关</strong></li>
+</ol>
+<ul>
+<li><code>set -u</code>：若引用未定义变量则报错。</li>
+<li><code>set +u</code>：引用未定义变量时默认为空串（默认）。</li>
+<li><code>set -x</code>：执行命令前显示替换后的命令，前面带 <code>+</code> 号。</li>
+<li><code>set +x</code>：关闭上述显示。</li>
+</ul>
+<ol start="4">
+<li><code>echo</code> 命令</li>
+</ol>
+<ul>
+<li>
+<p><code>echo arg1 arg2 arg3 ...</code>：打印命令行参数，参数之间用空格分隔，最后带换行。</p>
+</li>
+<li>
+<p><strong>转义字符</strong>（需要 <code>-e</code> 选项以支持转义，Linux中常用）：</p>
+<ul>
+<li><code>\c</code>：不换行</li>
+<li><code>\b</code>：退格</li>
+<li><code>\n</code>：换行</li>
+<li><code>\r</code>：回车</li>
+<li><code>\t</code>：水平制表</li>
+<li><code>\\</code>：反斜线</li>
+<li><code>\nnn</code>：八进制表示ASCII字符</li>
+</ul>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo Beijing China                 <span style="color:#75715e"># 输出：Beijing China</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Beijing China&#34;</span>               <span style="color:#75715e"># 输出：Beijing China</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#39;\065&#39;</span>                     <span style="color:#75715e"># 输出字符 &#39;5&#39;（八进制 ASCII 065）</span>
+</span></span><span style="display:flex;"><span>cnt<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\\r</span>$cnt<span style="color:#e6db74"> \\c&#34;</span>              <span style="color:#75715e"># 回车后打印变量 cnt 的值，不换行</span>
+</span></span></code></pre></div><ol start="5">
+<li><code>printf</code> 命令</li>
+</ol>
+<ul>
+<li>
+<p><code>printf</code> 用法与 C 语言 <code>printf</code> 类似，支持格式化输出。</p>
+</li>
+<li>
+<p>语法：<code>printf '格式' 参数</code></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>proto<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TCP/IP&#34;</span>
+</span></span><span style="display:flex;"><span>printf <span style="color:#e6db74">&#39;\033[01;33mConnect to %s Network\n\033[0m&#39;</span> $proto
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#\033[01;33m：设置文本为黄色。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#\033[0m：恢复默认颜色（通常为白色）。</span>
+</span></span></code></pre></div><h4 id="在脚本中编辑文件">在脚本中编辑文件</h4>
+<ol>
+<li><code>read</code> 是一个内部命令，用于从标准输入中读取一行文本，并将该文本赋值给一个或多个变量。</li>
+</ol>
+<ul>
+<li><strong>单个变量的读取</strong>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ read name
+</span></span><span style="display:flex;"><span>ccp.c
+</span></span><span style="display:flex;"><span>$ echo $name
+</span></span><span style="display:flex;"><span>ccp.c
+</span></span></code></pre></div></li>
+</ul>
+<ol start="2">
+<li>脚本程序中的行编辑</li>
+</ol>
+<h4 id="环境变量">环境变量</h4>
+<p><strong>1、环境变量和局部变量</strong></p>
+<ul>
+<li>
+<p>默认类型：所创建的shell变量，默认为局部变量</p>
+</li>
+<li>
+<p>内部命令 &ldquo;export&rdquo;：局部变量转换为环境变量，例如：export proto</p>
+</li>
+<li>
+<p>局部变量和环境变量</p>
+<ul>
+<li>shell启动的子进程<strong>继承环境变量</strong>，不继承局部变量</li>
+<li>子进程对环境变量的修改，不影响父进程中同名变量 （环境变量的设置，如PATH，</li>
+<li>CLASSPATH，LANG，如果必要的话，放在~/.bashrc中或/etc/profile中）</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、系统的环境变量</strong></p>
+<ul>
+<li>
+<p>创建：登录后系统自动创建一些环境变量影响应用程序运行</p>
+</li>
+<li>
+<p>HOME: 用户主目录的路径名</p>
+</li>
+<li>
+<p>PATH: 命令查找路径</p>
+<ul>
+<li>与DOS/Windows不同的是,它不首先搜索当前目录</li>
+<li>PATH=/bin:/usr/bin:/etc</li>
+<li>PATH=.:bin:/usr/bin:/etc 先搜索当前目录(危险!)</li>
+<li>PATH=/bin:/usr/bin:/etc:. 后搜索当前目录(危险!)</li>
+</ul>
+</li>
+<li>
+<p>TERM: 终端类型
+全屏幕操作的软件(如vi)，使用它搜索终端库
+（环境变量的赋值对某个应用程序，包括java虚拟机以及其他的系统软件，有什么影响，与这个AP的设计相关，需要
+查阅相关的手册）</p>
+</li>
+</ul>
+<p><strong>3、相关命令：<code>set/env</code></strong>
+内部命令set列出当前所有变量及其值以及函数定义</p>
+<ul>
+<li>包括环境变量和局部变量、函数定义</li>
+<li><code>set | grep ^fname=</code></li>
+</ul>
+<p>外部命令/bin/env列出环境变量及其值</p>
+<p>4、Shell脚本中通过$引用环境变量，可以在脚本内部设置环境变量，但如果需要子进程继承这些变量，需要使用export。
+C程序通过getenv()获取环境变量的值，C程序的子进程会继承Shell环境变量，但需要通过Shell设置和导出。
+环境变量是进程特有的，只在当前进程及其子进程中有效，当退出Shell时，环境变量消失</p>
+<h3 id="shell替换">shell替换</h3>
+<h4 id="1-文件名生成glob-expansion">1. <strong>文件名生成（Glob Expansion）</strong></h4>
+<p>Shell会根据文件通配符（如<code>*</code>、<code>?</code>、<code>[]</code>等）来生成匹配的文件列表。这种扩展在命令执行之前完成。</p>
+<ul>
+<li>例如：<code>ls *.c</code>
+<ul>
+<li>如果当前目录下有<code>a.c</code>和<code>x.c</code>，Shell会将<code>*.c</code>替换为<code>a.c x.c</code>，然后执行<code>ls a.c x.c</code>。</li>
+<li>如果没有匹配的文件，<code>*.php</code>将不会展开，保持原样。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-变量替换">2. <strong>变量替换</strong></h4>
+<p>Shell允许在命令中引用变量，使用<code>$</code>符号来替代变量的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;My home is </span>$HOME<span style="color:#e6db74">, Terminal is </span>$TERM<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>这行会输出类似 <code>My home is /home/user, Terminal is xterm</code>（具体路径和终端类型视环境而定）。</p>
+<h4 id="3-命令替换backticks-和-">3. <strong>命令替换（Backticks 和 $()）</strong></h4>
+<p>命令替换允许你把命令的输出结果插入到另一个命令中。可以使用反引号（<code> </code>） 或 <code>$()</code>。</p>
+<ul>
+<li>
+<p><strong>反引号</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>now<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>./arg <span style="color:#e6db74">`</span>date<span style="color:#e6db74">`</span>
+</span></span></code></pre></div><p>执行时，<code>date</code>命令会返回当前日期，<code>./arg</code>命令会接收到日期作为参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ts<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date <span style="color:#e6db74">&#39;+%Y%m%d-%H%M%S&#39;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>mv myap.log <span style="color:#e6db74">`</span>whoami<span style="color:#e6db74">`</span>-$ts.log
+</span></span><span style="display:flex;"><span>frames<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>expr <span style="color:#ae81ff">5</span> + 13<span style="color:#e6db74">`</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>$()</strong>：
+使用<code>$()</code>替代反引号更加清晰易读，且支持嵌套命令替换。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>now<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>./arg <span style="color:#66d9ef">$(</span>date<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>执行时，输出相同，<code>date</code>的输出会作为参数传递给<code>./arg</code>。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ts<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date <span style="color:#e6db74">&#39;+%Y%m%d-%H%M%S&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>mv myap.log <span style="color:#66d9ef">$(</span>whoami<span style="color:#66d9ef">)</span>-$ts.log
+</span></span><span style="display:flex;"><span>frames<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>expr <span style="color:#ae81ff">5</span> + 13<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4-内部变量">4. <strong>内部变量</strong></h4>
+<ul>
+<li><code>$0</code>：脚本本身的名称。</li>
+<li><code>$1</code>, <code>$2</code>, &hellip;：脚本的第一个、第二个参数。</li>
+<li><code>$#</code>：传递给脚本的参数个数。</li>
+<li><code>&quot;$*&quot;</code>：将所有参数作为一个单独的字符串传递，参数之间用空格分隔。</li>
+<li><code>&quot;$@&quot;</code>：每个参数单独处理，作为单独的字符串，适合传递给其他命令。</li>
+</ul>
+<h4 id="5-位置参数举例">5. <strong>位置参数举例</strong></h4>
+<p><strong><code>shift</code> 命令</strong>
+<code>shift</code>命令用来改变位置参数。每次<code>shift</code>操作会使位置参数<strong>向左移动</strong>一个位置，<code>$#</code>的值减1。</p>
+<ul>
+<li>例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shift <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div>这将会使<code>$4</code>变为<code>$1</code>，<code>$5</code>变为<code>$2</code>，依此类推。</li>
+</ul>
+<p><strong>示例脚本：<code>param.sh</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo $#          <span style="color:#75715e"># 输出参数个数</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Usage: </span>$0<span style="color:#e6db74"> arg1 arg2 ...&#34;</span>
+</span></span><span style="display:flex;"><span>./arg <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>       <span style="color:#75715e"># 将所有参数传递给./arg</span>
+</span></span><span style="display:flex;"><span>./arg <span style="color:#e6db74">&#34;</span>$*<span style="color:#e6db74">&#34;</span>       <span style="color:#75715e"># 等同于&#34;./arg $1 $2 $3 ...&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./param.sh Copy Files to $HOME
+</span></span></code></pre></div><p>执行时，<code>$@</code>和<code>$*</code>都会把所有参数传递给其他命令，<code>$#</code>输出参数个数。</p>
+<h3 id="元字符">元字符</h3>
+<h4 id="shell元字符">shell元字符</h4>
+<p><code>空格,制表符</code> 命令行参数的分隔符
+<code>回车</code> 执行键入的命令
+<code>&gt; &lt; |</code> 重定向与管道 (还有||)
+<code>;</code> 用于一行内输入多个命令(还有;;)
+<code>&amp;</code> 后台运行 (还有&amp;&amp;)
+<code>$</code> 引用shell变量</p>
+<ol>
+<li><strong>空格和制表符（Tab）</strong>
+空格和制表符用于分隔Shell命令的参数。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;Hello World&#34;</span>
+</span></span></code></pre></div><p>这里的<code>Hello</code>和<code>World</code>是两个参数，空格将它们分开。</p>
+<ol start="2">
+<li>
+<p><strong>回车（Enter）</strong>
+回车用于执行Shell命令。按下回车键时，Shell会执行当前行的命令。</p>
+</li>
+<li>
+<p><strong>重定向与管道</strong></p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong><code>&gt;</code> 和 <code>&lt;</code>（重定向）</strong></p>
+<ul>
+<li><strong><code>&gt;</code></strong>：将输出重定向到文件（覆盖文件内容）。</li>
+<li><strong><code>&lt;</code></strong>：将文件内容作为输入传给命令。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>|</code>（管道）</strong>
+管道用于将一个命令的输出作为另一个命令的输入。</p>
+</li>
+<li>
+<p><strong><code>||</code>（逻辑“或”）</strong>
+只有当前一个命令失败时，才会执行后一个命令。</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong><code>;</code>（命令分隔符）</strong>
+分号允许在一行内执行多个命令，Shell会按顺序依次执行它们。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;First Command&#34;</span>; echo <span style="color:#e6db74">&#34;Second Command&#34;</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>;;</code></strong>：用于Shell脚本中的<code>case</code>语句中，标识一个<code>case</code>分支的结束。</li>
+</ul>
+<ol start="5">
+<li><strong><code>&amp;</code>（后台执行）</strong>
+**<code>&amp;</code>**将命令放在后台执行，Shell不会等待命令执行完毕，会立即返回提示符。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sleep <span style="color:#ae81ff">5</span> &amp;  <span style="color:#75715e"># 该命令会在后台执行，不会阻塞Shell</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>&amp;&amp;</code>（逻辑“与”）</strong>：只有当前一个命令成功执行时，才会执行下一个命令。</li>
+</ul>
+<ol start="6">
+<li>
+<p><strong><code>$</code>（引用Shell变量）</strong>
+使用<code>$</code>来引用Shell变量的值。</p>
+</li>
+<li>
+<p><strong><code>`</code>（反引号）</strong>：命令替换
+反引号用于将命令的输出作为字符串替换。
+或者使用<code>$()</code>来代替反引号，后者更加易读和支持嵌套命令替换。</p>
+</li>
+<li>
+<p><strong><code>*</code>, <code>[ ]</code>, <code>?</code>（文件通配符）</strong></p>
+</li>
+</ol>
+<ul>
+<li><strong><code>*</code></strong>：匹配任意多个字符。</li>
+<li><strong><code>?</code></strong>：匹配单个字符。</li>
+<li><strong><code>[ ]</code></strong>：匹配括号内的字符集。</li>
+</ul>
+<ol start="9">
+<li><strong><code>\</code>（转义字符）</strong>
+反斜杠<code>\</code>用于取消后面字符的特殊作用，即转义字符。它可以让特殊字符作为普通字符使用。</li>
+</ol>
+<ul>
+<li>
+<p><strong>转义特殊字符</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;This is a \$ sign&#34;</span>  <span style="color:#75715e"># 输出：This is a $ sign</span>
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;A quote: \&#34;hello\&#34;&#34;</span> <span style="color:#75715e"># 输出：A quote: &#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;file\ name&#34;</span>         <span style="color:#75715e"># 输出：file name</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>转义文件名中的空格</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ls file<span style="color:#ae81ff">\ </span>name.txt  <span style="color:#75715e"># 转义空格，列出 file name.txt 文件</span>
+</span></span></code></pre></div></li>
+</ul>
+<ol start="10">
+<li><strong><code>()</code>（括号）</strong></li>
+</ol>
+<ul>
+<li>
+<p>用于在子Shell中执行一组命令。括号内的命令会在一个新的Shell环境中执行，父Shell的环境不会被影响。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;Hello from Subshell&#34;</span><span style="color:#f92672">)</span>  <span style="color:#75715e"># 在子Shell中执行命令</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>定义Shell函数</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#66d9ef">function</span> greet<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> echo <span style="color:#e6db74">&#34;Hello, </span>$1<span style="color:#e6db74">&#34;</span>; <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>$ greet World  <span style="color:#75715e"># 输出：Hello, World</span>
+</span></span></code></pre></div></li>
+</ul>
+<ol start="11">
+<li><strong>组合符号的分隔作用</strong>
+<code>( )</code>, <code>&gt;&lt;</code>, <code>|</code>, <code>;&amp;</code>等符号既可以作为分隔符，又可以作为元字符具有特殊作用。例如：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ls &gt; file.txt; wc -l file.txt &amp; sort &lt; file.txt | uniq
+</span></span></code></pre></div><p>解释：</p>
+<ul>
+<li><code>&gt;</code>：重定向输出到<code>file.txt</code></li>
+<li><code>;</code>：分隔命令，先执行<code>ls</code>，然后执行<code>wc -l file.txt</code></li>
+<li><code>&amp;</code>：<code>wc -l</code>在后台运行</li>
+<li><code>&lt;</code>：从<code>file.txt</code>读取数据</li>
+<li><code>|</code>：管道将<code>sort</code>命令的输出传递给<code>uniq</code></li>
+</ul>
+<ol start="12">
+<li><strong>引号的作用</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>双引号 <code>&quot;</code></strong>：双引号内的特殊字符（如 <code>$</code> 和 <code>`</code>）仍会被解释，但其他字符（如空格）会被保留为字面量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;My home dir is </span>$HOME<span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># 输出：My home dir is /home/user</span>
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;My home dir is \$HOME&#34;</span> <span style="color:#75715e"># 输出：My home dir is $HOME</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>单引号 <code>'</code></strong>：单引号内的所有字符都被当作普通字符处理，不会有任何特殊解释。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#39;My home dir is $HOME&#39;</span>  <span style="color:#75715e"># 输出：My home dir is $HOME</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="引号及转义处理">引号及转义处理</h3>
+<p>1、 <strong>常见的转义字符</strong></p>
+<ul>
+<li>
+<p><strong>反斜杠 <code>\</code></strong>：本身就是转义符，用于转义后面的字符。</p>
+</li>
+<li>
+<p><strong><code>$</code></strong>：在字符串中表示变量，需要转义时使用<code>\$</code>。</p>
+</li>
+<li>
+<p><strong>双引号 <code>&quot;</code></strong>：需要转义时，使用 <code>\&quot;</code> 来表示字面上的双引号。</p>
+</li>
+<li>
+<p><strong>单引号 <code>'</code></strong>：在字符串中，单引号本身不能直接使用，如果要在单引号内使用单引号，必须使用两对单引号 <code>'\''</code>。</p>
+</li>
+<li>
+<p><strong>反撇号 <code>`</code></strong>：用来执行命令替换，在字符串中如果需要反撇号，则使用 ```。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;World&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Hello, \&#34;</span>$value<span style="color:#e6db74">\&#34;!&#34;</span>  <span style="color:#75715e"># 输出：Hello, &#34;World&#34;!</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;This is a single quote: &#39;</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">&#39;Hello&#39;</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出：This is a single quote: &#39;Hello&#39;</span>
+</span></span></code></pre></div></li>
+</ul>
+<p>2、 <strong>C语言中的转义字符</strong>
+在C语言中，转义字符用于处理字符串中的特殊字符，如换行符、制表符、引号等。常见的转义字符包括：</p>
+<ul>
+<li><strong><code>\n</code></strong>：换行符</li>
+<li><strong><code>\t</code></strong>：制表符</li>
+<li><strong><code>\\</code></strong>：反斜杠</li>
+<li><strong><code>\&quot;</code></strong>：双引号</li>
+<li><strong><code>\</code></strong>：转义符本身</li>
+</ul>
+<p>3、 <strong>正则表达式中的转义字符</strong></p>
+<ul>
+<li><strong><code>\.</code></strong>：匹配一个字面上的点号。</li>
+<li><strong><code>\*</code></strong>：匹配一个字面上的星号。</li>
+<li><strong><code>\[</code></strong>：匹配一个字面上的左方括号。</li>
+<li><strong><code>\]</code></strong>：匹配一个字面上的右方括号。</li>
+<li><strong><code>\(</code> 和 <code>\)</code></strong>：匹配字面上的括号。</li>
+</ul>
+<p><strong>示例：正则表达式中的转义</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 匹配文件名中的点（.）</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;\.txt&#34;</span> filenames.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 匹配字面上的星号（*）</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;file\*name&#34;</span> filenames.txt
+</span></span></code></pre></div><p>4、 <strong>应用场景：使用转义字符</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ls Data<span style="color:#ae81ff">\ </span>File.txt  <span style="color:#75715e"># 使用反斜杠转义空格</span>
+</span></span></code></pre></div><p><strong>Shell脚本中的转义</strong>
+在Shell脚本中，如果要打印特定的字符（如控制字符或格式化字符），可以使用转义序列。例如，<code>\033[H</code>是控制台的光标移动命令，常用于清屏或定位。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 清屏并显示特定信息</span>
+</span></span><span style="display:flex;"><span>printf <span style="color:#e6db74">&#34;\033[2J\033[H value = [</span>$value<span style="color:#e6db74">]\n&#34;</span>
+</span></span></code></pre></div><p><strong>在配置文件中使用转义</strong>
+在配置文件中（如<code>.conf</code>文件），如果某个字段包含特殊字符（如IP地址），需要确保这些字符在匹配时不被Shell或正则表达式误解。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 假设需要匹配包含IP地址的行</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;192\.168\.[0-9]*\.[0-9]*&#34;</span> config.conf
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-11-07</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" data-title="Linux：shell的基本机理" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" data-title="Linux：shell的基本机理"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" data-title="Linux：shell的基本机理"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" data-title="Linux：shell的基本机理"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" class="prev" rel="prev" title="Linux：文件和目录权限"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：文件和目录权限</a>
+            <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" class="next" rel="next" title="Linux：重定向">Linux：重定向<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

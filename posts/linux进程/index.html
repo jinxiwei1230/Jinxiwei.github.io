@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux：进程 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Linux：进程">
+  <meta property="og:description" content="进程的基本概念和逻辑内存 1、进程与程序
+程序：
+是指令和数据的集合，存放在磁盘上的普通文件中。 必须符合系统要求并标记为可执行文件。 进程：
+是程序的运行实例，包括指令段、用户数据段和系统数据段。 提供执行环境。 程序与进程的关系：
+程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。 进程运行时，程序文件不可修改或删除。 一个程序可以初始化多个进程，它们之间没有联系。 内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。 2、进程的组成部分
+指令段 (Text)：
+包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。 大小固定且只读。 用户数据段(支持动态调整)：
+包括全局变量、静态变量、字符串常量等。 支持动态内存分配，大小可通过 sbrk() 调整（单位为页）。 使用库函数如 malloc() 和 free() 实现内存管理。 用户栈段：
+提供程序执行所需的栈空间。 用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。 包含命令行参数和环境参数，初始化于 main 函数运行之前。 支持动态增长，但有增长限制。 系统数据段：
+包含内核维护的进程数据（如页表和进程控制块 PCB）。 与指令段、数据段、栈段分离，由内核管理。 进程的执行状态 1、进程的系统数据（PCB）
+内存管理：
+页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。 文件管理：
+打开的文件描述符表：记录进程打开的文件。 当前目录：记录当前目录的 i 节点。 根目录：记录根目录位置。 进程状态信息：
+核心态堆栈：用于内核态操作，大小几 KB。 进程状态：如运行、等待、就绪等。 优先级：用于调度决策。 标识信息：
+PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的组号。 权限管理：
+主 UID/GID：实际用户 ID 和组 ID。 有效 UID/GID：用于权限验证。 umask 值：文件权限掩码。 2、传统 UNIX 的 user &#43; proc 结构：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-05T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux：进程">
+  <meta name="twitter:description" content="进程的基本概念和逻辑内存 1、进程与程序
+程序：
+是指令和数据的集合，存放在磁盘上的普通文件中。 必须符合系统要求并标记为可执行文件。 进程：
+是程序的运行实例，包括指令段、用户数据段和系统数据段。 提供执行环境。 程序与进程的关系：
+程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。 进程运行时，程序文件不可修改或删除。 一个程序可以初始化多个进程，它们之间没有联系。 内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。 2、进程的组成部分
+指令段 (Text)：
+包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。 大小固定且只读。 用户数据段(支持动态调整)：
+包括全局变量、静态变量、字符串常量等。 支持动态内存分配，大小可通过 sbrk() 调整（单位为页）。 使用库函数如 malloc() 和 free() 实现内存管理。 用户栈段：
+提供程序执行所需的栈空间。 用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。 包含命令行参数和环境参数，初始化于 main 函数运行之前。 支持动态增长，但有增长限制。 系统数据段：
+包含内核维护的进程数据（如页表和进程控制块 PCB）。 与指令段、数据段、栈段分离，由内核管理。 进程的执行状态 1、进程的系统数据（PCB）
+内存管理：
+页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。 文件管理：
+打开的文件描述符表：记录进程打开的文件。 当前目录：记录当前目录的 i 节点。 根目录：记录根目录位置。 进程状态信息：
+核心态堆栈：用于内核态操作，大小几 KB。 进程状态：如运行、等待、就绪等。 优先级：用于调度决策。 标识信息：
+PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的组号。 权限管理：
+主 UID/GID：实际用户 ID 和组 ID。 有效 UID/GID：用于权限验证。 umask 值：文件权限掩码。 2、传统 UNIX 的 user &#43; proc 结构：">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux：进程",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E8%BF%9B%E7%A8%8B\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  611 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E8%BF%9B%E7%A8%8B\/","datePublished": "2024-12-05T00:00:00+00:00","dateModified": "2024-12-05T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux：进程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-12-05">2024-12-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;611 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</a></li>
+    <li><a href="#进程的执行状态">进程的执行状态</a></li>
+    <li><a href="#进程的执行时间">进程的执行时间</a></li>
+    <li><a href="#进程的生命周期从生到死">进程的生命周期：从生到死</a>
+      <ul>
+        <li><a href="#fork-系统调用"><code>fork</code> 系统调用</a></li>
+        <li><a href="#命令行参数与环境参数">命令行参数与环境参数</a></li>
+        <li><a href="#exec-系统调用">exec 系统调用</a></li>
+        <li><a href="#僵尸进程-zombie-process">*“僵尸”进程 (Zombie Process)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
+<p><strong>1、进程与程序</strong></p>
+<ul>
+<li>
+<p><strong>程序</strong>：</p>
+<ul>
+<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
+<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程</strong>：</p>
+<ul>
+<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
+<li>提供执行环境。</li>
+</ul>
+</li>
+<li>
+<p><strong>程序与进程的关系</strong>：</p>
+<ul>
+<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
+<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
+<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
+<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、进程的组成部分</strong></p>
+<ul>
+<li>
+<p><strong>指令段 (Text)</strong>：</p>
+<ul>
+<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
+<li><strong>大小固定且只读</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户数据段(支持动态调整)</strong>：</p>
+<ul>
+<li>包括全局变量、静态变量、字符串常量等。</li>
+<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
+<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户栈段</strong>：</p>
+<ul>
+<li>提供程序执行所需的栈空间。</li>
+<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
+<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
+<li>支持动态增长，但有增长限制。</li>
+</ul>
+</li>
+<li>
+<p><strong>系统数据段</strong>：</p>
+<ul>
+<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
+<li>与指令段、数据段、栈段分离，由内核管理。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进程的执行状态">进程的执行状态</h2>
+<p><strong>1、进程的系统数据（PCB）</strong></p>
+<ul>
+<li>
+<p><strong>内存管理</strong>：</p>
+<ul>
+<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件管理</strong>：</p>
+<ul>
+<li>打开的文件描述符表：记录进程打开的文件。</li>
+<li>当前目录：记录当前目录的 i 节点。</li>
+<li>根目录：记录根目录位置。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程状态信息</strong>：</p>
+<ul>
+<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
+<li>进程状态：如运行、等待、就绪等。</li>
+<li>优先级：用于调度决策。</li>
+</ul>
+</li>
+<li>
+<p><strong>标识信息</strong>：</p>
+<ul>
+<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
+<li>进程组号：进程所属的组号。</li>
+</ul>
+</li>
+<li>
+<p><strong>权限管理</strong>：</p>
+<ul>
+<li>主 UID/GID：实际用户 ID 和组 ID。</li>
+<li>有效 UID/GID：用于权限验证。</li>
+<li>umask 值：文件权限掩码。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p>
+<ul>
+<li>
+<p><strong><code>user</code> 结构</strong>：</p>
+<ul>
+<li>大小约 5000 字节，定义在 <code>&lt;sys/user.h&gt;</code>。</li>
+<li>包含进程运行时需要的数据，如核心态堆栈（占较多空间）。</li>
+<li>进程运行时动态分配，<strong>仅运行时存在</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>proc</code> 结构</strong>：</p>
+<ul>
+<li>大小约 300 字节，定义在 <code>&lt;sys/proc.h&gt;</code>。</li>
+<li>存储进程不运行时需要的管理信息。</li>
+<li><strong>始终存在，用于系统管理进程。</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>用户对系统数据的访问</strong>：</p>
+<ul>
+<li>用户程序不能直接修改进程的系统数据。</li>
+<li>可通过系统调用（如 <code>chdir</code>, <code>umask</code>, <code>open</code>, <code>close</code>, <code>setpgrp</code>, <code>getpid</code>, <code>getppid</code>）访问或修改相关属性。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、进程的基本状态</strong>：</p>
+<ul>
+<li>
+<p><strong>运行状态</strong>：</p>
+<ul>
+<li>进程被内核分配 CPU 时间片运行。</li>
+</ul>
+</li>
+<li>
+<p><strong>睡眠状态</strong>（也称阻塞、等待或挂起状态）：</p>
+<ul>
+<li>进程条件未满足时进入睡眠状态，不占用 CPU 时间。</li>
+<li>条件满足后，进程从睡眠状态转为运行状态。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>3、进程的调度机制</strong>：</p>
+<ul>
+<li>
+<p><strong>调度优先级</strong>：</p>
+<ul>
+<li>高优先级进程优先获得调度。</li>
+<li>进程优先级动态调整，睡眠状态的进程被唤醒时优先级提升，以提高对用户输入或设备操作的响应速度。</li>
+</ul>
+</li>
+<li>
+<p><strong>优先级调整</strong>：</p>
+<ul>
+<li>用户程序可用 <code>nice()</code> 系统调用有限度地调整优先级。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>4、ps命令</strong>：</p>
+<ul>
+<li>用于查阅进程状态（process status）,实际上是从内核中提取 PCB 数据并以选择性的方式显示。</li>
+</ul>
+<p><strong>常用选项</strong>：</p>
+<ul>
+<li>
+<p><strong>无选项</strong>：</p>
+<ul>
+<li>列出当前终端启动的进程。</li>
+<li>显示项目：<code>PID</code>，<code>TTY</code>，<code>TIME</code>，<code>COMMAND</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>-e</code></strong>：</p>
+<ul>
+<li>列出系统中所有进程（扩展进程范围）。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>-f</code></strong>：</p>
+<ul>
+<li>以 full 格式列出进程，增加更多列信息。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>-l</code></strong>：</p>
+<ul>
+<li>以 long 格式显示，提供详细的每进程属性。</li>
+</ul>
+</li>
+</ul>
+<p><strong><code>ps</code> 显示的主要进程属性</strong>：</p>
+<ol>
+<li><strong><code>UID</code></strong>：<strong>用户 ID</strong>，标识进程所属用户。</li>
+<li><strong><code>PID</code></strong>：<strong>进程 ID</strong>，唯一标识进程。</li>
+<li><strong><code>PPID</code></strong>：<strong>父进程的 PID</strong>。</li>
+<li><strong><code>STIME</code></strong>：进程<strong>启动时间</strong>。</li>
+<li><strong><code>C</code></strong>：<strong>CPU 占用指数</strong>（短期 CPU 使用情况，算法因系统而异）。</li>
+<li><strong><code>SZ</code></strong>：进程<strong>逻辑内存大小</strong>（单位：页）。</li>
+<li><strong><code>TTY</code></strong>：<strong>终端名称</strong>，显示进程所属的终端设备。</li>
+<li><strong><code>COMMAND</code></strong>：进程<strong>启动命令</strong>。</li>
+<li><strong><code>WCHAN</code></strong>：进程睡眠通道，显示阻塞位置。</li>
+<li><strong><code>TIME</code></strong>：<strong>累计 CPU 使用时间</strong>（单位：秒）。</li>
+<li><strong><code>PRI</code></strong>：<strong>优先级</strong>，数值越低优先级越高。</li>
+<li><strong><code>S</code></strong>：<strong>进程状态</strong>：
+<ul>
+<li><code>S</code> (Sleep): 睡眠状态</li>
+<li><code>R</code> (Run): 运行状态</li>
+<li><code>Z</code> (Zombie): 僵尸状态</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="进程的执行时间">进程的执行时间</h2>
+<p><strong>1、进程执行时间的组成</strong>：</p>
+<ul>
+<li><strong>睡眠时间</strong>：进程处于睡眠状态的时间。</li>
+<li><strong>CPU 时间</strong>：包括以下两部分：
+<ul>
+<li><strong>用户时间</strong>：进程在用户态执行的时间。</li>
+<li><strong>系统时间</strong>：进程在内核态执行的时间。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、<code>time</code> 命令</strong>：</p>
+<ul>
+<li>
+<p><strong>外部命令 <code>/usr/bin/time</code></strong>：<br>
+格式：<code>Real</code>、<code>User</code>、<code>System</code> 时间。</p>
+<ul>
+<li><strong>Real</strong>：程序运行的总时间（墙上时钟时间）。</li>
+<li><strong>User</strong>：CPU 用户时间。</li>
+<li><strong>System</strong>：CPU 系统时间。</li>
+</ul>
+</li>
+<li>
+<p><strong>C-Shell 内部命令 <code>time</code></strong>：<br>
+输出格式包含更多信息，如 I/O 操作和内存使用。</p>
+</li>
+</ul>
+<p><strong>4、与 CPU 时间相关的命令和系统调用</strong>：</p>
+<ul>
+<li>
+<p><strong><code>vmstat</code></strong>：显示有关 CPU、内存、磁盘、分页和进程活动的信息</p>
+<ol>
+<li>进程（procs）</li>
+</ol>
+<ul>
+<li>r	等待运行的进程数（就绪队列中的进程）。</li>
+<li>b	正在等待 I/O 的进程数（阻塞队列中的进程）。</li>
+</ul>
+<ol start="2">
+<li>内存（memory）</li>
+</ol>
+<ul>
+<li>swpd	使用的虚拟内存大小（以 KB 为单位）。</li>
+<li>free	系统中空闲内存的大小（以 KB 为单位）。</li>
+<li>buff	用于缓冲的内存大小（以 KB 为单位）。</li>
+<li>cache	用于缓存的内存大小（以 KB 为单位）。</li>
+</ul>
+<ol start="3">
+<li>分页（swap）</li>
+</ol>
+<ul>
+<li>si	每秒从磁盘换入的内存页数（swap in）。</li>
+<li>so	每秒换出的内存页数（swap out）。</li>
+</ul>
+<ol start="4">
+<li>块设备 I/O（io）</li>
+</ol>
+<ul>
+<li>bi	每秒从块设备（如硬盘）读取的数据块数。</li>
+<li>bo	每秒写入块设备的数据块数。</li>
+</ul>
+<ol start="5">
+<li>系统（system）</li>
+</ol>
+<ul>
+<li>in	每秒中断的次数。</li>
+<li>cs	每秒上下文切换的次数（反映多任务切换频率）。</li>
+</ul>
+<ol start="6">
+<li>CPU（cpu）</li>
+</ol>
+<ul>
+<li>us	用户态占用的 CPU 时间百分比。</li>
+<li>sy	系统态占用的 CPU 时间百分比。</li>
+<li>id	CPU 空闲时间百分比。</li>
+<li>wa	I/O 等待占用的 CPU 时间百分比。</li>
+<li>st	被虚拟机抢占的 CPU 时间百分比。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>times()</code> 系统调用</strong>：返回当前进程和子进程的 CPU 使用时间：</p>
+<ul>
+<li><strong>结构体 <code>tms</code></strong>：
+<ul>
+<li><code>tms_utime</code>：用户 CPU 时间。</li>
+<li><code>tms_stime</code>：系统 CPU 时间。</li>
+<li><code>tms_cutime</code>：子进程的用户 CPU 时间。</li>
+<li><code>tms_cstime</code>：子进程的系统 CPU 时间。</li>
+</ul>
+</li>
+<li><strong><code>clock()</code></strong>：返回 <code>times()</code> 的总 CPU 时间，单位是 <code>1/CLOCKS_PER_SEC</code> 秒。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>getrusage()</code> 函数</strong>：</p>
+<ul>
+<li><code>times()</code> 的升级版，提供更多信息，如内存使用量、I/O 次数、进程切换次数等。</li>
+</ul>
+</li>
+</ul>
+<p><strong>5、与时间管理相关的函数</strong>：</p>
+<ul>
+<li><strong><code>time()</code></strong>：获取当前时间坐标（秒级精度）。</li>
+<li><strong><code>gettimeofday()</code></strong>：获取当前时间，精确到微秒（μs）。</li>
+<li><strong><code>mktime()</code></strong>：将年月日时分秒转换为时间坐标值。</li>
+<li><strong><code>ctime()</code> / <code>asctime()</code> / <code>localtime()</code></strong>：时间坐标与年月日时分秒的转换。</li>
+<li><strong><code>strftime()</code></strong>：自定义日期和时间字符串格式。</li>
+</ul>
+<p><strong>6、忙等待问题</strong>：</p>
+<ul>
+<li><strong>忙等待缺点</strong>：浪费 CPU 资源，在多任务系统中不可取。</li>
+<li><strong>解决方案</strong>：
+<ul>
+<li>使用 <code>sleep(1)</code> 设置轮询间隔为 1 秒。</li>
+<li>使用 <code>select()</code> 可将睡眠时间精确到 10 毫秒级。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进程的生命周期从生到死">进程的生命周期：从生到死</h2>
+<h3 id="fork-系统调用"><code>fork</code> 系统调用</h3>
+<p><strong>1、核心功能</strong>：创建一个新进程，是创建进程的唯一方式。</p>
+<p><strong>2、内存复制机制</strong></p>
+<ul>
+<li><strong>完全复制</strong>：指令、用户数据段、堆栈段。</li>
+<li><strong>部分复制</strong>：系统数据段。</li>
+<li><strong>优化技术</strong>：现代系统使用 <strong>写时复制 (Copy-On-Write, COW)</strong>，延迟实际内存的复制操作，只有当父或子进程尝试修改共享数据时才执行真正的复制。</li>
+</ul>
+<p><strong>3、<code>fork</code> 的返回值</strong></p>
+<ul>
+<li><strong>父进程</strong>：返回子进程的 PID（正整数）。</li>
+<li><strong>子进程</strong>：返回 <code>0</code>。</li>
+<li><strong>失败</strong>：返回 <code>-1</code>，并设置 <code>errno</code>。</li>
+</ul>
+<p><strong>4、内核的实现</strong></p>
+<ul>
+<li><strong>创建新的 PCB</strong>：为子进程分配独立的进程控制块 (PCB)。</li>
+<li><strong>复制父进程环境</strong>：包括 PCB 信息、内存资源等。</li>
+<li><strong>共享资源</strong>：对程序员透明，父子进程共享部分资源（如文件描述符等）。</li>
+</ul>
+<hr>
+<h3 id="命令行参数与环境参数">命令行参数与环境参数</h3>
+<p><strong>1、命令行参数</strong></p>
+<ul>
+<li><strong>位置</strong>：位于进程堆栈底部的初始化数据。</li>
+<li><strong>传递方式</strong>：</li>
+<li>命令行参数通过 <code>main()</code> 函数的参数 <code>argc</code> 和 <code>argv</code> 传递：
+<ul>
+<li><code>argc</code>：表示<strong>命令行参数的个数</strong>，包括程序名。</li>
+<li><code>argv</code>：是一个指针数组，存储每个命令行参数的地址。</li>
+</ul>
+</li>
+<li>例：<code>./program arg1 arg2</code> 中：
+<ul>
+<li><code>argc = 3</code></li>
+<li><code>argv[0] = &quot;./program&quot;</code></li>
+<li><code>argv[1] = &quot;arg1&quot;</code></li>
+<li><code>argv[2] = &quot;arg2&quot;</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>2、环境参数</strong></p>
+<ul>
+<li><strong>定义</strong>：用于传递系统环境信息，例如路径、主目录、终端类型等。</li>
+<li><strong>访问方法</strong>：
+<ol>
+<li><strong>通过外部变量 <code>environ</code></strong>：全局外部变量，直接遍历 <code>environ</code> 指针数组打印所有环境变量。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>environ;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>p <span style="color:#f92672">=</span> environ;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>p) <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p<span style="color:#f92672">++</span>);
+</span></span></code></pre></div></li>
+<li><strong>通过 <code>main</code> 函数的第三个参数</strong>：<code>env</code> 参数与 <code>environ</code> 指向相同内容，功能一致。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>env) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>p <span style="color:#f92672">=</span> env;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>p) <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p<span style="color:#f92672">++</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li><strong>通过 <code>getenv</code> 函数</strong>：返回指定环境变量的值，常用于快速查询特定环境信息，如 <code>HOME</code>、<code>PATH</code> 等。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#a6e22e">getenv</span>(<span style="color:#e6db74">&#34;HOME&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (p) <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+</span></span></code></pre></div></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="exec-系统调用">exec 系统调用</h3>
+<p><strong>1、功能</strong></p>
+<ul>
+<li><code>exec</code> 系统调用用于用一个指定的程序文件重新<strong>初始化</strong>当前进程。</li>
+<li>它会加载新的程序，替换当前进程的指令段、用户数据段、堆栈段，以及更新 CPU 的程序计数器 (PC)。</li>
+<li><strong>注意</strong>：<code>exec</code> 并不会创建新进程，而是将当前进程的执行内容替换成新程序的内容，进程 ID (<code>PID</code>) 不变。</li>
+<li>可以指定新的命令行参数和环境变量，重新初始化进程堆栈。</li>
+<li>调用 <code>exec</code> 后，原进程的代码、数据和堆栈将完全被新程序覆盖。</li>
+</ul>
+<p><strong>2、6 种格式的 <code>exec</code> 系统调用</strong></p>
+<ol>
+<li>
+<p><strong><code>execl</code> (list)</strong></p>
+<ul>
+<li><strong>形式</strong>：使用参数列表形式传递命令行参数。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">execl</span>(<span style="color:#e6db74">&#34;/bin/ls&#34;</span>, <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL);
+</span></span></code></pre></div></li>
+<li>参数是通过一个个独立的参数传递给函数，最后以 <code>NULL</code> 结束。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>execv</code> (vector)</strong></p>
+<ul>
+<li><strong>形式</strong>：使用指针数组的形式传递命令行参数。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>args[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL };
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">execv</span>(<span style="color:#e6db74">&#34;/bin/ls&#34;</span>, args);
+</span></span></code></pre></div></li>
+<li>这里，命令行参数以数组的形式传递给 <code>execv</code>，数组末尾需加 <code>NULL</code> 作为结束标志。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>execle</code> (list + environment)</strong></p>
+<ul>
+<li><strong>形式</strong>：类似 <code>execl</code>，但是可以指定环境变量。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">execle</span>(<span style="color:#e6db74">&#34;/bin/ls&#34;</span>, <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL, environ);
+</span></span></code></pre></div></li>
+<li>环境变量 <code>environ</code> 被显式地传递给新的进程，替代默认的环境。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>execve</code> (vector + environment)</strong></p>
+<ul>
+<li><strong>形式</strong>：类似 <code>execv</code>，但也可以指定环境变量。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>args[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL };
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">execve</span>(<span style="color:#e6db74">&#34;/bin/ls&#34;</span>, args, environ);
+</span></span></code></pre></div></li>
+<li>与 <code>execv</code> 相似，参数通过数组传递，同时环境变量通过 <code>environ</code> 传递给新的进程。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>execlp</code> (list + path)</strong></p>
+<ul>
+<li><strong>形式</strong>：类似 <code>execl</code>，但在寻找可执行文件时使用 <code>PATH</code> 环境变量。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">execlp</span>(<span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL);
+</span></span></code></pre></div></li>
+<li>不需要提供绝对路径，<code>execlp</code> 会自动查找系统 <code>PATH</code> 环境变量指定的目录来寻找可执行文件。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>execvp</code> (vector + path)</strong></p>
+<ul>
+<li><strong>形式</strong>：类似 <code>execv</code>，但是会使用 <code>PATH</code> 环境变量来查找可执行文件。</li>
+<li><strong>例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>args[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;ls&#34;</span>, <span style="color:#e6db74">&#34;-l&#34;</span>, NULL };
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">execvp</span>(<span style="color:#e6db74">&#34;ls&#34;</span>, args);
+</span></span></code></pre></div></li>
+<li>参数通过数组传递，命令名会根据 <code>PATH</code> 进行查找，类似于 <code>execlp</code>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>总结</strong></p>
+<ul>
+<li><strong><code>exec</code> 系统调用</strong>用于将当前进程的代码替换为新程序的代码，进程不变，但执行内容改变。</li>
+<li><strong>命令行参数传递方式</strong>：
+<ul>
+<li><code>l</code>：通过参数列表传递。</li>
+<li><code>v</code>：通过指针数组传递。</li>
+<li><code>e</code>：可以指定新的环境变量。</li>
+<li><code>p</code>：通过 <code>PATH</code> 环境变量查找可执行文件。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="僵尸进程-zombie-process">*“僵尸”进程 (Zombie Process)</h3>
+<p><strong>1、概念</strong></p>
+<ul>
+<li><strong>僵尸进程</strong>是指一个已经终止（退出）但其父进程尚未调用 <code>wait()</code> 或 <code>waitpid()</code> 等系统调用来读取其退出状态的进程。</li>
+<li>这些进程的资源已经被操作系统回收，包括内存和其他系统资源，但仍然保留在内核中，仅占用少量的内核进程表条目。</li>
+<li>僵尸进程的存在是为了记录进程的终止状态，直到父进程来收集这些信息（通过 <code>wait()</code> 或 <code>waitpid()</code>）。</li>
+<li>一旦父进程“收尸”完成，僵尸进程就会从进程表中移除。</li>
+<li>虽然僵尸进程不占用太多资源，但如果有大量的僵尸进程，可能会耗尽系统的进程表，导致无法创建新进程。</li>
+</ul>
+<p><strong>2、孤儿进程</strong></p>
+<ul>
+<li><strong>孤儿进程</strong>是指其父进程在其终止之前已经退出的进程。孤儿进程会被 <code>init</code> 进程（PID为1的进程）接管。</li>
+<li><code>init</code> 进程会周期性地调用 <code>wait()</code> 来清理其“收养”的孤儿进程，从而避免形成僵尸进程。</li>
+</ul>
+<p><strong>3、<code>wait()</code> 系统调用</strong></p>
+<ul>
+<li><code>wait()</code> 是父进程用来等待其子进程终止的系统调用。如果子进程已终止，<code>wait()</code> 会立即返回，否则它会使父进程阻塞，直到有子进程终止。</li>
+<li><strong>功能</strong>：父进程可以通过调用 <code>wait()</code> 来获取子进程的终止状态。</li>
+</ul>
+<hr>
+<p><strong>字符串库函数：<code>strtok</code></strong>
+<code>strtok</code> 函数用于将一个字符串分割成一系列的子字符串（通常称为“单词”或“token”），并返回每个子字符串的指针。该函数会逐步遍历输入字符串，按照指定的分隔符进行拆分。</p>
+<p><strong><code>system()</code> 函数的功能</strong>
+<code>system()</code> 用于在程序中执行一个 shell 命令。它会启动一个新的子进程，执行由字符串参数传递的命令。执行完毕后，子进程会终止，父进程会等待子进程完成执行。</p>
+<hr>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-12-05</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" data-title="Linux：进程" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" data-title="Linux：进程"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" data-title="Linux：进程"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" data-title="Linux：进程"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" class="prev" rel="prev" title="Linux：重定向"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：重定向</a>
+            <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" class="next" rel="next" title="Linux：信号">Linux：信号<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

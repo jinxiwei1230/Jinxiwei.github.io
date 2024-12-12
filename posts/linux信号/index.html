@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux：信号 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Linux：信号">
+  <meta property="og:description" content="信号的产生及类型 1、命令kill
+功能：用于向进程发送信号。 基本用法： kill -signal PID-list：发送指定信号到一个或多个进程。 默认信号为 SIGTERM（15），用于正常终止进程。 示例： kill 1275：向进程 1275 发送 SIGTERM 信号。 kill -9 1326：向进程 1326 发送 SIGKILL 信号，强制终止进程。 2、进程组
+定义： 进程组由 p_pgrp 字段标识，相同 p_pgrp 值的进程属于同一组。 如果 p_pgrp 等于 p_pid，则该进程是组长。 行为： 创建新组：setsid() 系统调用让进程脱离原组并成为新组组长。 继承：子进程通过 fork 继承父进程的 p_pgrp。 示例：kill -0 0 会向与当前进程同组的所有进程发送信号。 3、信号机制
+功能：信号是一种“软件中断”，用于通知进程处理异常事件。 信号产生： 用户态进程： 通过 kill() 或 alarm() 调用发送信号。 内核触发： 由中断或异常事件触发。 例子： SIGSEGV（段违例）：进程访问非法内存地址时触发。 SIGFPE（浮点溢出）：如零做除数。 SIGPIPE：管道读端关闭时写端触发。 4、信号类型
+信号在 &lt;sys/signal.h&gt; 文件中以宏定义，种类有限（约几十种）。 关键信号及其作用： SIGTERM（15）：软件终止信号（默认信号）。 SIGHUP（1）：挂断信号，用户退出 shell 时触发。 SIGINT（2）：中断信号，用户按 Ctrl-C 触发。 SIGQUIT（3）：退出信号，按 Ctrl-\ 触发，产生 core 文件。 SIGKILL（9）：强制终止信号，不可被捕获或忽略。 SIGALRM（14）：计时器信号，由 alarm() 触发。 SIGPIPE：管道写端对已关闭读端写操作。 用户自定义信号：SIGUSR1、SIGUSR2。 异常信号： SIGSEGV：段违例。 SIGFPE：浮点溢出。 SIGILL：非法指令。 其他信号： SIGCLD：子进程终止。 SIGWINCH：终端窗口大小改变。 进程对信号的处理 1、设置为默认处理方式">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-12T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux：信号">
+  <meta name="twitter:description" content="信号的产生及类型 1、命令kill
+功能：用于向进程发送信号。 基本用法： kill -signal PID-list：发送指定信号到一个或多个进程。 默认信号为 SIGTERM（15），用于正常终止进程。 示例： kill 1275：向进程 1275 发送 SIGTERM 信号。 kill -9 1326：向进程 1326 发送 SIGKILL 信号，强制终止进程。 2、进程组
+定义： 进程组由 p_pgrp 字段标识，相同 p_pgrp 值的进程属于同一组。 如果 p_pgrp 等于 p_pid，则该进程是组长。 行为： 创建新组：setsid() 系统调用让进程脱离原组并成为新组组长。 继承：子进程通过 fork 继承父进程的 p_pgrp。 示例：kill -0 0 会向与当前进程同组的所有进程发送信号。 3、信号机制
+功能：信号是一种“软件中断”，用于通知进程处理异常事件。 信号产生： 用户态进程： 通过 kill() 或 alarm() 调用发送信号。 内核触发： 由中断或异常事件触发。 例子： SIGSEGV（段违例）：进程访问非法内存地址时触发。 SIGFPE（浮点溢出）：如零做除数。 SIGPIPE：管道读端关闭时写端触发。 4、信号类型
+信号在 &lt;sys/signal.h&gt; 文件中以宏定义，种类有限（约几十种）。 关键信号及其作用： SIGTERM（15）：软件终止信号（默认信号）。 SIGHUP（1）：挂断信号，用户退出 shell 时触发。 SIGINT（2）：中断信号，用户按 Ctrl-C 触发。 SIGQUIT（3）：退出信号，按 Ctrl-\ 触发，产生 core 文件。 SIGKILL（9）：强制终止信号，不可被捕获或忽略。 SIGALRM（14）：计时器信号，由 alarm() 触发。 SIGPIPE：管道写端对已关闭读端写操作。 用户自定义信号：SIGUSR1、SIGUSR2。 异常信号： SIGSEGV：段违例。 SIGFPE：浮点溢出。 SIGILL：非法指令。 其他信号： SIGCLD：子进程终止。 SIGWINCH：终端窗口大小改变。 进程对信号的处理 1、设置为默认处理方式">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux：信号",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E4%BF%A1%E5%8F%B7\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  506 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/linux%E4%BF%A1%E5%8F%B7\/","datePublished": "2024-12-12T00:00:00+00:00","dateModified": "2024-12-12T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux：信号</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-12-12">2024-12-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;506 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#信号的产生及类型">信号的产生及类型</a></li>
+        <li><a href="#进程对信号的处理">进程对信号的处理</a></li>
+        <li><a href="#全局跳转sigsetjmp-和-siglongjmp">全局跳转：<code>sigsetjmp</code> 和 <code>siglongjmp</code></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="信号的产生及类型">信号的产生及类型</h3>
+<p><strong>1、命令kill</strong></p>
+<ul>
+<li><strong>功能</strong>：用于向进程发送信号。</li>
+<li><strong>基本用法</strong>：
+<ul>
+<li><code>kill -signal PID-list</code>：发送指定信号到一个或多个进程。</li>
+<li>默认信号为 <code>SIGTERM</code>（15），用于正常终止进程。</li>
+<li>示例：
+<ul>
+<li><code>kill 1275</code>：向进程 1275 发送 <code>SIGTERM</code> 信号。</li>
+<li><code>kill -9 1326</code>：向进程 1326 发送 <code>SIGKILL</code> 信号，强制终止进程。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、进程组</strong></p>
+<ul>
+<li><strong>定义</strong>：
+<ul>
+<li>进程组由 <code>p_pgrp</code> 字段标识，相同 <code>p_pgrp</code> 值的进程属于同一组。</li>
+<li>如果 <code>p_pgrp</code> 等于 <code>p_pid</code>，则该进程是组长。</li>
+</ul>
+</li>
+<li><strong>行为</strong>：
+<ul>
+<li><strong>创建新组</strong>：<code>setsid()</code> 系统调用让进程脱离原组并成为新组组长。</li>
+<li><strong>继承</strong>：子进程通过 <code>fork</code> 继承父进程的 <code>p_pgrp</code>。</li>
+<li>示例：<code>kill -0 0</code> 会向与当前进程同组的所有进程发送信号。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、信号机制</strong></p>
+<ul>
+<li><strong>功能</strong>：信号是一种“软件中断”，用于通知进程处理异常事件。</li>
+<li><strong>信号产生</strong>：
+<ol>
+<li><strong>用户态进程</strong>：
+<ul>
+<li>通过 <code>kill()</code> 或 <code>alarm()</code> 调用发送信号。</li>
+</ul>
+</li>
+<li><strong>内核触发</strong>：
+<ul>
+<li>由中断或异常事件触发。</li>
+<li>例子：
+<ul>
+<li><code>SIGSEGV</code>（段违例）：进程访问非法内存地址时触发。</li>
+<li><code>SIGFPE</code>（浮点溢出）：如零做除数。</li>
+<li><code>SIGPIPE</code>：管道读端关闭时写端触发。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>4、信号类型</strong></p>
+<ul>
+<li>信号在 <code>&lt;sys/signal.h&gt;</code> 文件中以宏定义，种类有限（约几十种）。</li>
+<li><strong>关键信号及其作用</strong>：
+<ul>
+<li><code>SIGTERM</code>（15）：软件终止信号（默认信号）。</li>
+<li><code>SIGHUP</code>（1）：挂断信号，用户退出 shell 时触发。</li>
+<li><code>SIGINT</code>（2）：中断信号，用户按 <code>Ctrl-C</code> 触发。</li>
+<li><code>SIGQUIT</code>（3）：退出信号，按 <code>Ctrl-\</code> 触发，产生 core 文件。</li>
+<li><code>SIGKILL</code>（9）：强制终止信号，不可被捕获或忽略。</li>
+<li><code>SIGALRM</code>（14）：计时器信号，由 <code>alarm()</code> 触发。</li>
+<li><code>SIGPIPE</code>：管道写端对已关闭读端写操作。</li>
+<li>用户自定义信号：<code>SIGUSR1</code>、<code>SIGUSR2</code>。</li>
+<li>异常信号：
+<ul>
+<li><code>SIGSEGV</code>：段违例。</li>
+<li><code>SIGFPE</code>：浮点溢出。</li>
+<li><code>SIGILL</code>：非法指令。</li>
+</ul>
+</li>
+<li>其他信号：
+<ul>
+<li><code>SIGCLD</code>：子进程终止。</li>
+<li><code>SIGWINCH</code>：终端窗口大小改变。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="进程对信号的处理">进程对信号的处理</h3>
+<p><strong>1、设置为默认处理方式</strong></p>
+<ul>
+<li>大部分信号的默认处理是终止进程，有些信号会生成 core 文件供调试。</li>
+<li>示例代码：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">signal</span>(SIGINT, SIG_DFL); <span style="color:#75715e">// 设置 SIGINT 信号为默认处理方式
+</span></span></span></code></pre></div></li>
+</ul>
+<p><strong>2、信号被忽略：举例</strong></p>
+<ul>
+<li>
+<p>进程可以选择忽略某些信号（但无法忽略 <code>SIGKILL</code> 和 <code>SIGSTOP</code>）。</p>
+</li>
+<li>
+<p><strong>注意</strong>：某信号被忽略会被子进程继承。</p>
+</li>
+<li>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">signal</span>(SIGINT, SIG_IGN); <span style="color:#75715e">// 忽略 SIGINT 信号
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>例子</strong>：</p>
+<ul>
+<li>独立运行的 <code>bar</code> 进程可以被 <code>kill -15</code> 或 <code>Ctrl-C</code> 终止。</li>
+<li>如果 <code>foo</code> 启动了 <code>bar</code> 且在 <code>foo</code> 中忽略了 <code>SIGTERM</code> 和 <code>SIGINT</code> 信号，则 <code>bar</code> 无法被 <code>kill -15</code> 或 <code>Ctrl-C</code> 终止。</li>
+</ul>
+<p><strong>代码示例：</strong></p>
+<ul>
+<li>
+<p><strong><code>foo.c</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">signal</span>(SIGTERM, SIG_IGN); <span style="color:#75715e">// 忽略 SIGTERM
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">signal</span>(SIGINT, SIG_IGN); <span style="color:#75715e">// 忽略 SIGINT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fork</span>()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (;;) <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">100</span>); <span style="color:#75715e">// 父进程无限睡眠
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">execlp</span>(<span style="color:#e6db74">&#34;./bar&#34;</span>, <span style="color:#e6db74">&#34;bar&#34;</span>, NULL); <span style="color:#75715e">// 子进程执行 bar
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>bar.c</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (;;) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i<span style="color:#f92672">++</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">// 每秒输出计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<p><strong>3、信号的捕捉</strong></p>
+<ul>
+<li>捕捉信号并通过<strong>自定义函数</strong>处理，用户在信号发生时执行该函数。</li>
+<li>示例代码：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 信号处理函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sig_handle</span>(<span style="color:#66d9ef">int</span> sig) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;HELLO! Signal %d catched.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, sig);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 捕捉 SIGINT 和 SIGTERM 信号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">signal</span>(SIGINT, sig_handle);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">signal</span>(SIGTERM, sig_handle);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (;;) <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">500</span>); <span style="color:#75715e">// 无限睡眠
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
+<li><strong>运行效果</strong>：
+<ul>
+<li>按下 <code>Ctrl-C</code> 或发送 <code>kill -15</code> 信号时，会输出类似以下信息：
+<pre tabindex="0"><code>HELLO! Signal 2 catched.   // Ctrl-C 触发 SIGINT
+HELLO! Signal 15 catched.  // kill -15 触发 SIGTERM
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<p><strong>4、僵尸进程</strong></p>
+<ol>
+<li>
+<p><strong>定义</strong>：</p>
+<ul>
+<li>子进程终止后，父进程未使用 <code>wait</code> 或 <code>waitpid</code> 收集子进程的退出状态，导致子进程成为僵尸进程（<code>defunct</code> 或 <code>zombie</code>）。</li>
+<li>僵尸进程虽然不占用内存资源，但占用内核的 <code>proc</code> 表项（进程表项）。</li>
+<li>如果系统中存在大量僵尸进程，会导致进程表耗尽，无法创建新进程。</li>
+</ul>
+</li>
+<li>
+<p><strong>解决僵尸进程的方法</strong>：</p>
+<ul>
+<li><strong>父进程调用 <code>wait</code> 或 <code>waitpid</code></strong>：
+父进程通过 <code>wait</code> 系统调用清理僵尸进程的资源。</li>
+<li><strong>忽略 <code>SIGCLD</code> 信号</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">signal</span>(SIGCLD, SIG_IGN); <span style="color:#75715e">// 忽略子进程终止信号
+</span></span></span></code></pre></div></li>
+<li><strong>捕获 <code>SIGCLD</code> 信号</strong>，并在信号处理函数中调用 <code>wait</code>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sig_cld_handler</span>(<span style="color:#66d9ef">int</span> sig) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#a6e22e">waitpid</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, NULL, WNOHANG) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) { }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">signal</span>(SIGCLD, sig_cld_handler);
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>子进程中止后的异步通知机制</strong>：</p>
+<ul>
+<li>子进程终止时，系统会向父进程发送 <code>SIGCLD</code> 信号，父进程可以通过处理该信号避免僵尸进程。</li>
+</ul>
+</li>
+</ol>
+<p><strong>5、发送信号kill</strong></p>
+<ul>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">kill</span>(<span style="color:#66d9ef">int</span> pid, <span style="color:#66d9ef">int</span> sig);
+</span></span></code></pre></div></li>
+<li><strong>参数说明</strong>：
+<ul>
+<li><code>pid &gt; 0</code>：向指定 PID 的进程发送信号。</li>
+<li><code>pid == 0</code>：向当前进程组的所有进程发送信号。</li>
+<li><code>pid &lt; 0</code>：向以 <code>-pid</code> 为组长的进程组发送信号。</li>
+<li><code>sig == 0</code>：不发送信号，仅用于检测某个进程是否存在。</li>
+</ul>
+</li>
+<li><strong>返回值</strong>：
+<ul>
+<li>成功：返回 <code>0</code>。</li>
+<li>失败：返回 <code>-1</code>，可以通过 <code>errno</code> 判断错误原因：
+<ul>
+<li><code>errno == ESRCH</code>：指定的 PID 进程不存在。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>6、系统调用与信号</strong></p>
+<ol>
+<li>
+<p><strong>进程睡眠</strong>：</p>
+<ul>
+<li>系统调用（如 <code>scanf</code>、<code>sleep</code>、<code>msgrcv</code> 等）会使进程进入睡眠状态。</li>
+<li>睡眠状态的进程收到信号会被“唤醒”，系统调用被中断，返回 <code>-1</code>，<code>errno</code> 通常为 <code>EINTR</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>特殊情况</strong>：</p>
+<ul>
+<li>某些系统调用在深度睡眠状态下可能无法被信号中断。</li>
+<li>即使使用 <code>kill -9</code> 也无法终止此类进程。</li>
+</ul>
+</li>
+</ol>
+<p><strong>7、pause与alarm系统调用</strong></p>
+<ol>
+<li>
+<p><strong>功能</strong>：</p>
+<ul>
+<li><code>alarm</code> 设置进程的报警时钟，倒计时结束时向进程发送 <code>SIGALRM</code> 信号。</li>
+</ul>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">alarm</span>(<span style="color:#66d9ef">int</span> secs);
+</span></span></code></pre></div><ul>
+<li><code>secs &gt; 0</code>：设置时钟为指定的秒数。</li>
+<li><code>secs == 0</code>：取消闹钟。</li>
+</ul>
+</li>
+<li>
+<p><strong>行为</strong>：</p>
+<ul>
+<li>默认情况下，进程收到 <code>SIGALRM</code> 信号后会终止。</li>
+<li>父进程的闹钟设置会被子进程继承。</li>
+</ul>
+</li>
+</ol>
+<h3 id="全局跳转sigsetjmp-和-siglongjmp">全局跳转：<code>sigsetjmp</code> 和 <code>siglongjmp</code></h3>
+<p>这两个函数是用来实现<strong>全局跳转</strong>的一种机制，能够在程序的执行中实现栈的快速恢复和控制流的转移，常用于处理信号中断、错误恢复等场景。</p>
+<p><strong>1、函数定义</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;setjmp.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sigsetjmp</span>(jmp_buf env, <span style="color:#66d9ef">int</span> savemask);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 保存当前的栈环境，返回值为 0 或 siglongjmp 提供的返回值。 */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">siglongjmp</span>(jmp_buf env, <span style="color:#66d9ef">int</span> val);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 恢复到 sigsetjmp 保存的栈环境，将 sigsetjmp 返回值改为 val。 */</span>
+</span></span></code></pre></div><p><strong>2、工作原理</strong></p>
+<ol>
+<li>
+<p><strong><code>sigsetjmp</code></strong>：</p>
+<ul>
+<li>保存当前的栈环境、寄存器状态以及信号屏蔽字（取决于 <code>savemask</code> 参数）。</li>
+<li><strong>返回值</strong>：
+<ul>
+<li>第一次调用时返回 0。</li>
+<li>如果从 <code>siglongjmp</code> 恢复时返回 <code>val</code>（但始终不是 0）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>siglongjmp</code></strong>：</p>
+<ul>
+<li>恢复到由 <code>sigsetjmp</code> 保存的栈环境，执行位置返回到调用 <code>sigsetjmp</code> 的地方。</li>
+<li><strong>返回值</strong>：
+<ul>
+<li>通过 <code>val</code> 指定返回值（如 <code>val=5</code>，则 <code>sigsetjmp</code> 返回值为 5）。</li>
+<li>如果 <code>val</code> 是 0，则 <code>sigsetjmp</code> 返回值将被改为 1。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、函数参数</strong></p>
+<ol>
+<li>
+<p><strong><code>jmp_buf env</code></strong>:</p>
+<ul>
+<li>保存的栈环境和寄存器状态。</li>
+<li>是一个结构体，用户无需关心具体内容。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>savemask</code></strong>:</p>
+<ul>
+<li>如果为 1，<code>sigsetjmp</code> 还会保存当前的信号屏蔽字。</li>
+<li>如果为 0，不保存信号屏蔽字（更高效，但可能引发信号处理不一致的问题）。</li>
+</ul>
+</li>
+</ol>
+<p><strong>4、应用场景</strong></p>
+<ol>
+<li>
+<p><strong>信号处理</strong>：</p>
+<ul>
+<li>处理信号中断后快速跳转到安全的恢复点。</li>
+<li>避免多次嵌套的信号处理导致的栈耗尽问题。</li>
+</ul>
+</li>
+<li>
+<p><strong>错误恢复</strong>：</p>
+<ul>
+<li>类似于异常处理机制，捕获错误后可以跳转到某个安全状态继续执行。</li>
+</ul>
+</li>
+<li>
+<p><strong>长时间任务中断</strong>：</p>
+<ul>
+<li>在长时间运行的函数中，可以通过信号中断提前返回并重新选择操作。</li>
+</ul>
+</li>
+</ol>
+<p><strong>5、常见问题</strong></p>
+<ol>
+<li>
+<p><strong>为什么使用 <code>sigsetjmp</code> 而不是 <code>setjmp</code>？</strong></p>
+<ul>
+<li><code>sigsetjmp</code> 允许保存信号屏蔽字，确保信号处理的一致性，适用于信号处理中。</li>
+<li><code>setjmp</code> 不会保存信号屏蔽字。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>siglongjmp</code> 的 <code>val</code> 参数为 0 时怎么办？</strong></p>
+<ul>
+<li>如果 <code>val</code> 为 0，<code>sigsetjmp</code> 会将返回值自动设置为 1，避免返回值混淆。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sigsetjmp</code> 和 <code>siglongjmp</code> 是否能跨函数使用？</strong></p>
+<ul>
+<li>可以跨函数使用，只要 <code>jmp_buf</code> 是全局的或能保证其生命周期在使用范围内。</li>
+</ul>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-12-12</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" data-title="Linux：信号" data-hashtags="Linux"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" data-title="Linux：信号"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" data-title="Linux：信号"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" data-title="Linux：信号"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" class="prev" rel="prev" title="Linux：进程"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux：进程</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
