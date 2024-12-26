@@ -3,7 +3,169 @@
         <title>Linux - Tag - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/</link>
         <description>Linux - Tag - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux：套接字变编程</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[<h3 id="socket概述">Socket概述</h3>
+<p><strong>1、网络协议栈分层实现</strong></p>
+<ol>
+<li>
+<p><strong>传输层以上（应用层）</strong></p>
+<ul>
+<li>由用户态应用程序实现。</li>
+<li>提供网络服务接口，如 HTTP、FTP 等。</li>
+</ul>
+</li>
+<li>
+<p><strong>传输层和网络互联层</strong></p>
+<ul>
+<li><strong>传输层</strong>：TCP/UDP 在内核中实现。</li>
+<li><strong>网络互联层</strong>：如 IP 协议的路由功能也在内核中实现。</li>
+<li><strong>路由协议</strong>：如 OSPF、BGP，通常由用户态进程实现。</li>
+</ul>
+</li>
+<li>
+<p><strong>第一层和第二层（物理层和数据链路层）</strong></p>
+<ul>
+<li>一般由硬件实现，如网卡、交换机等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2、UNIX 提供的网络功能接口</strong></p>
+<ol>
+<li>
+<p><strong>文件方式组织设备与通信</strong></p>
+<ul>
+<li>BSD 将设备和通信管道都组织为文件，创建方式不同，但访问方式一致。</li>
+<li>主要包括：
+<ul>
+<li><strong>终端设备</strong>：用于用户与计算机交互。</li>
+<li><strong>管道</strong>：实现进程间通信。</li>
+<li><strong>通信服务 Socket</strong>：为网络通信设计。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>AT&amp;T UNIX 的 TLI（Transport Layer Interface）编程接口</strong></p>
+<ul>
+<li>提供面向网络通信的接口。</li>
+<li>不仅支持 TCP/IP，也支持其他协议。</li>
+</ul>
+</li>
+<li>
+<p><strong>虚拟 Loopback 接口</strong></p>
+<ul>
+<li>使用回环地址 <code>127.0.0.1</code>。</li>
+<li>实现同一台计算机上不同进程之间的通信。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、TCP 与 UDP 的区别</strong></p>
+<ol>
+<li>
+<p><strong>TCP（Transmission Control Protocol）</strong></p>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>面向连接。</li>
+<li>可靠传输（通过确认机制、重传机制、流量控制实现）。</li>
+<li>字节流传输（不保证报文边界）。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：文件传输、邮件服务、远程登录等。</li>
+</ul>
+</li>
+<li>
+<p><strong>UDP（User Datagram Protocol）</strong></p>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>面向数据报。</li>
+<li>不可靠传输（可能错报、丢报、乱序，无流量控制）。</li>
+<li>支持广播和组播。</li>
+<li>数据报传输（保留报文边界）。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：视频流、实时通信、广播消息等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>4、字节顺序</strong></p>
+<ol>
+<li>
+<p><strong>CPU 字节顺序</strong></p>
+<ul>
+<li><strong>Big Endian（大端序）</strong>：高字节存储在低地址。
+<ul>
+<li>适用 CPU：PowerPC、SPARC、Motorola。</li>
+</ul>
+</li>
+<li><strong>Little Endian（小端序）</strong>：低字节存储在低地址。
+<ul>
+<li>适用 CPU：Intel X86。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>网络字节顺序</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux：进程间通信</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</link>
+    <pubDate>Tue, 17 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</guid>
+    <description><![CDATA[<h3 id="信号灯与共享内存ipc">信号灯与共享内存(IPC)</h3>
+<p>这是对信号灯、共享内存和消息队列的简要总结，涵盖了UNIX中的进程间通信（IPC）机制。</p>
+<p><strong>1、信号灯（Semaphore）</strong></p>
+<ul>
+<li><strong>作用</strong>: 用于控制多进程对共享资源的互斥访问和进程间的同步。</li>
+<li><strong>策略与机制分离</strong>: UNIX提供信号灯机制，进程本身需要正确使用信号灯来保证互斥和同步。</li>
+<li><strong>不当使用</strong>: 如果进程错误使用信号灯，可能会导致信息访问的不安全和死锁。</li>
+<li><strong>P操作（sem_op &lt; 0）</strong>: 用于请求资源（等待操作），如果信号灯值小于0，则进程会被阻塞。</li>
+<li><strong>V操作（sem_op &gt; 0）</strong>: 用于释放资源（通知操作），进程释放信号灯。</li>
+<li><strong>创建信号灯</strong>: 使用<code>semget()</code>函数来创建或获取信号灯组。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nsems, <span style="color:#66d9ef">int</span> flags);
+</span></span></code></pre></div></li>
+<li><strong>控制信号灯</strong>: 使用<code>semctl()</code>函数来进行对信号灯的控制操作，如删除、查询状态等。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semctl</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">int</span> snum, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
+</span></span></code></pre></div></li>
+<li><strong>信号灯操作</strong>: 使用<code>semop()</code>函数进行P/V操作。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semop</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">struct</span> sembuf <span style="color:#f92672">*</span>ops, <span style="color:#66d9ef">int</span> nops);
+</span></span></code></pre></div><ul>
+<li><code>sem_num</code>: 信号灯编号。</li>
+<li><code>sem_op</code>: 操作值，决定是P操作、V操作还是等待。</li>
+<li><code>sem_flg</code>: 操作选项。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、共享内存（Shared Memory）</strong></p>
+<ul>
+<li><strong>特点</strong>: 允许多个进程共同使用同一段物理内存空间，进程间传递数据速度快。</li>
+<li><strong>问题</strong>: 访问共享内存时需要自行解决互斥和同步问题，通常使用信号灯来保证安全。</li>
+<li><strong>应用</strong>: 适用于数据交换、运行监视等场景。</li>
+<li><strong>共享内存操作</strong>:
+<ul>
+<li><strong>创建共享内存段</strong>: 使用<code>shmget()</code>函数。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nbytes, <span style="color:#66d9ef">int</span> flags);
+</span></span></code></pre></div></li>
+<li><strong>获取共享内存段指针</strong>: 使用<code>shmat()</code>函数。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">shmat</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shmaddr, <span style="color:#66d9ef">int</span> shmflg);
+</span></span></code></pre></div></li>
+<li><strong>控制共享内存段</strong>: 使用<code>shmctl()</code>函数进行删除、查询等操作。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmctl</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<p><strong>3、生产者-消费者问题（Producer-Consumer Problem）</strong></p>]]></description>
+</item>
+<item>
     <title>Linux：信号</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</link>
     <pubDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</pubDate>
@@ -569,162 +731,6 @@ normal格式：列出一个如何将file1转化为file2的指令</p>
 <strong>&gt;</strong> /* max signed 32-bit integer */
 <strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
 将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
-</item>
-<item>
-    <title>Linux：正则表达式</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
-    <pubDate>Mon, 30 Sep 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
-    <description><![CDATA[<h2 id="第四章-正则表达式">第四章 正则表达式</h2>
-<h3 id="元字符和集合">元字符和集合</h3>
-<p>1、<strong>正则表达式的概念</strong>
-应用范围：字符串匹配操作和替换操作</p>
-<p>正则表达式的功能：描述一个字符串模式</p>
-<p><strong>注意:</strong>
-正则表达式规则与文件名通配符规则不同
-正则表达式规则用于文本处理的场合
-文件名匹配规则用于文件处理的场合</p>
-<p>不同软件对正则表达式的定义会有差异</p>
-<p>2、<strong>正则表达式中的特殊字符</strong>
-6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
-<p>转义:用反斜线可以取消特殊字符的特殊含义
-如：正则表达end.只与字符串end.匹配</p>
-<p>3、<strong>单字符正则表达式</strong>
-转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
-<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
-<p>4、<strong>单字符正则表达式:定义集合</strong>
-<strong>在[]之间的字符为集合的内容</strong>
-如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
-<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
-如:<code>[\*.]</code>可匹配3个单字符</p>
-<p><strong>用减号-定义一个区间</strong></p>
-<ul>
-<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
-<li><code>[][]</code> 集合含左右中括号两个字符</li>
-<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
-</ul>
-<p><strong>用^表示补集</strong>
-^在开头,则表示与集合内字符之外的任意字符匹配.
-<code>[^a-z]</code>匹配任一非小写字母.
--<code>[^][]</code>匹配任一非中括号字符.</p>
-<p>^不在开头,则失去其表示补集的意义
-<code>[a-z^]</code>能匹配27个单字符</p>
-<h3 id="组合与锚点">组合与锚点</h3>
-<p><strong>1、单字符正则表达式的组合</strong>
-<strong>串结</strong>
-如abc， <code>[A-Z].[0-9]</code></p>
-<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
-<ul>
-<li>正则表达式<code>12*4 </code>
-与字符串1234不匹配，与1224，12224，14匹配</li>
-<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
-<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
-</ul>
-<p><strong>2、锚点:$和^</strong>
-<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
-<ul>
-<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
-<li><code>$123</code>与字符串<code>$123</code>匹配</li>
-<li><code>.$</code>匹配行尾的任意字符</li>
-</ul>
-<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
-<ul>
-<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
-<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
-<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
-</ul>
-<p><strong>3、正则表达式扩展</strong>
-<strong>基本正则表达式（BRE）</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux：命令和工具、文本文件处理</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</link>
-    <pubDate>Sun, 29 Sep 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</guid>
-    <description><![CDATA[<h2 id="第一章-linux入门">第一章 Linux入门</h2>
-<h3 id="linux的历史">Linux的历史</h3>
-<p>1、 <strong>操作系统的演变</strong></p>
-<ul>
-<li>手工操作</li>
-<li>单道批处理操作系统</li>
-<li>多道批处理系统</li>
-<li>分时系统</li>
-</ul>
-<p>2、 <strong>Unix发展史</strong></p>
-<ul>
-<li>UNiplexed Information and Computing System</li>
-<li>Unix早期的两大流派：贝尔实验室、加州大学伯克利分校</li>
-</ul>
-<h3 id="linux字符终端">Linux字符终端</h3>
-<p>1、 <strong>Unix/Linux是多用户系统：</strong></p>
-<ul>
-<li>主机连接多台字符终端</li>
-<li>字符终端作为交互式输入输出设备</li>
-</ul>
-<p>2、 <strong>终端和主机</strong></p>
-<ul>
-<li>
-<p>终端: 主机的输入和输出设备
-终端通过电缆把用户的按键信息送到主机，把主机发来的信息在屏幕上显示</p>
-</li>
-<li>
-<p>主机: 程序和数据的存储及处理
-数据及程序存放在主机的硬盘上，程序的运行也都由主机内的CPU占用主机内存来完成</p>
-</li>
-</ul>
-<p>3、 <strong>行律与驱动程序</strong></p>
-<ul>
-<li>
-<p>驱动程序：
-不同的硬件需要不同的驱动程序
-与行律模块的接口：上行和下行字符流</p>
-</li>
-<li>
-<p>行律的作用
-一行内字符的缓冲、回显与编辑，直到按下回车键
-数据加工，如：将\n转化为\r\n
-将Ctrl-C字符转化为中止进程运行的信号(signal)</p>
-</li>
-</ul>
-<p>4、 <strong>主机与终端间的通信过程</strong></p>
-<p>5、 <strong>终端转义序列</strong></p>
-<ul>
-<li>
-<p>转义字符
-Esc：ASCII码1B（十进制27，八进制033）</p>
-</li>
-<li>
-<p>主机发往终端方向数据中的转义序列的功能
-控制光标位置、字符颜色、字符大小等等
-选择终端的字符集
-控制终端上的打印机、刷卡机、磁条器、密码键盘</p>
-</li>
-</ul>
-<p><em>Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除屏幕
-Esc[8A 四字节序列，光标上移8行
-Esc[16;8H 七字节序列，光标移到16行8列
-Esc[1;31m 七字节序列，红色字符</em></p>
-<p>6、 <strong>终端类型</strong></p>
-<ul>
-<li>
-<p>定义:定义一组转移序列以及相对应的操作</p>
-</li>
-<li>
-<p>主机和终端之间的类型匹配
-主机根据终端类型，实现相应功能时发送对应的控制码
-当终端类型不对时，可能全屏幕操作失败</p>
-</li>
-</ul>
-<p>7、 <strong>主机和终端之间的流量控制</strong></p>
-<ul>
-<li>
-<p>必要性
-终端的显示速度跟不上主机的发送速度
-主机送来数据终端需要打印出来，但打印速度慢
-主机送来的显示内容，需暂停显示，仔细分析
-需要一种机制控制主机方向来的数据流量</p>]]></description>
 </item>
 </channel>
 </rss>

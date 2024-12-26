@@ -3,7 +3,169 @@
         <title>Basic Course - Category - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/basic-course/</link>
         <description>Basic Course - Category - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/basic-course/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/basic-course/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux：套接字变编程</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[<h3 id="socket概述">Socket概述</h3>
+<p><strong>1、网络协议栈分层实现</strong></p>
+<ol>
+<li>
+<p><strong>传输层以上（应用层）</strong></p>
+<ul>
+<li>由用户态应用程序实现。</li>
+<li>提供网络服务接口，如 HTTP、FTP 等。</li>
+</ul>
+</li>
+<li>
+<p><strong>传输层和网络互联层</strong></p>
+<ul>
+<li><strong>传输层</strong>：TCP/UDP 在内核中实现。</li>
+<li><strong>网络互联层</strong>：如 IP 协议的路由功能也在内核中实现。</li>
+<li><strong>路由协议</strong>：如 OSPF、BGP，通常由用户态进程实现。</li>
+</ul>
+</li>
+<li>
+<p><strong>第一层和第二层（物理层和数据链路层）</strong></p>
+<ul>
+<li>一般由硬件实现，如网卡、交换机等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2、UNIX 提供的网络功能接口</strong></p>
+<ol>
+<li>
+<p><strong>文件方式组织设备与通信</strong></p>
+<ul>
+<li>BSD 将设备和通信管道都组织为文件，创建方式不同，但访问方式一致。</li>
+<li>主要包括：
+<ul>
+<li><strong>终端设备</strong>：用于用户与计算机交互。</li>
+<li><strong>管道</strong>：实现进程间通信。</li>
+<li><strong>通信服务 Socket</strong>：为网络通信设计。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>AT&amp;T UNIX 的 TLI（Transport Layer Interface）编程接口</strong></p>
+<ul>
+<li>提供面向网络通信的接口。</li>
+<li>不仅支持 TCP/IP，也支持其他协议。</li>
+</ul>
+</li>
+<li>
+<p><strong>虚拟 Loopback 接口</strong></p>
+<ul>
+<li>使用回环地址 <code>127.0.0.1</code>。</li>
+<li>实现同一台计算机上不同进程之间的通信。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、TCP 与 UDP 的区别</strong></p>
+<ol>
+<li>
+<p><strong>TCP（Transmission Control Protocol）</strong></p>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>面向连接。</li>
+<li>可靠传输（通过确认机制、重传机制、流量控制实现）。</li>
+<li>字节流传输（不保证报文边界）。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：文件传输、邮件服务、远程登录等。</li>
+</ul>
+</li>
+<li>
+<p><strong>UDP（User Datagram Protocol）</strong></p>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>面向数据报。</li>
+<li>不可靠传输（可能错报、丢报、乱序，无流量控制）。</li>
+<li>支持广播和组播。</li>
+<li>数据报传输（保留报文边界）。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：视频流、实时通信、广播消息等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>4、字节顺序</strong></p>
+<ol>
+<li>
+<p><strong>CPU 字节顺序</strong></p>
+<ul>
+<li><strong>Big Endian（大端序）</strong>：高字节存储在低地址。
+<ul>
+<li>适用 CPU：PowerPC、SPARC、Motorola。</li>
+</ul>
+</li>
+<li><strong>Little Endian（小端序）</strong>：低字节存储在低地址。
+<ul>
+<li>适用 CPU：Intel X86。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>网络字节顺序</strong></p>]]></description>
+</item>
+<item>
+    <title>Linux：进程间通信</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</link>
+    <pubDate>Tue, 17 Dec 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</guid>
+    <description><![CDATA[<h3 id="信号灯与共享内存ipc">信号灯与共享内存(IPC)</h3>
+<p>这是对信号灯、共享内存和消息队列的简要总结，涵盖了UNIX中的进程间通信（IPC）机制。</p>
+<p><strong>1、信号灯（Semaphore）</strong></p>
+<ul>
+<li><strong>作用</strong>: 用于控制多进程对共享资源的互斥访问和进程间的同步。</li>
+<li><strong>策略与机制分离</strong>: UNIX提供信号灯机制，进程本身需要正确使用信号灯来保证互斥和同步。</li>
+<li><strong>不当使用</strong>: 如果进程错误使用信号灯，可能会导致信息访问的不安全和死锁。</li>
+<li><strong>P操作（sem_op &lt; 0）</strong>: 用于请求资源（等待操作），如果信号灯值小于0，则进程会被阻塞。</li>
+<li><strong>V操作（sem_op &gt; 0）</strong>: 用于释放资源（通知操作），进程释放信号灯。</li>
+<li><strong>创建信号灯</strong>: 使用<code>semget()</code>函数来创建或获取信号灯组。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nsems, <span style="color:#66d9ef">int</span> flags);
+</span></span></code></pre></div></li>
+<li><strong>控制信号灯</strong>: 使用<code>semctl()</code>函数来进行对信号灯的控制操作，如删除、查询状态等。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semctl</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">int</span> snum, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
+</span></span></code></pre></div></li>
+<li><strong>信号灯操作</strong>: 使用<code>semop()</code>函数进行P/V操作。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semop</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">struct</span> sembuf <span style="color:#f92672">*</span>ops, <span style="color:#66d9ef">int</span> nops);
+</span></span></code></pre></div><ul>
+<li><code>sem_num</code>: 信号灯编号。</li>
+<li><code>sem_op</code>: 操作值，决定是P操作、V操作还是等待。</li>
+<li><code>sem_flg</code>: 操作选项。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、共享内存（Shared Memory）</strong></p>
+<ul>
+<li><strong>特点</strong>: 允许多个进程共同使用同一段物理内存空间，进程间传递数据速度快。</li>
+<li><strong>问题</strong>: 访问共享内存时需要自行解决互斥和同步问题，通常使用信号灯来保证安全。</li>
+<li><strong>应用</strong>: 适用于数据交换、运行监视等场景。</li>
+<li><strong>共享内存操作</strong>:
+<ul>
+<li><strong>创建共享内存段</strong>: 使用<code>shmget()</code>函数。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nbytes, <span style="color:#66d9ef">int</span> flags);
+</span></span></code></pre></div></li>
+<li><strong>获取共享内存段指针</strong>: 使用<code>shmat()</code>函数。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">shmat</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shmaddr, <span style="color:#66d9ef">int</span> shmflg);
+</span></span></code></pre></div></li>
+<li><strong>控制共享内存段</strong>: 使用<code>shmctl()</code>函数进行删除、查询等操作。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmctl</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<p><strong>3、生产者-消费者问题（Producer-Consumer Problem）</strong></p>]]></description>
+</item>
+<item>
     <title>Linux：信号</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</link>
     <pubDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</pubDate>
@@ -600,104 +762,6 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
 <p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
 分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。
 你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：</p>]]></description>
-</item>
-<item>
-    <title>Linux:文件和目录管理</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</link>
-    <pubDate>Thu, 17 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</guid>
-    <description><![CDATA[<h2 id="第六章-文件和目录管理">第六章 文件和目录管理</h2>
-<h3 id="列出文件目录-ls">列出文件目录 ls</h3>
-<p><strong>1、ls基本功能:</strong></p>
-<ul>
-<li>在同一命令行中可以指定0~n个实参</li>
-<li>不给出实参时，列出当前目录下所有文件和目录</li>
-<li>实参为文件时，列出文件项</li>
-<li>实参为目录时，列出目录下的所有文件项</li>
-</ul>
-<hr>
-<p><strong>2、选项-F (Flag)</strong></p>
-<ul>
-<li>若列出的是目录，就在名字后面缀以斜线 /</li>
-<li>若列出的是可执行文件，就在名字后面缀以星号 *</li>
-<li>若列出的是符号连接文件，就在名字后面缀以符号 @</li>
-<li>若列出的是普通文件，则名字面后无任何标记</li>
-</ul>
-<hr>
-<p><strong>3、ls选项-l: 长格式列表（ll）</strong>
-例: <code>drwxr-xr-x. 2 bupt2022211264 bupt2022211264  4096 Oct 10 06:11 ch04</code>
-<code>-rw-rw-r--. 1 bupt2022211264 bupt2022211264 13892 Oct 10 06:34 index.html</code></p>
-<p><strong>第1列</strong>：文件属性
-<code>-</code> 普通文件            <code>b</code> 块设备文件(Block)
-<code>D</code> 目录文件(Dir)       <code>c</code> 字符设备文件(Char)
-<code>L</code> 符号连接文件(Link)   <code>p</code> 命名管道文件(Pipe)</p>
-<p>文件的访问权限(rwx读权限，写权限，可执行权限)
-2-4字符: 文件所有者对文件的访问权限
-5-7字符: 同组用户对文件的访问权限
-8-10字符:其它用户对文件的访问权限</p>
-<p><strong>第2列</strong>：文件link数，涉及到此文件的目录项数</p>
-<p><strong>第3列</strong>，第4列：文件主的名字和组名</p>
-<p><strong>第5列</strong>:
-普通磁盘文件：列出文件大小(字节数)
-目录：列出目录表大小，不是目录下文件长度和
-符号连接文件：列出符号连接文件自身的长度
-字符设备和块设备文件：列出主设备号和次设备号
-管道文件：列出管道内的数据长度</p>
-<p><strong>第6列</strong>：文件最后一次被修改的日期和时间</p>
-<h2 id="对于符号连接文件附带列出符号连接文件的内容"><strong>第7列</strong>：文件名
-对于符号连接文件，附带列出符号连接文件的内容</h2>
-<p><strong>4、ls其他选项</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux文件比较、vi、文件通配符</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</link>
-    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/</guid>
-    <description><![CDATA[<h2 id="第五章-文件比较vi文件通配符">第五章 文件比较、vi、文件通配符</h2>
-<h3 id="文件内容比对">文件内容比对</h3>
-<h4 id="两文件逐字节比较cmp">两文件逐字节比较：cmp</h4>
-<p><strong>用法</strong>
-<code>cmp file1 file2</code></p>
-<p><strong>功能</strong></p>
-<ul>
-<li>逐字节比较两个文件是否完全相同</li>
-<li>两个文件完全相同时，不给出任何提示</li>
-<li>两个文件不同时，打印出第一个不同之处</li>
-<li>在Windows中有类似的命令COMP</li>
-</ul>
-<h4 id="md5sumsha1sum文件内容比较">md5sum/sha1sum：文件内容比较</h4>
-<p>使用MD5算法（散列函数）根据文件内容生成16/32字节hash值，比较hash值是否相同，就可断定两文件内容是否完全相同
-输出：
-<code>4db9bfbea050ed07aa07d4ca55ad5cb0  8.txt</code>
-<code>8634a498b15d80ca59ac3d852b63fe35  a.txt</code></p>
-<p>使用SHA-1算法的命令名为sha1sum (40字节hash值) ： 160位，用40个16进制字节表示
-输出：
-<code>34150c466e7ca3550766cdd457418656a2a808b8  8.txt</code>
-<code>60a08508708a55279d298d123f0efeece7c41590  a.txt</code></p>
-<p>常用于数据完整性（Data Integrity）验证和判断位于网络不同机器上的两个文件内容是否相同
-其他散列函数也可以用来完成这一任务: sha512sum</p>
-<h4 id="diff查找文本文件版本之间的差异">diff：查找文本文件版本之间的差异</h4>
-<p><strong>用法</strong>
-<code>diff file1 file2 </code>
-<code>diff -u file1 file2 </code></p>
-<p><strong>功能</strong>
-比较两个版本的文本文件，以寻找两者间差别
-输出格式 normal，unified (-u)
-normal格式：列出一个如何将file1转化为file2的指令</p>
-<ul>
-<li>这些指令有<strong>a（Add）</strong>，<strong>c（Change）<strong>和</strong>d（Delete）</strong></li>
-<li>指令字母左边的行号是file1的行号，右面是file2的行号</li>
-<li>列出内容时，大于号后边的内容是需要在file1文件中增加的内容；小于号后边的内容是需从file1中删除的内容</li>
-</ul>
-<p><strong>normal格式文件转化指令</strong>
-1、25<strong>c</strong>25,26
-<strong>&lt;</strong> #define MAX_WEIGHT 2000000000
-<strong>&mdash;</strong>
-<strong>&gt;</strong> /* max signed 32-bit integer */
-<strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
-将原文件的第25行**更换(change)**成新文件的的第25~26行</p>]]></description>
 </item>
 </channel>
 </rss>
