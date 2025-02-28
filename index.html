@@ -58,9 +58,87 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/urllib1/">Urllib1</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-28">2025-02-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div><div class="content"><h2 id="urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</h2>
+<h3 id="1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</h3>
+<h4 id="1-基本用法">1. 基本用法</h4>
+<h5 id="11-发送请求并获取响应">1.1 发送请求并获取响应</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义URL</span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送请求并获取响应对象</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url)
+</span></span></code></pre></div><ul>
+<li><code>urlopen(url)</code>：打开指定的 URL 并返回一个 <code>HTTPResponse</code> 对象。</li>
+</ul>
+<h5 id="12-获取响应内容">1.2 获取响应内容</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取响应内容并解码为字符串</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><ul>
+<li><code>read()</code>：读取整个响应内容，返回字节形式的二进制数据。</li>
+<li><strong><code>decode('utf-8')</code>：将二进制数据解码为字符串</strong>，<code>utf-8</code> 是常见的编码格式。</li>
+</ul>
+<h5 id="13-读取部分内容">1.3 读取部分内容</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取前10个字节</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><ul>
+<li><code>read(n)</code>：读取响应内容的前 <code>n</code> 个字节。</li>
+</ul>
+<h5 id="14-逐行读取">1.4 逐行读取</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取一行</span>
+</span></span><span style="display:flex;"><span>content1 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readline()
+</span></span><span style="display:flex;"><span>print(content1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 逐行读取所有内容</span>
+</span></span><span style="display:flex;"><span>content2 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readlines()
+</span></span><span style="display:flex;"><span>print(content2)
+</span></span></code></pre></div><ul>
+<li><code>readline()</code>：读取一行内容。</li>
+<li><code>readlines()</code>：读取所有行并返回一个列表。</li>
+</ul>
+<h4 id="2-响应对象-httpresponse-的方法和属性">2. 响应对象 (<code>HTTPResponse</code>) 的方法和属性</h4>
+<h5 id="21-获取状态码">2.1 获取状态码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;状态码：&#34;</span>, response<span style="color:#f92672">.</span>getcode())
+</span></span></code></pre></div><ul>
+<li><code>getcode()</code>：返回 HTTP 响应的状态码（如 200 表示成功）。</li>
+</ul>
+<h5 id="22-获取请求的-url">2.2 获取请求的 URL</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;URL: &#34;</span>, response<span style="color:#f92672">.</span>geturl())
+</span></span></code></pre></div><ul>
+<li><code>geturl()</code>：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。</li>
+</ul>
+<h5 id="23-获取响应头信息">2.3 获取响应头信息</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;头信息：&#34;</span>, response<span style="color:#f92672">.</span>getheaders())
+</span></span></code></pre></div><ul>
+<li><code>getheaders()</code>：返回一个包含所有响应头信息的列表，每个元素是一个 <code>(header, value)</code> 元组。</li>
+</ul>
+<h4 id="3-总结">3. 总结</h4>
+<ul>
+<li><strong>一个类型</strong>：<code>HTTPResponse</code>，表示 HTTP 响应对象。</li>
+<li><strong>六个方法</strong>：
+<ol>
+<li><code>read()</code>：读取响应内容。</li>
+<li><code>read(n)</code>：读取前 <code>n</code> 个字节。</li>
+<li><code>readline()</code>：读取一行内容。</li>
+<li><code>readlines()</code>：读取所有行。</li>
+<li><code>getcode()</code>：获取状态码。</li>
+<li><code>geturl()</code>：获取请求的 URL。</li>
+<li><code>getheaders()</code>：获取响应头信息。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-下载文件">4. 下载文件</h4>
+<p><code>urllib.request</code> 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/urllib1/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/leetcode-c/">Leetcode-C</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>编程</a></span></div><div class="content"><p>**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。
-**cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/c/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>C</a></span></div><div class="content"><p><strong>1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。</strong>
+<strong>cmp 比较函数</strong>：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
 <ul>
 <li>如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面</li>
 <li>如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面</li>
@@ -68,7 +146,8 @@
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">qsort</span>(nums1, nums1Size, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), cmp);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 升序比较函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b;
 </span></span><span style="display:flex;"><span>}
@@ -82,7 +161,7 @@
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/c/">C</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/leetcode-java/">Leetcode-Java</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>编程</a></span></div><div class="content"></div><div class="post-footer">
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content"></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/leetcode-java/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/java/">Java</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
@@ -335,116 +414,6 @@
 <p><strong>1、设置为默认处理方式</strong></p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Linux：进程</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
-<p><strong>1、进程与程序</strong></p>
-<ul>
-<li>
-<p><strong>程序</strong>：</p>
-<ul>
-<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
-<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>进程</strong>：</p>
-<ul>
-<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
-<li>提供执行环境。</li>
-</ul>
-</li>
-<li>
-<p><strong>程序与进程的关系</strong>：</p>
-<ul>
-<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
-<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
-<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
-<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p><strong>2、进程的组成部分</strong></p>
-<ul>
-<li>
-<p><strong>指令段 (Text)</strong>：</p>
-<ul>
-<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
-<li><strong>大小固定且只读</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>用户数据段(支持动态调整)</strong>：</p>
-<ul>
-<li>包括全局变量、静态变量、字符串常量等。</li>
-<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
-<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
-</ul>
-</li>
-<li>
-<p><strong>用户栈段</strong>：</p>
-<ul>
-<li>提供程序执行所需的栈空间。</li>
-<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
-<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
-<li>支持动态增长，但有增长限制。</li>
-</ul>
-</li>
-<li>
-<p><strong>系统数据段</strong>：</p>
-<ul>
-<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
-<li>与指令段、数据段、栈段分离，由内核管理。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="进程的执行状态">进程的执行状态</h2>
-<p><strong>1、进程的系统数据（PCB）</strong></p>
-<ul>
-<li>
-<p><strong>内存管理</strong>：</p>
-<ul>
-<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
-</ul>
-</li>
-<li>
-<p><strong>文件管理</strong>：</p>
-<ul>
-<li>打开的文件描述符表：记录进程打开的文件。</li>
-<li>当前目录：记录当前目录的 i 节点。</li>
-<li>根目录：记录根目录位置。</li>
-</ul>
-</li>
-<li>
-<p><strong>进程状态信息</strong>：</p>
-<ul>
-<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
-<li>进程状态：如运行、等待、就绪等。</li>
-<li>优先级：用于调度决策。</li>
-</ul>
-</li>
-<li>
-<p><strong>标识信息</strong>：</p>
-<ul>
-<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
-<li>进程组号：进程所属的组号。</li>
-</ul>
-</li>
-<li>
-<p><strong>权限管理</strong>：</p>
-<ul>
-<li>主 UID/GID：实际用户 ID 和组 ID。</li>
-<li>有效 UID/GID：用于权限验证。</li>
-<li>umask 值：文件权限掩码。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -458,8 +427,10 @@
                         <a href="/Jinxiwei.github.io/page/3/">3</a>
                     </span>
                 </li><li class="page-item ">
+                    <span class="page-link" aria-hidden="true">&hellip;</span>
+                </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/Jinxiwei.github.io/page/4/">4</a>
+                        <a href="/Jinxiwei.github.io/page/5/">5</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

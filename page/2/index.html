@@ -58,6 +58,116 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Linux：进程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
+<p><strong>1、进程与程序</strong></p>
+<ul>
+<li>
+<p><strong>程序</strong>：</p>
+<ul>
+<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
+<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程</strong>：</p>
+<ul>
+<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
+<li>提供执行环境。</li>
+</ul>
+</li>
+<li>
+<p><strong>程序与进程的关系</strong>：</p>
+<ul>
+<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
+<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
+<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
+<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、进程的组成部分</strong></p>
+<ul>
+<li>
+<p><strong>指令段 (Text)</strong>：</p>
+<ul>
+<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
+<li><strong>大小固定且只读</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户数据段(支持动态调整)</strong>：</p>
+<ul>
+<li>包括全局变量、静态变量、字符串常量等。</li>
+<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
+<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户栈段</strong>：</p>
+<ul>
+<li>提供程序执行所需的栈空间。</li>
+<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
+<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
+<li>支持动态增长，但有增长限制。</li>
+</ul>
+</li>
+<li>
+<p><strong>系统数据段</strong>：</p>
+<ul>
+<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
+<li>与指令段、数据段、栈段分离，由内核管理。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进程的执行状态">进程的执行状态</h2>
+<p><strong>1、进程的系统数据（PCB）</strong></p>
+<ul>
+<li>
+<p><strong>内存管理</strong>：</p>
+<ul>
+<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件管理</strong>：</p>
+<ul>
+<li>打开的文件描述符表：记录进程打开的文件。</li>
+<li>当前目录：记录当前目录的 i 节点。</li>
+<li>根目录：记录根目录位置。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程状态信息</strong>：</p>
+<ul>
+<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
+<li>进程状态：如运行、等待、就绪等。</li>
+<li>优先级：用于调度决策。</li>
+</ul>
+</li>
+<li>
+<p><strong>标识信息</strong>：</p>
+<ul>
+<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
+<li>进程组号：进程所属的组号。</li>
+</ul>
+</li>
+<li>
+<p><strong>权限管理</strong>：</p>
+<ul>
+<li>主 UID/GID：实际用户 ID 和组 ID。</li>
+<li>有效 UID/GID：用于权限验证。</li>
+<li>umask 值：文件权限掩码。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/">Linux：重定向</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程与文件描述符">进程与文件描述符</h2>
 <h3 id="活动文件目录afd及文件管理系统分析">活动文件目录（AFD）及文件管理系统分析</h3>
@@ -323,74 +433,6 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
 <p><strong>1、 根文件系统（root filesystem）</strong></p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">分布式存储</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-23">2024-10-23</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-分布式存储">第四章 分布式存储</h2>
-<h3 id="分布式文件系统">分布式文件系统</h3>
-<p><strong>HDFS正是GFS的开源实现</strong></p>
-<p>1、背景
-为了应对数据存储扩容问题，存在两种解决方案:</p>
-<ul>
-<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
-<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
-</ul>
-<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
-<p>2、横向扩展存在的难点：</p>
-<ul>
-<li>因故障导致丢失数据</li>
-<li>文件通常较大</li>
-<li>一次写入多次读取</li>
-</ul>
-<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
-<h4 id="文件级别">文件级别</h4>
-<p>1、**主从架构(Master/Slaves)**的文件系统
-给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
-<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
-<p>3、文件级别分布式系统的缺点：</p>
-<ul>
-<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
-<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
-</ul>
-<h4 id="块级别">块级别</h4>
-<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
-<ul>
-<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
-<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
-<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
-</ul>
-<h4 id="hdfs基本架构">HDFS基本架构</h4>
-<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
-<p>2、HDFS采用了<strong>主从架构</strong>：</p>
-<ul>
-<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
-<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
-</ul>
-<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
-<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
-<ul>
-<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
-<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
-</ul>
-<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
-<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
-<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
-此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
-<h4 id="hdfs-的部署">HDFS 的部署</h4>
-<ol>
-<li>
-<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
-</li>
-<li>
-<p><strong>典型的部署场景</strong>：</p>
-<ul>
-<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
-<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>简化的架构：单一 Namenode</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -406,6 +448,10 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/4/">4</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/5/">5</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

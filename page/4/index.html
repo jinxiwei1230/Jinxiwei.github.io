@@ -58,6 +58,90 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">数据收集</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p><strong>1、运营式系统阶段</strong>
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p><strong>2、用户原创内容阶段</strong>
+以博客、微博为代表的新型社交网络出现并快速发展；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p><strong>3、感知式系统阶段</strong>
+感知式系统，如VR/AR等，广泛使用；</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
+<p><strong>3、数据存储层</strong>
+数据存储层主要负责海量结构化与非结构化数据的存储。
+收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Linux：正则表达式</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-30">2024-09-30</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-正则表达式">第四章 正则表达式</h2>
 <h3 id="元字符和集合">元字符和集合</h3>
@@ -377,74 +461,6 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 <p><strong>保持数据分布一致性</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">计算学习理论</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
-<ol>
-<li>
-<p><strong>什么是成功的学习？</strong></p>
-<ul>
-<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
-<ul>
-<li>成功的学习通常在以下条件下更可能实现：
-<ul>
-<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
-<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
-<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
-<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
-<ul>
-<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
-<ul>
-<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
-<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
-<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
-<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
-<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
-<ol>
-<li>
-<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
-<ul>
-<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
-</ul>
-</li>
-<li>
-<p><strong>训练集</strong></p>
-<ul>
-<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
-</ul>
-</li>
-<li>
-<p><strong>假设函数集合 ( H )</strong></p>
-<ul>
-<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
-</ul>
-</li>
-<li>
-<p><strong>机器学习算法 ( A )</strong></p>
-<ul>
-<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
-</ul>
-</li>
-<li>
-<p><strong>问题（困惑）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -460,6 +476,10 @@ Esc[1;31m 七字节序列，红色字符</em></p>
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/4/">4</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/5/">5</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

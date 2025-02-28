@@ -58,6 +58,74 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">分布式存储</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-23">2024-10-23</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-分布式存储">第四章 分布式存储</h2>
+<h3 id="分布式文件系统">分布式文件系统</h3>
+<p><strong>HDFS正是GFS的开源实现</strong></p>
+<p>1、背景
+为了应对数据存储扩容问题，存在两种解决方案:</p>
+<ul>
+<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
+<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
+</ul>
+<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
+<p>2、横向扩展存在的难点：</p>
+<ul>
+<li>因故障导致丢失数据</li>
+<li>文件通常较大</li>
+<li>一次写入多次读取</li>
+</ul>
+<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
+<h4 id="文件级别">文件级别</h4>
+<p>1、**主从架构(Master/Slaves)**的文件系统
+给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
+<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
+<p>3、文件级别分布式系统的缺点：</p>
+<ul>
+<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
+<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
+</ul>
+<h4 id="块级别">块级别</h4>
+<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
+<ul>
+<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
+<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
+<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
+</ul>
+<h4 id="hdfs基本架构">HDFS基本架构</h4>
+<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
+<p>2、HDFS采用了<strong>主从架构</strong>：</p>
+<ul>
+<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
+<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
+</ul>
+<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
+<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
+<ul>
+<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
+<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
+</ul>
+<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
+<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
+<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
+此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
+<h4 id="hdfs-的部署">HDFS 的部署</h4>
+<ol>
+<li>
+<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
+</li>
+<li>
+<p><strong>典型的部署场景</strong>：</p>
+<ul>
+<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
+<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>简化的架构：单一 Namenode</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">递归与分治</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-20">2024-10-20</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h1 id="递归与分治策略">递归与分治策略</h1>
 <h3 id="递归">递归</h3>
@@ -335,90 +403,6 @@ struct MergedDoc { // 定义网页,类似于Java和C++中的类
 Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">数据收集</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
-<h3 id="大数据的历史">大数据的历史</h3>
-<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
-<h4 id="大数据的挑战">大数据的挑战</h4>
-<p>1、大数据带来的思维转变</p>
-<ul>
-<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
-<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
-<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
-</ul>
-<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
-<ul>
-<li>Volume：量大</li>
-<li>Velocity：快速化</li>
-<li>Value：价值密度低</li>
-<li>Variety：多样化</li>
-</ul>
-<h4 id="大数据的产生">大数据的产生</h4>
-<p><strong>1、运营式系统阶段</strong>
-数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
-<p><strong>2、用户原创内容阶段</strong>
-以博客、微博为代表的新型社交网络出现并快速发展；
-数据的产生方式是<strong>主动</strong>的。</p>
-<p><strong>3、感知式系统阶段</strong>
-感知式系统，如VR/AR等，广泛使用；</p>
-<p>4、大数据 vs 大规模数据 vs 海量数据</p>
-<p>5、科学研究四范式</p>
-<ul>
-<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
-<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
-</ul>
-<h4 id="大数据计算模式">大数据计算模式</h4>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">大数据计算模式</th>
-          <th style="text-align: left">解决问题</th>
-          <th style="text-align: left">代表产品</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">批处理计算</td>
-          <td style="text-align: left">针对大规模数据的批量处理</td>
-          <td style="text-align: left">MapReduceSpark等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">流计算</td>
-          <td style="text-align: left">针对流数据的实时计算</td>
-          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">图计算</td>
-          <td style="text-align: left">针对大规模图结构数据的处理</td>
-          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">查询分析计算</td>
-          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
-          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="大数据技术框架">大数据技术框架</h3>
-<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
-<p><strong>2、数据收集层</strong>
-数据源特点
-<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
-<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
-<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
-频和视频等非关系型数据
-<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
-<p>收集系统特点
-<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
-<strong>可靠性</strong>：数据在传输过程中不能够丢失
-<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
-<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
-<p><strong>3、数据存储层</strong>
-数据存储层主要负责海量结构化与非结构化数据的存储。
-收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -434,6 +418,10 @@ Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/4/">4</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/5/">5</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

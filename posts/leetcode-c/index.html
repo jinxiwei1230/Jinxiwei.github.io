@@ -7,8 +7,8 @@
         <title>Leetcode-C - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Leetcode-C">
-  <meta property="og:description" content="**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。 **cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：
-如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面 如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面 如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变 qsort(nums1, nums1Size, sizeof(int), cmp); int cmp(const void *a, const void *b) { return *(int*)a - *(int*)b; } // 降序比较函数 int cmp_desc(const void* a, const void* b) { return *(int*)b - *(int*)a; // 让较大的数排在前面 } ">
+  <meta property="og:description" content="1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。 cmp 比较函数：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：
+如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面 如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面 如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变 qsort(nums1, nums1Size, sizeof(int), cmp); // 升序比较函数 int cmp(const void *a, const void *b) { return *(int*)a - *(int*)b; } // 降序比较函数 int cmp_desc(const void* a, const void* b) { return *(int*)b - *(int*)a; // 让较大的数排在前面 } ">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -18,12 +18,12 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Leetcode-C">
-  <meta name="twitter:description" content="**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。 **cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：
-如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面 如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面 如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变 qsort(nums1, nums1Size, sizeof(int), cmp); int cmp(const void *a, const void *b) { return *(int*)a - *(int*)b; } // 降序比较函数 int cmp_desc(const void* a, const void* b) { return *(int*)b - *(int*)a; // 让较大的数排在前面 } ">
+  <meta name="twitter:description" content="1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。 cmp 比较函数：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：
+如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面 如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面 如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变 qsort(nums1, nums1Size, sizeof(int), cmp); // 升序比较函数 int cmp(const void *a, const void *b) { return *(int*)a - *(int*)b; } // 降序比较函数 int cmp_desc(const void* a, const void* b) { return *(int*)b - *(int*)a; // 让较大的数排在前面 } ">
 <meta name="application-name" content="My blog">
 <meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
@@ -34,7 +34,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/leetcode-c\/"
-        },"genre": "posts","keywords": "C","wordcount":  70 ,
+        },"genre": "posts","keywords": "C","wordcount":  72 ,
         "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/leetcode-c\/","datePublished": "2025-02-25T00:00:00+00:00","dateModified": "2025-02-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -75,8 +75,8 @@
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Leetcode-C</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>编程</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-25">2025-02-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;70 words&nbsp;
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/c/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>C</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-25">2025-02-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;72 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
@@ -84,8 +84,8 @@
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><p>**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。
-**cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
+            </div><div class="content" id="content"><p><strong>1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。</strong>
+<strong>cmp 比较函数</strong>：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
 <ul>
 <li>如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面</li>
 <li>如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面</li>
@@ -93,7 +93,8 @@
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">qsort</span>(nums1, nums1Size, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), cmp);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 升序比较函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b;
 </span></span><span style="display:flex;"><span>}
@@ -123,7 +124,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/leetcode-java/" class="prev" rel="prev" title="Leetcode-Java"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Leetcode-Java</a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/leetcode-java/" class="prev" rel="prev" title="Leetcode-Java"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Leetcode-Java</a>
+            <a href="/Jinxiwei.github.io/posts/urllib1/" class="next" rel="next" title="Urllib1">Urllib1<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

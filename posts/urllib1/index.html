@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Urllib1 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Urllib1">
+  <meta property="og:description" content="Urllib基本使用(urlencode\urlretrieve\urlopen\quote) 1urllib.request 发送 HTTP 请求并获取响应 1. 基本用法 1.1 发送请求并获取响应 import urllib.request # 定义URL url = &#39;http://www.baidu.com&#39; # 发送请求并获取响应对象 response = urllib.request.urlopen(url) urlopen(url)：打开指定的 URL 并返回一个 HTTPResponse 对象。 1.2 获取响应内容 # 读取响应内容并解码为字符串 content = response.read().decode(&#39;utf-8&#39;) print(content) read()：读取整个响应内容，返回字节形式的二进制数据。 decode(&#39;utf-8&#39;)：将二进制数据解码为字符串，utf-8 是常见的编码格式。 1.3 读取部分内容 # 读取前10个字节 content = response.read(10) print(content) read(n)：读取响应内容的前 n 个字节。 1.4 逐行读取 # 读取一行 content1 = response.readline() print(content1) # 逐行读取所有内容 content2 = response.readlines() print(content2) readline()：读取一行内容。 readlines()：读取所有行并返回一个列表。 2. 响应对象 (HTTPResponse) 的方法和属性 2.1 获取状态码 print(&#34;状态码：&#34;, response.getcode()) getcode()：返回 HTTP 响应的状态码（如 200 表示成功）。 2.2 获取请求的 URL print(&#34;URL: &#34;, response.geturl()) geturl()：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。 2.3 获取响应头信息 print(&#34;头信息：&#34;, response.getheaders()) getheaders()：返回一个包含所有响应头信息的列表，每个元素是一个 (header, value) 元组。 3. 总结 一个类型：HTTPResponse，表示 HTTP 响应对象。 六个方法： read()：读取响应内容。 read(n)：读取前 n 个字节。 readline()：读取一行内容。 readlines()：读取所有行。 getcode()：获取状态码。 geturl()：获取请求的 URL。 getheaders()：获取响应头信息。 4. 下载文件 urllib.request 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-02-28T00:00:00+00:00">
+    <meta property="article:tag" content="Urllib">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Urllib1">
+  <meta name="twitter:description" content="Urllib基本使用(urlencode\urlretrieve\urlopen\quote) 1urllib.request 发送 HTTP 请求并获取响应 1. 基本用法 1.1 发送请求并获取响应 import urllib.request # 定义URL url = &#39;http://www.baidu.com&#39; # 发送请求并获取响应对象 response = urllib.request.urlopen(url) urlopen(url)：打开指定的 URL 并返回一个 HTTPResponse 对象。 1.2 获取响应内容 # 读取响应内容并解码为字符串 content = response.read().decode(&#39;utf-8&#39;) print(content) read()：读取整个响应内容，返回字节形式的二进制数据。 decode(&#39;utf-8&#39;)：将二进制数据解码为字符串，utf-8 是常见的编码格式。 1.3 读取部分内容 # 读取前10个字节 content = response.read(10) print(content) read(n)：读取响应内容的前 n 个字节。 1.4 逐行读取 # 读取一行 content1 = response.readline() print(content1) # 逐行读取所有内容 content2 = response.readlines() print(content2) readline()：读取一行内容。 readlines()：读取所有行并返回一个列表。 2. 响应对象 (HTTPResponse) 的方法和属性 2.1 获取状态码 print(&#34;状态码：&#34;, response.getcode()) getcode()：返回 HTTP 响应的状态码（如 200 表示成功）。 2.2 获取请求的 URL print(&#34;URL: &#34;, response.geturl()) geturl()：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。 2.3 获取响应头信息 print(&#34;头信息：&#34;, response.getheaders()) getheaders()：返回一个包含所有响应头信息的列表，每个元素是一个 (header, value) 元组。 3. 总结 一个类型：HTTPResponse，表示 HTTP 响应对象。 六个方法： read()：读取响应内容。 read(n)：读取前 n 个字节。 readline()：读取一行内容。 readlines()：读取所有行。 getcode()：获取状态码。 geturl()：获取请求的 URL。 getheaders()：获取响应头信息。 4. 下载文件 urllib.request 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Urllib1",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/urllib1\/"
+        },"genre": "posts","keywords": "Urllib","wordcount":  371 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/urllib1\/","datePublished": "2025-02-28T00:00:00+00:00","dateModified": "2025-02-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Urllib1</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-28">2025-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;371 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</a>
+      <ul>
+        <li><a href="#1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</a></li>
+        <li><a href="#2-使用urllib库发送http请求">2 使用<code>urllib</code>库发送HTTP请求</a></li>
+        <li><a href="#3-使用urllib进行编码post请求和json处理">3 使用<code>urllib</code>进行编码、POST请求和JSON处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</h2>
+<h3 id="1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</h3>
+<h4 id="1-基本用法">1. 基本用法</h4>
+<h5 id="11-发送请求并获取响应">1.1 发送请求并获取响应</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义URL</span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送请求并获取响应对象</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url)
+</span></span></code></pre></div><ul>
+<li><code>urlopen(url)</code>：打开指定的 URL 并返回一个 <code>HTTPResponse</code> 对象。</li>
+</ul>
+<h5 id="12-获取响应内容">1.2 获取响应内容</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取响应内容并解码为字符串</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><ul>
+<li><code>read()</code>：读取整个响应内容，返回字节形式的二进制数据。</li>
+<li><strong><code>decode('utf-8')</code>：将二进制数据解码为字符串</strong>，<code>utf-8</code> 是常见的编码格式。</li>
+</ul>
+<h5 id="13-读取部分内容">1.3 读取部分内容</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取前10个字节</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><ul>
+<li><code>read(n)</code>：读取响应内容的前 <code>n</code> 个字节。</li>
+</ul>
+<h5 id="14-逐行读取">1.4 逐行读取</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取一行</span>
+</span></span><span style="display:flex;"><span>content1 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readline()
+</span></span><span style="display:flex;"><span>print(content1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 逐行读取所有内容</span>
+</span></span><span style="display:flex;"><span>content2 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readlines()
+</span></span><span style="display:flex;"><span>print(content2)
+</span></span></code></pre></div><ul>
+<li><code>readline()</code>：读取一行内容。</li>
+<li><code>readlines()</code>：读取所有行并返回一个列表。</li>
+</ul>
+<h4 id="2-响应对象-httpresponse-的方法和属性">2. 响应对象 (<code>HTTPResponse</code>) 的方法和属性</h4>
+<h5 id="21-获取状态码">2.1 获取状态码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;状态码：&#34;</span>, response<span style="color:#f92672">.</span>getcode())
+</span></span></code></pre></div><ul>
+<li><code>getcode()</code>：返回 HTTP 响应的状态码（如 200 表示成功）。</li>
+</ul>
+<h5 id="22-获取请求的-url">2.2 获取请求的 URL</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;URL: &#34;</span>, response<span style="color:#f92672">.</span>geturl())
+</span></span></code></pre></div><ul>
+<li><code>geturl()</code>：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。</li>
+</ul>
+<h5 id="23-获取响应头信息">2.3 获取响应头信息</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;头信息：&#34;</span>, response<span style="color:#f92672">.</span>getheaders())
+</span></span></code></pre></div><ul>
+<li><code>getheaders()</code>：返回一个包含所有响应头信息的列表，每个元素是一个 <code>(header, value)</code> 元组。</li>
+</ul>
+<h4 id="3-总结">3. 总结</h4>
+<ul>
+<li><strong>一个类型</strong>：<code>HTTPResponse</code>，表示 HTTP 响应对象。</li>
+<li><strong>六个方法</strong>：
+<ol>
+<li><code>read()</code>：读取响应内容。</li>
+<li><code>read(n)</code>：读取前 <code>n</code> 个字节。</li>
+<li><code>readline()</code>：读取一行内容。</li>
+<li><code>readlines()</code>：读取所有行。</li>
+<li><code>getcode()</code>：获取状态码。</li>
+<li><code>geturl()</code>：获取请求的 URL。</li>
+<li><code>getheaders()</code>：获取响应头信息。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-下载文件">4. 下载文件</h4>
+<p><code>urllib.request</code> 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。</p>
+<h5 id="41-下载网页">4.1 下载网页</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义URL</span>
+</span></span><span style="display:flex;"><span>url_page <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下载网页并保存为本地文件</span>
+</span></span><span style="display:flex;"><span>urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlretrieve(url_page, <span style="color:#e6db74">&#39;baidu.html&#39;</span>)
+</span></span></code></pre></div><ul>
+<li><code>urlretrieve(url, filename)</code>：将指定 URL 的内容下载并保存为本地文件。<code>url</code> 是文件的 URL，<code>filename</code> 是保存文件的路径和名称。</li>
+</ul>
+<h5 id="42-下载图片和视频">4.2 下载图片和视频</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>url_video <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://vod.v.jstv.com/2025/02/26/JSTV_JSGJ_1740536039794_Im2008l_1563.mp4&#39;</span>
+</span></span><span style="display:flex;"><span>urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlretrieve(url_video, <span style="color:#e6db74">&#39;a.mp4&#39;</span>)
+</span></span></code></pre></div><hr>
+<h3 id="2-使用urllib库发送http请求">2 使用<code>urllib</code>库发送HTTP请求</h3>
+<h4 id="1-url结构解析">1. <strong>URL结构解析</strong></h4>
+<p>URL (Uniform Resource Locator) 是用于在网络中定位资源的地址。它通常由以下部分组成：</p>
+<ul>
+<li><code>https://www.baidu.com/s?wd=周杰伦</code></li>
+<li>协议：如<code>http</code>或<code>https</code>，用于指定通信协议。</li>
+<li>主机：如<code>www.baidu.com</code>，表示目标服务器。</li>
+<li>端口号：通常在URL中可以省略，如果使用<code>http</code>协议，默认端口为<code>80</code>，<code>https</code>协议，默认端口为<code>443</code>。</li>
+<li>路径：如<code>s</code>，表示资源的路径。</li>
+<li>参数：如<code>?wd=周杰伦</code>，表示查询参数。</li>
+<li>锚点：如<code>#top</code>，用来标记页面内的位置。</li>
+</ul>
+<p>例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>协议      主机               端口号     路径    参数         锚点
+</span></span><span style="display:flex;"><span>http/https www.baidu.com      80/443    /s    ?wd=周杰伦   #top
+</span></span></code></pre></div><h4 id="2-发送简单请求">2. <strong>发送简单请求</strong></h4>
+<p>使用<code>urllib.request.urlopen()</code>方法发送一个简单的HTTP GET请求：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>url_page <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url_page)  <span style="color:#75715e"># 发送请求</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()  <span style="color:#75715e"># 读取响应内容</span>
+</span></span><span style="display:flex;"><span>print(content)  <span style="color:#75715e"># 输出内容</span>
+</span></span></code></pre></div><ul>
+<li><code>urlopen</code>返回一个响应对象，你可以通过调用<code>response.read()</code>方法来读取返回的数据。</li>
+<li>返回的数据是字节流，通常需要进一步解码。</li>
+</ul>
+<h4 id="3-添加user-agent头反爬1">3. <strong>添加User-Agent头(反爬1)</strong></h4>
+<p>有些网站会通过<code>User-Agent</code>来判断请求是否来自真实浏览器，如果发现不是，则会阻止访问。我们可以通过在请求中设置<code>User-Agent</code>头来伪装成浏览器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;User-Agent&#39;</span>: <span style="color:#e6db74">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="4-定制请求">4. <strong>定制请求</strong></h4>
+<p><code>urllib.request.Request()</code>方法允许你定制HTTP请求，例如设置请求头。你需要将<code>url</code>和<code>headers</code>传递给<code>Request</code>对象，创建一个请求对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>request <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>Request(url<span style="color:#f92672">=</span>url_page, headers<span style="color:#f92672">=</span>headers)
+</span></span></code></pre></div><p>由于<code>urlopen</code>不能直接传递字典格式的<code>headers</code>，因此需要通过<code>Request</code>对象来封装请求头。</p>
+<h4 id="5-发送带有自定义请求头的请求">5. <strong>发送带有自定义请求头的请求</strong></h4>
+<p>使用<code>urllib.request.urlopen()</code>来发送自定义的请求对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)  <span style="color:#75715e"># 解码为UTF-8</span>
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><ul>
+<li><code>response.read()</code>：读取返回的数据。</li>
+<li><code>decode('utf-8')</code>：将字节流解码为字符串，通常网页内容是UTF-8编码。</li>
+</ul>
+<hr>
+<h3 id="3-使用urllib进行编码post请求和json处理">3 使用<code>urllib</code>进行编码、POST请求和JSON处理</h3>
+<h4 id="1-url编码与解码">1. <strong>URL编码与解码</strong></h4>
+<p>在进行网络请求时，通常需要对URL中的参数进行编码，尤其是中文或特殊字符。<code>urllib.parse.quote()</code>方法可以将字符串编码为URL可用的格式。</p>
+<ul>
+<li><strong>编码中文字符</strong>：<code>urllib.parse.quote('周杰伦')</code> 会将中文字符转化为Unicode编码。</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>name <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>quote(<span style="color:#e6db74">&#39;周杰伦&#39;</span>)
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.baidu.com/s?wd=&#39;</span> <span style="color:#f92672">+</span> name
+</span></span><span style="display:flex;"><span>print(url)  <span style="color:#75715e"># 输出： https://www.baidu.com/s?wd=%E5%91%A8%E6%9D%B0%E4%BC%A6</span>
+</span></span></code></pre></div><p><code>quote</code>编码后的字符可以直接附加到URL中，作为查询参数。</p>
+<h4 id="2-get请求">2. <strong>GET请求</strong></h4>
+<p>使用<code>urllib.request.Request()</code>对象可以向指定的URL发送带有请求头的GET请求。</p>
+<ul>
+<li><strong>请求头（User-Agent）</strong>：模拟浏览器请求，避免被网站识别为爬虫。</li>
+<li><strong>URL拼接查询参数</strong>：将编码后的参数附加到URL的查询部分（<code>?</code>后面）。</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;User-Agent&#39;</span>: <span style="color:#e6db74">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.baidu.com/s?wd=&#39;</span> <span style="color:#f92672">+</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>quote(<span style="color:#e6db74">&#39;周杰伦&#39;</span>)
+</span></span><span style="display:flex;"><span>request <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>Request(url<span style="color:#f92672">=</span>url, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><h4 id="3-url编码多个参数">3. <strong>URL编码多个参数</strong></h4>
+<p><code>urllib.parse.urlencode()</code>方法可以将字典中的键值对转换为URL查询字符串。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;wd&#39;</span>: <span style="color:#e6db74">&#39;周杰伦&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;sex&#39;</span>: <span style="color:#e6db74">&#39;男&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;location&#39;</span>: <span style="color:#e6db74">&#39;中国台湾&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>new_data <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>urlencode(data)
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.baidu.com/s?&#39;</span> <span style="color:#f92672">+</span> new_data
+</span></span><span style="display:flex;"><span>print(url)
+</span></span></code></pre></div><ul>
+<li><strong>输出</strong>：<code>https://www.baidu.com/s?wd=%E5%91%A8%E6%9D%B0%E4%BC%A6&amp;sex=%E7%94%B7&amp;location=%E4%B8%AD%E5%9B%BD%E5%8F%B0%E6%B9%BE</code></li>
+</ul>
+<h4 id="4-post请求">4. <strong>POST请求</strong></h4>
+<p>POST请求常用于发送数据到服务器，用于提交表单或提交API请求。与GET请求不同，POST请求的数据放在请求体中，而不是附加在URL后。</p>
+<ul>
+<li><strong>数据编码</strong>：<strong>POST请求的参数必须通过<code>urllib.parse.urlencode()</code>方法编码，并通过<code>.encode('utf-8')</code>将其转换为字节流</strong>，以便发送。</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;kw&#39;</span>: <span style="color:#e6db74">&#39;spider&#39;</span>}
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>urlencode(data)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://fanyi.baidu.com/sug&#39;</span>
+</span></span><span style="display:flex;"><span>request <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>Request(url<span style="color:#f92672">=</span>url, data<span style="color:#f92672">=</span>data, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span></code></pre></div><h4 id="5-json解析">5. <strong>JSON解析</strong></h4>
+<p>在进行API请求时，服务器返回的响应内容往往是JSON格式。可以使用<code>json.loads()</code>方法将JSON字符串转换为Python的字典或列表对象。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;word&#34;: &#34;spider&#34;, &#34;translation&#34;: &#34;蜘蛛&#34;}&#39;</span>
+</span></span><span style="display:flex;"><span>obj <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(content)
+</span></span><span style="display:flex;"><span>print(obj)  <span style="color:#75715e"># 输出： {&#39;word&#39;: &#39;spider&#39;, &#39;translation&#39;: &#39;蜘蛛&#39;}</span>
+</span></span></code></pre></div><p>通过<code>json.loads()</code>方法，可以将返回的JSON数据解析成Python对象，便于后续处理。</p>
+<hr>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-02-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" data-title="Urllib1" data-hashtags="Urllib"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" data-hashtag="Urllib"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" data-title="Urllib1"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" data-title="Urllib1"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" data-title="Urllib1"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/leetcode-c/" class="prev" rel="prev" title="Leetcode-C"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Leetcode-C</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

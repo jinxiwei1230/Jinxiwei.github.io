@@ -1,9 +1,9 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>C - Tag - Jinxiwei</title>
-        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/c/</link>
-        <description>C - Tag - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/c/" rel="self" type="application/rss+xml" /><item>
+        <title>C - Category - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/c/</link>
+        <description>C - Category - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/c/" rel="self" type="application/rss+xml" /><item>
     <title>Leetcode-C</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/</link>
     <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
