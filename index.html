@@ -136,6 +136,62 @@
         <a href="/Jinxiwei.github.io/posts/urllib1/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/urllib2/">Urllib2</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-28">2025-02-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div><div class="content"><h2 id="urllibajax异常cookie登录handler代理">Urllib：ajax、异常、cookie登录、handler、代理</h2>
+<h3 id="循环爬取多个页面">循环爬取多个页面</h3>
+<p>找到多个页面的url和data参数规律，循环发送不同请求</p>
+<h3 id="异常种类">异常种类</h3>
+<h4 id="urlliberrorurlerror">urllib.error.URLError</h4>
+<p><strong>常见场景：</strong></p>
+<ul>
+<li>连接超时（如请求的目标服务器无法访问，网络中断）。</li>
+<li>DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。</li>
+<li>网络连接错误（例如，网络不可达）</li>
+</ul>
+<h4 id="urlliberrorhttperror">urllib.error.HTTPError</h4>
+<p>HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。
+<strong>常见场景：</strong></p>
+<ul>
+<li>请求的资源不存在，返回 404 错误。</li>
+<li>请求无法通过认证，返回 401 或 403 错误。</li>
+<li>服务器错误，返回 500 错误。</li>
+</ul>
+<hr>
+<h3 id="cookiereferer">cookie、Referer</h3>
+<h4 id="1登录状态cookie">1、<strong>登录状态（Cookie）</strong>：</h4>
+<ul>
+<li><strong>Cookie</strong> 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。</li>
+<li><code>cookie</code> 包含一系列从微博登录后获得的身份信息，如 <code>SCF</code>、<code>SINAGLOBAL</code>、<code>PC_TOKEN</code> 等。
+<strong>注意</strong>：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。</li>
+</ul>
+<h4 id="2防止反爬虫措施">2、<strong>防止反爬虫措施</strong>：</h4>
+<ul>
+<li><strong>Referer</strong>：一些网站通过检查 <code>referer</code> 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 <code>referer</code> 值可以绕过这种检查。</li>
+<li><strong>User-Agent</strong>：服务器根据请求头中的 <code>User-Agent</code> 判断请求是否来自浏览器。如果 <code>User-Agent</code> 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 <code>User-Agent</code>。</li>
+</ul>
+<h4 id="3爬虫中的常见技巧">3、<strong>爬虫中的常见技巧</strong>：</h4>
+<ul>
+<li><strong>模拟浏览器请求</strong>：通过自定义请求头信息，特别是 <code>User-Agent</code>、<code>Referer</code> 和 <code>Cookie</code>，使爬虫看起来像一个正常用户在浏览网页。</li>
+<li><strong>处理登录后的数据</strong>：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。</li>
+<li><strong>防止被封禁</strong>：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。</li>
+</ul>
+<hr>
+<h3 id="爬虫-handler">爬虫 <code>handler</code></h3>
+<h4 id="1-什么是-handler">1. <strong>什么是 Handler？</strong></h4>
+<ul>
+<li><strong>Handler</strong> 是 <code>urllib</code> 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。<code>Handler</code> 可以定制请求的处理方式，以便实现不同的需求。</li>
+<li>作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。</li>
+</ul>
+<h4 id="2-httphandler-的作用">2. <strong><code>HTTPHandler</code> 的作用</strong>：</h4>
+<ul>
+<li><code>HTTPHandler</code> 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。</li>
+<li>它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。</li>
+<li><code>HTTPHandler</code> 处理的内容相对简单，适用于普通的 HTTP 请求。</li>
+</ul>
+<p><strong>示例</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/urllib2/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/leetcode-c/">Leetcode-C</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/c/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>C</a></span></div><div class="content"><p><strong>1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。</strong>
 <strong>cmp 比较函数</strong>：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
@@ -319,100 +375,6 @@
 </ul>
 <p><strong>3、生产者-消费者问题（Producer-Consumer Problem）</strong></p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">Linux：信号</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-12">2024-12-12</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h3 id="信号的产生及类型">信号的产生及类型</h3>
-<p><strong>1、命令kill</strong></p>
-<ul>
-<li><strong>功能</strong>：用于向进程发送信号。</li>
-<li><strong>基本用法</strong>：
-<ul>
-<li><code>kill -signal PID-list</code>：发送指定信号到一个或多个进程。</li>
-<li>默认信号为 <code>SIGTERM</code>（15），用于正常终止进程。</li>
-<li>示例：
-<ul>
-<li><code>kill 1275</code>：向进程 1275 发送 <code>SIGTERM</code> 信号。</li>
-<li><code>kill -9 1326</code>：向进程 1326 发送 <code>SIGKILL</code> 信号，强制终止进程。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>2、进程组</strong></p>
-<ul>
-<li><strong>定义</strong>：
-<ul>
-<li>进程组由 <code>p_pgrp</code> 字段标识，相同 <code>p_pgrp</code> 值的进程属于同一组。</li>
-<li>如果 <code>p_pgrp</code> 等于 <code>p_pid</code>，则该进程是组长。</li>
-</ul>
-</li>
-<li><strong>行为</strong>：
-<ul>
-<li><strong>创建新组</strong>：<code>setsid()</code> 系统调用让进程脱离原组并成为新组组长。</li>
-<li><strong>继承</strong>：子进程通过 <code>fork</code> 继承父进程的 <code>p_pgrp</code>。</li>
-<li>示例：<code>kill -0 0</code> 会向与当前进程同组的所有进程发送信号。</li>
-</ul>
-</li>
-</ul>
-<p><strong>3、信号机制</strong></p>
-<ul>
-<li><strong>功能</strong>：信号是一种“软件中断”，用于通知进程处理异常事件。</li>
-<li><strong>信号产生</strong>：
-<ol>
-<li><strong>用户态进程</strong>：
-<ul>
-<li>通过 <code>kill()</code> 或 <code>alarm()</code> 调用发送信号。</li>
-</ul>
-</li>
-<li><strong>内核触发</strong>：
-<ul>
-<li>由中断或异常事件触发。</li>
-<li>例子：
-<ul>
-<li><code>SIGSEGV</code>（段违例）：进程访问非法内存地址时触发。</li>
-<li><code>SIGFPE</code>（浮点溢出）：如零做除数。</li>
-<li><code>SIGPIPE</code>：管道读端关闭时写端触发。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<p><strong>4、信号类型</strong></p>
-<ul>
-<li>信号在 <code>&lt;sys/signal.h&gt;</code> 文件中以宏定义，种类有限（约几十种）。</li>
-<li><strong>关键信号及其作用</strong>：
-<ul>
-<li><code>SIGTERM</code>（15）：软件终止信号（默认信号）。</li>
-<li><code>SIGHUP</code>（1）：挂断信号，用户退出 shell 时触发。</li>
-<li><code>SIGINT</code>（2）：中断信号，用户按 <code>Ctrl-C</code> 触发。</li>
-<li><code>SIGQUIT</code>（3）：退出信号，按 <code>Ctrl-\</code> 触发，产生 core 文件。</li>
-<li><code>SIGKILL</code>（9）：强制终止信号，不可被捕获或忽略。</li>
-<li><code>SIGALRM</code>（14）：计时器信号，由 <code>alarm()</code> 触发。</li>
-<li><code>SIGPIPE</code>：管道写端对已关闭读端写操作。</li>
-<li>用户自定义信号：<code>SIGUSR1</code>、<code>SIGUSR2</code>。</li>
-<li>异常信号：
-<ul>
-<li><code>SIGSEGV</code>：段违例。</li>
-<li><code>SIGFPE</code>：浮点溢出。</li>
-<li><code>SIGILL</code>：非法指令。</li>
-</ul>
-</li>
-<li>其他信号：
-<ul>
-<li><code>SIGCLD</code>：子进程终止。</li>
-<li><code>SIGWINCH</code>：终端窗口大小改变。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="进程对信号的处理">进程对信号的处理</h3>
-<p><strong>1、设置为默认处理方式</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">

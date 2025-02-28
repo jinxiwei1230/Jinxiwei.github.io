@@ -58,6 +58,100 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">Linux：信号</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-12">2024-12-12</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h3 id="信号的产生及类型">信号的产生及类型</h3>
+<p><strong>1、命令kill</strong></p>
+<ul>
+<li><strong>功能</strong>：用于向进程发送信号。</li>
+<li><strong>基本用法</strong>：
+<ul>
+<li><code>kill -signal PID-list</code>：发送指定信号到一个或多个进程。</li>
+<li>默认信号为 <code>SIGTERM</code>（15），用于正常终止进程。</li>
+<li>示例：
+<ul>
+<li><code>kill 1275</code>：向进程 1275 发送 <code>SIGTERM</code> 信号。</li>
+<li><code>kill -9 1326</code>：向进程 1326 发送 <code>SIGKILL</code> 信号，强制终止进程。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、进程组</strong></p>
+<ul>
+<li><strong>定义</strong>：
+<ul>
+<li>进程组由 <code>p_pgrp</code> 字段标识，相同 <code>p_pgrp</code> 值的进程属于同一组。</li>
+<li>如果 <code>p_pgrp</code> 等于 <code>p_pid</code>，则该进程是组长。</li>
+</ul>
+</li>
+<li><strong>行为</strong>：
+<ul>
+<li><strong>创建新组</strong>：<code>setsid()</code> 系统调用让进程脱离原组并成为新组组长。</li>
+<li><strong>继承</strong>：子进程通过 <code>fork</code> 继承父进程的 <code>p_pgrp</code>。</li>
+<li>示例：<code>kill -0 0</code> 会向与当前进程同组的所有进程发送信号。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、信号机制</strong></p>
+<ul>
+<li><strong>功能</strong>：信号是一种“软件中断”，用于通知进程处理异常事件。</li>
+<li><strong>信号产生</strong>：
+<ol>
+<li><strong>用户态进程</strong>：
+<ul>
+<li>通过 <code>kill()</code> 或 <code>alarm()</code> 调用发送信号。</li>
+</ul>
+</li>
+<li><strong>内核触发</strong>：
+<ul>
+<li>由中断或异常事件触发。</li>
+<li>例子：
+<ul>
+<li><code>SIGSEGV</code>（段违例）：进程访问非法内存地址时触发。</li>
+<li><code>SIGFPE</code>（浮点溢出）：如零做除数。</li>
+<li><code>SIGPIPE</code>：管道读端关闭时写端触发。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>4、信号类型</strong></p>
+<ul>
+<li>信号在 <code>&lt;sys/signal.h&gt;</code> 文件中以宏定义，种类有限（约几十种）。</li>
+<li><strong>关键信号及其作用</strong>：
+<ul>
+<li><code>SIGTERM</code>（15）：软件终止信号（默认信号）。</li>
+<li><code>SIGHUP</code>（1）：挂断信号，用户退出 shell 时触发。</li>
+<li><code>SIGINT</code>（2）：中断信号，用户按 <code>Ctrl-C</code> 触发。</li>
+<li><code>SIGQUIT</code>（3）：退出信号，按 <code>Ctrl-\</code> 触发，产生 core 文件。</li>
+<li><code>SIGKILL</code>（9）：强制终止信号，不可被捕获或忽略。</li>
+<li><code>SIGALRM</code>（14）：计时器信号，由 <code>alarm()</code> 触发。</li>
+<li><code>SIGPIPE</code>：管道写端对已关闭读端写操作。</li>
+<li>用户自定义信号：<code>SIGUSR1</code>、<code>SIGUSR2</code>。</li>
+<li>异常信号：
+<ul>
+<li><code>SIGSEGV</code>：段违例。</li>
+<li><code>SIGFPE</code>：浮点溢出。</li>
+<li><code>SIGILL</code>：非法指令。</li>
+</ul>
+</li>
+<li>其他信号：
+<ul>
+<li><code>SIGCLD</code>：子进程终止。</li>
+<li><code>SIGWINCH</code>：终端窗口大小改变。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="进程对信号的处理">进程对信号的处理</h3>
+<p><strong>1、设置为默认处理方式</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Linux：进程</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
 <p><strong>1、进程与程序</strong></p>
@@ -359,80 +453,6 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
 <p><strong>定义目标</strong>：寻找 ( w^<em>, b^</em> = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/introduction-of-machine-learning/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/machine-learning/">Machine Learning</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Linux：命令风格与目录存储结构</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-24">2024-10-24</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h2>
-<h2 id="命令风格">命令风格</h2>
-<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
-<p>配置信息等硬编码是不可取的</p>
-<ul>
-<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
-<li>运行时获取信息的常见方式，易变性从小到大为 :
-<ul>
-<li>配置文件</li>
-<li>环境变量</li>
-<li>命令行参数</li>
-<li>交互式键盘输入</li>
-</ul>
-</li>
-</ul>
-<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
-<ul>
-<li>
-<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
-<ul>
-<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
-<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
-</ul>
-</li>
-<li>
-<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
-</li>
-<li>
-<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
-</li>
-<li>
-<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
-</li>
-</ul>
-<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
-<p><strong>命令<code>env</code></strong>：
-- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
-<code>bash env </code>
-这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
-<p><strong>设置环境变量</strong>：
-环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
-<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
-这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
-<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
-<p><strong>系统级与用户级环境变量</strong>：</p>
-<ul>
-<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
-<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
-</ul>
-<p><strong>示例</strong>：
-- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
-- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
-<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
-<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
-- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
-- <strong><code>HOME</code></strong>：当前用户的主目录路径。
-- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
-- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
-- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
-- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
-<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
-<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
-<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
-<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
-<h4 id="4命令行参数">4、命令行参数</h4>
-<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
-<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
-<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
-<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
-<p><strong>1、 根文件系统（root filesystem）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>

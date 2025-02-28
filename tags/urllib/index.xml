@@ -84,5 +84,64 @@
 <h4 id="4-下载文件">4. 下载文件</h4>
 <p><code>urllib.request</code> 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。</p>]]></description>
 </item>
+<item>
+    <title>Urllib2</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/</link>
+    <pubDate>Fri, 28 Feb 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/</guid>
+    <description><![CDATA[<h2 id="urllibajax异常cookie登录handler代理">Urllib：ajax、异常、cookie登录、handler、代理</h2>
+<h3 id="循环爬取多个页面">循环爬取多个页面</h3>
+<p>找到多个页面的url和data参数规律，循环发送不同请求</p>
+<h3 id="异常种类">异常种类</h3>
+<h4 id="urlliberrorurlerror">urllib.error.URLError</h4>
+<p><strong>常见场景：</strong></p>
+<ul>
+<li>连接超时（如请求的目标服务器无法访问，网络中断）。</li>
+<li>DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。</li>
+<li>网络连接错误（例如，网络不可达）</li>
+</ul>
+<h4 id="urlliberrorhttperror">urllib.error.HTTPError</h4>
+<p>HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。
+<strong>常见场景：</strong></p>
+<ul>
+<li>请求的资源不存在，返回 404 错误。</li>
+<li>请求无法通过认证，返回 401 或 403 错误。</li>
+<li>服务器错误，返回 500 错误。</li>
+</ul>
+<hr>
+<h3 id="cookiereferer">cookie、Referer</h3>
+<h4 id="1登录状态cookie">1、<strong>登录状态（Cookie）</strong>：</h4>
+<ul>
+<li><strong>Cookie</strong> 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。</li>
+<li><code>cookie</code> 包含一系列从微博登录后获得的身份信息，如 <code>SCF</code>、<code>SINAGLOBAL</code>、<code>PC_TOKEN</code> 等。
+<strong>注意</strong>：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。</li>
+</ul>
+<h4 id="2防止反爬虫措施">2、<strong>防止反爬虫措施</strong>：</h4>
+<ul>
+<li><strong>Referer</strong>：一些网站通过检查 <code>referer</code> 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 <code>referer</code> 值可以绕过这种检查。</li>
+<li><strong>User-Agent</strong>：服务器根据请求头中的 <code>User-Agent</code> 判断请求是否来自浏览器。如果 <code>User-Agent</code> 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 <code>User-Agent</code>。</li>
+</ul>
+<h4 id="3爬虫中的常见技巧">3、<strong>爬虫中的常见技巧</strong>：</h4>
+<ul>
+<li><strong>模拟浏览器请求</strong>：通过自定义请求头信息，特别是 <code>User-Agent</code>、<code>Referer</code> 和 <code>Cookie</code>，使爬虫看起来像一个正常用户在浏览网页。</li>
+<li><strong>处理登录后的数据</strong>：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。</li>
+<li><strong>防止被封禁</strong>：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。</li>
+</ul>
+<hr>
+<h3 id="爬虫-handler">爬虫 <code>handler</code></h3>
+<h4 id="1-什么是-handler">1. <strong>什么是 Handler？</strong></h4>
+<ul>
+<li><strong>Handler</strong> 是 <code>urllib</code> 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。<code>Handler</code> 可以定制请求的处理方式，以便实现不同的需求。</li>
+<li>作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。</li>
+</ul>
+<h4 id="2-httphandler-的作用">2. <strong><code>HTTPHandler</code> 的作用</strong>：</h4>
+<ul>
+<li><code>HTTPHandler</code> 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。</li>
+<li>它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。</li>
+<li><code>HTTPHandler</code> 处理的内容相对简单，适用于普通的 HTTP 请求。</li>
+</ul>
+<p><strong>示例</strong>：</p>]]></description>
+</item>
 </channel>
 </rss>

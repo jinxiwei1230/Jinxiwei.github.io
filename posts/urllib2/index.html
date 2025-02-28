@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Urllib2 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Urllib2">
+  <meta property="og:description" content="Urllib：ajax、异常、cookie登录、handler、代理 循环爬取多个页面 找到多个页面的url和data参数规律，循环发送不同请求
+异常种类 urllib.error.URLError 常见场景：
+连接超时（如请求的目标服务器无法访问，网络中断）。 DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。 网络连接错误（例如，网络不可达） urllib.error.HTTPError HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。 常见场景：
+请求的资源不存在，返回 404 错误。 请求无法通过认证，返回 401 或 403 错误。 服务器错误，返回 500 错误。 cookie、Referer 1、登录状态（Cookie）： Cookie 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。 cookie 包含一系列从微博登录后获得的身份信息，如 SCF、SINAGLOBAL、PC_TOKEN 等。 注意：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。 2、防止反爬虫措施： Referer：一些网站通过检查 referer 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 referer 值可以绕过这种检查。 User-Agent：服务器根据请求头中的 User-Agent 判断请求是否来自浏览器。如果 User-Agent 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 User-Agent。 3、爬虫中的常见技巧： 模拟浏览器请求：通过自定义请求头信息，特别是 User-Agent、Referer 和 Cookie，使爬虫看起来像一个正常用户在浏览网页。 处理登录后的数据：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。 防止被封禁：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。 爬虫 handler 1. 什么是 Handler？ Handler 是 urllib 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。Handler 可以定制请求的处理方式，以便实现不同的需求。 作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。 2. HTTPHandler 的作用： HTTPHandler 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。 它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。 HTTPHandler 处理的内容相对简单，适用于普通的 HTTP 请求。 示例：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-02-28T00:00:00+00:00">
+    <meta property="article:tag" content="Urllib">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Urllib2">
+  <meta name="twitter:description" content="Urllib：ajax、异常、cookie登录、handler、代理 循环爬取多个页面 找到多个页面的url和data参数规律，循环发送不同请求
+异常种类 urllib.error.URLError 常见场景：
+连接超时（如请求的目标服务器无法访问，网络中断）。 DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。 网络连接错误（例如，网络不可达） urllib.error.HTTPError HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。 常见场景：
+请求的资源不存在，返回 404 错误。 请求无法通过认证，返回 401 或 403 错误。 服务器错误，返回 500 错误。 cookie、Referer 1、登录状态（Cookie）： Cookie 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。 cookie 包含一系列从微博登录后获得的身份信息，如 SCF、SINAGLOBAL、PC_TOKEN 等。 注意：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。 2、防止反爬虫措施： Referer：一些网站通过检查 referer 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 referer 值可以绕过这种检查。 User-Agent：服务器根据请求头中的 User-Agent 判断请求是否来自浏览器。如果 User-Agent 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 User-Agent。 3、爬虫中的常见技巧： 模拟浏览器请求：通过自定义请求头信息，特别是 User-Agent、Referer 和 Cookie，使爬虫看起来像一个正常用户在浏览网页。 处理登录后的数据：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。 防止被封禁：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。 爬虫 handler 1. 什么是 Handler？ Handler 是 urllib 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。Handler 可以定制请求的处理方式，以便实现不同的需求。 作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。 2. HTTPHandler 的作用： HTTPHandler 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。 它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。 HTTPHandler 处理的内容相对简单，适用于普通的 HTTP 请求。 示例：">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Urllib2",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/urllib2\/"
+        },"genre": "posts","keywords": "Urllib","wordcount":  446 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/urllib2\/","datePublished": "2025-02-28T00:00:00+00:00","dateModified": "2025-02-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Urllib2</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-28">2025-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;446 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#urllibajax异常cookie登录handler代理">Urllib：ajax、异常、cookie登录、handler、代理</a>
+      <ul>
+        <li><a href="#循环爬取多个页面">循环爬取多个页面</a></li>
+        <li><a href="#异常种类">异常种类</a></li>
+        <li><a href="#cookiereferer">cookie、Referer</a></li>
+        <li><a href="#爬虫-handler">爬虫 <code>handler</code></a></li>
+        <li><a href="#代理和代理池">代理和代理池</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="urllibajax异常cookie登录handler代理">Urllib：ajax、异常、cookie登录、handler、代理</h2>
+<h3 id="循环爬取多个页面">循环爬取多个页面</h3>
+<p>找到多个页面的url和data参数规律，循环发送不同请求</p>
+<h3 id="异常种类">异常种类</h3>
+<h4 id="urlliberrorurlerror">urllib.error.URLError</h4>
+<p><strong>常见场景：</strong></p>
+<ul>
+<li>连接超时（如请求的目标服务器无法访问，网络中断）。</li>
+<li>DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。</li>
+<li>网络连接错误（例如，网络不可达）</li>
+</ul>
+<h4 id="urlliberrorhttperror">urllib.error.HTTPError</h4>
+<p>HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。
+<strong>常见场景：</strong></p>
+<ul>
+<li>请求的资源不存在，返回 404 错误。</li>
+<li>请求无法通过认证，返回 401 或 403 错误。</li>
+<li>服务器错误，返回 500 错误。</li>
+</ul>
+<hr>
+<h3 id="cookiereferer">cookie、Referer</h3>
+<h4 id="1登录状态cookie">1、<strong>登录状态（Cookie）</strong>：</h4>
+<ul>
+<li><strong>Cookie</strong> 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。</li>
+<li><code>cookie</code> 包含一系列从微博登录后获得的身份信息，如 <code>SCF</code>、<code>SINAGLOBAL</code>、<code>PC_TOKEN</code> 等。
+<strong>注意</strong>：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。</li>
+</ul>
+<h4 id="2防止反爬虫措施">2、<strong>防止反爬虫措施</strong>：</h4>
+<ul>
+<li><strong>Referer</strong>：一些网站通过检查 <code>referer</code> 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 <code>referer</code> 值可以绕过这种检查。</li>
+<li><strong>User-Agent</strong>：服务器根据请求头中的 <code>User-Agent</code> 判断请求是否来自浏览器。如果 <code>User-Agent</code> 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 <code>User-Agent</code>。</li>
+</ul>
+<h4 id="3爬虫中的常见技巧">3、<strong>爬虫中的常见技巧</strong>：</h4>
+<ul>
+<li><strong>模拟浏览器请求</strong>：通过自定义请求头信息，特别是 <code>User-Agent</code>、<code>Referer</code> 和 <code>Cookie</code>，使爬虫看起来像一个正常用户在浏览网页。</li>
+<li><strong>处理登录后的数据</strong>：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。</li>
+<li><strong>防止被封禁</strong>：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。</li>
+</ul>
+<hr>
+<h3 id="爬虫-handler">爬虫 <code>handler</code></h3>
+<h4 id="1-什么是-handler">1. <strong>什么是 Handler？</strong></h4>
+<ul>
+<li><strong>Handler</strong> 是 <code>urllib</code> 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。<code>Handler</code> 可以定制请求的处理方式，以便实现不同的需求。</li>
+<li>作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。</li>
+</ul>
+<h4 id="2-httphandler-的作用">2. <strong><code>HTTPHandler</code> 的作用</strong>：</h4>
+<ul>
+<li><code>HTTPHandler</code> 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。</li>
+<li>它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。</li>
+<li><code>HTTPHandler</code> 处理的内容相对简单，适用于普通的 HTTP 请求。</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>handler <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>HTTPHandler()
+</span></span></code></pre></div><h4 id="3-opener-对象的作用">3. <strong><code>opener</code> 对象的作用</strong>：</h4>
+<ul>
+<li><code>opener</code> 是 <code>urllib</code> 中的一个对象，它能够结合一个或多个 handler 对象来处理请求和响应。</li>
+<li><code>urllib.request.build_opener(handler)</code> 方法用于创建一个 <code>opener</code> 对象，它将 handler 与请求处理过程结合起来。通过 <code>opener</code> 对象，我们可以发送请求并获取响应。</li>
+<li><code>opener</code> 支持多个 handler，可以通过多个 handler 来定制请求的不同处理方式，如代理设置、认证信息等。</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>build_opener(handler)
+</span></span></code></pre></div><h4 id="4-使用-openeropenrequest-来发送请求">4. <strong>使用 <code>opener.open(request)</code> 来发送请求</strong>：</h4>
+<ul>
+<li>使用 <code>opener.open(request)</code> 发送请求时，<code>opener</code> 会按照 handler 的定义来处理请求。通过 handler 对 HTTP 请求进行处理，最终返回响应数据。</li>
+<li>通过 <code>open</code> 方法，你可以发送 HTTP 请求，并获取到服务器的响应。</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>response <span style="color:#f92672">=</span> opener<span style="color:#f92672">.</span>open(request)
+</span></span></code></pre></div><h4 id="5-使用-handler-的好处">5. <strong>使用 <code>handler</code> 的好处</strong>：</h4>
+<ul>
+<li><strong>定制化请求</strong>：使用 handler，你可以更加细粒度地控制请求过程，如设置代理、处理重定向、定制请求头等。</li>
+<li><strong>扩展性强</strong>：<code>urllib</code> 提供了多种 handler（如 <code>HTTPHandler</code>、<code>ProxyHandler</code>、<code>RedirectHandler</code>、<code>BasicAuthHandler</code> 等），你可以根据需要选择不同的 handler 来处理特定的场景。</li>
+<li><strong>更加灵活</strong>：可以通过多个 handler 配合使用，构建复杂的请求逻辑。</li>
+</ul>
+<h4 id="6-opener-的等价实现">6. <strong><code>opener</code> 的等价实现</strong>：</h4>
+<ul>
+<li>通过 <code>urllib.request.urlopen(request)</code> 可以实现与使用 <code>handler</code> 和 <code>opener</code> 的相同功能。两者的区别在于：
+<ul>
+<li><code>urllib.request.urlopen(request)</code> 是直接发送请求并获取响应的简化方式。</li>
+<li>使用 <code>handler</code> 和 <code>opener</code> 则提供了更多定制和扩展的功能，可以灵活添加更多处理逻辑。</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-代码结构">7. <strong>代码结构</strong>：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置请求 URL 和头信息</span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;user-agent&#39;</span>: <span style="color:#e6db74">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0&#39;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建请求对象</span>
+</span></span><span style="display:flex;"><span>request <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>Request(url<span style="color:#f92672">=</span>url, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建 HTTPHandler 处理请求</span>
+</span></span><span style="display:flex;"><span>handler <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>HTTPHandler()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 handler 创建 opener 对象</span>
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>build_opener(handler)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 opener 打开请求并获取响应</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> opener<span style="color:#f92672">.</span>open(request)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 读取并输出响应内容</span>
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>print(content)
+</span></span></code></pre></div><hr>
+<h3 id="代理和代理池">代理和代理池</h3>
+<h4 id="1-代理的基本概念">1. <strong>代理的基本概念</strong>：</h4>
+<ul>
+<li><strong>代理服务器</strong>（Proxy Server）是一个中间服务器，允许客户端通过它访问互联网。使用代理服务器可以隐藏真实的IP地址，避免被目标网站封锁或限制。</li>
+<li>在爬虫中，代理通常用于绕过IP限制、进行反爬虫防护、提高匿名性等。</li>
+</ul>
+<h4 id="2-爬虫代理的使用">2. <strong>爬虫代理的使用</strong>：</h4>
+<ul>
+<li>在 <code>urllib</code> 爬虫中，可以使用 <code>ProxyHandler</code> 来设置代理。<code>ProxyHandler</code> 负责将请求通过指定的代理服务器发送出去。</li>
+<li>通过 <code>urllib.request.build_opener(handler)</code> 创建一个 <code>opener</code> 对象，它会自动使用 <code>ProxyHandler</code> 进行代理设置。</li>
+</ul>
+<h4 id="3-proxyhandler-的使用">3. <strong><code>ProxyHandler</code> 的使用</strong>：</h4>
+<ul>
+<li><code>ProxyHandler</code> 是一个处理代理设置的 handler。你需要在请求发送之前设置代理，以便将请求通过代理服务器转发。</li>
+<li>可以通过 <code>ProxyHandler</code> 设置多个代理（例如 HTTP、HTTPS）用于不同的请求。</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 设置代理池中的某个代理</span>
+</span></span><span style="display:flex;"><span>proxies <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;60.174.0.143:8089&#39;</span>}
+</span></span><span style="display:flex;"><span>handler <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>ProxyHandler(proxies<span style="color:#f92672">=</span>proxies)
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>build_opener(handler)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> opener<span style="color:#f92672">.</span>open(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span></code></pre></div><h4 id="4-代理池的作用">4. <strong>代理池的作用</strong>：</h4>
+<ul>
+<li><strong>代理池</strong>（Proxy Pool）是多个代理服务器的集合，用于应对请求过程中某些代理被封禁或失效的情况。</li>
+<li>在爬虫中，使用代理池可以提高爬取效率，并且减少被封IP的风险。</li>
+<li>通过随机从代理池中选择代理，可以更好地避免频繁使用同一个代理而被目标网站封锁。</li>
+</ul>
+<h4 id="5-随机代理选择">5. <strong>随机代理选择</strong>：</h4>
+<ul>
+<li>代理池中的代理可能会因为不同原因失效或被封禁。为了增加爬虫的稳定性，可以随机选择代理池中的代理进行请求。</li>
+<li>在代码中，使用 <code>random.choice(proxy_pool)</code> 来从代理池中随机选择一个代理。</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proxy_pool <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;60.174.0.143:8089&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;120.24.73.25:8118&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;39.98.204.54:7890&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;223.215.176.236:8089&#39;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 随机选择一个代理</span>
+</span></span><span style="display:flex;"><span>proxies <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>choice(proxy_pool)
+</span></span><span style="display:flex;"><span>print(proxies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建 ProxyHandler，配置代理</span>
+</span></span><span style="display:flex;"><span>handler <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>ProxyHandler(proxies<span style="color:#f92672">=</span>proxies)
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>build_opener(handler)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> opener<span style="color:#f92672">.</span>open(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span></code></pre></div><h4 id="6-使用代理的流程">6. <strong>使用代理的流程</strong>：</h4>
+<ul>
+<li><strong>构建请求</strong>：首先构建请求对象 (<code>Request</code>)。</li>
+<li><strong>设置代理</strong>：通过 <code>ProxyHandler</code> 设置代理，并通过 <code>build_opener</code> 创建一个 opener 对象。</li>
+<li><strong>发送请求</strong>：使用 <code>opener.open(request)</code> 发送请求。</li>
+<li><strong>获取响应</strong>：通过 <code>response.read().decode('utf-8')</code> 获取返回的 HTML 内容，并将其保存到本地。</li>
+</ul>
+<h4 id="7-代码示例代理池与代理的结合">7. <strong>代码示例：代理池与代理的结合</strong>：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.baidu.com/s?wd=ip&#39;</span>
+</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;user-agent&#39;</span>: <span style="color:#e6db74">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0&#39;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>request <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>Request(url<span style="color:#f92672">=</span>url, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proxy_pool <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;60.174.0.143:8089&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;120.24.73.25:8118&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;39.98.204.54:7890&#39;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;http&#39;</span>: <span style="color:#e6db74">&#39;223.215.176.236:8089&#39;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 随机选择代理</span>
+</span></span><span style="display:flex;"><span>proxies <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>choice(proxy_pool)
+</span></span><span style="display:flex;"><span>print(proxies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 ProxyHandler 设置代理</span>
+</span></span><span style="display:flex;"><span>handler <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>ProxyHandler(proxies<span style="color:#f92672">=</span>proxies)
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>build_opener(handler)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送请求并获取响应</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> opener<span style="color:#f92672">.</span>open(request)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 保存响应内容</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;daili_pool.html&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>write(content)
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-02-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" data-title="Urllib2" data-hashtags="Urllib"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" data-hashtag="Urllib"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" data-title="Urllib2"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" data-title="Urllib2"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" data-title="Urllib2"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/leetcode-c/" class="prev" rel="prev" title="Leetcode-C"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Leetcode-C</a>
+            <a href="/Jinxiwei.github.io/posts/urllib1/" class="next" rel="next" title="Urllib1">Urllib1<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
