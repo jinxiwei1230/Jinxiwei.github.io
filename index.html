@@ -58,6 +58,34 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="mailto:3492548835@qq.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/leetcode-c/">Leetcode-C</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>编程</a></span></div><div class="content"><p>**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。
+**cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
+<ul>
+<li>如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面</li>
+<li>如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面</li>
+<li>如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">qsort</span>(nums1, nums1Size, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), cmp);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 降序比较函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp_desc</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a;  <span style="color:#75715e">// 让较大的数排在前面
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/leetcode-c/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/c/">C</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/leetcode-java/">Leetcode-Java</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-25">2025-02-25</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>编程</a></span></div><div class="content"></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/leetcode-java/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/">Linux：套接字变编程</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-19">2024-12-19</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h3 id="socket概述">Socket概述</h3>
 <p><strong>1、网络协议栈分层实现</strong></p>
@@ -417,95 +445,6 @@
 <p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/">Linux：重定向</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程与文件描述符">进程与文件描述符</h2>
-<h3 id="活动文件目录afd及文件管理系统分析">活动文件目录（AFD）及文件管理系统分析</h3>
-<p><strong>1、磁盘文件目录（Disk File Directory）</strong>
-磁盘文件目录通常包括两级：</p>
-<ul>
-<li><strong>文件名</strong>：文件在磁盘上的名字。</li>
-<li><strong>i节点</strong>：每个文件在文件系统中的元数据（inode）记录，包含文件的属性，如文件大小、权限、创建时间、修改时间等。
-在磁盘上的文件目录结构中，文件名和对应的 i 节点是最重要的信息。i 节点为文件提供了关于文件内容的描述，但是不包含文件的实际数据。</li>
-</ul>
-<p><strong>2、活动文件目录（Active File Directory）</strong>
-活动文件目录通常分为三级，其中包括<strong>文件描述符表（FDT）</strong>、<strong>系统文件表（SFT）<strong>和</strong>活动 i 节点表（AIT）</strong>。</p>
-<ol>
-<li>文件描述符表（FDT）
-每个进程都有的一张表，通常存储在进程的 PCB（进程控制块）的 <code>user</code> 结构中。
-FDT 维护每个进程打开的文件的描述信息。它的主要作用是将文件描述符（fd）映射到具体的文件操作，如文件读写等。</li>
-</ol>
-<ul>
-<li><strong>文件描述符</strong>：<code>fd</code> 是进程打开的文件在 <code>u_ofile</code> 数组中的下标，每个进程有一张自己的文件描述符表。</li>
-<li><strong><code>user</code> 结构</strong>：在每个进程的 <code>user</code> 结构中，整型数组 <code>u_ofile</code> 用来记录该进程已打开的文件。<code>u_ofile</code> 数组的下标即为文件描述符（fd）。</li>
-</ul>
-<ol start="2">
-<li>系统文件表（SFT）
-系统文件表（SFT）是<strong>整个操作系统共享的一张表</strong>，存储在内核中，包含对文件的管理信息。每个文件在系统中有一个 <code>file</code> 结构，该结构包含文件的操作标志、引用计数、偏移量和对应的 i 节点等信息。</li>
-</ol>
-<ul>
-<li><strong><code>struct file</code></strong>:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> file {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> f_flag;      <span style="color:#75715e">// 读写操作标志（例如：只读、只写等）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> f_count;     <span style="color:#75715e">// 文件的引用计数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> f_offset;    <span style="color:#75715e">// 文件读写位置指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> f_inode;      <span style="color:#75715e">// 文件的 i 节点索引
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
-</span></span></code></pre></div></li>
-</ul>
-<ol start="3">
-<li>活动 i 节点表（AIT）
-活动 i 节点表存储了操作系统内核当前正在使用的 i 节点，<strong>整个系统只有一张活动 i 节点表</strong>。它缓存了磁盘上对应的 inode 信息，避免每次访问文件时都需要从磁盘读取。</li>
-</ol>
-<ul>
-<li><strong><code>inode</code> 结构</strong>：i 节点描述了文件的元数据，例如文件权限、所有者、文件大小、时间戳等信息。</li>
-<li><strong>引用计数</strong>：内存中的 i 节点表有一个专用的引用计数，用来记录 i 节点当前被多少个进程引用。如果一个进程打开了一个文件，i 节点的引用计数会增加。引用计数为零时，表示该 i 节点已经不再被使用，可以释放。</li>
-</ul>
-<p><strong>3、各表结构的关系</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">Linux：shell的基本机理</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-11-07">2024-11-07</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第九章-shell的基本原理">第九章 Shell的基本原理</h2>
-<h3 id="shell-概述">shell 概述</h3>
-<p>1、 Unix Shell 概述
-Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。</p>
-<p>2、 Shell的功能</p>
-<ol>
-<li><strong>命令解释器</strong>：Shell是用户与系统的接口，解释和执行用户的命令。</li>
-<li><strong>文件名替换、命令替换、变量替换</strong></li>
-<li><strong>历史替换与别名替换</strong></li>
-<li><strong>流程控制的内部命令</strong></li>
-</ol>
-<p>3、 Shell的特点</p>
-<ul>
-<li><strong>主要用途</strong>：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。</li>
-<li><strong>编程风格</strong>：Shell脚本语言是<strong>面向命令处理</strong>的，流程控制结构通过对内部命令的解释实现，简洁灵活。</li>
-</ul>
-<p>4、 常见的Shell种类</p>
-<ol>
-<li><strong>Bourne Shell (B-shell)</strong>：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为<code>/bin/sh</code>。</li>
-<li><strong>C Shell (C-shell)</strong>：路径为<code>/bin/csh</code>，最早应用于BSD系统。</li>
-<li><strong>Korn Shell (K-shell)</strong>：是B-shell的超集，路径为<code>/bin/ksh</code>，支持类型变量和数组。</li>
-<li><strong>Bourne Again Shell (bash)</strong>：Linux系统的标准Shell，路径为<code>/bin/bash</code>，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。</li>
-</ol>
-<h3 id="bash-启动">bash 启动</h3>
-<p>1、启动交互式bash</p>
-<ol>
-<li><strong>注册 Shell</strong>：通过系统注册的方式启动 bash 作为用户的默认登录 shell。</li>
-<li><strong>键入 <code>bash</code> 命令</strong>：在命令行中输入 <code>bash</code>，进入一个新的交互式 shell 实例。</li>
-<li><strong>脚本解释器</strong>：通过执行 bash 脚本文件，将命令批量自动执行。</li>
-</ol>
-<p>2、Bash 的启动与退出行为</p>
-<ol>
-<li>
-<p>用户偏好的自动执行命令
-- <strong>作为注册 Shell 启动时</strong>：自动执行用户主目录中的 <code>.bash_profile</code> 文件。该文件通常位于 <code>~/.bash_profile</code> 或 <code>$HOME/.bash_profile</code>，用于设置用户的环境变量和启动项。
-- <strong>作为注册 Shell 退出时</strong>：自动执行 <code>$HOME/.bash_logout</code> 文件中的命令，用于用户退出登录时清理环境。
-- <strong>作为交互式 Shell 启动时</strong>：自动执行 <code>$HOME/.bashrc</code> 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。
-&gt; <strong>注意</strong>：如 <code>umask</code> 等命令应写在 <code>.profile</code> 文件中，以便在所有登录会话中生效。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -525,7 +464,7 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
                 </li></ul></div></div>
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 

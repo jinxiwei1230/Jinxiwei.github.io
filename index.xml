@@ -3,9 +3,43 @@
         <title>Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
         <description>This is my blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Leetcode-C</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/</link>
+    <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/</guid>
+    <description><![CDATA[<p>**1. qsort 函数：**来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。
+**cmp 比较函数：**cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
+<ul>
+<li>如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面</li>
+<li>如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面</li>
+<li>如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">qsort</span>(nums1, nums1Size, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), cmp);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 降序比较函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp_desc</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a;  <span style="color:#75715e">// 让较大的数排在前面
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div>]]></description>
+</item>
+<item>
+    <title>Leetcode-Java</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/</link>
+    <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>Linux：套接字变编程</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</link>
     <pubDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</pubDate>
@@ -580,154 +614,6 @@ Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操
 </li>
 <li>
 <p><strong>定义目标</strong>：寻找 ( w^<em>, b^</em> = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。</p>]]></description>
-</item>
-<item>
-    <title>Linux：命令风格与目录存储结构</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</link>
-    <pubDate>Thu, 24 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</guid>
-    <description><![CDATA[<h2 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h2>
-<h2 id="命令风格">命令风格</h2>
-<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
-<p>配置信息等硬编码是不可取的</p>
-<ul>
-<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
-<li>运行时获取信息的常见方式，易变性从小到大为 :
-<ul>
-<li>配置文件</li>
-<li>环境变量</li>
-<li>命令行参数</li>
-<li>交互式键盘输入</li>
-</ul>
-</li>
-</ul>
-<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
-<ul>
-<li>
-<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
-<ul>
-<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
-<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
-</ul>
-</li>
-<li>
-<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
-</li>
-<li>
-<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
-</li>
-<li>
-<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
-</li>
-</ul>
-<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
-<p><strong>命令<code>env</code></strong>：
-- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
-<code>bash env </code>
-这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
-<p><strong>设置环境变量</strong>：
-环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
-<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
-这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
-<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
-<p><strong>系统级与用户级环境变量</strong>：</p>
-<ul>
-<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
-<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
-</ul>
-<p><strong>示例</strong>：
-- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
-- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
-<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
-<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
-- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
-- <strong><code>HOME</code></strong>：当前用户的主目录路径。
-- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
-- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
-- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
-- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
-<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
-<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
-<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
-<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
-<h4 id="4命令行参数">4、命令行参数</h4>
-<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
-<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
-<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
-<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
-<p><strong>1、 根文件系统（root filesystem）</strong></p>]]></description>
-</item>
-<item>
-    <title>分布式存储</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</link>
-    <pubDate>Wed, 23 Oct 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</guid>
-    <description><![CDATA[<h2 id="第四章-分布式存储">第四章 分布式存储</h2>
-<h3 id="分布式文件系统">分布式文件系统</h3>
-<p><strong>HDFS正是GFS的开源实现</strong></p>
-<p>1、背景
-为了应对数据存储扩容问题，存在两种解决方案:</p>
-<ul>
-<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
-<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
-</ul>
-<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
-<p>2、横向扩展存在的难点：</p>
-<ul>
-<li>因故障导致丢失数据</li>
-<li>文件通常较大</li>
-<li>一次写入多次读取</li>
-</ul>
-<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
-<h4 id="文件级别">文件级别</h4>
-<p>1、**主从架构(Master/Slaves)**的文件系统
-给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
-<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
-<p>3、文件级别分布式系统的缺点：</p>
-<ul>
-<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
-<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
-</ul>
-<h4 id="块级别">块级别</h4>
-<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
-<ul>
-<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
-<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
-<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
-</ul>
-<h4 id="hdfs基本架构">HDFS基本架构</h4>
-<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
-<p>2、HDFS采用了<strong>主从架构</strong>：</p>
-<ul>
-<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
-<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
-</ul>
-<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
-<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
-<ul>
-<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
-<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
-</ul>
-<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
-<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
-<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
-此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
-<h4 id="hdfs-的部署">HDFS 的部署</h4>
-<ol>
-<li>
-<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
-</li>
-<li>
-<p><strong>典型的部署场景</strong>：</p>
-<ul>
-<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
-<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>简化的架构：单一 Namenode</strong>：</p>]]></description>
 </item>
 </channel>
 </rss>
