@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Java静态代码块 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/">
+        <title>Java静态代码块 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Java静态代码块">
   <meta property="og:description" content="​ Java静态代码块（Static Block）：用 static 关键字修饰的代码块，它在类加载时执行，并且只执行一次。静态代码块通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。
@@ -24,8 +24,8 @@ public class Example { static int staticVar; // 第一个静态代码块 static 
 语法 静态代码块的语法如下：
 static { // 静态代码块中的代码 } 特点 执行时机：静态代码块在类加载时执行，且只执行一次。 执行顺序：如果有多个静态代码块，它们会按照在类中出现的顺序依次执行。 用途：通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。 示例 public class Example { static int staticVar; // 静态代码块 static { System.out.println(&#34;静态代码块执行&#34;); staticVar = 10; } public static void main(String[] args) { System.out.println(&#34;main方法执行&#34;); System.out.println(&#34;staticVar = &#34; &#43; staticVar); } } 输出 静态代码块执行main方法执行staticVar = 10 解释 当 Example 类被加载时，静态代码块首先执行，输出 &#34;静态代码块执行&#34;，并将 staticVar 初始化为 10。 然后，main 方法执行，输出 &#34;main方法执行&#34; 和 staticVar 的值。 多个静态代码块 如果有多个静态代码块，它们会按照在类中出现的顺序依次执行：
 public class Example { static int staticVar; // 第一个静态代码块 static { System.out.println(&#34;第一个静态代码块执行&#34;); staticVar = 10; } // 第二个静态代码块 static { System.out.println(&#34;第二个静态代码块执行&#34;); staticVar &#43;= 5; } public static void main(String[] args) { System.out.println(&#34;main方法执行&#34;); System.out.println(&#34;staticVar = &#34; &#43; staticVar); } } 输出 第一个静态代码块执行第二个静态代码块执行main方法执行staticVar = 15 解释 第一个静态代码块执行，输出 &#34;第一个静态代码块执行&#34;，并将 staticVar 初始化为 10。 第二个静态代码块执行，输出 &#34;第二个静态代码块执行&#34;，并将 staticVar 增加 5，最终值为 15。 main 方法执行，输出 &#34;main方法执行&#34; 和 staticVar 的值。 总结 静态代码块是Java中用于在类加载时执行初始化操作的一种机制。它在类加载时自动执行，并且只执行一次，适合用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -52,7 +52,7 @@ public class Example { static int staticVar; // 第一个静态代码块 static 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -64,7 +64,7 @@ public class Example { static int staticVar; // 第一个静态代码块 static 
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -82,7 +82,7 @@ public class Example { static int staticVar; // 第一个静态代码块 static 
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-25">2025-02-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;135 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

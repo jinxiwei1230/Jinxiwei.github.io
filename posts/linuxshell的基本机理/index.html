@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Linux：shell的基本机理 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">
+        <title>Linux：shell的基本机理 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Linux：shell的基本机理">
   <meta property="og:description" content="第九章 Shell的基本原理 shell 概述 1、 Unix Shell 概述 Shell是Unix操作系统中的命令解释器，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。
@@ -30,8 +30,8 @@ Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shel
 Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为/bin/sh。 C Shell (C-shell)：路径为/bin/csh，最早应用于BSD系统。 Korn Shell (K-shell)：是B-shell的超集，路径为/bin/ksh，支持类型变量和数组。 Bourne Again Shell (bash)：Linux系统的标准Shell，路径为/bin/bash，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。 bash 启动 1、启动交互式bash
 注册 Shell：通过系统注册的方式启动 bash 作为用户的默认登录 shell。 键入 bash 命令：在命令行中输入 bash，进入一个新的交互式 shell 实例。 脚本解释器：通过执行 bash 脚本文件，将命令批量自动执行。 2、Bash 的启动与退出行为
 用户偏好的自动执行命令 - 作为注册 Shell 启动时：自动执行用户主目录中的 .bash_profile 文件。该文件通常位于 ~/.bash_profile 或 $HOME/.bash_profile，用于设置用户的环境变量和启动项。 - 作为注册 Shell 退出时：自动执行 $HOME/.bash_logout 文件中的命令，用于用户退出登录时清理环境。 - 作为交互式 Shell 启动时：自动执行 $HOME/.bashrc 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。 &gt; 注意：如 umask 等命令应写在 .profile 文件中，以便在所有登录会话中生效。">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -58,7 +58,7 @@ Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shel
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -70,7 +70,7 @@ Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shel
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -88,7 +88,7 @@ Bourne Shell (B-shell)：最早广泛应用的Shell，是早期UNIX的标准Shel
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-11-07">2024-11-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1143 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

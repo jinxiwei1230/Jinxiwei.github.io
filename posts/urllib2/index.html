@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Urllib2 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/">
+        <title>Urllib2 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Urllib2">
   <meta property="og:description" content="Urllib：ajax、异常、cookie登录、handler、代理 循环爬取多个页面 找到多个页面的url和data参数规律，循环发送不同请求
@@ -24,8 +24,8 @@
 异常种类 urllib.error.URLError 常见场景：
 连接超时（如请求的目标服务器无法访问，网络中断）。 DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。 网络连接错误（例如，网络不可达） urllib.error.HTTPError HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。 常见场景：
 请求的资源不存在，返回 404 错误。 请求无法通过认证，返回 401 或 403 错误。 服务器错误，返回 500 错误。 cookie、Referer 1、登录状态（Cookie）： Cookie 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。 cookie 包含一系列从微博登录后获得的身份信息，如 SCF、SINAGLOBAL、PC_TOKEN 等。 注意：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。 2、防止反爬虫措施： Referer：一些网站通过检查 referer 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 referer 值可以绕过这种检查。 User-Agent：服务器根据请求头中的 User-Agent 判断请求是否来自浏览器。如果 User-Agent 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 User-Agent。 3、爬虫中的常见技巧： 模拟浏览器请求：通过自定义请求头信息，特别是 User-Agent、Referer 和 Cookie，使爬虫看起来像一个正常用户在浏览网页。 处理登录后的数据：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。 防止被封禁：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。 爬虫 handler 1. 什么是 Handler？ Handler 是 urllib 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。Handler 可以定制请求的处理方式，以便实现不同的需求。 作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。 2. HTTPHandler 的作用： HTTPHandler 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。 它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。 HTTPHandler 处理的内容相对简单，适用于普通的 HTTP 请求。 示例：">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -52,7 +52,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -64,7 +64,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -82,7 +82,7 @@
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-02-28">2025-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;446 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

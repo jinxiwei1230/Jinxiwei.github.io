@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>模型的评估和选择 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">
+        <title>模型的评估和选择 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="模型的评估和选择">
   <meta property="og:description" content="测试集和训练集 经验误差与泛化误差 1、就分类问题而言，通常把分类错误的样本数占样本总数的比例称为错误率.
@@ -32,8 +32,8 @@ early stopping：当训练精度不再增加的时候停止迭代。 数据集�
 early stopping：当训练精度不再增加的时候停止迭代。 数据集扩增：通过扩充数据集，让训练集中的噪音数据占比越来越小。 正则化：限制模型的复杂度 Dropout： 每个训练的batch,随机（依概率p）让一些隐层的节点不工作， 来进行训练（进行参数调整） 测试的时候使用全部网络， 但是权值上乘以概率p（否则预测值会有所扩张） 挑选合适的模型 2、欠拟合是由于模型不能全面反映样本“普遍规律”造成的。训练误差和测试误差、泛化误差都很大。 欠拟合的主要原因是模型不能很好的捕捉数据特征 常用的处理欠拟合的一些方法
 添加其他特征项，特征组合、多项式特征等 减少正则化参数 增加模型复杂性 测试样本数据获取方法 方法1：留出法 (Hold-out) 数据划分：
 将数据集 ( D ) 划分为两个互斥的集合：训练集 ( S ) 和测试集 ( T )，即 ( D = S \cup T ) 且 ( S \cap T = \emptyset )。 ( S ) 用于训练模型，( T ) 用于评估模型的测试误差。 保持数据分布一致性：">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -60,7 +60,7 @@ early stopping：当训练精度不再增加的时候停止迭代。 数据集�
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -72,7 +72,7 @@ early stopping：当训练精度不再增加的时候停止迭代。 数据集�
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -90,7 +90,7 @@ early stopping：当训练精度不再增加的时候停止迭代。 数据集�
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;503 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

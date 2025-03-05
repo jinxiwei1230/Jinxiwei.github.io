@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Linux：进程 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">
+        <title>Linux：进程 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Linux：进程">
   <meta property="og:description" content="进程的基本概念和逻辑内存 1、进程与程序
@@ -48,8 +48,8 @@ PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的�
 核心态堆栈：用于内核态操作，大小几 KB。 进程状态：如运行、等待、就绪等。 优先级：用于调度决策。 标识信息：
 PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的组号。 权限管理：
 主 UID/GID：实际用户 ID 和组 ID。 有效 UID/GID：用于权限验证。 umask 值：文件权限掩码。 2、传统 UNIX 的 user &#43; proc 结构：">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -76,7 +76,7 @@ PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的�
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -88,7 +88,7 @@ PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的�
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -106,7 +106,7 @@ PID（进程 ID）和 PPID（父进程 ID）。 进程组号：进程所属的�
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-12-05">2024-12-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;611 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

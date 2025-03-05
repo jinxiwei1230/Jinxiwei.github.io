@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>递归与分治 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">
+        <title>递归与分治 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="递归与分治">
   <meta property="og:description" content="递归与分治策略 递归 直接或间接地调用自身的算法称为递归算法。 用函数自身给出定义的函数称为递归函数。 边界条件与递归方程是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。
@@ -34,8 +34,8 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
 分治法的适用条件： 分治法所能解决的问题一般具有以下几个特征：
 该问题的规模缩小到一定的程度就可以容易地解决； 该问题可以分解为若干个规模较小的相同问题，即该问题具有最优子结构性质 利用该问题分解出的子问题的解可以合并为该问题的解； 该问题所分解出的各个子问题是相互独立的，即子问题之间不包含公共的子问题。 example 二分搜索（减小规模？== 提高效率？） Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x
 public static int vinarySearch(int[]a, int x, int n){int left = 0;int right = n - 1;while(left &lt;= right){int middle = (left &#43; right)/2;if (x == a[middle])return middle;else if(x &gt; a[middle])left = middle &#43; 1;elseright = middle - 1;}return -1;} 大整数乘法(提高效率？ 乘法减少？) 问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。 分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。 你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -62,7 +62,7 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -74,7 +74,7 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -92,7 +92,7 @@ public static int vinarySearch(int[]a, int x, int n){int left = 0;int right =
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-20">2024-10-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1585 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

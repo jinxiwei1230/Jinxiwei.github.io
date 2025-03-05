@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Linux：进程间通信 - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+        <title>Linux：进程间通信 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Linux：进程间通信">
   <meta property="og:description" content="信号灯与共享内存(IPC) 这是对信号灯、共享内存和消息队列的简要总结，涵盖了UNIX中的进程间通信（IPC）机制。
@@ -24,8 +24,8 @@
 1、信号灯（Semaphore）
 作用: 用于控制多进程对共享资源的互斥访问和进程间的同步。 策略与机制分离: UNIX提供信号灯机制，进程本身需要正确使用信号灯来保证互斥和同步。 不当使用: 如果进程错误使用信号灯，可能会导致信息访问的不安全和死锁。 P操作（sem_op &lt; 0）: 用于请求资源（等待操作），如果信号灯值小于0，则进程会被阻塞。 V操作（sem_op &gt; 0）: 用于释放资源（通知操作），进程释放信号灯。 创建信号灯: 使用semget()函数来创建或获取信号灯组。 int semget(int key, int nsems, int flags); 控制信号灯: 使用semctl()函数来进行对信号灯的控制操作，如删除、查询状态等。 int semctl(int sem_id, int snum, int cmd, char *arg); 信号灯操作: 使用semop()函数进行P/V操作。 int semop(int sem_id, struct sembuf *ops, int nops); sem_num: 信号灯编号。 sem_op: 操作值，决定是P操作、V操作还是等待。 sem_flg: 操作选项。 2、共享内存（Shared Memory）
 特点: 允许多个进程共同使用同一段物理内存空间，进程间传递数据速度快。 问题: 访问共享内存时需要自行解决互斥和同步问题，通常使用信号灯来保证安全。 应用: 适用于数据交换、运行监视等场景。 共享内存操作: 创建共享内存段: 使用shmget()函数。 int shmget(int key, int nbytes, int flags); 获取共享内存段指针: 使用shmat()函数。 void *shmat(int shm_id, void *shmaddr, int shmflg); 控制共享内存段: 使用shmctl()函数进行删除、查询等操作。 int shmctl(int shm_id, int cmd, char *arg); 3、生产者-消费者问题（Producer-Consumer Problem）">
-<meta name="application-name" content="My blog">
-<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -52,7 +52,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
@@ -64,7 +64,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -82,7 +82,7 @@
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-12-17">2024-12-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;304 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>

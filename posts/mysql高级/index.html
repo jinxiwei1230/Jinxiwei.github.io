@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="mysql高级 今日目标
+掌握约束的使用
+掌握表关系及建表原则
+重点掌握多表查询操作
+掌握事务操作
+1，约束 上面表中可以看到表中数据存在一些问题：
+id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 马花疼 没有id进行标示
+柳白 这条数据的age列的数据是3000，而人也不可能活到3000岁
+马运 这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分
+柳青 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分
+针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。
+1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
+例如：我们可以给id列加约束，让其值不能重复，不能为null值。
+约束的存在保证了数据库中数据的正确性、有效性和完整性
+添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。
+1.2 分类 非空约束： 关键字是 NOT NULL 保证列中所有的数据不能有null值。
+例如：id列在添加 马花疼 这条数据时就不能添加成功。
+唯一约束：关键字是 UNIQUE
+保证列中所有数据各不相同。
+例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。
+主键约束： 关键字是 PRIMARY KEY
+主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。
+例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。
+检查约束： 关键字是 CHECK
+保证列中的值满足某一条件。
+例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。
+注意：MySQL不支持检查约束。
+这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。
+默认约束： 关键字是 DEFAULT
+保存数据时，未指定值则采用默认值。
+例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。
+外键约束： 关键字是 FOREIGN KEY
+外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。
+外键约束现在可能还不太好理解，后面我们会重点进行讲解。
+1.3 非空约束 概念">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="mysql高级 今日目标
+掌握约束的使用
+掌握表关系及建表原则
+重点掌握多表查询操作
+掌握事务操作
+1，约束 上面表中可以看到表中数据存在一些问题：
+id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 马花疼 没有id进行标示
+柳白 这条数据的age列的数据是3000，而人也不可能活到3000岁
+马运 这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分
+柳青 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分
+针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。
+1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
+例如：我们可以给id列加约束，让其值不能重复，不能为null值。
+约束的存在保证了数据库中数据的正确性、有效性和完整性
+添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。
+1.2 分类 非空约束： 关键字是 NOT NULL 保证列中所有的数据不能有null值。
+例如：id列在添加 马花疼 这条数据时就不能添加成功。
+唯一约束：关键字是 UNIQUE
+保证列中所有数据各不相同。
+例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。
+主键约束： 关键字是 PRIMARY KEY
+主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。
+例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。
+检查约束： 关键字是 CHECK
+保证列中的值满足某一条件。
+例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。
+注意：MySQL不支持检查约束。
+这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。
+默认约束： 关键字是 DEFAULT
+保存数据时，未指定值则采用默认值。
+例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。
+外键约束： 关键字是 FOREIGN KEY
+外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。
+外键约束现在可能还不太好理解，后面我们会重点进行讲解。
+1.3 非空约束 概念">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/jdbc/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mysql%E9%AB%98%E7%BA%A7\/"
+        },"genre": "posts","wordcount":  1983 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mysql%E9%AB%98%E7%BA%A7\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1983 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#mysql高级">mysql高级</a></li>
+    <li><a href="#1约束">1，约束</a>
+      <ul>
+        <li><a href="#11--概念">1.1  概念</a></li>
+        <li><a href="#12--分类">1.2  分类</a></li>
+        <li><a href="#13--非空约束">1.3  非空约束</a></li>
+        <li><a href="#14--唯一约束">1.4  唯一约束</a></li>
+        <li><a href="#15--主键约束">1.5  主键约束</a></li>
+        <li><a href="#16--默认约束">1.6  默认约束</a></li>
+        <li><a href="#17--约束练习">1.7  约束练习</a></li>
+        <li><a href="#18--外键约束">1.8  外键约束</a></li>
+      </ul>
+    </li>
+    <li><a href="#2数据库设计">2，数据库设计</a>
+      <ul>
+        <li><a href="#21--数据库设计简介">2.1  数据库设计简介</a></li>
+        <li><a href="#22--表关系一对多">2.2  表关系(一对多)</a></li>
+        <li><a href="#23--表关系多对多">2.3  表关系(多对多)</a></li>
+        <li><a href="#24--表关系一对一">2.4  表关系(一对一)</a></li>
+        <li><a href="#25--数据库设计案例">2.5  数据库设计案例</a></li>
+      </ul>
+    </li>
+    <li><a href="#3多表查询">3，多表查询</a>
+      <ul>
+        <li><a href="#31--内连接查询">3.1  内连接查询</a></li>
+        <li><a href="#32--外连接查询">3.2  外连接查询</a></li>
+        <li><a href="#33--子查询">3.3  子查询</a></li>
+        <li><a href="#34--案例">3.4  案例</a></li>
+      </ul>
+    </li>
+    <li><a href="#4事务">4，事务</a>
+      <ul>
+        <li><a href="#41--概述">4.1  概述</a></li>
+        <li><a href="#42--语法">4.2  语法</a></li>
+        <li><a href="#43--代码验证">4.3  代码验证</a></li>
+        <li><a href="#44--事务的四大特征">4.4  事务的四大特征</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="mysql高级">mysql高级</h2>
+<p><strong>今日目标</strong></p>
+<blockquote>
+<ul>
+<li>
+<p>掌握约束的使用</p>
+</li>
+<li>
+<p>掌握表关系及建表原则</p>
+</li>
+<li>
+<p>重点掌握多表查询操作</p>
+</li>
+<li>
+<p>掌握事务操作</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="1约束">1，约束</h2>
+<!-- raw HTML omitted -->
+<p>上面表中可以看到表中数据存在一些问题：</p>
+<ul>
+<li>
+<p>id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 <code>马花疼</code> 没有id进行标示</p>
+</li>
+<li>
+<p><code>柳白</code> 这条数据的age列的数据是3000，而人也不可能活到3000岁</p>
+</li>
+<li>
+<p><code>马运</code>  这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分</p>
+</li>
+<li>
+<p><code>柳青</code> 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分</p>
+</li>
+</ul>
+<p>针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。</p>
+<h3 id="11--概念">1.1  概念</h3>
+<ul>
+<li>
+<p>约束是作用于表中列上的规则，用于限制加入表的数据</p>
+<p>例如：我们可以给id列加约束，让其值不能重复，不能为null值。</p>
+</li>
+<li>
+<p>约束的存在保证了数据库中数据的正确性、有效性和完整性</p>
+<p>添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。</p>
+</li>
+</ul>
+<h3 id="12--分类">1.2  分类</h3>
+<ul>
+<li><strong>非空约束： 关键字是 NOT NULL</strong></li>
+</ul>
+<p>保证列中所有的数据不能有null值。</p>
+<p>例如：id列在添加 <code>马花疼</code> 这条数据时就不能添加成功。</p>
+<ul>
+<li>
+<p><strong>唯一约束：关键字是  UNIQUE</strong></p>
+<p>保证列中所有数据各不相同。</p>
+<p>例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。</p>
+</li>
+<li>
+<p><strong>主键约束： 关键字是  PRIMARY KEY</strong></p>
+</li>
+</ul>
+<p>主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。</p>
+<p>例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。</p>
+<ul>
+<li>
+<p><strong>检查约束： 关键字是  CHECK</strong></p>
+<p>保证列中的值满足某一条件。</p>
+<p>例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。</p>
+<blockquote>
+<p>注意：MySQL不支持检查约束。</p>
+<p>这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>默认约束： 关键字是   DEFAULT</strong></p>
+<p>保存数据时，未指定值则采用默认值。</p>
+<p>例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。</p>
+</li>
+<li>
+<p><strong>外键约束： 关键字是  FOREIGN KEY</strong></p>
+<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
+<p>外键约束现在可能还不太好理解，后面我们会重点进行讲解。</p>
+</li>
+</ul>
+<h3 id="13--非空约束">1.3  非空约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>非空约束用于保证列中所有数据不能有NULL值</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="14--唯一约束">1.4  唯一约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>唯一约束用于保证列中所有数据各不相同</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加唯一约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">UNIQUE</span> [AUTO_INCREMENT],
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">-- AUTO_INCREMENT: 当不指定值时自动增长
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>   [<span style="color:#66d9ef">CONSTRAINT</span>] [<span style="color:#960050;background-color:#1e0010">约束名称</span>] <span style="color:#66d9ef">UNIQUE</span>(<span style="color:#960050;background-color:#1e0010">列名</span>)
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加唯一约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">UNIQUE</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#960050;background-color:#1e0010">字段名</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="15--主键约束">1.5  主键约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>主键是一行数据的唯一标识，要求非空且唯一</p>
+<p>一张表只能有一个主键</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加主键约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> [AUTO_INCREMENT],
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>,
+</span></span><span style="display:flex;"><span>   [<span style="color:#66d9ef">CONSTRAINT</span>] [<span style="color:#960050;background-color:#1e0010">约束名称</span>] <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>(<span style="color:#960050;background-color:#1e0010">列名</span>)
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加主键约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>(<span style="color:#960050;background-color:#1e0010">字段名</span>);
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="16--默认约束">1.6  默认约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>保存数据时，未指定值则采用默认值</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加默认约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#960050;background-color:#1e0010">默认值</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加默认约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">ALTER</span> <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#960050;background-color:#1e0010">默认值</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">ALTER</span> <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">DEFAULT</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="17--约束练习">1.7  约束练习</h3>
+<p><strong>根据需求，为表添加合适的约束</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 员工表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp (
+</span></span><span style="display:flex;"><span>	id INT,  <span style="color:#75715e">-- 员工id，主键且自增长
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ename VARCHAR(<span style="color:#ae81ff">50</span>), <span style="color:#75715e">-- 员工姓名，非空且唯一
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    joindate DATE,  <span style="color:#75715e">-- 入职日期，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    salary DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>),  <span style="color:#75715e">-- 工资，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    bonus DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>)  <span style="color:#75715e">-- 奖金，如果没有将近默认为0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span></code></pre></div><p>上面一定给出了具体的要求，我们可以根据要求创建这张表，并为每一列添加对应的约束。建表语句如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> emp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 员工表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp (
+</span></span><span style="display:flex;"><span>  id INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>, <span style="color:#75715e">-- 员工id，主键且自增长
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ename VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">UNIQUE</span>, <span style="color:#75715e">-- 员工姓名，非空并且唯一
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  joindate DATE <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> , <span style="color:#75715e">-- 入职日期，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  salary DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> , <span style="color:#75715e">-- 工资，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  bonus DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">-- 奖金，如果没有奖金默认为0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span></code></pre></div><p>通过上面语句可以创建带有约束的 <code>emp</code> 表，约束能不能发挥作用呢。接下来我们一一进行验证，先添加一条没有问题的数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;张三&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><ul>
+<li><strong>验证主键约束，非空且唯一</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;张三&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+<p>从上面的结果可以看到，字段 <code>id</code> 不能为null。那我们重新添加一条数据，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;张三&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+<p>从上面结果可以看到，1这个值重复了。所以主键约束是用来限制数据非空且唯一的。那我们再添加一条符合要求的数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;李四&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+<ul>
+<li><strong>验证非空约束</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">3</span>,<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+<p>从上面结果可以看到，<code>ename</code> 字段的非空约束生效了。</p>
+<ul>
+<li><strong>验证唯一约束</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;李四&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#ae81ff">5000</span>);
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+<p>从上面结果可以看到，<code>ename</code> 字段的唯一约束生效了。</p>
+<ul>
+<li><strong>验证默认约束</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;王五&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>);
+</span></span></code></pre></div><p>执行完上面语句后查询表中数据，如下图可以看到王五这条数据的bonus列就有了默认值0。</p>
+<!-- raw HTML omitted -->
+<p>==注意：默认约束只有在不给值时才会采用默认值。如果给了null，那值就是null值。==</p>
+<p>如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;赵六&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#66d9ef">null</span>);
+</span></span></code></pre></div><p>执行完上面语句后查询表中数据，如下图可以看到赵六这条数据的bonus列的值是null。</p>
+<!-- raw HTML omitted -->
+<ul>
+<li><strong>验证自动增长： auto_increment  当列是数字类型 并且唯一约束</strong></li>
+</ul>
+<p>重新创建 <code>emp</code> 表，并给id列添加自动增长</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 员工表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp (
+</span></span><span style="display:flex;"><span>  id INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> auto_increment, <span style="color:#75715e">-- 员工id，主键且自增长
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ename VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">UNIQUE</span>, <span style="color:#75715e">-- 员工姓名，非空并且唯一
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  joindate DATE <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> , <span style="color:#75715e">-- 入职日期，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  salary DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> , <span style="color:#75715e">-- 工资，非空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  bonus DOUBLE(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">-- 奖金，如果没有奖金默认为0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span></code></pre></div><p>接下来给emp添加数据，分别验证不给id列添加值以及给id列添加null值，id列的值会不会自动增长：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#39;赵六&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;赵六2&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,joindate,salary,bonus) <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;赵六3&#39;</span>,<span style="color:#e6db74">&#39;1999-11-11&#39;</span>,<span style="color:#ae81ff">8800</span>,<span style="color:#66d9ef">null</span>);
+</span></span></code></pre></div><h3 id="18--外键约束">1.8  外键约束</h3>
+<h4 id="181--概述">1.8.1  概述</h4>
+<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
+<p>如何理解上面的概念呢？如下图有两张表，员工表和部门表：</p>
+<!-- raw HTML omitted -->
+<p>员工表中的dep_id字段是部门表的id字段关联，也就是说1号学生张三属于1号部门研发部的员工。现在我要删除1号部门，就会出现错误的数据（员工表中属于1号部门的数据）。而我们上面说的两张表的关系只是我们认为它们有关系，此时需要通过外键让这两张表产生数据库层面的关系，这样你要删除部门表中的1号部门的数据将无法删除。</p>
+<h4 id="182--语法">1.8.2  语法</h4>
+<ul>
+<li>添加外键约束</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加外键约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>   [<span style="color:#66d9ef">CONSTRAINT</span>] [<span style="color:#960050;background-color:#1e0010">外键名称</span>] <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(<span style="color:#960050;background-color:#1e0010">外键列名</span>) <span style="color:#66d9ef">REFERENCES</span> <span style="color:#960050;background-color:#1e0010">主表</span>(<span style="color:#960050;background-color:#1e0010">主表列名</span>) 
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加外键约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">CONSTRAINT</span> <span style="color:#960050;background-color:#1e0010">外键名称</span> <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#960050;background-color:#1e0010">外键字段名称</span>) <span style="color:#66d9ef">REFERENCES</span> <span style="color:#960050;background-color:#1e0010">主表名称</span>(<span style="color:#960050;background-color:#1e0010">主表列名称</span>);
+</span></span></code></pre></div><ul>
+<li>删除外键约束</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> <span style="color:#960050;background-color:#1e0010">外键名称</span>;
+</span></span></code></pre></div><h4 id="183--练习">1.8.3  练习</h4>
+<p>根据上述语法创建员工表和部门表，并添加上外键约束：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 删除表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> emp;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> dept;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 部门表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> dept(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	dep_name varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>	addr varchar(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 员工表 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	name varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>	age int,
+</span></span><span style="display:flex;"><span>	dep_id int,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 添加外键 dep_id,关联 dept 表的id主键
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">CONSTRAINT</span> fk_emp_dept <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(dep_id) <span style="color:#66d9ef">REFERENCES</span> dept(id)	
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>添加数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 添加 2 个部门
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> dept(dep_name,addr) <span style="color:#66d9ef">values</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;研发部&#39;</span>,<span style="color:#e6db74">&#39;广州&#39;</span>),(<span style="color:#e6db74">&#39;销售部&#39;</span>, <span style="color:#e6db74">&#39;深圳&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加员工,dep_id 表示员工所在的部门
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp (NAME, age, dep_id) <span style="color:#66d9ef">VALUES</span> 
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;张三&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;李四&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;王五&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;赵六&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;孙七&#39;</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#e6db74">&#39;周八&#39;</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">2</span>);
+</span></span></code></pre></div><p>此时删除 <code>研发部</code> 这条数据，会发现无法删除。</p>
+<p>删除外键</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> emp <span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">key</span> fk_emp_dept;
+</span></span></code></pre></div><p>重新添加外键</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> emp <span style="color:#66d9ef">add</span> <span style="color:#66d9ef">CONSTRAINT</span> fk_emp_dept <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">key</span>(dep_id) <span style="color:#66d9ef">REFERENCES</span> dept(id);
+</span></span></code></pre></div><h2 id="2数据库设计">2，数据库设计</h2>
+<h3 id="21--数据库设计简介">2.1  数据库设计简介</h3>
+<ul>
+<li>
+<p>软件的研发步骤</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>数据库设计概念</p>
+<ul>
+<li>数据库设计就是根据业务系统的具体需求，结合我们所选用的DBMS，为这个业务系统构造出最优的数据存储模型。</li>
+<li>建立数据库中的==表结构==以及==表与表之间的关联关系==的过程。</li>
+<li>有哪些表？表里有哪些字段？表和表之间有什么关系？</li>
+</ul>
+</li>
+<li>
+<p>数据库设计的步骤</p>
+<ul>
+<li>
+<p>需求分析（数据是什么? 数据具有哪些属性? 数据与属性的特点是什么）</p>
+</li>
+<li>
+<p>逻辑分析（通过ER图对数据库进行逻辑建模，不需要考虑我们所选用的数据库管理系统）</p>
+<p>如下图就是ER(Entity/Relation)图：</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>物理设计（根据数据库自身的特点把逻辑设计转换为物理设计）</p>
+</li>
+<li>
+<p>维护设计（1.对新的需求进行建表；2.表优化）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>表关系</p>
+<ul>
+<li>
+<p>一对一</p>
+<ul>
+<li>如：用户 和 用户详情</li>
+<li>一对一关系多用于表拆分，将一个实体中经常使用的字段放一张表，不经常使用的字段放另一张表，用于提升查询性能</li>
+</ul>
+<!-- raw HTML omitted -->
+<p>上图左边是用户的详细信息，而我们真正在展示用户信息时最长用的则是上图右边红框所示，所以我们会将详细信息查分成两周那个表。</p>
+</li>
+<li>
+<p>一对多</p>
+<ul>
+<li>
+<p>如：部门 和 员工</p>
+</li>
+<li>
+<p>一个部门对应多个员工，一个员工对应一个部门。如下图：</p>
+<!-- raw HTML omitted -->
+</li>
+</ul>
+</li>
+<li>
+<p>多对多</p>
+<ul>
+<li>
+<p>如：商品 和 订单</p>
+</li>
+<li>
+<p>一个商品对应多个订单，一个订单包含多个商品。如下图：</p>
+<!-- raw HTML omitted -->
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="22--表关系一对多">2.2  表关系(一对多)</h3>
+<ul>
+<li>
+<p>一对多</p>
+<ul>
+<li>如：部门 和 员工</li>
+<li>一个部门对应多个员工，一个员工对应一个部门。</li>
+</ul>
+</li>
+<li>
+<p>实现方式</p>
+<p>==在多的一方建立外键，指向一的一方的主键==</p>
+</li>
+<li>
+<p>案例</p>
+<p>我们还是以 <code>员工表</code> 和 <code>部门表</code> 举例:</p>
+<!-- raw HTML omitted -->
+<p>经过分析发现，员工表属于多的一方，而部门表属于一的一方，此时我们会在员工表中添加一列（dep_id），指向于部门表的主键（id）：</p>
+<!-- raw HTML omitted -->
+<p>建表语句如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 删除表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> tb_emp;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> tb_dept;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 部门表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tb_dept(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	dep_name varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>	addr varchar(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 员工表 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tb_emp(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	name varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>	age int,
+</span></span><span style="display:flex;"><span>	dep_id int,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 添加外键 dep_id,关联 dept 表的id主键
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">CONSTRAINT</span> fk_emp_dept <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(dep_id) <span style="color:#66d9ef">REFERENCES</span> tb_dept(id)	
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>查看表结构模型图：</p>
+<!-- raw HTML omitted -->
+</li>
+</ul>
+<h3 id="23--表关系多对多">2.3  表关系(多对多)</h3>
+<ul>
+<li>
+<p>多对多</p>
+<ul>
+<li>如：商品 和 订单</li>
+<li>一个商品对应多个订单，一个订单包含多个商品</li>
+</ul>
+</li>
+<li>
+<p>实现方式</p>
+<p>==建立第三张中间表，中间表至少包含两个外键，分别关联两方主键==</p>
+</li>
+<li>
+<p>案例</p>
+<p>我们以 <code>订单表</code> 和 <code>商品表</code> 举例：</p>
+<!-- raw HTML omitted -->
+<p>经过分析发现，订单表和商品表都属于多的一方，此时需要创建一个中间表，在中间表中添加订单表的外键和商品表的外键指向两张表的主键：</p>
+<!-- raw HTML omitted -->
+<p>建表语句如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 删除表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> tb_order_goods;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> tb_order;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> tb_goods;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 订单表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tb_order(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	payment double(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>	payment_type TINYINT,
+</span></span><span style="display:flex;"><span>	status TINYINT
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 商品表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tb_goods(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	title varchar(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>	price double(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 订单商品中间表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tb_order_goods(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	order_id int,
+</span></span><span style="display:flex;"><span>	goods_id int,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">count</span> int
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后，添加外键
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tb_order_goods <span style="color:#66d9ef">add</span> <span style="color:#66d9ef">CONSTRAINT</span> fk_order_id <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">key</span>(order_id) <span style="color:#66d9ef">REFERENCES</span> tb_order(id);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tb_order_goods <span style="color:#66d9ef">add</span> <span style="color:#66d9ef">CONSTRAINT</span> fk_goods_id <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">key</span>(goods_id) <span style="color:#66d9ef">REFERENCES</span> tb_goods(id);
+</span></span></code></pre></div><p>查看表结构模型图：</p>
+<!-- raw HTML omitted -->
+</li>
+</ul>
+<h3 id="24--表关系一对一">2.4  表关系(一对一)</h3>
+<ul>
+<li>
+<p>一对一</p>
+<ul>
+<li>如：用户 和 用户详情</li>
+<li>一对一关系多用于表拆分，将一个实体中经常使用的字段放一张表，不经常使用的字段放另一张表，用于提升查询性能</li>
+</ul>
+</li>
+<li>
+<p>实现方式</p>
+<p>==在任意一方加入外键，关联另一方主键，并且设置外键为唯一(UNIQUE)==</p>
+</li>
+<li>
+<p>案例</p>
+<p>我们以 <code>用户表</code> 举例：</p>
+<!-- raw HTML omitted -->
+<p>而在真正使用过程中发现 id、photo、nickname、age、gender 字段比较常用，此时就可以将这张表查分成两张表。</p>
+</li>
+</ul>
+<p>​	<!-- raw HTML omitted --></p>
+<p>​</p>
+<p>​	建表语句如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> tb_user_desc (
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	city varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>	edu varchar(<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>	income int,
+</span></span><span style="display:flex;"><span>	status char(<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>	des varchar(<span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> tb_user (
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> auto_increment,
+</span></span><span style="display:flex;"><span>	photo varchar(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>	nickname varchar(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>	age int,
+</span></span><span style="display:flex;"><span>	gender char(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>	desc_id int <span style="color:#66d9ef">unique</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 添加外键
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">CONSTRAINT</span> fk_user_desc <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(desc_id) <span style="color:#66d9ef">REFERENCES</span> tb_user_desc(id)	
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>​	查看表结构模型图：</p>
+<!-- raw HTML omitted -->
+<h3 id="25--数据库设计案例">2.5  数据库设计案例</h3>
+<p>根据下图设计表及表和表之间的关系：</p>
+<!-- raw HTML omitted -->
+<p>经过分析，我们分为 <code>专辑表</code>  <code>曲目表</code>  <code>短评表</code>  <code>用户表</code>   4张表。</p>
+<!-- raw HTML omitted -->
+<p>一个专辑可以有多个曲目，一个曲目只能属于某一张专辑，所以专辑表和曲目表的关系是==一对多==。</p>
+<p>一个专辑可以被多个用户进行评论，一个用户可以对多个专辑进行评论，所以专辑表和用户表的关系是 ==多对多==。</p>
+<p>一个用户可以发多个短评，一个短评只能是某一个人发的，所以用户表和短评表的关系是 ==一对多==。</p>
+<!-- raw HTML omitted -->
+<h2 id="3多表查询">3，多表查询</h2>
+<p>多表查询顾名思义就是从多张表中一次性的查询出我们想要的数据。我们通过具体的sql给他们演示，先准备环境</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> emp;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> dept;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">创建部门表</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> dept(
+</span></span><span style="display:flex;"><span>        did INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTO_INCREMENT,
+</span></span><span style="display:flex;"><span>        dname VARCHAR(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">创建员工表</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp (
+</span></span><span style="display:flex;"><span>        id INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTO_INCREMENT,
+</span></span><span style="display:flex;"><span>        NAME VARCHAR(<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>        gender CHAR(<span style="color:#ae81ff">1</span>), <span style="color:#75715e">-- 性别
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        salary DOUBLE, <span style="color:#75715e">-- 工资
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        join_date DATE, <span style="color:#75715e">-- 入职日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        dep_id INT,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (dep_id) <span style="color:#66d9ef">REFERENCES</span> dept(did) <span style="color:#75715e">-- 外键，关联部门表(部门表的主键)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    );
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 添加部门数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> dept (dNAME) <span style="color:#66d9ef">VALUES</span> (<span style="color:#e6db74">&#39;研发部&#39;</span>),(<span style="color:#e6db74">&#39;市场部&#39;</span>),(<span style="color:#e6db74">&#39;财务部&#39;</span>),(<span style="color:#e6db74">&#39;销售部&#39;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 添加员工数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(NAME,gender,salary,join_date,dep_id) <span style="color:#66d9ef">VALUES</span>
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;孙悟空&#39;</span>,<span style="color:#e6db74">&#39;男&#39;</span>,<span style="color:#ae81ff">7200</span>,<span style="color:#e6db74">&#39;2013-02-24&#39;</span>,<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;猪八戒&#39;</span>,<span style="color:#e6db74">&#39;男&#39;</span>,<span style="color:#ae81ff">3600</span>,<span style="color:#e6db74">&#39;2010-12-02&#39;</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;唐僧&#39;</span>,<span style="color:#e6db74">&#39;男&#39;</span>,<span style="color:#ae81ff">9000</span>,<span style="color:#e6db74">&#39;2008-08-08&#39;</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;白骨精&#39;</span>,<span style="color:#e6db74">&#39;女&#39;</span>,<span style="color:#ae81ff">5000</span>,<span style="color:#e6db74">&#39;2015-10-07&#39;</span>,<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;蜘蛛精&#39;</span>,<span style="color:#e6db74">&#39;女&#39;</span>,<span style="color:#ae81ff">4500</span>,<span style="color:#e6db74">&#39;2011-03-14&#39;</span>,<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>	(<span style="color:#e6db74">&#39;小白龙&#39;</span>,<span style="color:#e6db74">&#39;男&#39;</span>,<span style="color:#ae81ff">2500</span>,<span style="color:#e6db74">&#39;2011-02-14&#39;</span>,<span style="color:#66d9ef">null</span>);	
+</span></span></code></pre></div><p>执行下面的多表查询语句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp , dept;  <span style="color:#75715e">-- 从emp和dept表中查询所有的字段数据
+</span></span></span></code></pre></div><p>结果如下：</p>
+<!-- raw HTML omitted -->
+<p>从上面的结果我们看到有一些无效的数据，如 <code>孙悟空</code> 这个员工属于1号部门，但也同时关联的2、3、4号部门。所以我们要通过限制员工表中的 <code>dep_id</code> 字段的值和部门表 <code>did</code> 字段的值相等来消除这些无效的数据，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp , dept <span style="color:#66d9ef">where</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行后结果如下：</p>
+<!-- raw HTML omitted -->
+<p>上面语句就是连接查询，那么多表查询都有哪些呢？</p>
+<ul>
+<li>
+<p>连接查询</p>
+<!-- raw HTML omitted -->
+<ul>
+<li>内连接查询 ：相当于查询AB交集数据</li>
+<li>外连接查询
+<ul>
+<li>左外连接查询 ：相当于查询A表所有数据和交集部门数据</li>
+<li>右外连接查询 ： 相当于查询B表所有数据和交集部分数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>子查询</p>
+</li>
+</ul>
+<h3 id="31--内连接查询">3.1  内连接查询</h3>
+<ul>
+<li>语法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 隐式内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#960050;background-color:#1e0010">字段列表</span> <span style="color:#66d9ef">FROM</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">1</span>,<span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">…</span> <span style="color:#66d9ef">WHERE</span> <span style="color:#960050;background-color:#1e0010">条件</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 显示内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#960050;background-color:#1e0010">字段列表</span> <span style="color:#66d9ef">FROM</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">1</span> [<span style="color:#66d9ef">INNER</span>] <span style="color:#66d9ef">JOIN</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">ON</span> <span style="color:#960050;background-color:#1e0010">条件</span>;
+</span></span></code></pre></div><blockquote>
+<p>内连接相当于查询 A B 交集数据</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<ul>
+<li>
+<p>案例</p>
+<ul>
+<li>
+<p>隐式内连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp,
+</span></span><span style="display:flex;"><span>	dept
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行上述语句结果如下：</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>查询 emp的 name， gender，dept表的dname</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp. NAME,
+</span></span><span style="display:flex;"><span>	emp.gender,
+</span></span><span style="display:flex;"><span>	dept.dname
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp,
+</span></span><span style="display:flex;"><span>	dept
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行语句结果如下：</p>
+<!-- raw HTML omitted -->
+<p>上面语句中使用表名指定字段所属有点麻烦，sql也支持给表指别名，上述语句可以改进为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	t1. NAME,
+</span></span><span style="display:flex;"><span>	t1.gender,
+</span></span><span style="display:flex;"><span>	t2.dname
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp t1,
+</span></span><span style="display:flex;"><span>	dept t2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	t1.dep_id <span style="color:#f92672">=</span> t2.did;
+</span></span></code></pre></div></li>
+<li>
+<p>显式内连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">join</span> dept <span style="color:#66d9ef">on</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 上面语句中的inner可以省略，可以书写为如下语句
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp  <span style="color:#66d9ef">join</span> dept <span style="color:#66d9ef">on</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行结果如下：</p>
+<!-- raw HTML omitted -->
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="32--外连接查询">3.2  外连接查询</h3>
+<ul>
+<li>
+<p>语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 左外连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#960050;background-color:#1e0010">字段列表</span> <span style="color:#66d9ef">FROM</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">LEFT</span> [<span style="color:#66d9ef">OUTER</span>] <span style="color:#66d9ef">JOIN</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">ON</span> <span style="color:#960050;background-color:#1e0010">条件</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 右外连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#960050;background-color:#1e0010">字段列表</span> <span style="color:#66d9ef">FROM</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">RIGHT</span> [<span style="color:#66d9ef">OUTER</span>] <span style="color:#66d9ef">JOIN</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">ON</span> <span style="color:#960050;background-color:#1e0010">条件</span>;
+</span></span></code></pre></div><blockquote>
+<p>左外连接：相当于查询A表所有数据和交集部分数据</p>
+<p>右外连接：相当于查询B表所有数据和交集部分数据</p>
+</blockquote>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>案例</p>
+<ul>
+<li>
+<p>查询emp表所有数据和对应的部门信息（左外连接）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> dept <span style="color:#66d9ef">on</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行语句结果如下：</p>
+<!-- raw HTML omitted -->
+<p>结果显示查询到了左表（emp）中所有的数据及两张表能关联的数据。</p>
+</li>
+<li>
+<p>查询dept表所有数据和对应的员工信息（右外连接）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">right</span> <span style="color:#66d9ef">join</span> dept <span style="color:#66d9ef">on</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div><p>执行语句结果如下：</p>
+<!-- raw HTML omitted -->
+<p>结果显示查询到了右表（dept）中所有的数据及两张表能关联的数据。</p>
+<p>要查询出部门表中所有的数据，也可以通过左外连接实现，只需要将两个表的位置进行互换：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> dept <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> emp <span style="color:#66d9ef">on</span> emp.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="33--子查询">3.3  子查询</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>==查询中嵌套查询，称嵌套查询为子查询。==</p>
+<p>什么是查询中嵌套查询呢？我们通过一个例子来看：</p>
+<p><strong>需求：查询工资高于猪八戒的员工信息。</strong></p>
+<p>来实现这个需求，我们就可以通过二步实现，第一步：先查询出来 猪八戒的工资</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> salary <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;猪八戒&#39;</span>
+</span></span></code></pre></div><p>第二步：查询工资高于猪八戒的员工信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> salary <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">3600</span>;
+</span></span></code></pre></div><p>第二步中的3600可以通过第一步的sql查询出来，所以将3600用第一步的sql语句进行替换</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> salary <span style="color:#f92672">&gt;</span> (<span style="color:#66d9ef">select</span> salary <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;猪八戒&#39;</span>);
+</span></span></code></pre></div><p>这就是查询语句中嵌套查询语句。</p>
+</li>
+<li>
+<p>子查询根据查询结果不同，作用不同</p>
+<ul>
+<li>子查询语句结果是单行单列，子查询语句作为条件值，使用 =  !=  &gt;  &lt;  等进行条件判断</li>
+<li>子查询语句结果是多行单列，子查询语句作为条件值，使用 in 等关键字进行条件判断</li>
+<li>子查询语句结果是多行多列，子查询语句作为虚拟表</li>
+</ul>
+</li>
+<li>
+<p>案例</p>
+<ul>
+<li>
+<p>查询 &lsquo;财务部&rsquo; 和 &lsquo;市场部&rsquo; 所有的员工信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 查询 &#39;财务部&#39; 或者 &#39;市场部&#39; 所有的员工的部门did
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> did <span style="color:#66d9ef">from</span> dept <span style="color:#66d9ef">where</span> dname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;财务部&#39;</span> <span style="color:#66d9ef">or</span> dname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;市场部&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> dep_id <span style="color:#66d9ef">in</span> (<span style="color:#66d9ef">select</span> did <span style="color:#66d9ef">from</span> dept <span style="color:#66d9ef">where</span> dname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;财务部&#39;</span> <span style="color:#66d9ef">or</span> dname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;市场部&#39;</span>);
+</span></span></code></pre></div></li>
+<li>
+<p>查询入职日期是 &lsquo;2011-11-11&rsquo; 之后的员工信息和部门信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 查询入职日期是 &#39;2011-11-11&#39; 之后的员工信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> join_date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#39;2011-11-11&#39;</span> ;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 将上面语句的结果作为虚拟表和dept表进行内连接查询
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> (<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">where</span> join_date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#39;2011-11-11&#39;</span> ) t1, dept <span style="color:#66d9ef">where</span> t1.dep_id <span style="color:#f92672">=</span> dept.did;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="34--案例">3.4  案例</h3>
+<ul>
+<li>环境准备：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> emp;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> dept;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> job;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> salarygrade;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 部门表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> dept (
+</span></span><span style="display:flex;"><span>  did INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>, <span style="color:#75715e">-- 部门id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  dname VARCHAR(<span style="color:#ae81ff">50</span>), <span style="color:#75715e">-- 部门名称
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  loc VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#75715e">-- 部门所在地
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 职务表，职务名称，职务描述
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> job (
+</span></span><span style="display:flex;"><span>  id INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  jname VARCHAR(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>  description VARCHAR(<span style="color:#ae81ff">50</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 员工表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> emp (
+</span></span><span style="display:flex;"><span>  id INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>, <span style="color:#75715e">-- 员工id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ename VARCHAR(<span style="color:#ae81ff">50</span>), <span style="color:#75715e">-- 员工姓名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  job_id INT, <span style="color:#75715e">-- 职务id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  mgr INT , <span style="color:#75715e">-- 上级领导
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  joindate DATE, <span style="color:#75715e">-- 入职日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  salary DECIMAL(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>), <span style="color:#75715e">-- 工资
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  bonus DECIMAL(<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>), <span style="color:#75715e">-- 奖金
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  dept_id INT, <span style="color:#75715e">-- 所在部门编号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">CONSTRAINT</span> emp_jobid_ref_job_id_fk <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (job_id) <span style="color:#66d9ef">REFERENCES</span> job (id),
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> emp_deptid_ref_dept_id_fk <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (dept_id) <span style="color:#66d9ef">REFERENCES</span> dept (id)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 工资等级表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> salarygrade (
+</span></span><span style="display:flex;"><span>  grade INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,   <span style="color:#75715e">-- 级别
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  losalary INT,  <span style="color:#75715e">-- 最低工资
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  hisalary INT <span style="color:#75715e">-- 最高工资
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>				
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加4个部门
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> dept(did,dname,loc) <span style="color:#66d9ef">VALUES</span> 
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">10</span>,<span style="color:#e6db74">&#39;教研部&#39;</span>,<span style="color:#e6db74">&#39;北京&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">20</span>,<span style="color:#e6db74">&#39;学工部&#39;</span>,<span style="color:#e6db74">&#39;上海&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">30</span>,<span style="color:#e6db74">&#39;销售部&#39;</span>,<span style="color:#e6db74">&#39;广州&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">40</span>,<span style="color:#e6db74">&#39;财务部&#39;</span>,<span style="color:#e6db74">&#39;深圳&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加4个职务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> job (id, jname, description) <span style="color:#66d9ef">VALUES</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;董事长&#39;</span>, <span style="color:#e6db74">&#39;管理整个公司，接单&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;经理&#39;</span>, <span style="color:#e6db74">&#39;管理部门员工&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;销售员&#39;</span>, <span style="color:#e6db74">&#39;向客人推销产品&#39;</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">4</span>, <span style="color:#e6db74">&#39;文员&#39;</span>, <span style="color:#e6db74">&#39;使用办公软件&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加员工
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp(id,ename,job_id,mgr,joindate,salary,bonus,dept_id) <span style="color:#66d9ef">VALUES</span> 
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1001</span>,<span style="color:#e6db74">&#39;孙悟空&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1004</span>,<span style="color:#e6db74">&#39;2000-12-17&#39;</span>,<span style="color:#e6db74">&#39;8000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1002</span>,<span style="color:#e6db74">&#39;卢俊义&#39;</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;2001-02-20&#39;</span>,<span style="color:#e6db74">&#39;16000.00&#39;</span>,<span style="color:#e6db74">&#39;3000.00&#39;</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1003</span>,<span style="color:#e6db74">&#39;林冲&#39;</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;2001-02-22&#39;</span>,<span style="color:#e6db74">&#39;12500.00&#39;</span>,<span style="color:#e6db74">&#39;5000.00&#39;</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1004</span>,<span style="color:#e6db74">&#39;唐僧&#39;</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1009</span>,<span style="color:#e6db74">&#39;2001-04-02&#39;</span>,<span style="color:#e6db74">&#39;29750.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1005</span>,<span style="color:#e6db74">&#39;李逵&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;2001-09-28&#39;</span>,<span style="color:#e6db74">&#39;12500.00&#39;</span>,<span style="color:#e6db74">&#39;14000.00&#39;</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;宋江&#39;</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1009</span>,<span style="color:#e6db74">&#39;2001-05-01&#39;</span>,<span style="color:#e6db74">&#39;28500.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1007</span>,<span style="color:#e6db74">&#39;刘备&#39;</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1009</span>,<span style="color:#e6db74">&#39;2001-09-01&#39;</span>,<span style="color:#e6db74">&#39;24500.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1008</span>,<span style="color:#e6db74">&#39;猪八戒&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1004</span>,<span style="color:#e6db74">&#39;2007-04-19&#39;</span>,<span style="color:#e6db74">&#39;30000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1009</span>,<span style="color:#e6db74">&#39;罗贯中&#39;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#e6db74">&#39;2001-11-17&#39;</span>,<span style="color:#e6db74">&#39;50000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1010</span>,<span style="color:#e6db74">&#39;吴用&#39;</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;2001-09-08&#39;</span>,<span style="color:#e6db74">&#39;15000.00&#39;</span>,<span style="color:#e6db74">&#39;0.00&#39;</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1011</span>,<span style="color:#e6db74">&#39;沙僧&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1004</span>,<span style="color:#e6db74">&#39;2007-05-23&#39;</span>,<span style="color:#e6db74">&#39;11000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1012</span>,<span style="color:#e6db74">&#39;李逵&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1006</span>,<span style="color:#e6db74">&#39;2001-12-03&#39;</span>,<span style="color:#e6db74">&#39;9500.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1013</span>,<span style="color:#e6db74">&#39;小白龙&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1004</span>,<span style="color:#e6db74">&#39;2001-12-03&#39;</span>,<span style="color:#e6db74">&#39;30000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1014</span>,<span style="color:#e6db74">&#39;关羽&#39;</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1007</span>,<span style="color:#e6db74">&#39;2002-01-23&#39;</span>,<span style="color:#e6db74">&#39;13000.00&#39;</span>,<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加5个工资等级
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> salarygrade(grade,losalary,hisalary) <span style="color:#66d9ef">VALUES</span> 
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">7000</span>,<span style="color:#ae81ff">12000</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">12010</span>,<span style="color:#ae81ff">14000</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">14010</span>,<span style="color:#ae81ff">20000</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">20010</span>,<span style="color:#ae81ff">30000</span>),
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">30010</span>,<span style="color:#ae81ff">99990</span>);
+</span></span></code></pre></div><ul>
+<li>
+<p>需求</p>
+<ol>
+<li>
+<p>查询所有员工信息。查询员工编号，员工姓名，工资，职务名称，职务描述</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	分析：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		2. 职务名称，职务描述 信息在 job 职务表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 方式一 ：隐式内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.id,
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	job.jname,
+</span></span><span style="display:flex;"><span>	job.description
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp,
+</span></span><span style="display:flex;"><span>	job
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	emp.job_id <span style="color:#f92672">=</span> job.id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 方式二 ：显式内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.id,
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	job.jname,
+</span></span><span style="display:flex;"><span>	job.description
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> job <span style="color:#66d9ef">ON</span> emp.job_id <span style="color:#f92672">=</span> job.id;
+</span></span></code></pre></div></li>
+<li>
+<p>查询员工编号，员工姓名，工资，职务名称，职务描述，部门名称，部门位置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	分析：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		2. 职务名称，职务描述 信息在 job 职务表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		4. 部门名称，部门位置 来自于 部门表 dept
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		5. dept 和 emp 一对多关系 dept.id = emp.dept_id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 方式一 ：隐式内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.id,
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	job.jname,
+</span></span><span style="display:flex;"><span>	job.description,
+</span></span><span style="display:flex;"><span>	dept.dname,
+</span></span><span style="display:flex;"><span>	dept.loc
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp,
+</span></span><span style="display:flex;"><span>	job,
+</span></span><span style="display:flex;"><span>	dept
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	emp.job_id <span style="color:#f92672">=</span> job.id
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">and</span> dept.id <span style="color:#f92672">=</span> emp.dept_id
+</span></span><span style="display:flex;"><span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 方式二 ：显式内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.id,
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	job.jname,
+</span></span><span style="display:flex;"><span>	job.description,
+</span></span><span style="display:flex;"><span>	dept.dname,
+</span></span><span style="display:flex;"><span>	dept.loc
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> job <span style="color:#66d9ef">ON</span> emp.job_id <span style="color:#f92672">=</span> job.id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> dept <span style="color:#66d9ef">ON</span> dept.id <span style="color:#f92672">=</span> emp.dept_id
+</span></span></code></pre></div></li>
+<li>
+<p>查询员工姓名，工资，工资等级</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	分析：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		1. 员工姓名，工资 信息在emp 员工表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		2. 工资等级 信息在 salarygrade 工资等级表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		3. emp.salary &gt;= salarygrade.losalary  and emp.salary &lt;= salarygrade.hisalary
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	t2.<span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp,
+</span></span><span style="display:flex;"><span>	salarygrade t2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	emp.salary <span style="color:#f92672">&gt;=</span> t2.losalary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AND</span> emp.salary <span style="color:#f92672">&lt;=</span> t2.hisalary
+</span></span></code></pre></div></li>
+<li>
+<p>查询员工姓名，工资，职务名称，职务描述，部门名称，部门位置，工资等级</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	分析：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		2. 职务名称，职务描述 信息在 job 职务表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		4. 部门名称，部门位置 来自于 部门表 dept
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		5. dept 和 emp 一对多关系 dept.id = emp.dept_id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		6. 工资等级 信息在 salarygrade 工资等级表中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		7. emp.salary &gt;= salarygrade.losalary  and emp.salary &lt;= salarygrade.hisalary
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	emp.id,
+</span></span><span style="display:flex;"><span>	emp.ename,
+</span></span><span style="display:flex;"><span>	emp.salary,
+</span></span><span style="display:flex;"><span>	job.jname,
+</span></span><span style="display:flex;"><span>	job.description,
+</span></span><span style="display:flex;"><span>	dept.dname,
+</span></span><span style="display:flex;"><span>	dept.loc,
+</span></span><span style="display:flex;"><span>	t2.grade
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	emp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> job <span style="color:#66d9ef">ON</span> emp.job_id <span style="color:#f92672">=</span> job.id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> dept <span style="color:#66d9ef">ON</span> dept.id <span style="color:#f92672">=</span> emp.dept_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> salarygrade t2 <span style="color:#66d9ef">ON</span> emp.salary <span style="color:#66d9ef">BETWEEN</span> t2.losalary <span style="color:#66d9ef">and</span> t2.hisalary;
+</span></span></code></pre></div></li>
+<li>
+<p>查询出部门编号、部门名称、部门位置、部门人数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	分析：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		1. 部门编号、部门名称、部门位置 来自于部门 dept 表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		2. 部门人数: 在emp表中 按照dept_id 进行分组，然后count(*)统计数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">		3. 使用子查询，让部门表和分组后的表进行内连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 根据部门id分组查询每一个部门id和员工数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> dept_id, <span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">from</span> emp <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> dept_id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>	dept.id,
+</span></span><span style="display:flex;"><span>	dept.dname,
+</span></span><span style="display:flex;"><span>	dept.loc,
+</span></span><span style="display:flex;"><span>	t1.<span style="color:#66d9ef">count</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>	dept,
+</span></span><span style="display:flex;"><span>	(
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>			dept_id,
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">count</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">FROM</span>
+</span></span><span style="display:flex;"><span>			emp
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span>
+</span></span><span style="display:flex;"><span>			dept_id
+</span></span><span style="display:flex;"><span>	) t1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span>
+</span></span><span style="display:flex;"><span>	dept.id <span style="color:#f92672">=</span> t1.dept_id
+</span></span></code></pre></div></li>
+</ol>
+</li>
+</ul>
+<h2 id="4事务">4，事务</h2>
+<h3 id="41--概述">4.1  概述</h3>
+<blockquote>
+<p>数据库的事务（Transaction）是一种机制、一个操作序列，包含了==一组数据库操作命令==。</p>
+<p>事务把所有的命令作为一个整体一起向系统提交或撤销操作请求，即这一组数据库命令==要么同时成功，要么同时失败==。</p>
+<p>事务是一个不可分割的工作逻辑单元。</p>
+</blockquote>
+<p>这些概念不好理解，接下来举例说明，如下图有一张表</p>
+<!-- raw HTML omitted -->
+<p>张三和李四账户中各有100块钱，现李四需要转换500块钱给张三，具体的转账操作为</p>
+<ul>
+<li>第一步：查询李四账户余额</li>
+<li>第二步：从李四账户金额 -500</li>
+<li>第三步：给张三账户金额 +500</li>
+</ul>
+<p>现在假设在转账过程中第二步完成后出现了异常第三步没有执行，就会造成李四账户金额少了500，而张三金额并没有多500；这样的系统是有问题的。如果解决呢？使用事务可以解决上述问题</p>
+<!-- raw HTML omitted -->
+<p>从上图可以看到在转账前开启事务，如果出现了异常回滚事务，三步正常执行就提交事务，这样就可以完美解决问题。</p>
+<h3 id="42--语法">4.2  语法</h3>
+<ul>
+<li>
+<p>开启事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">START</span> <span style="color:#66d9ef">TRANSACTION</span>;
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">或者</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>提交事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">commit</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>回滚事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">rollback</span>;
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="43--代码验证">4.3  代码验证</h3>
+<ul>
+<li>
+<p>环境准备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> account;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 创建账户表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> account(
+</span></span><span style="display:flex;"><span>	id int <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> auto_increment,
+</span></span><span style="display:flex;"><span>	name varchar(<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>	money double(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 添加数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> account(name,money) <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#39;张三&#39;</span>,<span style="color:#ae81ff">1000</span>),(<span style="color:#e6db74">&#39;李四&#39;</span>,<span style="color:#ae81ff">1000</span>);
+</span></span></code></pre></div></li>
+<li>
+<p>不加事务演示问题</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 转账操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 1. 查询李四账户金额是否大于500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 李四账户 -500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> account <span style="color:#66d9ef">set</span> money <span style="color:#f92672">=</span> money <span style="color:#f92672">-</span> <span style="color:#ae81ff">500</span> <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;李四&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">出现异常了</span>...  <span style="color:#75715e">-- 此处不是注释，在整体执行时会出问题，后面的sql则不执行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 张三账户 +500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> account <span style="color:#66d9ef">set</span> money <span style="color:#f92672">=</span> money <span style="color:#f92672">+</span> <span style="color:#ae81ff">500</span> <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;张三&#39;</span>;
+</span></span></code></pre></div><p>整体执行结果肯定会出问题，我们查询账户表中数据，发现李四账户少了500。</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>添加事务sql如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 开启事务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">BEGIN</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 转账操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 1. 查询李四账户金额是否大于500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 李四账户 -500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> account <span style="color:#66d9ef">set</span> money <span style="color:#f92672">=</span> money <span style="color:#f92672">-</span> <span style="color:#ae81ff">500</span> <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;李四&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">出现异常了</span>...  <span style="color:#75715e">-- 此处不是注释，在整体执行时会出问题，后面的sql则不执行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 张三账户 +500
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> account <span style="color:#66d9ef">set</span> money <span style="color:#f92672">=</span> money <span style="color:#f92672">+</span> <span style="color:#ae81ff">500</span> <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;张三&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 提交事务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">COMMIT</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 回滚事务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ROLLBACK</span>;
+</span></span></code></pre></div><p>上面sql中的执行成功进选择执行提交事务，而出现问题则执行回滚事务的语句。以后我们肯定不可能这样操作，而是在java中进行操作，在java中可以抓取异常，没出现异常提交事务，出现异常回滚事务。</p>
+</li>
+</ul>
+<h3 id="44--事务的四大特征">4.4  事务的四大特征</h3>
+<ul>
+<li>
+<p>原子性（Atomicity）: 事务是不可分割的最小操作单位，要么同时成功，要么同时失败</p>
+</li>
+<li>
+<p>一致性（Consistency） :事务完成时，必须使所有的数据都保持一致状态</p>
+</li>
+<li>
+<p>隔离性（Isolation） :多个事务之间，操作的可见性</p>
+</li>
+<li>
+<p>持久性（Durability） :事务一旦提交或回滚，它对数据库中的数据的改变就是永久的</p>
+</li>
+</ul>
+<blockquote>
+<p>==说明：==</p>
+<p>mysql中事务是自动提交的。</p>
+<p>也就是说我们不添加事务执行sql语句，语句执行完毕会自动的提交事务。</p>
+<p>可以通过下面语句查询默认提交方式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>SELECT <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">@autocommit</span>;
+</span></span></code></pre></div><p>查询到的结果是1 则表示自动提交，结果是0表示手动提交。当然也可以通过下面语句修改提交方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> <span style="color:#f92672">@@</span>autocommit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div></blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/jdbc/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
