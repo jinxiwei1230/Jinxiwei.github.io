@@ -4,12 +4,82 @@
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/java/</link>
         <description>Java - Tag - Jinxiwei</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/java/" rel="self" type="application/rss+xml" /><item>
-    <title>Leetcode-Java</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/</link>
+    <title>Java静态代码块</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/</link>
     <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-java/</guid>
-    <description><![CDATA[]]></description>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/</guid>
+    <description><![CDATA[<p>​       Java静态代码块（Static Block）：用 <code>static</code> 关键字修饰的代码块，它在<strong>类加载时执行，并且只执行一次</strong>。静态代码块通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</p>
+<h3 id="语法">语法</h3>
+<p>静态代码块的语法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 静态代码块中的代码</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="特点">特点</h3>
+<ol>
+<li><strong>执行时机</strong>：静态代码块在类加载时执行，且只执行一次。</li>
+<li><strong>执行顺序</strong>：如果有多个静态代码块，它们会按照在类中出现的顺序依次执行。</li>
+<li><strong>用途</strong>：通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</li>
+</ol>
+<h3 id="示例">示例</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> staticVar;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 静态代码块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;静态代码块执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">=</span> 10;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;main方法执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;staticVar = &#34;</span> <span style="color:#f92672">+</span> staticVar);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="输出">输出</h3>
+<pre tabindex="0"><code>静态代码块执行
+main方法执行
+staticVar = 10
+</code></pre><h3 id="解释">解释</h3>
+<ol>
+<li>当 <code>Example</code> 类被加载时，静态代码块首先执行，输出 <code>&quot;静态代码块执行&quot;</code>，并将 <code>staticVar</code> 初始化为 <code>10</code>。</li>
+<li>然后，<code>main</code> 方法执行，输出 <code>&quot;main方法执行&quot;</code> 和 <code>staticVar</code> 的值。</li>
+</ol>
+<h3 id="多个静态代码块">多个静态代码块</h3>
+<p>如果有多个静态代码块，它们会按照在类中出现的顺序依次执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> staticVar;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第一个静态代码块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;第一个静态代码块执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">=</span> 10;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第二个静态代码块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;第二个静态代码块执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">+=</span> 5;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;main方法执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;staticVar = &#34;</span> <span style="color:#f92672">+</span> staticVar);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="输出-1">输出</h3>
+<pre tabindex="0"><code>第一个静态代码块执行
+第二个静态代码块执行
+main方法执行
+staticVar = 15
+</code></pre><h3 id="解释-1">解释</h3>
+<ol>
+<li>第一个静态代码块执行，输出 <code>&quot;第一个静态代码块执行&quot;</code>，并将 <code>staticVar</code> 初始化为 <code>10</code>。</li>
+<li>第二个静态代码块执行，输出 <code>&quot;第二个静态代码块执行&quot;</code>，并将 <code>staticVar</code> 增加 <code>5</code>，最终值为 <code>15</code>。</li>
+<li><code>main</code> 方法执行，输出 <code>&quot;main方法执行&quot;</code> 和 <code>staticVar</code> 的值。</li>
+</ol>
+<h3 id="总结">总结</h3>
+<p>静态代码块是Java中用于在类加载时执行初始化操作的一种机制。它在类加载时自动执行，并且只执行一次，适合用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</p>]]></description>
 </item>
 </channel>
 </rss>

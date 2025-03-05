@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="1.机器学习基础 1.1 概念 机器学习定义：通过数据以及以往经验，优化计算机程序性能。
+机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)
+利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型” 机器学习的目的：机器学习的目的是分类和预测。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个向量，也称为特征(Feature)，输出则是一个分类或者一个数值。
+机器学习的基本过程：机器学习的基本过程是用训练数据(包含输入数据和预期输出的分类或者数值)训练一个模型 (Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。
+机器学习应用；
+数据挖掘：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。
+计算机视觉：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。
+自然语言处理：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。
+生物特征识别：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。
+1.2 机器学习基本术语 机器学习 一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。
+要进行机器学习，必须要获取经验E，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。
+机器学习中我们经验通常从数据集中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。
+数据集(data set) 一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。
+样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。
+属性张成的空间称为属性空间(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。
+训练(training) 从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。
+训练模型的目的是预测(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为标记(label)。
+预测(prediction) 预测离散值，则此类任务称为分类(classification)
+预测连续值，则将此类任务称之为回归(regression)。
+学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。
+学得模型适用于新样本的能力称为泛化(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。 （预测能力好-泛化能力强）
+聚类(clustering)将训练集的样本分为若干组，每个组称为一个簇(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。
+回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。
+按照训练数据有无标记信息可以将学习任务分为两大类：监督学习(supervised learning)和无监督学习(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。
+回归：(有标记信息) 回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。 通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。 分类(有标记信息)
+聚类(无标记信息)
+模型评估方法:
+模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有留出法、交叉验证法和自助法。 留出法（hold-out）（适用大数据集） 将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。 交叉验证法（cross validation）（适用大数据集） 先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数 据集D的比例相同）。
+然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。
+从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。
+若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。 优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。 缺点:数据集较大时，训练m个模型计算开销太大。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="1.机器学习基础 1.1 概念 机器学习定义：通过数据以及以往经验，优化计算机程序性能。
+机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)
+利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型” 机器学习的目的：机器学习的目的是分类和预测。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个向量，也称为特征(Feature)，输出则是一个分类或者一个数值。
+机器学习的基本过程：机器学习的基本过程是用训练数据(包含输入数据和预期输出的分类或者数值)训练一个模型 (Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。
+机器学习应用；
+数据挖掘：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。
+计算机视觉：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。
+自然语言处理：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。
+生物特征识别：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。
+1.2 机器学习基本术语 机器学习 一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。
+要进行机器学习，必须要获取经验E，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。
+机器学习中我们经验通常从数据集中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。
+数据集(data set) 一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。
+样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。
+属性张成的空间称为属性空间(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。
+训练(training) 从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。
+训练模型的目的是预测(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为标记(label)。
+预测(prediction) 预测离散值，则此类任务称为分类(classification)
+预测连续值，则将此类任务称之为回归(regression)。
+学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。
+学得模型适用于新样本的能力称为泛化(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。 （预测能力好-泛化能力强）
+聚类(clustering)将训练集的样本分为若干组，每个组称为一个簇(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。
+回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。
+按照训练数据有无标记信息可以将学习任务分为两大类：监督学习(supervised learning)和无监督学习(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。
+回归：(有标记信息) 回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。 通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。 分类(有标记信息)
+聚类(无标记信息)
+模型评估方法:
+模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有留出法、交叉验证法和自助法。 留出法（hold-out）（适用大数据集） 将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。 交叉验证法（cross validation）（适用大数据集） 先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数 据集D的比例相同）。
+然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。
+从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。
+若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。 优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。 缺点:数据集较大时，训练m个模型计算开销太大。">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5\/"
+        },"genre": "posts","wordcount":  237 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;237 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+        <li><a href="#11-概念">1.1 概念</a></li>
+        <li><a href="#12-机器学习基本术语">1.2 机器学习基本术语</a></li>
+        <li><a href="#13发展历程">1.3发展历程</a></li>
+        <li><a href="#21-简介">2.1 简介</a></li>
+        <li><a href="#22-应用">2.2 应用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h5 id="1机器学习基础">1.机器学习基础</h5>
+<h3 id="11-概念">1.1 概念</h3>
+<ol>
+<li>
+<p>机器学习定义：通过数据以及以往经验，优化计算机程序性能。</p>
+</li>
+<li>
+<p>机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)</p>
+</li>
+</ol>
+<ul>
+<li><strong>利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型”</strong></li>
+</ul>
+<ol start="3">
+<li>
+<p>机器学习的目的：机器学习的目的是分<strong>类</strong>和<strong>预测</strong>。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个<em>向量</em>，也称为<em>特征</em>(Feature)，输出则是一个<em>分类</em>或者一个<em>数值</em>。</p>
+</li>
+<li>
+<p>机器学习的基本过程：机器学习的基本过程是用<strong>训练数据</strong>(包含输入数据和预期输出的分类或者数值)训练一个<em>模型</em>
+(Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。</p>
+</li>
+<li>
+<p>机器学习应用；</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong>数据挖掘</strong>：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。</p>
+</li>
+<li>
+<p><strong>计算机视觉</strong>：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。</p>
+</li>
+<li>
+<p><strong>自然语言处理</strong>：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。</p>
+</li>
+<li>
+<p><strong>生物特征识别</strong>：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。</p>
+</li>
+</ul>
+<h3 id="12-机器学习基本术语">1.2 机器学习基本术语</h3>
+<ol>
+<li><strong>机器学习</strong></li>
+</ol>
+<ul>
+<li>
+<p>一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。</p>
+</li>
+<li>
+<p>要进行机器学习，必须要获取<strong>经验E</strong>，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。</p>
+</li>
+<li>
+<p>机器学习中我们经验通常从<strong>数据集</strong>中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。</p>
+</li>
+</ul>
+<ol start="2">
+<li><strong>数据集(data set)</strong></li>
+</ol>
+<ul>
+<li>
+<p>一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。</p>
+</li>
+<li>
+<p>样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。</p>
+</li>
+<li>
+<p>属性张成的空间称为<em>属性空间</em>(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。</p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>训练(training)</strong></li>
+</ol>
+<ul>
+<li>
+<p>从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。</p>
+</li>
+<li>
+<p>训练模型的目的是<strong>预测</strong>(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为<em>标记</em>(label)。</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>预测(prediction)</strong></li>
+</ol>
+<ul>
+<li>
+<p>预测<em>离散值</em>，则此类任务称为<em>分类</em>(classification)</p>
+</li>
+<li>
+<p>预测<em>连续值</em>，则将此类任务称之为<em>回归</em>(regression)。</p>
+</li>
+<li>
+<p>学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。</p>
+</li>
+<li>
+<p>学得模型适用于新样本的能力称为<strong>泛化</strong>(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。
+（预测能力好-泛化能力强）</p>
+</li>
+<li>
+<p>聚类(clustering)将训练集的样本分为若干组，每个组称为一个<strong>簇</strong>(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。</p>
+</li>
+<li>
+<p>回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。</p>
+</li>
+<li>
+<p>按照训练数据有无标记信息可以将学习任务分为两大类：<strong>监督学习</strong>(supervised learning)和<strong>无监督学习</strong>(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。</p>
+</li>
+</ul>
+<ol start="5">
+<li>回归：(有标记信息)</li>
+</ol>
+<ul>
+<li>回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。</li>
+<li>通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。</li>
+</ul>
+<ol start="6">
+<li>
+<p>分类(有标记信息)</p>
+</li>
+<li>
+<p>聚类(无标记信息)</p>
+</li>
+<li>
+<p><strong>模型评估方法</strong>:</p>
+</li>
+</ol>
+<ul>
+<li>模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有<strong>留出法</strong>、交<strong>叉验证法</strong>和<strong>自助法</strong>。</li>
+</ul>
+<ol start="9">
+<li><strong>留出法（hold-out）</strong>（适用大数据集）</li>
+</ol>
+<ul>
+<li>将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。</li>
+</ul>
+<ol start="10">
+<li><strong>交叉验证法（cross validation）</strong>（适用大数据集）</li>
+</ol>
+<ul>
+<li>
+<p>先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数
+据集D的比例相同）。</p>
+</li>
+<li>
+<p>然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。</p>
+</li>
+<li>
+<p>从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。</p>
+</li>
+<li>
+<p>若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。
+优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。
+缺点:数据集较大时，训练m个模型计算开销太大。</p>
+</li>
+</ul>
+<ol start="11">
+<li><strong>自助法</strong>（bootstrapping）（适用小数据集）</li>
+</ol>
+<ul>
+<li>
+<p>我们希望评估的是用原始数据集D训练出的模型，但是留出法和交叉验证法训练的数据集比原始的数据集D小，这必然会引入因训练数据集不同导致的估计偏差，所以我们引入了<strong>自助采样法</strong>进行模型评估。</p>
+</li>
+<li>
+<p>自助法是有放回抽样，给定包含m个样本的数据集D，我们对它进行采样产生数据集D’：每次有放回的随机从D中挑选一个样本，将该样本拷贝放入D’；</p>
+</li>
+<li>
+<p>重复执行m次，就得到了包含m个样本数据集D’，这就是自助采样的结果。初始数据集D中有一部分样本会在数据集D’中多次出现，也有一部分样本不会在数据集D’中出现。</p>
+</li>
+<li>
+<p>通过自助采样，初始数据集D中约有36.8%的样本未出现在采样数据集D’，于是我们可将D’用作训练集，我们仍有数据总量约1/3的、没在训练集中出现的样本作为测试集用于测试。</p>
+</li>
+</ul>
+<ol start="12">
+<li>分类性能度量
+<strong>混淆矩阵</strong>（confusion matrix）：</li>
+</ol>
+<ul>
+<li>它是一种特定的矩阵用来呈现算法性能的可视化效果,每一列代表
+预测值，每一行代表的是实际的类别。</li>
+<li>真正(True Positive , TP)：被模型预测为正的正样本。</li>
+<li>假正(False Positive , FP)：被模型预测为正的负样本。</li>
+<li>假负(False Negative , FN)：被模型预测为负的正样本。</li>
+<li>真负(True Negative , TN)：被模型预测为负的负样本</li>
+</ul>
+<p><strong>准确率</strong>（Accuracy）</p>
+<ul>
+<li>所有被分类正确的点在所有点中的概率</li>
+<li>Accuracy = (TP+TN)/(TP+FN+FP+TN)</li>
+</ul>
+<p><strong>精确率</strong>（Precision）</p>
+<ul>
+<li>针对预测正确的正样本而不是所有预测正确的样本。表现为预测出是正的里面有多少真的为正的概率，可理解为查准率</li>
+<li>Precision = TP/(TP+FP)</li>
+</ul>
+<p><strong>召回率</strong>（Recall）</p>
+<ul>
+<li>正确预测的正例数 /实际正例总数，也称查全率</li>
+<li>Recall = TP/(TP+FN)</li>
+</ul>
+<p><strong>F1 score</strong></p>
+<ul>
+<li>
+<p>2/F1 = 1/Precision + 1/Recall</p>
+</li>
+<li>
+<p>F值是精确率和召回率的<em>调和值</em>，更接近于两个数较小的那个，所以精<strong>确率和召回率接近时，F值最大</strong></p>
+</li>
+</ul>
+<p><strong>ROC曲线</strong></p>
+<ul>
+<li>ROC空间将伪阳性率（FPR）定义为 X 轴，真阳性率（TPR）定义为 Y 轴。
+TPR：在所有实际为阳性的样本中，被正确地判断为阳性的比率。
+TPR = TP / (TP + FN)
+FPR：在所有实际为阴性的样本中，被错误地判断为阳性的比率。
+FPR = FP / (FP + TN)</li>
+</ul>
+<p><strong>AUC</strong></p>
+<ul>
+<li>
+<p>AUC（Area Under Curve）被定义为ROC曲线下的面积(ROC的积分)，通常大于0.5小于1。随机挑选一个正样本以及一个负样本，分类器判定正样本的值高于负样本的概率就是 AUC 值。<strong>AUC值(面积)越大的分类器，性能越好。</strong></p>
+</li>
+<li>
+<p>AUC = 1，是完美分类器，采用这个预测模型时，存在至少一个阈值能得出完美预测。</p>
+</li>
+<li>
+<p>0.5 &lt; AUC &lt; 1，优于随机猜测。这个分类器（模型）妥善设定阈值的话，能有预测价值。</p>
+</li>
+<li>
+<p>AUC = 0.5，跟随机猜测一样（例：丢硬币），模型没有预测价值。</p>
+</li>
+<li>
+<p>AUC &lt; 0.5，比随机猜测还差；但只要总是反预测而行，就优于随机猜测。</p>
+</li>
+</ul>
+<ol start="13">
+<li>回归与性能度量</li>
+</ol>
+<ul>
+<li>
+<p><strong>平均绝对误差</strong>(Mean absolute error，MAE)：MAE又被称为L1范数损失，表示预测值与观察值之间的绝
+对误差的平均值。</p>
+</li>
+<li>
+<p><strong>均方误差</strong>(Mean squared error MSE)：MSE又被称为L2范数损失，表示预测值与观察值之间的误差平方的平均值。</p>
+</li>
+<li>
+<p><strong>均方根误差</strong>（RMSE）</p>
+</li>
+<li>
+<p><strong>决定系数</strong> R^2（R-Square）:如果模型的决定系数为0，表示模型的拟合效果很差，如果结果为1，说明拟合曲线无错误。R�取值越大，说明模型的拟合效果越好。
+缺点：随着样本数量的增加R�值会随之增加，所以无法定量的说明准确程度。</p>
+</li>
+</ul>
+<p><strong>校正决定系数</strong> Adjusted R�（Adjusted R-Square）:�������� R�抵消了样本数量对R�的影响，可以定量的说明准确。</p>
+<ol start="14">
+<li>聚类性能度量:好的聚类结果-&gt;<strong>聚类结果的簇内相似度高</strong>且<strong>保证簇间相似度低。</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>外部指标</strong>：Jaccard系数，FM指数，Rand指数，以上性能度量指标的取值均在区间[0,1]内，取值越大代表聚类
+效果越好。</p>
+</li>
+<li>
+<p><strong>内部指标</strong>：
+DB指数（Davies-Bouldin Index；DBI），Dunn指数（Dunn Index,DI）</p>
+</li>
+<li>
+<p>DBI值越小越好，DI值越大越好。</p>
+</li>
+</ul>
+<h3 id="13发展历程">1.3发展历程</h3>
+<h5 id="2-sklearn库基本使用">2 Sklearn库基本使用</h5>
+<h3 id="21-简介">2.1 简介</h3>
+<ol>
+<li>机器学习工具包</li>
+</ol>
+<ul>
+<li>
+<p>Scikit-learn是面向Python的机器学习软件包。Scikit-learn软件包支持主流的有监督机器学习方法(Supervised LearningAlgorithm)、无监督机器学习方法(Unsupervised Learning Algorithm)。</p>
+</li>
+<li>
+<p>有监督的机器学习方法，包括通用的线性模型、支持向量机、决策树、贝叶斯方法等。</p>
+</li>
+<li>
+<p>无监督的机器学习方法，包括聚类、因子分析、主成份分析、无监督神经网络等。</p>
+</li>
+</ul>
+<ol start="2">
+<li>Scikit-learn安装</li>
+</ol>
+<ul>
+<li>安装要求：
+Python&gt;=3.5,Numpy&gt;=1.11.0,Scipy&gt;=0.17.0
+（如果使用Python2.7可以采用Scikit-learn0.20版本）</li>
+<li>安装方式：
+Pip命令安装：pip install –u scikit-learn
+Conda命令安装：conda install scikit-learn</li>
+</ul>
+<p>官方文档：
+p Scikit-learn英文文档：https://scikit-learn.org/stable/
+p Scikit-learn中文文档： <a href="https://sklearn.apachecn.org/" target="_blank" rel="noopener noreffer ">https://sklearn.apachecn.org/</a></p>
+<h3 id="22-应用">2.2 应用</h3>
+<p>Scikit-learn快速使用</p>
+<ul>
+<li>传统的机器学习任务从开始到建模的一般流程就是：获取数据à数据预处理à训练模型à模型预测，评估à保存。</li>
+</ul>
+<ol>
+<li>获取数据：
+Sklearn中包含了大量的优质的数据集，要使用sklearn中的数据集，必须导入datasets模块。</li>
+</ol>
+<ul>
+<li>小数据集
+load_boston()
+load_iris()&hellip;..</li>
+<li>大数据集
+fetch_rcv1()
+fetch_ifw_people()&hellip;&hellip;</li>
+</ul>
+<ol start="2">
+<li>数据预处理：</li>
+</ol>
+<p>target</p>
+<ol start="3">
+<li>
+<p>数据集拆分：</p>
+</li>
+<li>
+<p>定义模型：</p>
+</li>
+<li>
+<p>模型预测与评估：</p>
+</li>
+<li>
+<p>模型保存：</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/python/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

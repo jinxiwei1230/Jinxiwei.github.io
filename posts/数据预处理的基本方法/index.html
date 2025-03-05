@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my blog"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="1 数据预处理概述 数据质量的多维测度 ¢ 准确性（Accuracy） ¢ 完整性 （Completeness） ¢ 一致性 （Consistency） ¢ 时效性 （Timeliness） ¢ 相关性 （Relevance） ¢ 可信性（Believability） ¢ 可解释性（Interpretability）
+数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。
+属性是一个数据字段，表示数据对象的特征。 在文献中，属性、维度（dimension）、特征（feature）、变量 （variance）可以互换的使用。 p “维”，一般用在数据仓库中。 p “特征”，一般用在机器学习中。 p “变量”，一般用在统计学中。
+标称属性：标称属性的值是一些符号或事物的名称。
+二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。
+序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。
+数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。
+离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。
+有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。 无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。 性：如果属性不是离散的，则它是连续的。 文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。 数据的基本统计᧿述的图形显示： 分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。
+分位数-分位数图：分位数-分位数图（quantile-quantile plot） 或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工 具，使得用户可以观察从一个分布到另一个分布是否有偏移。
+直方图：直方图或频率直方图是一种被广泛使用的统计方法。 它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin）， 是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对 象的计数
+散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。
+用DataFrame对象.to_csv()方法来保存数据成csv文件。 DataFrame 数据的保存和读取： df.to_csv 写入到 csv 文件 pd.read_csv 读取 csv 文件 df.to_json 写入到 json 文件 pd.read_json 读取 json 文件 df.to_html 写入到 html 文件 pd.read_html 读取 html 文件 df.to_excel 写入到 excel 文件 pd.read_excel 读取 excel 文件">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="1 数据预处理概述 数据质量的多维测度 ¢ 准确性（Accuracy） ¢ 完整性 （Completeness） ¢ 一致性 （Consistency） ¢ 时效性 （Timeliness） ¢ 相关性 （Relevance） ¢ 可信性（Believability） ¢ 可解释性（Interpretability）
+数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。
+属性是一个数据字段，表示数据对象的特征。 在文献中，属性、维度（dimension）、特征（feature）、变量 （variance）可以互换的使用。 p “维”，一般用在数据仓库中。 p “特征”，一般用在机器学习中。 p “变量”，一般用在统计学中。
+标称属性：标称属性的值是一些符号或事物的名称。
+二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。
+序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。
+数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。
+离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。
+有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。 无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。 性：如果属性不是离散的，则它是连续的。 文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。 数据的基本统计᧿述的图形显示： 分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。
+分位数-分位数图：分位数-分位数图（quantile-quantile plot） 或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工 具，使得用户可以观察从一个分布到另一个分布是否有偏移。
+直方图：直方图或频率直方图是一种被广泛使用的统计方法。 它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin）， 是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对 象的计数
+散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。
+用DataFrame对象.to_csv()方法来保存数据成csv文件。 DataFrame 数据的保存和读取： df.to_csv 写入到 csv 文件 pd.read_csv 读取 csv 文件 df.to_json 写入到 json 文件 pd.read_json 读取 json 文件 df.to_html 写入到 html 文件 pd.read_html 读取 html 文件 df.to_excel 写入到 excel 文件 pd.read_excel 读取 excel 文件">
+<meta name="application-name" content="My blog">
+<meta name="apple-mobile-web-app-title" content="My blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95\/"
+        },"genre": "posts","wordcount":  405 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;405 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+        <li><a href="#21-缺失值处理">2.1 缺失值处理</a></li>
+        <li><a href="#22-噪声光滑">2.2 噪声光滑</a></li>
+        <li><a href="#23-异常值的检测和处理">2.3 异常值的检测和处理</a></li>
+        <li><a href="#24-不一致数据的修正">2.4 不一致数据的修正</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h5 id="1-数据预处理概述">1 数据预处理概述</h5>
+<ol>
+<li>
+<p>数据质量的多维测度
+¢ 准确性（Accuracy）
+¢ 完整性 （Completeness）
+¢ 一致性 （Consistency）
+¢ 时效性 （Timeliness）
+¢ 相关性 （Relevance）
+¢ 可信性（Believability）
+¢ 可解释性（Interpretability）</p>
+</li>
+<li>
+<p>数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。</p>
+</li>
+<li>
+<p>属性是一个数据字段，表示数据对象的特征。
+在文献中，属性、维度（dimension）、特征（feature）、变量
+（variance）可以互换的使用。
+p
+“维”，一般用在数据仓库中。
+p
+“特征”，一般用在机器学习中。
+p
+“变量”，一般用在统计学中。</p>
+</li>
+<li>
+<p>标称属性：标称属性的值是一些符号或事物的名称。</p>
+</li>
+<li>
+<p>二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。</p>
+</li>
+<li>
+<p>序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。</p>
+</li>
+<li>
+<p>数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。</p>
+</li>
+<li>
+<p>离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。</p>
+</li>
+</ol>
+<ul>
+<li>有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。</li>
+<li>无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。</li>
+</ul>
+<ol start="9">
+<li>性：如果属性不是离散的，则它是连续的。</li>
+</ol>
+<ul>
+<li>文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。</li>
+</ul>
+<ol start="10">
+<li>数据的基本统计᧿述的图形显示：</li>
+</ol>
+<ul>
+<li>
+<p>分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。</p>
+</li>
+<li>
+<p>分位数-分位数图：分位数-分位数图（quantile-quantile plot）
+或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工
+具，使得用户可以观察从一个分布到另一个分布是否有偏移。</p>
+</li>
+<li>
+<p>直方图：直方图或频率直方图是一种被广泛使用的统计方法。
+它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin），
+是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对
+象的计数</p>
+</li>
+<li>
+<p>散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。</p>
+</li>
+</ul>
+<ol start="11">
+<li>用DataFrame对象.to_csv()方法来保存数据成csv文件。</li>
+</ol>
+<p>DataFrame 数据的保存和读取：
+df.to_csv 写入到 csv 文件
+pd.read_csv 读取 csv 文件
+df.to_json 写入到 json 文件
+pd.read_json 读取 json 文件
+df.to_html 写入到 html 文件
+pd.read_html 读取 html 文件
+df.to_excel 写入到 excel 文件
+pd.read_excel 读取 excel 文件</p>
+<ol start="12">
+<li>
+<p>控制警告输出：
+import warnings
+warnings.filterwarnings(&lsquo;ignore&rsquo;)</p>
+</li>
+<li>
+<p>一行三个图标表示方法举例：
+fig,axes=plt.subplots(1,3)  #创建一个1行三列的图片
+sns.distplot(x,ax=axes[0])
+sns.distplot(x,hist=False,ax=axes[1])  #不显示直方图
+sns.distplot(x,kde=False,ax=axes[2])  #不显示核密度</p>
+</li>
+<li>
+<p>pd.concat 函数 可以将数据根据不同的轴作简单的融合 axis = 0&ndash;&gt;代表行  axis = 1 &ndash;&gt; 代表列</p>
+</li>
+</ol>
+<h5 id="2-数据清洗">2 数据清洗</h5>
+<h3 id="21-缺失值处理">2.1 缺失值处理</h3>
+<ol>
+<li>导致缺失数据的原因</li>
+</ol>
+<ul>
+<li>设备出错</li>
+<li>和其他记录数据不一致，进而被删除了</li>
+<li>由于误解导致数据没有录入</li>
+<li>在录入的时候某些数据可能被认为是不重要的</li>
+</ul>
+<ol start="2">
+<li>如何处理缺失数据</li>
+</ol>
+<ul>
+<li>
+<p>忽略元组：
+这种方法适用于数据集较大并且元组中缺少多个值的情况，并且当每个属性缺失值的百分比变化很大时，它的性能会变得非常差。
+因为如果采用忽略元组的处理方法，那么便不能使用该元组的剩余的非缺失的属性值，而这些数据可能对当前的数据挖掘任务是有用的。</p>
+</li>
+<li>
+<p>手工填入缺失值:
+繁琐
+数据量大的时候，不可行</p>
+</li>
+<li>
+<p>填充全局常数（Unknown）：
+将缺失的属性值用同一个常量(如：“Unknown”或“NAN”)替换。
+如果将真实存在但缺失的值都用“Unknown”替换，那么数据挖掘程序可能误认为它们构成了一个新的类别，因为它们都具有相同的值 ——“Unknown”。
+因此，尽管该方法简单，但是并不十分可靠。</p>
+</li>
+<li>
+<p>填充属性的中心度量（均值或中位数）：
+对于正常的(对称的)数据分布而言，可以使用均值来填充。
+如果数据分布是倾斜的，则更应该使用中位数来填充缺失值。也可以使用与给定元组属同一类的所有样本的属性均值或中位数来填充。</p>
+</li>
+<li>
+<p>填充最可能的值：
+可以用回归、贝叶斯形式化方法的基于推理的工具或决策树归纳确定。
+例如，利用数据集中其他顾客数据的属性，可以构造一棵决策树，来预测缺失值的值。
+一般来说，使用最可能的值作为缺失值填充的方法最为普遍，与其他方法相比，它使用了已有数据的大部分信息来预测缺失值。</p>
+</li>
+</ul>
+<ol start="3">
+<li>isnull()函数，它可以用来判断缺失值</li>
+</ol>
+<h3 id="22-噪声光滑">2.2 噪声光滑</h3>
+<ol>
+<li>
+<p>噪声: 在可测度变量中的随机错误或偏差。</p>
+</li>
+<li>
+<p>导致噪声的原因：
+¢ 错误的数据收集手段
+¢ 数据输入问题
+¢ 数据传送问题
+¢ 技术限制</p>
+</li>
+<li>
+<p>常用的噪声光滑技术：</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>分箱（Binning method）：
+分箱方法通过考察“邻居”（即周围的值）来平滑存储数据的值。
+首先将数据排序并将其分割到一些相等深度的“桶”（bucket or bin）中。
+然后可根据桶均值，桶中间值，桶边界值等进行平滑。</p>
+</li>
+<li>
+<p>回归
+通过让数据适配一个函数（如线性回归函数）来平滑数据。
+线性回归涉及找出适合两个变量的“最佳”直线，使得一个变量能够预测另一个。</p>
+</li>
+<li>
+<p>离群点分析
+通过如聚类等方法来检测离群点。直观地，将落在簇集合之外的值视为离群点。</p>
+</li>
+</ul>
+<h3 id="23-异常值的检测和处理">2.3 异常值的检测和处理</h3>
+<ol>
+<li>
+<p>异常值</p>
+</li>
+<li>
+<p>检测方法：</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>简单统计：拿到数据后可以对数据进行一个简单的描述性统计分析（譬如最大最小值可以用来判断这个变量的取值是否超过了合理的范围，如客户的年龄为-20岁或200岁，显然是不合常理的，为异常值）</p>
+</li>
+<li>
+<p>3a原则:如果数据服从正态分布，在3a原则下，异常值为一组测定值中与平均值的偏差超过3倍标准差的值。如果数据服从正态分布，距离平均值3a之外的值出现的概率为P(|x-u| &gt; 3a) &lt;= 0.003，属于极个别的小概率事件。
+如果数据不服从正态分布，也可以用远离平均值的多少倍标准差来描述.</p>
+</li>
+<li>
+<p>箱型图：这种方法是利用箱型图的四分位距（IQR）对异常值进行检测，也叫Tukey‘s test。</p>
+</li>
+<li>
+<p>基于模型检测:首先建立一个数据模型，异常值是那些同模型不能完美拟合的对
+象；如果模型是簇的集合，则异常值是不显著属于任何簇的对象；
+在使用回归模型时，异常是相对远离预测值的对象。</p>
+</li>
+<li>
+<p>基于距离:通常可以在对象之间定义邻近性度量，异常对象是那些远离其他对象的对象。</p>
+</li>
+<li>
+<p>基于距离:通常可以在对象之间定义邻近性度量，异常对象是那些远离其他对象的对象。</p>
+</li>
+<li>
+<p>基于聚类:
+基于聚类的离群点：一个对象是基于聚类的离群点，如果该对象不强属于任何簇.</p>
+</li>
+</ul>
+<ol start="3">
+<li>处理方法：</li>
+</ol>
+<ul>
+<li><strong>删除</strong>含有异常值的记录：直接将含有异常值的记录删除。</li>
+<li>将异常值<strong>视为缺失值</strong>，交给缺失值处理方法来处理。</li>
+<li>用<strong>平均值</strong>来修正：可用前后两个观测值的平均值修正该异常值。</li>
+<li><strong>不处理</strong>：直接在具有异常值的数据集上进行挖掘建模。</li>
+</ul>
+<h3 id="24-不一致数据的修正">2.4 不一致数据的修正</h3>
+<ol>
+<li>
+<p>对于有些事务，所记录的数据可能存在不一致。有些数据不一致可以使用其它材料人工地加以更正。(例如，数据输入时的错误可以使用纸上的记录加以更正。这可以与用来帮助纠正编码不一致的例程一块使用。)</p>
+</li>
+<li>
+<p>知识工程工具也可以用来检测违反限制的数据。(例如，知道属性间的函数依赖，可以查找违反函数依赖的值)</p>
+</li>
+</ol>
+<h5 id="3-数据集成">3 数据集成</h5>
+<ul>
+<li>数据集成的主要任务：
+实体识别问题
+检测并解决数据值的冲突
+冗余数据与相关性分析
+元组重复</li>
+</ul>
+<h1 id="31-实体识别问题">3.1 实体识别问题</h1>
+<ul>
+<li>处理数据语义的多样性和数据结构</li>
+<li>实体识别是指从不同数据源识别出现实世界的实体，它的任务是统一不同源数据的矛盾之处。</li>
+</ul>
+<ol>
+<li>
+<p>常见形式：同名异义，异名同义，单位不统一</p>
+</li>
+<li>
+<p>元数据是“描述数据的数据”。每个属性的元数据包括<strong>名字</strong>、<strong>含义</strong>、<strong>数据类型</strong>和<strong>属性的值的允许范围</strong>，以及<strong>处理空值的规则</strong>。这些元数据可以用来帮助避免模式集成的错误，还有助于数据变换。</p>
+</li>
+</ol>
+<h1 id="32-检测和解决数值冲突">3.2 检测和解决数值冲突</h1>
+<ul>
+<li>对于现实世界的同一实体，来自不同数据源的属性值可能不同，这可能是因为表示、比例、或编码、数据类型、单位不统一、字段长度不同。</li>
+</ul>
+<h1 id="33-冗余数据与相关性分析">3.3 冗余数据与相关性分析</h1>
+<ul>
+<li>一个属性能由另一个属性推出</li>
+<li>同一属性多次出现</li>
+<li>同一属性不同命多次出现</li>
+</ul>
+<ol>
+<li>
+<p>对于属性间的冗余可以用相关分析检测到，然后删除。</p>
+</li>
+<li>
+<p>对于标称数据，我们使用 （卡方）检测</p>
+</li>
+<li>
+<p>对于数值属性，我们使用相关系数(correlation coefficient)和协方差(covariance)，他们都评估一个属性的值如何随另一个变化。</p>
+</li>
+<li>
+<p>相关性检验（卡方检验）</p>
+</li>
+<li>
+<p>利用数值数据的相关系数和协方差</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>数值数据的相关系数
+<em>相关性并不蕴含因果关系，也就是说，如果A和B是相关的，并不意味着A导致B或者B导致A</em></p>
+</li>
+<li>
+<p>数值数据的协方差</p>
+</li>
+<li>
+<p>协方差与相关度的关系</p>
+</li>
+</ul>
+<p><em>对于两个趋向于一起变化的属性A和B。如果 A大于A的期望，则B很可能大于B的期望。因此,A 和B的协方差为正；另一方面，如果当一个属性小于它的期望值，而另一个趋向于大于它的期望值，则A和B协方差为负</em></p>
+<ol start="6">
+<li>元组重复</li>
+</ol>
+<ul>
+<li>
+<p>除了检测属性间的冗余外，还应当在元组级检测重复（例如，对于给定的唯一数据实体，存在两个或多个相同的元组）</p>
+</li>
+<li>
+<p>去规范化表（denormalized table）的使用（这样做通常是为了通过避免连接来改善性能）是数据冗余的另一个来源</p>
+</li>
+</ul>
+<h5 id="4-数据归约">4 数据归约</h5>
+<ol>
+<li>
+<p>数据归约(Data reduction)：获得数据集的一个简约表示，使得在容量上大大减小，但仍接近于保持原数据的完整性，并产生相同或基本相同的分析结果。</p>
+</li>
+<li>
+<p>数据归约策略</p>
+</li>
+</ol>
+<ul>
+<li>维归约（Dimensionality reduction）</li>
+<li>数量归约（Quantity specification）</li>
+<li>数据压缩（ Data compression ）</li>
+</ul>
+<h1 id="41-维归约">4.1 维归约</h1>
+<ol>
+<li>主成分分析（PCA）</li>
+</ol>
+<ul>
+<li>PCA基本方法:通过创建一个替换的、较小的变量集“组合”属性的基本要素。原
+数据可以投影到该较小的集合中。PCA常常能够揭示先前未曾察觉的联系，并因此允许解释不寻常的结果。</li>
+</ul>
+<ol start="2">
+<li>PCA基本过程：</li>
+</ol>
+<ul>
+<li>对输入数据规范化，使得每个属性都落入相同的区间。</li>
+<li>PCA计算k个标准正交向量，作为规范化输入数据的基。</li>
+<li>对主成分按“重要性”或强度降序排列。</li>
+<li>通过去掉较弱的成分（即，方差较小的那些）来规约数据。</li>
+</ul>
+<ol start="3">
+<li>
+<p>PCA可以用于有序和无序的属性，并且可以处理稀疏和倾斜数据。多于二维的多维数据可以通过PCA将问题规约为二维问题来处理。主成分可以用作多元回归和聚类分析的输入。</p>
+</li>
+<li>
+<p>属性子集选择</p>
+</li>
+</ol>
+<ul>
+<li>向前选择</li>
+<li>向后删除</li>
+<li>决策树归纳</li>
+</ul>
+<ol start="5">
+<li>使用方法：round(number,digits)
+digits&gt;0，四舍五入到指定的小数位
+digits=0, 四舍五入到最接近的整数
+digits&lt;0 ，在小数点左侧进行四舍五入
+如果round()函数只有number这个参数，等同于digits=0
+四舍五入规则：</li>
+</ol>
+<p>要求保留位数的后一位&lt;=4，则舍去3，如5.214保留小数点后两位，结果是5.21
+要求保留位数的后一位“=5”，且该位数后面没有数字，则不进位，如5.215，结果为5.21
+要求保留位数的最后一位“=5”，且该位数后面有数字，则进位，如5.2151，结果为5.22
+要求保留位数的最后一位“&gt;=6”，则进位。如5.216，结果为5.22</p>
+<h1 id="42-数量规约">4.2 数量规约</h1>
+<ol>
+<li>
+<p>参数化数据归约
+¢ 回归模型
+¢ 对数线性模型</p>
+</li>
+<li>
+<p>非参数化数据归约
+¢ 直方图
+¢ 聚类
+¢ 抽样
+¢ 数据立方体聚集</p>
+</li>
+<li>
+<p>线性回归模型: 将数据建模，用来拟合一条直线，用来近似给定数据。
+Y = a + b X（经常使用最小二乘方法来拟合直线）</p>
+</li>
+<li>
+<p>多元回归模型 : Y = b0 + b1 X1 + b2 X2</p>
+</li>
+<li>
+<p>对数线性模型（log-linear model）近似离散的多维概率分布。</p>
+</li>
+</ol>
+<ul>
+<li>给定n维元组的集合，可把每个元组看做n维空间的点。对于离散属性集，可用对数线性模型，基于维组合的一个较小子集，估计多维空间中每个点的概率，这使得高维数据空间可以由较低维数据空间构造。因此，对数线性模型也可用于维归约（由于较低维空间的点通常比原来的数据点占据的空间要少）和数据光滑（因为与较高
+维空间的估计相比，较低维空间的聚集估计受抽样变化的影响较小）。</li>
+</ul>
+<ol start="6">
+<li>
+<p>直方图：属性A的直方图（histogram）将A的数据分布划分为不相交的子集或桶。桶表示给定属性的一个连续区间。</p>
+</li>
+<li>
+<p>聚类：聚类技术把数据元组看做对象，将对象划分为群或簇，使得在一个簇中的对象相互相似，而与其他簇中的对象相异。</p>
+</li>
+<li>
+<p>抽样：抽样可以作为一种数据归约的技术使用，因为它允许用数据小得多的随机样本表示数据集。</p>
+</li>
+</ol>
+<ul>
+<li>s个样本的无放回简单随机抽样（SRSWOR）：从N个元组中抽取s个样本（s &lt; N）其中任意元组被抽取的概率均为1/N（等可能的）。</li>
+<li>s个样本的有放回简单随机抽样（SRSWR）：一个元组被抽取后，又被放回数据集中，以便再次被抽取。</li>
+<li>簇抽样：数据集放入M个互不相交的簇，可以得到s个簇的简单随机抽样（SRS），s &lt; M。</li>
+<li>分层抽样：数据集被划分成互不相交的部分，称为“层”。数据是倾斜的时，这样可以帮助确保样本的代表性（e.g., 按年龄分层）。</li>
+</ul>
+<ol start="9">
+<li>数据立方体聚集</li>
+</ol>
+<h5 id="5-数据变换">5 数据变换</h5>
+<p><em>data[:,0]表示第1列所有数据</em>
+<em>data[1,:]表示第2行所有数据</em>
+<em>data[:, 1:]表示从第2列开始所有数据</em></p>
+<p>将数据转化成适合于挖掘的形式：</p>
+<ul>
+<li>平滑：从数据中去掉噪音。这种技术包括分箱、聚类和回归</li>
+<li>聚集：对数据进行汇总和聚集。</li>
+<li>属性构造（特征构造）：从给定属性中创建新属性</li>
+<li>规范化：将属性数据按比例映射到一个小的特定范围</li>
+<li>离散化：数值属性的原始值用区间标签或概念标签替换。</li>
+<li>由标称数据产生概念分层：属性，如street，可以泛化到较高的概念层，如city或country</li>
+</ul>
+<h1 id="51-规范化">5.1 规范化</h1>
+<ol>
+<li>
+<p>min-max normalization：对原始数据进行线性变换</p>
+</li>
+<li>
+<p>z-score normalization:属性A的值基于A的平均值和标准差。</p>
+</li>
+<li>
+<p>normalization by decimal scaling:通过移动属性A的小数点位置进行规范化。小数点的移动位数依赖于A的最大绝对
+值。</p>
+</li>
+</ol>
+<h1 id="52-离散化将连续属性的范围分成区间用来减少给定连续属性值的个数">5.2 离散化：将连续属性的范围分成区间，用来减少给定连续属性值的个数。</h1>
+<ol>
+<li>
+<p>非监督离散化：等宽算法，等频算法 ，K-means聚类算法</p>
+</li>
+<li>
+<p>监督离散化：ChiMerge算法，基于熵的离散化方法</p>
+</li>
+<li>
+<p>无监督离散化：在离散过程中不考虑类别属性，其输入数据集仅含有待离散化属性的值。</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>等宽算法（分箱离散化）:
+将范围分为等大小的N个区间
+如果 A和 B是该属性的最低或最高值，则区间的宽度为： W = (B-A)/N
+最直接易懂但是异常值可能会主导其展现
+不能很好的处理偏离数据（Skewed data）</p>
+</li>
+<li>
+<p>等频算法（直方图分析离散化）:
+将范围划分为N个区间，每个区间包含近似相等数量的样本
+较好的数据比例</p>
+</li>
+<li>
+<p>K-means聚类算法：
+用户指定离散化产生的区间数目K
+从数据集中随机找出K个数据作为K个初始区间的重心
+根据这些重心的欧式距离，对所有的对象聚类
+如果数据x距重心最近，则将x划归所代表的那个区间
+然后重新计算各区间的重心，并利用新的重心重新聚类所有样本
+逐步循环，直到所有区间的重心不再随算法循环而改变为止</p>
+</li>
+</ul>
+<ol start="2">
+<li>监督离散化：输入数据包括类别信息（类标号），效果比无监督好</li>
+</ol>
+<ul>
+<li>自上而下的卡方分裂算法：
+分裂步骤：
+第一步：依次计算每个插入点的卡方值，当卡方值达到最大时，将该点作为分裂点，属性值域被分为两块；
+第二步：计算卡方值，找到最大值将属性值域分成三块。
+停止准则：当卡方检验显著，即p值&lt;α时，继续分裂区间。</li>
+</ul>
+<ol start="3">
+<li>ChiMerge算法：
+ChiMerge算法是一种基于卡方值的自下而上的离散化方法。
+分裂步骤：
+第一步：根据要离散的属性对实例进行排序，每个实例属于一个区间 ；
+第二步：合并区间，计算每一对相邻区间的卡方值。
+停止准则：
+当卡方检验不显著，即p值⩾α时，继续合并相邻区间；
+当卡方检验显著，即p值&lt;α时，停止区间合并。</li>
+</ol>
+<h1 id="53标称数据的概念分层生成">5.3标称数据的概念分层生成</h1>
+<ul>
+<li>标称数据：具有无穷多个不同值，值之间无序
+概念分层：用来把数据变换到多个粒度值
+由用户或专家在模式级显式地说明属性的部分序
+通过显式数据分组说明分层结构的一部分
+说明属性集，但不说明它们的偏序
+只说明部分属性集</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" class="prev" rel="prev" title="模型的评估和选择"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>模型的评估和选择</a>
+            <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
