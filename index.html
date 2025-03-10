@@ -58,6 +58,166 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/">SQL总结</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div><div class="content"><h3 id="sql总结与面试">SQL总结与面试</h3>
+<h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
+<h3 id="group-by"><strong><code>GROUP BY</code></strong></h3>
+<ul>
+<li>
+<p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
+</li>
+<li>
+<p><strong>结果</strong>: 它会将多行数据合并为一行，每个分组只返回一行结果。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>: 当你需要对数据进行分组并计算汇总值时使用。</p>
+</li>
+<li>
+<p><strong>示例</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">AVG</span>(salary) <span style="color:#66d9ef">AS</span> avg_salary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
+</span></span></code></pre></div><p>这个查询会返回每个部门的平均工资，每个部门只有一行结果。</p>
+</li>
+<li>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>分组后的结果会减少行数。</li>
+<li>只能选择分组字段和聚合函数的结果。</li>
+</ul>
+</li>
+</ul>
+<h3 id="partition-by"><strong><code>PARTITION BY</code></strong></h3>
+<ul>
+<li>
+<p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
+</li>
+<li>
+<p><strong>结果</strong>: 它不会将多行合并为一行，而是为每一行计算一个值（如排名、累计值等）。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>: 当你需要对数据进行分组计算，但希望保留原始行数时使用。</p>
+</li>
+<li>
+<p><strong>示例</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, salary, dept_id,
+</span></span><span style="display:flex;"><span>       RANK() OVER (PARTITION <span style="color:#66d9ef">BY</span> dept_id <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> salary <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rank
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees; 
+</span></span></code></pre></div><p>这个查询会为每个部门的员工根据工资排名，但不会减少行数，结果中每一行都会保留。</p>
+</li>
+<li>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>分组后的结果不会减少行数。</li>
+<li>可以同时选择分组字段、原始字段和窗口函数的结果。</li>
+</ul>
+</li>
+</ul>
+<h3 id="核心区别"><strong>核心区别</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left"><code>GROUP BY</code></th>
+          <th style="text-align: left"><code>PARTITION BY</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>行数变化</strong></td>
+          <td style="text-align: left">减少行数（每个分组返回一行）</td>
+          <td style="text-align: left">不减少行数（保留原始行数）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>用途</strong></td>
+          <td style="text-align: left">数据分组和聚合</td>
+          <td style="text-align: left">数据分组并计算窗口函数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>是否支持聚合函数</strong></td>
+          <td style="text-align: left">是（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）</td>
+          <td style="text-align: left">否（窗口函数如 <code>RANK</code>、<code>ROW_NUMBER</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>结果字段</strong></td>
+          <td style="text-align: left">只能选择分组字段和聚合结果</td>
+          <td style="text-align: left">可以选择原始字段和窗口函数结果</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="示例对比"><strong>示例对比</strong></h3>
+<h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
+</span></span></code></pre></div><p><strong>结果</strong>:</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/ioc-di-aop/">IoC DI AOP.md</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-08">2025-03-08</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content"><ul>
+<li><strong>IoC</strong>：将对象创建和依赖管理的控制权交给框架。</li>
+<li><strong>DI</strong>：通过注入方式实现IoC，解耦对象及其依赖。</li>
+<li><strong>AOP</strong>：通过切面分离横切关注点，提升代码模块化和可维护性。</li>
+</ul>
+<h3 id="1-iocinversion-of-control控制反转">1. IoC（Inversion of Control，控制反转）</h3>
+<p><strong>定义</strong>：
+IoC是一种设计原则，将对象的创建和依赖管理交给框架或容器，而不是由开发者手动控制。</p>
+<p><strong>传统方式</strong>：
+开发者通常在代码中直接创建和管理对象，控制权在开发者手中。</p>
+<p><strong>IoC方式</strong>：
+框架或容器负责对象的创建和生命周期管理，开发者只需定义对象及其依赖关系，控制权转移到框架。</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>降低耦合：对象不直接依赖具体实现，而是依赖抽象。</li>
+<li>提高灵活性：依赖关系可通过配置更改，无需修改代码。</li>
+<li>便于测试：依赖可替换为模拟对象，简化单元测试。</li>
+</ul>
+<h3 id="2-didependency-injection依赖注入">2. DI（Dependency Injection，依赖注入）</h3>
+<p><strong>定义</strong>：
+DI是IoC的一种实现方式，通过构造函数、setter方法或接口注入依赖对象。</p>
+<p><strong>实现方式</strong>：</p>
+<ul>
+<li><strong>构造函数注入</strong>：通过构造函数传递依赖。</li>
+<li><strong>Setter注入</strong>：通过setter方法设置依赖。</li>
+<li><strong>接口注入</strong>：通过接口方法注入依赖。</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyService</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> MyRepository repository;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造函数注入</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MyService</span>(MyRepository repository) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Setter注入</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setRepository</span>(MyRepository repository) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>优点</strong>：</p>
+<ul>
+<li>解耦：对象不直接创建依赖，依赖由外部注入。</li>
+<li>可测试性：依赖可替换为模拟对象，便于测试。</li>
+<li>可配置性：依赖关系可通过配置文件管理。</li>
+</ul>
+<h3 id="3-aopaspect-oriented-programming面向切面编程">3. AOP（Aspect-Oriented Programming，面向切面编程）</h3>
+<p><strong>定义</strong>：
+AOP通过切面将横切关注点（如日志、事务、安全等）与核心业务逻辑分离，提升代码的模块化。</p>
+<p><strong>核心概念</strong>：</p>
+<ul>
+<li><strong>切面（Aspect）</strong>：封装横切关注点的模块。</li>
+<li><strong>连接点（Join Point）</strong>：程序执行中的特定点（如方法调用）。</li>
+<li><strong>通知（Advice）</strong>：在连接点执行的动作（如前置、后置、环绕通知）。</li>
+<li><strong>切入点（Pointcut）</strong>：定义哪些连接点会触发通知。</li>
+<li><strong>引入（Introduction）</strong>：为类添加新方法或属性。</li>
+<li><strong>织入（Weaving）</strong>：将切面应用到目标对象的过程。</li>
+</ul>
+<p><strong>示例</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/ioc-di-aop/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/urllib1/">Urllib1</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-28">2025-02-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div><div class="content"><h2 id="urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</h2>
 <h3 id="1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</h3>
@@ -290,162 +450,6 @@ staticVar = 15
 </span></span></code></pre></div></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/leetcode-c/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/c/">C</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/">Linux：套接字变编程</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-19">2024-12-19</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h3 id="socket概述">Socket概述</h3>
-<p><strong>1、网络协议栈分层实现</strong></p>
-<ol>
-<li>
-<p><strong>传输层以上（应用层）</strong></p>
-<ul>
-<li>由用户态应用程序实现。</li>
-<li>提供网络服务接口，如 HTTP、FTP 等。</li>
-</ul>
-</li>
-<li>
-<p><strong>传输层和网络互联层</strong></p>
-<ul>
-<li><strong>传输层</strong>：TCP/UDP 在内核中实现。</li>
-<li><strong>网络互联层</strong>：如 IP 协议的路由功能也在内核中实现。</li>
-<li><strong>路由协议</strong>：如 OSPF、BGP，通常由用户态进程实现。</li>
-</ul>
-</li>
-<li>
-<p><strong>第一层和第二层（物理层和数据链路层）</strong></p>
-<ul>
-<li>一般由硬件实现，如网卡、交换机等。</li>
-</ul>
-</li>
-</ol>
-<p><strong>2、UNIX 提供的网络功能接口</strong></p>
-<ol>
-<li>
-<p><strong>文件方式组织设备与通信</strong></p>
-<ul>
-<li>BSD 将设备和通信管道都组织为文件，创建方式不同，但访问方式一致。</li>
-<li>主要包括：
-<ul>
-<li><strong>终端设备</strong>：用于用户与计算机交互。</li>
-<li><strong>管道</strong>：实现进程间通信。</li>
-<li><strong>通信服务 Socket</strong>：为网络通信设计。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>AT&amp;T UNIX 的 TLI（Transport Layer Interface）编程接口</strong></p>
-<ul>
-<li>提供面向网络通信的接口。</li>
-<li>不仅支持 TCP/IP，也支持其他协议。</li>
-</ul>
-</li>
-<li>
-<p><strong>虚拟 Loopback 接口</strong></p>
-<ul>
-<li>使用回环地址 <code>127.0.0.1</code>。</li>
-<li>实现同一台计算机上不同进程之间的通信。</li>
-</ul>
-</li>
-</ol>
-<p><strong>3、TCP 与 UDP 的区别</strong></p>
-<ol>
-<li>
-<p><strong>TCP（Transmission Control Protocol）</strong></p>
-<ul>
-<li><strong>特点</strong>：
-<ul>
-<li>面向连接。</li>
-<li>可靠传输（通过确认机制、重传机制、流量控制实现）。</li>
-<li>字节流传输（不保证报文边界）。</li>
-</ul>
-</li>
-<li><strong>适用场景</strong>：文件传输、邮件服务、远程登录等。</li>
-</ul>
-</li>
-<li>
-<p><strong>UDP（User Datagram Protocol）</strong></p>
-<ul>
-<li><strong>特点</strong>：
-<ul>
-<li>面向数据报。</li>
-<li>不可靠传输（可能错报、丢报、乱序，无流量控制）。</li>
-<li>支持广播和组播。</li>
-<li>数据报传输（保留报文边界）。</li>
-</ul>
-</li>
-<li><strong>适用场景</strong>：视频流、实时通信、广播消息等。</li>
-</ul>
-</li>
-</ol>
-<p><strong>4、字节顺序</strong></p>
-<ol>
-<li>
-<p><strong>CPU 字节顺序</strong></p>
-<ul>
-<li><strong>Big Endian（大端序）</strong>：高字节存储在低地址。
-<ul>
-<li>适用 CPU：PowerPC、SPARC、Motorola。</li>
-</ul>
-</li>
-<li><strong>Little Endian（小端序）</strong>：低字节存储在低地址。
-<ul>
-<li>适用 CPU：Intel X86。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>网络字节顺序</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Linux：进程间通信</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-17">2024-12-17</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h3 id="信号灯与共享内存ipc">信号灯与共享内存(IPC)</h3>
-<p>这是对信号灯、共享内存和消息队列的简要总结，涵盖了UNIX中的进程间通信（IPC）机制。</p>
-<p><strong>1、信号灯（Semaphore）</strong></p>
-<ul>
-<li><strong>作用</strong>: 用于控制多进程对共享资源的互斥访问和进程间的同步。</li>
-<li><strong>策略与机制分离</strong>: UNIX提供信号灯机制，进程本身需要正确使用信号灯来保证互斥和同步。</li>
-<li><strong>不当使用</strong>: 如果进程错误使用信号灯，可能会导致信息访问的不安全和死锁。</li>
-<li><strong>P操作（sem_op &lt; 0）</strong>: 用于请求资源（等待操作），如果信号灯值小于0，则进程会被阻塞。</li>
-<li><strong>V操作（sem_op &gt; 0）</strong>: 用于释放资源（通知操作），进程释放信号灯。</li>
-<li><strong>创建信号灯</strong>: 使用<code>semget()</code>函数来创建或获取信号灯组。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nsems, <span style="color:#66d9ef">int</span> flags);
-</span></span></code></pre></div></li>
-<li><strong>控制信号灯</strong>: 使用<code>semctl()</code>函数来进行对信号灯的控制操作，如删除、查询状态等。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semctl</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">int</span> snum, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
-</span></span></code></pre></div></li>
-<li><strong>信号灯操作</strong>: 使用<code>semop()</code>函数进行P/V操作。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semop</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">struct</span> sembuf <span style="color:#f92672">*</span>ops, <span style="color:#66d9ef">int</span> nops);
-</span></span></code></pre></div><ul>
-<li><code>sem_num</code>: 信号灯编号。</li>
-<li><code>sem_op</code>: 操作值，决定是P操作、V操作还是等待。</li>
-<li><code>sem_flg</code>: 操作选项。</li>
-</ul>
-</li>
-</ul>
-<p><strong>2、共享内存（Shared Memory）</strong></p>
-<ul>
-<li><strong>特点</strong>: 允许多个进程共同使用同一段物理内存空间，进程间传递数据速度快。</li>
-<li><strong>问题</strong>: 访问共享内存时需要自行解决互斥和同步问题，通常使用信号灯来保证安全。</li>
-<li><strong>应用</strong>: 适用于数据交换、运行监视等场景。</li>
-<li><strong>共享内存操作</strong>:
-<ul>
-<li><strong>创建共享内存段</strong>: 使用<code>shmget()</code>函数。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nbytes, <span style="color:#66d9ef">int</span> flags);
-</span></span></code></pre></div></li>
-<li><strong>获取共享内存段指针</strong>: 使用<code>shmat()</code>函数。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">shmat</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shmaddr, <span style="color:#66d9ef">int</span> shmflg);
-</span></span></code></pre></div></li>
-<li><strong>控制共享内存段</strong>: 使用<code>shmctl()</code>函数进行删除、查询等操作。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmctl</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
-</span></span></code></pre></div></li>
-</ul>
-</li>
-</ul>
-<p><strong>3、生产者-消费者问题（Producer-Consumer Problem）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -462,7 +466,7 @@ staticVar = 15
                     <span class="page-link" aria-hidden="true">&hellip;</span>
                 </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/Jinxiwei.github.io/page/6/">6</a>
+                        <a href="/Jinxiwei.github.io/page/7/">7</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

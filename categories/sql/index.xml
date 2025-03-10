@@ -1,0 +1,106 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>SQL - Category - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/sql/</link>
+        <description>SQL - Category - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/sql/" rel="self" type="application/rss+xml" /><item>
+    <title>SQL总结</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</link>
+    <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</guid>
+    <description><![CDATA[<h3 id="sql总结与面试">SQL总结与面试</h3>
+<h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
+<h3 id="group-by"><strong><code>GROUP BY</code></strong></h3>
+<ul>
+<li>
+<p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
+</li>
+<li>
+<p><strong>结果</strong>: 它会将多行数据合并为一行，每个分组只返回一行结果。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>: 当你需要对数据进行分组并计算汇总值时使用。</p>
+</li>
+<li>
+<p><strong>示例</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">AVG</span>(salary) <span style="color:#66d9ef">AS</span> avg_salary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
+</span></span></code></pre></div><p>这个查询会返回每个部门的平均工资，每个部门只有一行结果。</p>
+</li>
+<li>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>分组后的结果会减少行数。</li>
+<li>只能选择分组字段和聚合函数的结果。</li>
+</ul>
+</li>
+</ul>
+<h3 id="partition-by"><strong><code>PARTITION BY</code></strong></h3>
+<ul>
+<li>
+<p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
+</li>
+<li>
+<p><strong>结果</strong>: 它不会将多行合并为一行，而是为每一行计算一个值（如排名、累计值等）。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>: 当你需要对数据进行分组计算，但希望保留原始行数时使用。</p>
+</li>
+<li>
+<p><strong>示例</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, salary, dept_id,
+</span></span><span style="display:flex;"><span>       RANK() OVER (PARTITION <span style="color:#66d9ef">BY</span> dept_id <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> salary <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rank
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees; 
+</span></span></code></pre></div><p>这个查询会为每个部门的员工根据工资排名，但不会减少行数，结果中每一行都会保留。</p>
+</li>
+<li>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>分组后的结果不会减少行数。</li>
+<li>可以同时选择分组字段、原始字段和窗口函数的结果。</li>
+</ul>
+</li>
+</ul>
+<h3 id="核心区别"><strong>核心区别</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left"><code>GROUP BY</code></th>
+          <th style="text-align: left"><code>PARTITION BY</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>行数变化</strong></td>
+          <td style="text-align: left">减少行数（每个分组返回一行）</td>
+          <td style="text-align: left">不减少行数（保留原始行数）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>用途</strong></td>
+          <td style="text-align: left">数据分组和聚合</td>
+          <td style="text-align: left">数据分组并计算窗口函数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>是否支持聚合函数</strong></td>
+          <td style="text-align: left">是（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）</td>
+          <td style="text-align: left">否（窗口函数如 <code>RANK</code>、<code>ROW_NUMBER</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>结果字段</strong></td>
+          <td style="text-align: left">只能选择分组字段和聚合结果</td>
+          <td style="text-align: left">可以选择原始字段和窗口函数结果</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="示例对比"><strong>示例对比</strong></h3>
+<h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
+</span></span></code></pre></div><p><strong>结果</strong>:</p>]]></description>
+</item>
+</channel>
+</rss>

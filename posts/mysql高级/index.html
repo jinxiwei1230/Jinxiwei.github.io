@@ -7,18 +7,7 @@
         <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Jinxiwei">
-  <meta property="og:description" content="mysql高级 今日目标
-掌握约束的使用
-掌握表关系及建表原则
-重点掌握多表查询操作
-掌握事务操作
-1，约束 上面表中可以看到表中数据存在一些问题：
-id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 马花疼 没有id进行标示
-柳白 这条数据的age列的数据是3000，而人也不可能活到3000岁
-马运 这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分
-柳青 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分
-针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。
-1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
+  <meta property="og:description" content="mysql高级 1、约束 1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
 例如：我们可以给id列加约束，让其值不能重复，不能为null值。
 约束的存在保证了数据库中数据的正确性、有效性和完整性
 添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。
@@ -41,25 +30,20 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
 外键约束： 关键字是 FOREIGN KEY
 外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。
 外键约束现在可能还不太好理解，后面我们会重点进行讲解。
-1.3 非空约束 概念">
+1.3 非空约束 概念
+非空约束用于保证列中所有数据不能有NULL值
+语法
+添加约束
+-- 创建表时添加非空约束 CREATE TABLE 表名( 列名 数据类型 NOT NULL, … ); -- 建完表后添加非空约束 ALTER TABLE 表名 MODIFY 字段名 数据类型 NOT NULL; 删除约束
+ALTER TABLE 表名 MODIFY 字段名 数据类型; 1.4 唯一约束 概念
+唯一约束用于保证列中所有数据各不相同">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Jinxiwei">
-  <meta name="twitter:description" content="mysql高级 今日目标
-掌握约束的使用
-掌握表关系及建表原则
-重点掌握多表查询操作
-掌握事务操作
-1，约束 上面表中可以看到表中数据存在一些问题：
-id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 马花疼 没有id进行标示
-柳白 这条数据的age列的数据是3000，而人也不可能活到3000岁
-马运 这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分
-柳青 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分
-针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。
-1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
+  <meta name="twitter:description" content="mysql高级 1、约束 1.1 概念 约束是作用于表中列上的规则，用于限制加入表的数据
 例如：我们可以给id列加约束，让其值不能重复，不能为null值。
 约束的存在保证了数据库中数据的正确性、有效性和完整性
 添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。
@@ -82,7 +66,13 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
 外键约束： 关键字是 FOREIGN KEY
 外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。
 外键约束现在可能还不太好理解，后面我们会重点进行讲解。
-1.3 非空约束 概念">
+1.3 非空约束 概念
+非空约束用于保证列中所有数据不能有NULL值
+语法
+添加约束
+-- 创建表时添加非空约束 CREATE TABLE 表名( 列名 数据类型 NOT NULL, … ); -- 建完表后添加非空约束 ALTER TABLE 表名 MODIFY 字段名 数据类型 NOT NULL; 删除约束
+ALTER TABLE 表名 MODIFY 字段名 数据类型; 1.4 唯一约束 概念
+唯一约束用于保证列中所有数据各不相同">
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -97,7 +87,7 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mysql%E9%AB%98%E7%BA%A7\/"
-        },"genre": "posts","wordcount":  1983 ,
+        },"genre": "posts","wordcount":  1951 ,
         "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mysql%E9%AB%98%E7%BA%A7\/","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -139,7 +129,7 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1983 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1951 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -148,9 +138,9 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#mysql高级">mysql高级</a></li>
-    <li><a href="#1约束">1，约束</a>
+    <li><a href="#mysql高级">mysql高级</a>
       <ul>
+        <li><a href="#1约束">1、约束</a></li>
         <li><a href="#11--概念">1.1  概念</a></li>
         <li><a href="#12--分类">1.2  分类</a></li>
         <li><a href="#13--非空约束">1.3  非空约束</a></li>
@@ -189,41 +179,7 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="mysql高级">mysql高级</h2>
-<p><strong>今日目标</strong></p>
-<blockquote>
-<ul>
-<li>
-<p>掌握约束的使用</p>
-</li>
-<li>
-<p>掌握表关系及建表原则</p>
-</li>
-<li>
-<p>重点掌握多表查询操作</p>
-</li>
-<li>
-<p>掌握事务操作</p>
-</li>
-</ul>
-</blockquote>
-<h2 id="1约束">1，约束</h2>
-<!-- raw HTML omitted -->
-<p>上面表中可以看到表中数据存在一些问题：</p>
-<ul>
-<li>
-<p>id 列一般是用标示数据的唯一性的，而上述表中的id为1的有三条数据，并且 <code>马花疼</code> 没有id进行标示</p>
-</li>
-<li>
-<p><code>柳白</code> 这条数据的age列的数据是3000，而人也不可能活到3000岁</p>
-</li>
-<li>
-<p><code>马运</code>  这条数据的math数学成绩是-5，而数学学得再不好也不可能出现负分</p>
-</li>
-<li>
-<p><code>柳青</code> 这条数据的english列（英文成绩）值为null，而成绩即使没考也得是0分</p>
-</li>
-</ul>
-<p>针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。</p>
+<h3 id="1约束">1、约束</h3>
 <h3 id="11--概念">1.1  概念</h3>
 <ul>
 <li>
@@ -533,10 +489,6 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
 <h3 id="21--数据库设计简介">2.1  数据库设计简介</h3>
 <ul>
 <li>
-<p>软件的研发步骤</p>
-<!-- raw HTML omitted -->
-</li>
-<li>
 <p>数据库设计概念</p>
 <ul>
 <li>数据库设计就是根据业务系统的具体需求，结合我们所选用的DBMS，为这个业务系统构造出最优的数据存储模型。</li>
@@ -552,8 +504,6 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
 </li>
 <li>
 <p>逻辑分析（通过ER图对数据库进行逻辑建模，不需要考虑我们所选用的数据库管理系统）</p>
-<p>如下图就是ER(Entity/Relation)图：</p>
-<!-- raw HTML omitted -->
 </li>
 <li>
 <p>物理设计（根据数据库自身的特点把逻辑设计转换为物理设计）</p>
@@ -568,36 +518,12 @@ id 列一般是用标示数据的唯一性的，而上述表中的id为1的有�
 <ul>
 <li>
 <p>一对一</p>
-<ul>
-<li>如：用户 和 用户详情</li>
-<li>一对一关系多用于表拆分，将一个实体中经常使用的字段放一张表，不经常使用的字段放另一张表，用于提升查询性能</li>
-</ul>
-<!-- raw HTML omitted -->
-<p>上图左边是用户的详细信息，而我们真正在展示用户信息时最长用的则是上图右边红框所示，所以我们会将详细信息查分成两周那个表。</p>
 </li>
 <li>
 <p>一对多</p>
-<ul>
-<li>
-<p>如：部门 和 员工</p>
-</li>
-<li>
-<p>一个部门对应多个员工，一个员工对应一个部门。如下图：</p>
-<!-- raw HTML omitted -->
-</li>
-</ul>
 </li>
 <li>
 <p>多对多</p>
-<ul>
-<li>
-<p>如：商品 和 订单</p>
-</li>
-<li>
-<p>一个商品对应多个订单，一个订单包含多个商品。如下图：</p>
-<!-- raw HTML omitted -->
-</li>
-</ul>
 </li>
 </ul>
 </li>

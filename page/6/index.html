@@ -58,6 +58,156 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/jdbc/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="jdbc">JDBC</h2>
+<p><strong>今日目标</strong></p>
+<blockquote>
+<ul>
+<li>掌握JDBC的的CRUD</li>
+<li>理解JDBC中各个对象的作用</li>
+<li>掌握Druid的使用</li>
+</ul>
+</blockquote>
+<h2 id="1jdbc概述">1，JDBC概述</h2>
+<p>在开发中我们使用的是java语言，那么势必要通过java语言操作数据库中的数据。这就是接下来要学习的JDBC。</p>
+<h3 id="11--jdbc概念">1.1  JDBC概念</h3>
+<blockquote>
+<p>JDBC   就是使用Java语言操作关系型数据库的一套API</p>
+<p>全称：( Java DataBase Connectivity ) Java 数据库连接</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<p>我们开发的同一套Java代码是无法操作不同的关系型数据库，因为每一个关系型数据库的底层实现细节都不一样。如果这样，问题就很大了，在公司中可以在开发阶段使用的是MySQL数据库，而上线时公司最终选用oracle数据库，我们就需要对代码进行大批量修改，这显然并不是我们想看到的。我们要做到的是同一套Java代码操作不同的关系型数据库，而此时sun公司就指定了一套标准接口（JDBC），JDBC中定义了所有操作关系型数据库的规则。众所周知接口是无法直接使用的，我们需要使用接口的实现类，而这套实现类（称之为：驱动）就由各自的数据库厂商给出。</p>
+<h3 id="12--jdbc本质">1.2  JDBC本质</h3>
+<ul>
+<li>官方（sun公司）定义的一套操作所有关系型数据库的规则，即接口</li>
+<li>各个数据库厂商去实现这套接口，提供数据库驱动jar包</li>
+<li>我们可以使用这套接口（JDBC）编程，真正执行的代码是驱动jar包中的实现类</li>
+</ul>
+<h3 id="13--jdbc好处">1.3  JDBC好处</h3>
+<ul>
+<li>各数据库厂商使用相同的接口，Java代码不需要针对不同数据库分别开发</li>
+<li>可随时替换底层数据库，访问数据库的Java代码基本不变</li>
+</ul>
+<p>以后编写操作数据库的代码只需要面向JDBC（接口），操作哪儿个关系型数据库就需要导入该数据库的驱动包，如需要操作MySQL数据库，就需要再项目中导入MySQL数据库的驱动包。如下图就是MySQL驱动包</p>
+<!-- raw HTML omitted -->
+<h2 id="2jdbc快速入门">2，JDBC快速入门</h2>
+<p>先来看看通过Java操作数据库的流程</p>
+<!-- raw HTML omitted -->
+<p>第一步：编写Java代码</p>
+<p>第二步：Java代码将SQL发送到MySQL服务端</p>
+<p>第三步：MySQL服务端接收到SQL语句并执行该SQL语句</p>
+<p>第四步：将SQL语句执行的结果返回给Java代码</p>
+<h3 id="21--编写代码步骤">2.1  编写代码步骤</h3>
+<ul>
+<li>
+<p>创建工程，导入驱动jar包</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>注册驱动</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Class</span>.forName(<span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>);
+</span></span></code></pre></div><ul>
+<li>
+<p>获取连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Connection</span> conn <span style="color:#f92672">=</span> DriverManager.getConnection(url, username, password);
+</span></span></code></pre></div><p>Java代码需要发送SQL给MySQL服务端，就需要先建立连接</p>
+</li>
+<li>
+<p>定义SQL语句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>String <span style="color:#66d9ef">sql</span> <span style="color:#f92672">=</span>  <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#66d9ef">update</span><span style="color:#960050;background-color:#1e0010">…”</span> ;
+</span></span></code></pre></div></li>
+<li>
+<p>获取执行SQL对象</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/jdbc/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="mysql高级">mysql高级</h2>
+<h3 id="1约束">1、约束</h3>
+<h3 id="11--概念">1.1  概念</h3>
+<ul>
+<li>
+<p>约束是作用于表中列上的规则，用于限制加入表的数据</p>
+<p>例如：我们可以给id列加约束，让其值不能重复，不能为null值。</p>
+</li>
+<li>
+<p>约束的存在保证了数据库中数据的正确性、有效性和完整性</p>
+<p>添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。</p>
+</li>
+</ul>
+<h3 id="12--分类">1.2  分类</h3>
+<ul>
+<li><strong>非空约束： 关键字是 NOT NULL</strong></li>
+</ul>
+<p>保证列中所有的数据不能有null值。</p>
+<p>例如：id列在添加 <code>马花疼</code> 这条数据时就不能添加成功。</p>
+<ul>
+<li>
+<p><strong>唯一约束：关键字是  UNIQUE</strong></p>
+<p>保证列中所有数据各不相同。</p>
+<p>例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。</p>
+</li>
+<li>
+<p><strong>主键约束： 关键字是  PRIMARY KEY</strong></p>
+</li>
+</ul>
+<p>主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。</p>
+<p>例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。</p>
+<ul>
+<li>
+<p><strong>检查约束： 关键字是  CHECK</strong></p>
+<p>保证列中的值满足某一条件。</p>
+<p>例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。</p>
+<blockquote>
+<p>注意：MySQL不支持检查约束。</p>
+<p>这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>默认约束： 关键字是   DEFAULT</strong></p>
+<p>保存数据时，未指定值则采用默认值。</p>
+<p>例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。</p>
+</li>
+<li>
+<p><strong>外键约束： 关键字是  FOREIGN KEY</strong></p>
+<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
+<p>外键约束现在可能还不太好理解，后面我们会重点进行讲解。</p>
+</li>
+</ul>
+<h3 id="13--非空约束">1.3  非空约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>非空约束用于保证列中所有数据不能有NULL值</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="14--唯一约束">1.4  唯一约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>唯一约束用于保证列中所有数据各不相同</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/python/"></a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h3 id="一python基础语法">（一）Python基础语法</h3>
 <h2 id="一标识符">一、标识符</h2>
@@ -399,74 +549,6 @@ pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
 <p><strong>保持数据分布一致性</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">计算学习理论</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
-<ol>
-<li>
-<p><strong>什么是成功的学习？</strong></p>
-<ul>
-<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
-<ul>
-<li>成功的学习通常在以下条件下更可能实现：
-<ul>
-<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
-<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
-<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
-<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
-<ul>
-<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
-<ul>
-<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
-<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
-<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
-<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
-<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
-<ol>
-<li>
-<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
-<ul>
-<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
-</ul>
-</li>
-<li>
-<p><strong>训练集</strong></p>
-<ul>
-<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
-</ul>
-</li>
-<li>
-<p><strong>假设函数集合 ( H )</strong></p>
-<ul>
-<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
-</ul>
-</li>
-<li>
-<p><strong>机器学习算法 ( A )</strong></p>
-<ul>
-<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
-</ul>
-</li>
-<li>
-<p><strong>问题（困惑）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -484,6 +566,10 @@ pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/6/">6</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/7/">7</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
