@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>SQL：Json字段处理&#43;分布式ID生成 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="SQL：Json字段处理&#43;分布式ID生成">
+  <meta property="og:description" content="MySQL JSON 数据处理解析 题目要求： 从 products 表的 attributes（JSON 字段）中提取 color 和 size 字段的值。
+JSON 提取语法 在 MySQL 中，JSON 数据存储在 JSON 类型的列中，使用 -&gt;&gt; 和 -&gt; 操作符 提取值：
+-&gt; 返回 JSON 格式 的值（适用于嵌套查询）。 -&gt;&gt; 返回 文本格式 的值（适用于字符串和数值查询）。 查询示例：
+SELECT attributes-&gt;&gt;&#39;$.color&#39; AS color, attributes-&gt;&gt;&#39;$.size&#39; AS size FROM products; 示例数据 假设 products 表的结构如下：
+CREATE TABLE products ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), attributes JSON ); 表中的数据：
+id name attributes 1 T-shirt {&#34;color&#34;: &#34;red&#34;, &#34;size&#34;: &#34;M&#34;, &#34;brand&#34;: &#34;Nike&#34;} 2 Shoes {&#34;color&#34;: &#34;black&#34;, &#34;size&#34;: &#34;42&#34;, &#34;brand&#34;: &#34;Adidas&#34;} 3 Jacket {&#34;color&#34;: &#34;blue&#34;, &#34;size&#34;: &#34;L&#34;, &#34;brand&#34;: &#34;Puma&#34;} 执行 SQL：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-15T00:00:00+00:00">
+    <meta property="article:tag" content="SQL">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SQL：Json字段处理&#43;分布式ID生成">
+  <meta name="twitter:description" content="MySQL JSON 数据处理解析 题目要求： 从 products 表的 attributes（JSON 字段）中提取 color 和 size 字段的值。
+JSON 提取语法 在 MySQL 中，JSON 数据存储在 JSON 类型的列中，使用 -&gt;&gt; 和 -&gt; 操作符 提取值：
+-&gt; 返回 JSON 格式 的值（适用于嵌套查询）。 -&gt;&gt; 返回 文本格式 的值（适用于字符串和数值查询）。 查询示例：
+SELECT attributes-&gt;&gt;&#39;$.color&#39; AS color, attributes-&gt;&gt;&#39;$.size&#39; AS size FROM products; 示例数据 假设 products 表的结构如下：
+CREATE TABLE products ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), attributes JSON ); 表中的数据：
+id name attributes 1 T-shirt {&#34;color&#34;: &#34;red&#34;, &#34;size&#34;: &#34;M&#34;, &#34;brand&#34;: &#34;Nike&#34;} 2 Shoes {&#34;color&#34;: &#34;black&#34;, &#34;size&#34;: &#34;42&#34;, &#34;brand&#34;: &#34;Adidas&#34;} 3 Jacket {&#34;color&#34;: &#34;blue&#34;, &#34;size&#34;: &#34;L&#34;, &#34;brand&#34;: &#34;Puma&#34;} 执行 SQL：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SQL：Json字段处理+分布式ID生成",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86\u002b%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90\/"
+        },"genre": "posts","keywords": "SQL","wordcount":  447 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86\u002b%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90\/","datePublished": "2025-03-15T00:00:00+00:00","dateModified": "2025-03-15T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">SQL：Json字段处理+分布式ID生成</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-15">2025-03-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;447 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#mysql-json-数据处理解析"><strong>MySQL JSON 数据处理解析</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#json-提取语法">JSON 提取语法</a></li>
+    <li><a href="#示例数据">示例数据</a></li>
+    <li><a href="#--vs---的区别"><code>-&gt;</code> vs <code>-&gt;&gt;</code> 的区别</a></li>
+    <li><a href="#其他-json-处理函数">其他 JSON 处理函数**</a>
+      <ul>
+        <li><a href="#提取多个字段">提取多个字段</a></li>
+        <li><a href="#筛选-json-字段">筛选 JSON 字段</a></li>
+        <li><a href="#过滤-json-数值字段">过滤 JSON 数值字段</a></li>
+        <li><a href="#分布式-id-生成方案解析"><strong>分布式 ID 生成方案解析</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#1-方案-1雪花算法snowflake"><strong>1. 方案 1：雪花算法（Snowflake）</strong></a></li>
+    <li><a href="#2-方案-2uuid"><strong>2. 方案 2：UUID</strong></a></li>
+    <li><a href="#3-方案-3数据库分段分配-id"><strong>3. 方案 3：数据库分段分配 ID</strong></a>
+      <ul>
+        <li><a href="#方法-1单点数据库全局递增-id"><strong>方法 1：单点数据库全局递增 ID</strong></a></li>
+        <li><a href="#方法-2多节点数据库预分配-id"><strong>方法 2：多节点数据库预分配 ID</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-方案对比"><strong>4. 方案对比</strong></a></li>
+    <li><a href="#5-选型建议">5. 选型建议</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="mysql-json-数据处理解析"><strong>MySQL JSON 数据处理解析</strong></h3>
+<hr>
+<p><strong>题目要求</strong>：
+从 <code>products</code> 表的 <code>attributes</code>（JSON 字段）中提取 <code>color</code> 和 <code>size</code> 字段的值。</p>
+<hr>
+<h2 id="json-提取语法">JSON 提取语法</h2>
+<p>在 MySQL 中，JSON 数据存储在 <code>JSON</code> 类型的列中，使用 <strong><code>-&gt;&gt;</code> 和 <code>-&gt;</code> 操作符</strong> 提取值：</p>
+<ul>
+<li><code>-&gt;</code>  返回 <strong>JSON 格式</strong> 的值（适用于嵌套查询）。</li>
+<li><code>-&gt;&gt;</code> 返回 <strong>文本格式</strong> 的值（适用于字符串和数值查询）。</li>
+</ul>
+<p><strong>查询示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><hr>
+<h2 id="示例数据">示例数据</h2>
+<p>假设 <code>products</code> 表的结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> products (
+</span></span><span style="display:flex;"><span>    id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    name VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    attributes JSON
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>表中的数据：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">id</th>
+          <th style="text-align: left">name</th>
+          <th style="text-align: left">attributes</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">T-shirt</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;red&quot;, &quot;size&quot;: &quot;M&quot;, &quot;brand&quot;: &quot;Nike&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Shoes</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;black&quot;, &quot;size&quot;: &quot;42&quot;, &quot;brand&quot;: &quot;Adidas&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Jacket</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;blue&quot;, &quot;size&quot;: &quot;L&quot;, &quot;brand&quot;: &quot;Puma&quot;}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>执行 SQL：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><p><strong>查询结果</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">color</th>
+          <th style="text-align: left">size</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">red</td>
+          <td style="text-align: left">M</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">black</td>
+          <td style="text-align: left">42</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blue</td>
+          <td style="text-align: left">L</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="--vs---的区别"><code>-&gt;</code> vs <code>-&gt;&gt;</code> 的区别</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">操作符</th>
+          <th style="text-align: left">返回值类型</th>
+          <th style="text-align: left">示例</th>
+          <th style="text-align: left">结果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>-&gt;</code></td>
+          <td style="text-align: left">JSON 格式</td>
+          <td style="text-align: left"><code>attributes-&gt;'$.color'</code></td>
+          <td style="text-align: left"><code>&quot;red&quot;</code>（带引号）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-&gt;&gt;</code></td>
+          <td style="text-align: left">纯文本</td>
+          <td style="text-align: left"><code>attributes-&gt;&gt;'$.color'</code></td>
+          <td style="text-align: left"><code>red</code>（无引号）</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>推荐使用 <code>-&gt;&gt;</code> 提取文本值，避免字符串带引号影响查询。</strong></p>
+<hr>
+<h2 id="其他-json-处理函数">其他 JSON 处理函数**</h2>
+<h3 id="提取多个字段">提取多个字段</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.brand&#39;</span> <span style="color:#66d9ef">AS</span> brand
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><h3 id="筛选-json-字段">筛选 JSON 字段</h3>
+<p>查询 <strong>颜色为 &ldquo;red&rdquo;</strong> 的产品：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> products
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;red&#39;</span>;
+</span></span></code></pre></div><h3 id="过滤-json-数值字段">过滤 JSON 数值字段</h3>
+<p>查询 <strong>尺寸为 &ldquo;42&rdquo;</strong> 的产品：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> products
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">CAST</span>(attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> UNSIGNED) <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+</span></span></code></pre></div><p><strong>MySQL JSON 提取的值是字符串</strong>，数值比较时需要 <code>CAST()</code>。</p>
+<h3 id="分布式-id-生成方案解析"><strong>分布式 ID 生成方案解析</strong></h3>
+<hr>
+<h2 id="1-方案-1雪花算法snowflake"><strong>1. 方案 1：雪花算法（Snowflake）</strong></h2>
+<p><strong>🔹 适用场景</strong>：<strong>高并发</strong>、<strong>低延迟</strong>、<strong>顺序性</strong>需求的 ID 生成（如订单号、日志 ID、支付流水号等）。</p>
+<p>雪花算法由 Twitter 提出，是一种<strong>基于时间戳</strong>的 64 位唯一 ID 生成算法：</p>
+<pre tabindex="0"><code>  1 bit  |  41 bits 时间戳  |  10 bits 机器ID  |  12 bits 序列号
+</code></pre><ul>
+<li><strong>1 bit</strong>：最高位，固定为 <code>0</code>（正数）。</li>
+<li><strong>41 bits</strong>：时间戳（毫秒级，支持 69 年）。</li>
+<li><strong>10 bits</strong>：<strong>机器 ID</strong>，用于区分不同的服务器（支持 1024 台机器）。</li>
+<li><strong>12 bits</strong>：序列号，每毫秒最多可生成 <strong>4096</strong> 个 ID。</li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li><strong>有序增长</strong>：按照时间戳排序，索引性能高。</li>
+<li><strong>高并发</strong>：单机可生成<strong>百万级 ID/秒</strong>，适用于高并发场景。</li>
+<li><strong>分布式支持</strong>：不同机器通过 <code>machine_id</code> 保持唯一性。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>机器 ID 需要管理</strong>：必须手动为不同服务器分配唯一 <code>machine_id</code>。</li>
+<li><strong>时间回拨问题</strong>：如果服务器时间回拨，可能导致 ID 生成冲突。</li>
+</ul>
+<h2 id="2-方案-2uuid"><strong>2. 方案 2：UUID</strong></h2>
+<p><strong>🔹 适用场景</strong>：<strong>不需要有序 ID</strong>、数据库分片索引性能要求不高（如 session ID、随机 token）。</p>
+<p>UUID（Universally Unique Identifier）是一种 <strong>随机</strong> 生成的 128 位 ID，比如：</p>
+<pre tabindex="0"><code>550e8400-e29b-41d4-a716-446655440000
+</code></pre><p><strong>Python 生成 UUID</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> uuid
+</span></span><span style="display:flex;"><span>print(uuid<span style="color:#f92672">.</span>uuid4())  <span style="color:#75715e"># 生成随机 UUID</span>
+</span></span></code></pre></div><p><strong>优点</strong></p>
+<ul>
+<li><strong>无需依赖数据库</strong>，适用于分布式系统。</li>
+<li><strong>不需要协调中心</strong>，每个服务节点可以独立生成 UUID。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>存储占用高</strong>：UUID 长度大，占 16 字节，存储和索引效率低。</li>
+<li><strong>无序性</strong>：UUID 是随机分布的，数据库索引性能较差。</li>
+</ul>
+<h2 id="3-方案-3数据库分段分配-id"><strong>3. 方案 3：数据库分段分配 ID</strong></h2>
+<p><strong>🔹 适用场景</strong>：多个数据库节点，每个节点预分配一段 ID（如 <code>MySQL</code> 自增 ID）。</p>
+<h3 id="方法-1单点数据库全局递增-id"><strong>方法 1：单点数据库全局递增 ID</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> id_generator (
+</span></span><span style="display:flex;"><span>    id BIGINT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> AUTO_INCREMENT
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><ul>
+<li><strong>每个应用请求 ID 时，从数据库获取 <code>id</code></strong>。</li>
+<li><strong>事务保证 ID 唯一性</strong>。</li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li><strong>简单易用</strong>：适用于小规模分布式系统。</li>
+<li><strong>不需要额外的分布式组件</strong>。</li>
+</ul>
+<ul>
+<li>缺点**</li>
+</ul>
+<ul>
+<li><strong>数据库单点瓶颈</strong>：并发量高时，数据库会成为性能瓶颈。</li>
+<li><strong>主从复制问题</strong>：如果主数据库宕机，ID 可能无法持续增长。</li>
+</ul>
+<h3 id="方法-2多节点数据库预分配-id"><strong>方法 2：多节点数据库预分配 ID</strong></h3>
+<p><strong>解决单点问题</strong>，多个数据库 <strong>分配不同的 ID 段</strong>，示例如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">服务器</th>
+          <th style="text-align: left">ID 范围</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">DB1</td>
+          <td style="text-align: left">1 ~ 1,000,000</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">DB2</td>
+          <td style="text-align: left">1,000,001 ~ 2,000,000</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">DB3</td>
+          <td style="text-align: left">2,000,001 ~ 3,000,000</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><strong>应用端</strong> 查询数据库获取 <code>next_id</code>，并在本地缓存 ID 段，提高性能。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">UPDATE</span> id_generator <span style="color:#66d9ef">SET</span> next_id <span style="color:#f92672">=</span> next_id <span style="color:#f92672">+</span> <span style="color:#ae81ff">100</span> <span style="color:#66d9ef">WHERE</span> node_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> next_id <span style="color:#66d9ef">FROM</span> id_generator <span style="color:#66d9ef">WHERE</span> node_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p><strong>优点</strong></p>
+<ul>
+<li><strong>水平扩展</strong>，避免单点瓶颈。</li>
+<li><strong>支持高并发</strong>，通过 ID 缓存减少数据库访问。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>需要 ID 预分配</strong>，如果一个节点 ID 用完，需要协调新的 ID 段。</li>
+<li><strong>全局唯一性依赖数据库事务</strong>，仍可能有性能瓶颈。</li>
+</ul>
+<hr>
+<h2 id="4-方案对比"><strong>4. 方案对比</strong></h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方案</th>
+          <th style="text-align: left">适用场景</th>
+          <th style="text-align: left">优点</th>
+          <th style="text-align: left">缺点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>雪花算法</strong></td>
+          <td style="text-align: left">高并发系统（订单、支付）</td>
+          <td style="text-align: left">高效、唯一、可排序</td>
+          <td style="text-align: left">需要机器 ID 管理，时间回拨问题</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>UUID</strong></td>
+          <td style="text-align: left">低索引性能要求（session ID）</td>
+          <td style="text-align: left">无需数据库、生成独立</td>
+          <td style="text-align: left">无序、存储占用大</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>数据库自增 ID</strong></td>
+          <td style="text-align: left">低并发业务</td>
+          <td style="text-align: left">简单，数据库支持</td>
+          <td style="text-align: left">单点瓶颈，数据库压力大</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>数据库分段分配 ID</strong></td>
+          <td style="text-align: left">适用于多个数据库节点</td>
+          <td style="text-align: left">分布式可扩展</td>
+          <td style="text-align: left">预分配 ID 段，管理复杂</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="5-选型建议">5. 选型建议</h2>
+<ul>
+<li><strong>高并发，分布式业务</strong> ➝ <strong>雪花算法</strong>（如订单号、支付流水号）</li>
+<li><strong>随机 ID，不需要顺序</strong> ➝ <strong>UUID</strong>（如 Token、会话 ID）</li>
+<li><strong>单机数据库业务</strong> ➝ <strong>自增 ID</strong></li>
+<li><strong>分布式数据库架构</strong> ➝ <strong>数据库分段分配 ID</strong></li>
+</ul>
+<p><strong>实际项目中，通常使用</strong>：</p>
+<ol>
+<li><strong>Redis + 雪花算法</strong> ➝ 大规模并发</li>
+<li><strong>MySQL 分配 ID 段</strong> ➝ 多数据库架构</li>
+<li><strong>UUID</strong> ➝ 不需要排序的 ID</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-15</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" data-title="SQL：Json字段处理&#43;分布式ID生成" data-hashtags="SQL"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" data-hashtag="SQL"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" data-title="SQL：Json字段处理&#43;分布式ID生成"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" data-title="SQL：Json字段处理&#43;分布式ID生成"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" data-title="SQL：Json字段处理&#43;分布式ID生成"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/" class="prev" rel="prev" title="python面试题1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>python面试题1</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

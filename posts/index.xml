@@ -3,15 +3,172 @@
         <title>All Posts - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/</link>
         <description>All Posts | Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>SQL总结</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</link>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>SQL：Json字段处理&#43;分布式ID生成</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/</link>
+    <pubDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/</guid>
+    <description><![CDATA[<h3 id="mysql-json-数据处理解析"><strong>MySQL JSON 数据处理解析</strong></h3>
+<hr>
+<p><strong>题目要求</strong>：
+从 <code>products</code> 表的 <code>attributes</code>（JSON 字段）中提取 <code>color</code> 和 <code>size</code> 字段的值。</p>
+<hr>
+<h2 id="json-提取语法">JSON 提取语法</h2>
+<p>在 MySQL 中，JSON 数据存储在 <code>JSON</code> 类型的列中，使用 <strong><code>-&gt;&gt;</code> 和 <code>-&gt;</code> 操作符</strong> 提取值：</p>
+<ul>
+<li><code>-&gt;</code>  返回 <strong>JSON 格式</strong> 的值（适用于嵌套查询）。</li>
+<li><code>-&gt;&gt;</code> 返回 <strong>文本格式</strong> 的值（适用于字符串和数值查询）。</li>
+</ul>
+<p><strong>查询示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><hr>
+<h2 id="示例数据">示例数据</h2>
+<p>假设 <code>products</code> 表的结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> products (
+</span></span><span style="display:flex;"><span>    id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    name VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    attributes JSON
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>表中的数据：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">id</th>
+          <th style="text-align: left">name</th>
+          <th style="text-align: left">attributes</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">T-shirt</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;red&quot;, &quot;size&quot;: &quot;M&quot;, &quot;brand&quot;: &quot;Nike&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Shoes</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;black&quot;, &quot;size&quot;: &quot;42&quot;, &quot;brand&quot;: &quot;Adidas&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Jacket</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;blue&quot;, &quot;size&quot;: &quot;L&quot;, &quot;brand&quot;: &quot;Puma&quot;}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>执行 SQL：</p>]]></description>
+</item>
+<item>
+    <title>python面试题1</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+    <pubDate>Tue, 11 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+    <description><![CDATA[<h3 id="1python-中的三元表达式">1、Python 中的三元表达式</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[on_true] <span style="color:#66d9ef">if</span> [expression] <span style="color:#66d9ef">else</span> [on_false]
+</span></span></code></pre></div><ul>
+<li><code>[expression]</code> 是一个布尔表达式，结果为 <code>True</code> 或 <code>False</code>。</li>
+<li>如果 <code>[expression]</code> 为 <code>True</code>，则整个表达式的结果是 <code>[on_true]</code>。</li>
+<li>如果 <code>[expression]</code> 为 <code>False</code>，则整个表达式的结果是 <code>[on_false]</code>。</li>
+</ul>
+<h4 id="例子">例子：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用三元表达式选择较大的值</span>
+</span></span><span style="display:flex;"><span>max_value <span style="color:#f92672">=</span> x <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> y <span style="color:#66d9ef">else</span> y
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(max_value)  <span style="color:#75715e"># 输出: 20</span>
+</span></span></code></pre></div><p>在这个例子中，<code>x &gt; y</code> 是 <code>False</code>，所以 <code>max_value</code> 被赋值为 <code>y</code>，即 <code>20</code>。</p>
+<h3 id="2python-中如何实现多线程">2、Python 中如何实现多线程？</h3>
+<p>Python 中的多线程可以通过 <code>threading</code> 模块来实现。线程是轻量级的进程，多线程允许程序同时执行多个任务。然而，由于 Python 的全局解释器锁（GIL），多线程在 CPU 密集型任务中并不能真正实现并行执行，但在 I/O 密集型任务中仍然有用。</p>
+<h4 id="使用-threading-模块实现多线程">使用 <code>threading</code> 模块实现多线程</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> threading
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_numbers</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>        print(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_letters</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> letter <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;d&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>]:
+</span></span><span style="display:flex;"><span>        print(letter)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建线程</span>
+</span></span><span style="display:flex;"><span>thread1 <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>print_numbers)
+</span></span><span style="display:flex;"><span>thread2 <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>print_letters)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动线程</span>
+</span></span><span style="display:flex;"><span>thread1<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>thread2<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 等待线程完成</span>
+</span></span><span style="display:flex;"><span>thread1<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>thread2<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;多线程执行完毕&#34;</span>)
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>GIL（全局解释器锁）</strong>：Python 的 GIL 确保同一时间只有一个线程执行 Python 字节码。这意味着即使在多核 CPU 上，Python 的多线程也不能真正并行执行 CPU 密集型任务。GIL 的存在是为了保护 Python 解释器的内部数据结构不被多个线程同时修改。</p>]]></description>
+</item>
+<item>
+    <title>SQL时间相关总结</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</link>
     <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</guid>
-    <description><![CDATA[<h3 id="sql总结与面试">SQL总结与面试</h3>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</guid>
+    <description><![CDATA[<h3 id="sql时间相关总结">SQL时间相关总结</h3>
+<h3 id="1-常见时间类型">1. <strong>常见时间类型</strong></h3>
+<p>数据库通常支持以下几种时间类型：</p>
+<ul>
+<li><strong>DATE</strong>：仅存储日期，格式为 <code>YYYY-MM-DD</code>。</li>
+<li><strong>TIME</strong>：仅存储时间，格式为 <code>HH:MM:SS</code>。</li>
+<li><strong>DATETIME</strong> / <strong>TIMESTAMP</strong>：存储日期和时间，格式为 <code>YYYY-MM-DD HH:MM:SS</code>。</li>
+<li><strong>YEAR</strong>：仅存储年份。</li>
+<li><strong>INTERVAL</strong>：表示时间间隔（如 <code>30 days</code>、<code>1 month</code> 等）。</li>
+</ul>
+<hr>
+<h3 id="2-获取当前时间">2. <strong>获取当前时间</strong></h3>
+<p>数据库提供了多种函数来获取当前时间：</p>
+<ul>
+<li><strong><code>CURRENT_DATE</code></strong>：返回当前日期（不包括时间）。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span>;  <span style="color:#75715e">-- 2023-10-05
+</span></span></span></code></pre></div></li>
+<li><strong><code>CURRENT_TIME</code></strong>：返回当前时间（不包括日期）。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span>;  <span style="color:#75715e">-- 14:30:45
+</span></span></span></code></pre></div></li>
+<li><strong><code>CURRENT_TIMESTAMP</code></strong> / <strong><code>NOW()</code></strong>：返回当前日期和时间。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>;  <span style="color:#75715e">-- 2023-10-05 14:30:45
+</span></span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="3-时间计算">3. <strong>时间计算</strong></h3>
+<p>数据库支持对时间进行加减运算，常用的方式是使用 <code>INTERVAL</code>。</p>
+<h4 id="示例-1加减天数">示例 1：加减天数</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;10 days&#39;</span>;  <span style="color:#75715e">-- 10 天后的日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 days&#39;</span>; <span style="color:#75715e">-- 30 天前的日期
+</span></span></span></code></pre></div><h4 id="示例-2加减月份">示例 2：加减月份</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;1 month&#39;</span>;  <span style="color:#75715e">-- 1 个月后的日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;3 months&#39;</span>; <span style="color:#75715e">-- 3 个月前的日期
+</span></span></span></code></pre></div><h4 id="示例-3加减时间">示例 3：加减时间</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;2 hours&#39;</span>;  <span style="color:#75715e">-- 2 小时后的时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 minutes&#39;</span>; <span style="color:#75715e">-- 30 分钟前的时间
+</span></span></span></code></pre></div><hr>
+<h3 id="4-时间过滤">4. <strong>时间过滤</strong></h3>
+<p>在查询中，经常需要根据时间范围过滤数据。例如：</p>]]></description>
+</item>
+<item>
+    <title>SQL易混淆知识点</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+    <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+    <description><![CDATA[<h3 id="sql易混淆知识点">SQL易混淆知识点</h3>
 <h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
-<h3 id="group-by"><strong><code>GROUP BY</code></strong></h3>
+<h4 id="group-by"><strong><code>GROUP BY</code></strong></h4>
 <ul>
 <li>
 <p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
@@ -37,7 +194,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="partition-by"><strong><code>PARTITION BY</code></strong></h3>
+<h4 id="partition-by"><strong><code>PARTITION BY</code></strong></h4>
 <ul>
 <li>
 <p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
@@ -63,7 +220,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="核心区别"><strong>核心区别</strong></h3>
+<h4 id="核心区别"><strong>核心区别</strong></h4>
 <table>
   <thead>
       <tr>
@@ -95,7 +252,7 @@
       </tr>
   </tbody>
 </table>
-<h3 id="示例对比"><strong>示例对比</strong></h3>
+<h4 id="示例对比"><strong>示例对比</strong></h4>
 <h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
@@ -524,267 +681,6 @@ staticVar = 15
 </li>
 <li>
 <p><strong>网络字节顺序</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux：进程间通信</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</link>
-    <pubDate>Tue, 17 Dec 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</guid>
-    <description><![CDATA[<h3 id="信号灯与共享内存ipc">信号灯与共享内存(IPC)</h3>
-<p>这是对信号灯、共享内存和消息队列的简要总结，涵盖了UNIX中的进程间通信（IPC）机制。</p>
-<p><strong>1、信号灯（Semaphore）</strong></p>
-<ul>
-<li><strong>作用</strong>: 用于控制多进程对共享资源的互斥访问和进程间的同步。</li>
-<li><strong>策略与机制分离</strong>: UNIX提供信号灯机制，进程本身需要正确使用信号灯来保证互斥和同步。</li>
-<li><strong>不当使用</strong>: 如果进程错误使用信号灯，可能会导致信息访问的不安全和死锁。</li>
-<li><strong>P操作（sem_op &lt; 0）</strong>: 用于请求资源（等待操作），如果信号灯值小于0，则进程会被阻塞。</li>
-<li><strong>V操作（sem_op &gt; 0）</strong>: 用于释放资源（通知操作），进程释放信号灯。</li>
-<li><strong>创建信号灯</strong>: 使用<code>semget()</code>函数来创建或获取信号灯组。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nsems, <span style="color:#66d9ef">int</span> flags);
-</span></span></code></pre></div></li>
-<li><strong>控制信号灯</strong>: 使用<code>semctl()</code>函数来进行对信号灯的控制操作，如删除、查询状态等。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semctl</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">int</span> snum, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
-</span></span></code></pre></div></li>
-<li><strong>信号灯操作</strong>: 使用<code>semop()</code>函数进行P/V操作。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">semop</span>(<span style="color:#66d9ef">int</span> sem_id, <span style="color:#66d9ef">struct</span> sembuf <span style="color:#f92672">*</span>ops, <span style="color:#66d9ef">int</span> nops);
-</span></span></code></pre></div><ul>
-<li><code>sem_num</code>: 信号灯编号。</li>
-<li><code>sem_op</code>: 操作值，决定是P操作、V操作还是等待。</li>
-<li><code>sem_flg</code>: 操作选项。</li>
-</ul>
-</li>
-</ul>
-<p><strong>2、共享内存（Shared Memory）</strong></p>
-<ul>
-<li><strong>特点</strong>: 允许多个进程共同使用同一段物理内存空间，进程间传递数据速度快。</li>
-<li><strong>问题</strong>: 访问共享内存时需要自行解决互斥和同步问题，通常使用信号灯来保证安全。</li>
-<li><strong>应用</strong>: 适用于数据交换、运行监视等场景。</li>
-<li><strong>共享内存操作</strong>:
-<ul>
-<li><strong>创建共享内存段</strong>: 使用<code>shmget()</code>函数。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmget</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> nbytes, <span style="color:#66d9ef">int</span> flags);
-</span></span></code></pre></div></li>
-<li><strong>获取共享内存段指针</strong>: 使用<code>shmat()</code>函数。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">shmat</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shmaddr, <span style="color:#66d9ef">int</span> shmflg);
-</span></span></code></pre></div></li>
-<li><strong>控制共享内存段</strong>: 使用<code>shmctl()</code>函数进行删除、查询等操作。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">shmctl</span>(<span style="color:#66d9ef">int</span> shm_id, <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg);
-</span></span></code></pre></div></li>
-</ul>
-</li>
-</ul>
-<p><strong>3、生产者-消费者问题（Producer-Consumer Problem）</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux：信号</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</link>
-    <pubDate>Thu, 12 Dec 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E4%BF%A1%E5%8F%B7/</guid>
-    <description><![CDATA[<h3 id="信号的产生及类型">信号的产生及类型</h3>
-<p><strong>1、命令kill</strong></p>
-<ul>
-<li><strong>功能</strong>：用于向进程发送信号。</li>
-<li><strong>基本用法</strong>：
-<ul>
-<li><code>kill -signal PID-list</code>：发送指定信号到一个或多个进程。</li>
-<li>默认信号为 <code>SIGTERM</code>（15），用于正常终止进程。</li>
-<li>示例：
-<ul>
-<li><code>kill 1275</code>：向进程 1275 发送 <code>SIGTERM</code> 信号。</li>
-<li><code>kill -9 1326</code>：向进程 1326 发送 <code>SIGKILL</code> 信号，强制终止进程。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>2、进程组</strong></p>
-<ul>
-<li><strong>定义</strong>：
-<ul>
-<li>进程组由 <code>p_pgrp</code> 字段标识，相同 <code>p_pgrp</code> 值的进程属于同一组。</li>
-<li>如果 <code>p_pgrp</code> 等于 <code>p_pid</code>，则该进程是组长。</li>
-</ul>
-</li>
-<li><strong>行为</strong>：
-<ul>
-<li><strong>创建新组</strong>：<code>setsid()</code> 系统调用让进程脱离原组并成为新组组长。</li>
-<li><strong>继承</strong>：子进程通过 <code>fork</code> 继承父进程的 <code>p_pgrp</code>。</li>
-<li>示例：<code>kill -0 0</code> 会向与当前进程同组的所有进程发送信号。</li>
-</ul>
-</li>
-</ul>
-<p><strong>3、信号机制</strong></p>
-<ul>
-<li><strong>功能</strong>：信号是一种“软件中断”，用于通知进程处理异常事件。</li>
-<li><strong>信号产生</strong>：
-<ol>
-<li><strong>用户态进程</strong>：
-<ul>
-<li>通过 <code>kill()</code> 或 <code>alarm()</code> 调用发送信号。</li>
-</ul>
-</li>
-<li><strong>内核触发</strong>：
-<ul>
-<li>由中断或异常事件触发。</li>
-<li>例子：
-<ul>
-<li><code>SIGSEGV</code>（段违例）：进程访问非法内存地址时触发。</li>
-<li><code>SIGFPE</code>（浮点溢出）：如零做除数。</li>
-<li><code>SIGPIPE</code>：管道读端关闭时写端触发。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<p><strong>4、信号类型</strong></p>
-<ul>
-<li>信号在 <code>&lt;sys/signal.h&gt;</code> 文件中以宏定义，种类有限（约几十种）。</li>
-<li><strong>关键信号及其作用</strong>：
-<ul>
-<li><code>SIGTERM</code>（15）：软件终止信号（默认信号）。</li>
-<li><code>SIGHUP</code>（1）：挂断信号，用户退出 shell 时触发。</li>
-<li><code>SIGINT</code>（2）：中断信号，用户按 <code>Ctrl-C</code> 触发。</li>
-<li><code>SIGQUIT</code>（3）：退出信号，按 <code>Ctrl-\</code> 触发，产生 core 文件。</li>
-<li><code>SIGKILL</code>（9）：强制终止信号，不可被捕获或忽略。</li>
-<li><code>SIGALRM</code>（14）：计时器信号，由 <code>alarm()</code> 触发。</li>
-<li><code>SIGPIPE</code>：管道写端对已关闭读端写操作。</li>
-<li>用户自定义信号：<code>SIGUSR1</code>、<code>SIGUSR2</code>。</li>
-<li>异常信号：
-<ul>
-<li><code>SIGSEGV</code>：段违例。</li>
-<li><code>SIGFPE</code>：浮点溢出。</li>
-<li><code>SIGILL</code>：非法指令。</li>
-</ul>
-</li>
-<li>其他信号：
-<ul>
-<li><code>SIGCLD</code>：子进程终止。</li>
-<li><code>SIGWINCH</code>：终端窗口大小改变。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="进程对信号的处理">进程对信号的处理</h3>
-<p><strong>1、设置为默认处理方式</strong></p>]]></description>
-</item>
-<item>
-    <title>Linux：进程</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/</link>
-    <pubDate>Thu, 05 Dec 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/</guid>
-    <description><![CDATA[<h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
-<p><strong>1、进程与程序</strong></p>
-<ul>
-<li>
-<p><strong>程序</strong>：</p>
-<ul>
-<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
-<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>进程</strong>：</p>
-<ul>
-<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
-<li>提供执行环境。</li>
-</ul>
-</li>
-<li>
-<p><strong>程序与进程的关系</strong>：</p>
-<ul>
-<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
-<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
-<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
-<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p><strong>2、进程的组成部分</strong></p>
-<ul>
-<li>
-<p><strong>指令段 (Text)</strong>：</p>
-<ul>
-<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
-<li><strong>大小固定且只读</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>用户数据段(支持动态调整)</strong>：</p>
-<ul>
-<li>包括全局变量、静态变量、字符串常量等。</li>
-<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
-<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
-</ul>
-</li>
-<li>
-<p><strong>用户栈段</strong>：</p>
-<ul>
-<li>提供程序执行所需的栈空间。</li>
-<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
-<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
-<li>支持动态增长，但有增长限制。</li>
-</ul>
-</li>
-<li>
-<p><strong>系统数据段</strong>：</p>
-<ul>
-<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
-<li>与指令段、数据段、栈段分离，由内核管理。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="进程的执行状态">进程的执行状态</h2>
-<p><strong>1、进程的系统数据（PCB）</strong></p>
-<ul>
-<li>
-<p><strong>内存管理</strong>：</p>
-<ul>
-<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
-</ul>
-</li>
-<li>
-<p><strong>文件管理</strong>：</p>
-<ul>
-<li>打开的文件描述符表：记录进程打开的文件。</li>
-<li>当前目录：记录当前目录的 i 节点。</li>
-<li>根目录：记录根目录位置。</li>
-</ul>
-</li>
-<li>
-<p><strong>进程状态信息</strong>：</p>
-<ul>
-<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
-<li>进程状态：如运行、等待、就绪等。</li>
-<li>优先级：用于调度决策。</li>
-</ul>
-</li>
-<li>
-<p><strong>标识信息</strong>：</p>
-<ul>
-<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
-<li>进程组号：进程所属的组号。</li>
-</ul>
-</li>
-<li>
-<p><strong>权限管理</strong>：</p>
-<ul>
-<li>主 UID/GID：实际用户 ID 和组 ID。</li>
-<li>有效 UID/GID：用于权限验证。</li>
-<li>umask 值：文件权限掩码。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p>]]></description>
 </item>
 </channel>
 </rss>

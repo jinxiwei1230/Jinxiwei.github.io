@@ -58,6 +58,205 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Linux：进程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程的基本概念和逻辑内存">进程的基本概念和逻辑内存</h2>
+<p><strong>1、进程与程序</strong></p>
+<ul>
+<li>
+<p><strong>程序</strong>：</p>
+<ul>
+<li>是<strong>指令</strong>和<strong>数据</strong>的集合，存放在磁盘上的普通文件中。</li>
+<li>必须符合系统要求并标记为可<strong>执行文件</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程</strong>：</p>
+<ul>
+<li>是程序的运行实例，包括指令段、用户数据段和系统数据段。</li>
+<li>提供执行环境。</li>
+</ul>
+</li>
+<li>
+<p><strong>程序与进程的关系</strong>：</p>
+<ul>
+<li>程序用于初始化进程的指令段和用户数据段，初始化后两者无直接联系。</li>
+<li><em>进程运行时，程序文件不可修改或删除</em>。</li>
+<li>一个程序可以初始化多个进程，它们之间没有联系。</li>
+<li>内核可通过共享指令段或动态链接共享函数库来节省内存，对用户透明。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、进程的组成部分</strong></p>
+<ul>
+<li>
+<p><strong>指令段 (Text)</strong>：</p>
+<ul>
+<li>包含程序的CPU指令代码，包括主程序、子程序和调用的库函数代码。</li>
+<li><strong>大小固定且只读</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户数据段(支持动态调整)</strong>：</p>
+<ul>
+<li>包括全局变量、静态变量、字符串常量等。</li>
+<li>支持动态内存分配，大小可通过 <code>sbrk()</code> 调整（单位为页）。</li>
+<li>使用库函数如 <code>malloc()</code> 和 <code>free()</code> 实现内存管理。</li>
+</ul>
+</li>
+<li>
+<p><strong>用户栈段</strong>：</p>
+<ul>
+<li>提供程序执行所需的栈空间。</li>
+<li>用于保存子程序返回地址、传递参数，以及存储局部变量（非静态）。</li>
+<li>包含命令行参数和环境参数，初始化于 <code>main</code> 函数运行之前。</li>
+<li>支持动态增长，但有增长限制。</li>
+</ul>
+</li>
+<li>
+<p><strong>系统数据段</strong>：</p>
+<ul>
+<li>包含<strong>内核维护</strong>的进程数据（如页表和进程控制块 PCB）。</li>
+<li>与指令段、数据段、栈段分离，由内核管理。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进程的执行状态">进程的执行状态</h2>
+<p><strong>1、进程的系统数据（PCB）</strong></p>
+<ul>
+<li>
+<p><strong>内存管理</strong>：</p>
+<ul>
+<li>页表：用于虚拟内存管理，占已分配虚拟内存的约 1/1024（32 位奔腾 CPU）。</li>
+</ul>
+</li>
+<li>
+<p><strong>文件管理</strong>：</p>
+<ul>
+<li>打开的文件描述符表：记录进程打开的文件。</li>
+<li>当前目录：记录当前目录的 i 节点。</li>
+<li>根目录：记录根目录位置。</li>
+</ul>
+</li>
+<li>
+<p><strong>进程状态信息</strong>：</p>
+<ul>
+<li>核心态堆栈：用于内核态操作，大小几 KB。</li>
+<li>进程状态：如运行、等待、就绪等。</li>
+<li>优先级：用于调度决策。</li>
+</ul>
+</li>
+<li>
+<p><strong>标识信息</strong>：</p>
+<ul>
+<li>PID（进程 ID）和 PPID（父进程 ID）。</li>
+<li>进程组号：进程所属的组号。</li>
+</ul>
+</li>
+<li>
+<p><strong>权限管理</strong>：</p>
+<ul>
+<li>主 UID/GID：实际用户 ID 和组 ID。</li>
+<li>有效 UID/GID：用于权限验证。</li>
+<li>umask 值：文件权限掩码。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>2、传统 UNIX 的 <code>user + proc</code> 结构</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%BF%9B%E7%A8%8B/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/">Linux：重定向</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="进程与文件描述符">进程与文件描述符</h2>
+<h3 id="活动文件目录afd及文件管理系统分析">活动文件目录（AFD）及文件管理系统分析</h3>
+<p><strong>1、磁盘文件目录（Disk File Directory）</strong>
+磁盘文件目录通常包括两级：</p>
+<ul>
+<li><strong>文件名</strong>：文件在磁盘上的名字。</li>
+<li><strong>i节点</strong>：每个文件在文件系统中的元数据（inode）记录，包含文件的属性，如文件大小、权限、创建时间、修改时间等。
+在磁盘上的文件目录结构中，文件名和对应的 i 节点是最重要的信息。i 节点为文件提供了关于文件内容的描述，但是不包含文件的实际数据。</li>
+</ul>
+<p><strong>2、活动文件目录（Active File Directory）</strong>
+活动文件目录通常分为三级，其中包括<strong>文件描述符表（FDT）</strong>、<strong>系统文件表（SFT）<strong>和</strong>活动 i 节点表（AIT）</strong>。</p>
+<ol>
+<li>文件描述符表（FDT）
+每个进程都有的一张表，通常存储在进程的 PCB（进程控制块）的 <code>user</code> 结构中。
+FDT 维护每个进程打开的文件的描述信息。它的主要作用是将文件描述符（fd）映射到具体的文件操作，如文件读写等。</li>
+</ol>
+<ul>
+<li><strong>文件描述符</strong>：<code>fd</code> 是进程打开的文件在 <code>u_ofile</code> 数组中的下标，每个进程有一张自己的文件描述符表。</li>
+<li><strong><code>user</code> 结构</strong>：在每个进程的 <code>user</code> 结构中，整型数组 <code>u_ofile</code> 用来记录该进程已打开的文件。<code>u_ofile</code> 数组的下标即为文件描述符（fd）。</li>
+</ul>
+<ol start="2">
+<li>系统文件表（SFT）
+系统文件表（SFT）是<strong>整个操作系统共享的一张表</strong>，存储在内核中，包含对文件的管理信息。每个文件在系统中有一个 <code>file</code> 结构，该结构包含文件的操作标志、引用计数、偏移量和对应的 i 节点等信息。</li>
+</ol>
+<ul>
+<li><strong><code>struct file</code></strong>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> file {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> f_flag;      <span style="color:#75715e">// 读写操作标志（例如：只读、只写等）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> f_count;     <span style="color:#75715e">// 文件的引用计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> f_offset;    <span style="color:#75715e">// 文件读写位置指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> f_inode;      <span style="color:#75715e">// 文件的 i 节点索引
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div></li>
+</ul>
+<ol start="3">
+<li>活动 i 节点表（AIT）
+活动 i 节点表存储了操作系统内核当前正在使用的 i 节点，<strong>整个系统只有一张活动 i 节点表</strong>。它缓存了磁盘上对应的 inode 信息，避免每次访问文件时都需要从磁盘读取。</li>
+</ol>
+<ul>
+<li><strong><code>inode</code> 结构</strong>：i 节点描述了文件的元数据，例如文件权限、所有者、文件大小、时间戳等信息。</li>
+<li><strong>引用计数</strong>：内存中的 i 节点表有一个专用的引用计数，用来记录 i 节点当前被多少个进程引用。如果一个进程打开了一个文件，i 节点的引用计数会增加。引用计数为零时，表示该 i 节点已经不再被使用，可以释放。</li>
+</ul>
+<p><strong>3、各表结构的关系</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E9%87%8D%E5%AE%9A%E5%90%91/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">Linux：shell的基本机理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-11-07">2024-11-07</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第九章-shell的基本原理">第九章 Shell的基本原理</h2>
+<h3 id="shell-概述">shell 概述</h3>
+<p>1、 Unix Shell 概述
+Shell是Unix操作系统中的<strong>命令解释器</strong>，是用户与操作系统交互的桥梁。它通过解析和执行用户输入的命令，向操作系统内核发出指令。</p>
+<p>2、 Shell的功能</p>
+<ol>
+<li><strong>命令解释器</strong>：Shell是用户与系统的接口，解释和执行用户的命令。</li>
+<li><strong>文件名替换、命令替换、变量替换</strong></li>
+<li><strong>历史替换与别名替换</strong></li>
+<li><strong>流程控制的内部命令</strong></li>
+</ol>
+<p>3、 Shell的特点</p>
+<ul>
+<li><strong>主要用途</strong>：适用于批处理，能自动化执行大量任务，但在执行效率上比一些算法语言稍低。</li>
+<li><strong>编程风格</strong>：Shell脚本语言是<strong>面向命令处理</strong>的，流程控制结构通过对内部命令的解释实现，简洁灵活。</li>
+</ul>
+<p>4、 常见的Shell种类</p>
+<ol>
+<li><strong>Bourne Shell (B-shell)</strong>：最早广泛应用的Shell，是早期UNIX的标准Shell，路径为<code>/bin/sh</code>。</li>
+<li><strong>C Shell (C-shell)</strong>：路径为<code>/bin/csh</code>，最早应用于BSD系统。</li>
+<li><strong>Korn Shell (K-shell)</strong>：是B-shell的超集，路径为<code>/bin/ksh</code>，支持类型变量和数组。</li>
+<li><strong>Bourne Again Shell (bash)</strong>：Linux系统的标准Shell，路径为<code>/bin/bash</code>，兼容B-Shell并吸收了C-shell的特性，提供方便的命令行编辑功能。</li>
+</ol>
+<h3 id="bash-启动">bash 启动</h3>
+<p>1、启动交互式bash</p>
+<ol>
+<li><strong>注册 Shell</strong>：通过系统注册的方式启动 bash 作为用户的默认登录 shell。</li>
+<li><strong>键入 <code>bash</code> 命令</strong>：在命令行中输入 <code>bash</code>，进入一个新的交互式 shell 实例。</li>
+<li><strong>脚本解释器</strong>：通过执行 bash 脚本文件，将命令批量自动执行。</li>
+</ol>
+<p>2、Bash 的启动与退出行为</p>
+<ol>
+<li>
+<p>用户偏好的自动执行命令
+- <strong>作为注册 Shell 启动时</strong>：自动执行用户主目录中的 <code>.bash_profile</code> 文件。该文件通常位于 <code>~/.bash_profile</code> 或 <code>$HOME/.bash_profile</code>，用于设置用户的环境变量和启动项。
+- <strong>作为注册 Shell 退出时</strong>：自动执行 <code>$HOME/.bash_logout</code> 文件中的命令，用于用户退出登录时清理环境。
+- <strong>作为交互式 Shell 启动时</strong>：自动执行 <code>$HOME/.bashrc</code> 文件。该文件通常包含别名、环境变量和交互命令的配置，适用于每次打开新的 shell 会话时执行。
+&gt; <strong>注意</strong>：如 <code>umask</code> 等命令应写在 <code>.profile</code> 文件中，以便在所有登录会话中生效。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linuxshell%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9C%BA%E7%90%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/">Linux：文件和目录权限</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-31">2024-10-31</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第8章-linux文件和目录权限">第8章 Linux文件和目录权限</h2>
 <h3 id="文件的权限">文件的权限</h3>
@@ -233,174 +432,6 @@
 <h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
 <p><strong>1、 根文件系统（root filesystem）</strong></p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">分布式存储</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-23">2024-10-23</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-分布式存储">第四章 分布式存储</h2>
-<h3 id="分布式文件系统">分布式文件系统</h3>
-<p><strong>HDFS正是GFS的开源实现</strong></p>
-<p>1、背景
-为了应对数据存储扩容问题，存在两种解决方案:</p>
-<ul>
-<li><strong>纵向扩展(scale-up)</strong>：利用现有的存储系统，通过不断增加存储容量来满足数据增长的需求</li>
-<li><strong>横向扩展(scale-out)</strong>：以网络互连的节点为单位扩大存储容量(集群)</li>
-</ul>
-<p>3、由于纵向扩展存在价格昂贵、升级困难以及总存在物理瓶颈(理论上，由于物理硬件的制约，单台设备总存在瓶颈)等问题，目前大数据领域通常会采用横向扩展方案。</p>
-<p>2、横向扩展存在的难点：</p>
-<ul>
-<li>因故障导致丢失数据</li>
-<li>文件通常较大</li>
-<li>一次写入多次读取</li>
-</ul>
-<h3 id="文件级别和块级别的分布式文件系统">文件级别和块级别的分布式文件系统</h3>
-<h4 id="文件级别">文件级别</h4>
-<p>1、**主从架构(Master/Slaves)**的文件系统
-给定N个网络互联的节点，每个节点上装有Linux操作系统，且配有一定量的内存和硬盘，选出一个节点作为Master，记录文件的元信息，其他节点作为Slave，存储实际的文件。为确保数据的可靠性，将每个文件保存到三个不同节点上(即副本数为3)。</p>
-<p>2、当客户端(Client) 需要写入一个文件时，首先与Master通信，获取文件存放节点列表，如果该文件是合法的（比如不存在重名文件等），则Master根据 一定的负载均衡策略将三个节点位置信息发回给客户端，这时客户端可与这三个Slave节点建立网络连接，将文件写入对应的三个节点，读文件过程类似。</p>
-<p>3、文件级别分布式系统的缺点：</p>
-<ul>
-<li>**难以负载均衡：**该分布式文件系统以文件为单位存储数据，由于用户的文件大小往往是不统一的，这就难以保证每个节点上的存储负载是均衡的。</li>
-<li>**难以并行处理：**由于数据是以文件为单位存储的，当多个分布在不同节点的任分并行读取一个文件时，会使得存储文件的节点出口网络带宽成为瓶颈，从而制约上层计算框架的并行处理效率</li>
-</ul>
-<h4 id="块级别">块级别</h4>
-<p>1、核心思想：是将文件分成等大的数据块(比如128MB)，并以数据块为单位存储到不同节点上，进而解决文件级别的分布式系统存在的负载均衡和并行处理问题</p>
-<ul>
-<li><strong>Master</strong>：<strong>负载存储和管理元信息</strong>，包括整个文件系统的目录树、文件的块列表，以及每个块存放节点列表等。</li>
-<li><strong>Slave</strong>：<strong>存储实际的数据块</strong>，并与Master维持心跳信息，汇报自身健康状态以及负载情况等。</li>
-<li><strong>Client</strong>：用户通过客户端与Master和Slave交互，完成文件系统的管理和文件的读写等。</li>
-</ul>
-<h4 id="hdfs基本架构">HDFS基本架构</h4>
-<p>1、HDFS属于块<strong>级</strong>别的分布式文件系统</p>
-<p>2、HDFS采用了<strong>主从架构</strong>：</p>
-<ul>
-<li>主节点被称为<strong>NameNode</strong>，只有一个，管理元信息和所有从节点；</li>
-<li>从节点称为<strong>DataNode</strong>，通常存在多个，存储实际的数据块。</li>
-</ul>
-<h4 id="hdfs-各组件功能">HDFS 各组件功能</h4>
-<p>1、 <strong>NameNode</strong>：NameNode是HDFS集群管理者，负责管理文件系统元信息和所有DataNode。</p>
-<ul>
-<li><strong>管理元信息</strong>： NameNode维护着整个文件系统的目录树，各个文件的数据块信息等。</li>
-<li><strong>管理DataNode</strong>：DataNode<strong>周期性</strong>向NameNode汇报心跳以表明自己活着，一旦NameNode发现某个DataNode出现故障，会在其他存活DataNode上重构丢失的数据块。</li>
-</ul>
-<p>2、 一个HDFS集群中只存在一个对外服务的NameNode，称为Active NameNode，为了防止单个NameNode出现故障后导致整个集群不可用，用户可启动一个<strong>备用NameNode，称为StandbyNameNode</strong> ，为了实现NameNode HA （ High Availability，高可用），需解决好两者的<strong>切换和状态同步</strong>问题。</p>
-<p>3、<strong>DataNode</strong>：DataNode存储实际的数据块，并周期性通过心跳向NameNode汇报自己的状态信息。</p>
-<p>4、 <strong>Client</strong>：用户通过客户端与NameNode和DataNode交互，完成HDFS管理（比如服务启动与停止）和数据读写等操作。
-此外，文件的分块操作也是在客户端完成的。当向HDFS写入文件时，客户端首先将文件切分成等大的数据块（默认一个数据块大小为128MB），之后从NameNode上领取三个DataNode地址，并在它们之间建立数据流水线，进而将数据块流式写入这些节点。</p>
-<h4 id="hdfs-的部署">HDFS 的部署</h4>
-<ol>
-<li>
-<p>Namenode 和 Datanode 可以在普通商用机器上运行，HDFS 采用 Java 开发</p>
-</li>
-<li>
-<p><strong>典型的部署场景</strong>：</p>
-<ul>
-<li>通常情况下，<strong>Namenode 和 Datanode 是分开部署的</strong>。一个集群中通常只有一台机器运行 <strong>Namenode</strong> 实例，而集群中的其他机器会分别运行 <strong>Datanode</strong> 实例。</li>
-<li>虽然 HDFS 允许在同一台机器上运行多个 Datanode 实例，但这种情况比较少见，更多情况下是<strong>每台机器只运行一个 Datanode</strong>。</li>
-</ul>
-</li>
-<li>
-<p><strong>简化的架构：单一 Namenode</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">递归与分治</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-20">2024-10-20</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h1 id="递归与分治策略">递归与分治策略</h1>
-<h3 id="递归">递归</h3>
-<ul>
-<li>直接或间接地调用自身的算法称为<strong>递归算法</strong>。</li>
-<li>用函数自身给出定义的函数称为<strong>递归函数</strong>。</li>
-</ul>
-<p><strong>边界条件</strong>与<strong>递归方程</strong>是递归函数的二个要素，递归函数只有具备了这两个要素，才能在有限次计算后得出结果。</p>
-<p><strong>优点</strong>：结构清晰，可读性强，而且容易用数学归纳法来证明算法的正确性，因此它为设计算法、调试程序带来很大方便。
-<strong>缺点</strong>：递归算法的运行效率较低，无论是耗费的计算时间还是占用的存储空间都比非递归算法要多。</p>
-<h3 id="分治法">分治法</h3>
-<p><strong>divide、conquer、combine</strong></p>
-<p><strong>算法总体思想</strong>
-<strong>Divide, Conquer</strong>：对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。
-<strong>Combine</strong>：将求出的小规模的问题的解合并为一个更大规模的问题的解，自底向上逐步求出原来问题的解。</p>
-<p><strong>分割原则</strong>：子问题的规模大致相同</p>
-<p><strong>分治法的复杂性分析</strong>：
-一个分治法将规模为n的问题分成k个规模为n/m的子问题去解。
-设分解阀值n_0=1，且adhoc解规模为1的问题耗费1个单位时间。
-再设将原问题分解为k个子问题以及用merge将k个子问题的解合并为原问题的解需用f(n)个单位时间。
-用T(n)表示该分治法解规模为|P|=n的问题所需的计算时间，则有：</p>
-<p><strong>分治法的适用条件</strong>：
-分治法所能解决的问题一般具有以下几个特征：</p>
-<ul>
-<li>该问题的规模缩小到一定的程度就可以容易地解决；</li>
-<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有<strong>最优子结构性质</strong></li>
-<li>利用该问题分解出的子问题的解可以合并为该问题的解；</li>
-<li>该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题。</li>
-</ul>
-<h1 id="example">example</h1>
-<h2 id="二分搜索减小规模-提高效率">二分搜索（减小规模？== 提高效率？）</h2>
-<p>Binary Search：给定已按升序排好序的n个元素a[0:n-1]，现要在这n个元素中找出一特定元素x</p>
-<pre tabindex="0"><code>public static int vinarySearch(int[]a, int x, int n)
-{
-    int left = 0;
-    int right = n - 1;
-    while(left &lt;= right)
-    {
-        int middle = (left + right)/2;
-        if (x == a[middle])
-            return middle;
-        else if(x &gt; a[middle])
-            left = middle + 1;
-        else
-            right = middle - 1;
-    }
-    return -1;
-}
-</code></pre><h2 id="大整数乘法提高效率-乘法减少">大整数乘法(提高效率？ 乘法减少？)</h2>
-<p>问题：X和Y都是n位的二进制整数，要计算他们的乘积XY。
-分治法：将n位的二进制整数X和Y都分成2段，每段的长为n/2位。
-你提供的内容涉及二进制整数乘法的分治法。这个算法的主要思路是将大整数拆分成小整数进行乘法计算，以减少总的乘法次数和加法次数。以下是你提到的算法的详细解析：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E9%80%92%E5%BD%92%E4%B8%8E%E5%88%86%E6%B2%BB/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/">Linux:文件和目录管理</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-17">2024-10-17</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第六章-文件和目录管理">第六章 文件和目录管理</h2>
-<h3 id="列出文件目录-ls">列出文件目录 ls</h3>
-<p><strong>1、ls基本功能:</strong></p>
-<ul>
-<li>在同一命令行中可以指定0~n个实参</li>
-<li>不给出实参时，列出当前目录下所有文件和目录</li>
-<li>实参为文件时，列出文件项</li>
-<li>实参为目录时，列出目录下的所有文件项</li>
-</ul>
-<hr>
-<p><strong>2、选项-F (Flag)</strong></p>
-<ul>
-<li>若列出的是目录，就在名字后面缀以斜线 /</li>
-<li>若列出的是可执行文件，就在名字后面缀以星号 *</li>
-<li>若列出的是符号连接文件，就在名字后面缀以符号 @</li>
-<li>若列出的是普通文件，则名字面后无任何标记</li>
-</ul>
-<hr>
-<p><strong>3、ls选项-l: 长格式列表（ll）</strong>
-例: <code>drwxr-xr-x. 2 bupt2022211264 bupt2022211264  4096 Oct 10 06:11 ch04</code>
-<code>-rw-rw-r--. 1 bupt2022211264 bupt2022211264 13892 Oct 10 06:34 index.html</code></p>
-<p><strong>第1列</strong>：文件属性
-<code>-</code> 普通文件            <code>b</code> 块设备文件(Block)
-<code>D</code> 目录文件(Dir)       <code>c</code> 字符设备文件(Char)
-<code>L</code> 符号连接文件(Link)   <code>p</code> 命名管道文件(Pipe)</p>
-<p>文件的访问权限(rwx读权限，写权限，可执行权限)
-2-4字符: 文件所有者对文件的访问权限
-5-7字符: 同组用户对文件的访问权限
-8-10字符:其它用户对文件的访问权限</p>
-<p><strong>第2列</strong>：文件link数，涉及到此文件的目录项数</p>
-<p><strong>第3列</strong>，第4列：文件主的名字和组名</p>
-<p><strong>第5列</strong>:
-普通磁盘文件：列出文件大小(字节数)
-目录：列出目录表大小，不是目录下文件长度和
-符号连接文件：列出符号连接文件自身的长度
-字符设备和块设备文件：列出主设备号和次设备号
-管道文件：列出管道内的数据长度</p>
-<p><strong>第6列</strong>：文件最后一次被修改的日期和时间</p>
-<h2 id="对于符号连接文件附带列出符号连接文件的内容"><strong>第7列</strong>：文件名
-对于符号连接文件，附带列出符号连接文件的内容</h2>
-<p><strong>4、ls其他选项</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">

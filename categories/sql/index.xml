@@ -3,15 +3,120 @@
         <title>SQL - Category - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/sql/</link>
         <description>SQL - Category - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/sql/" rel="self" type="application/rss+xml" /><item>
-    <title>SQL总结</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</link>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/sql/" rel="self" type="application/rss+xml" /><item>
+    <title>SQL：Json字段处理&#43;分布式ID生成</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/</link>
+    <pubDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/</guid>
+    <description><![CDATA[<h3 id="mysql-json-数据处理解析"><strong>MySQL JSON 数据处理解析</strong></h3>
+<hr>
+<p><strong>题目要求</strong>：
+从 <code>products</code> 表的 <code>attributes</code>（JSON 字段）中提取 <code>color</code> 和 <code>size</code> 字段的值。</p>
+<hr>
+<h2 id="json-提取语法">JSON 提取语法</h2>
+<p>在 MySQL 中，JSON 数据存储在 <code>JSON</code> 类型的列中，使用 <strong><code>-&gt;&gt;</code> 和 <code>-&gt;</code> 操作符</strong> 提取值：</p>
+<ul>
+<li><code>-&gt;</code>  返回 <strong>JSON 格式</strong> 的值（适用于嵌套查询）。</li>
+<li><code>-&gt;&gt;</code> 返回 <strong>文本格式</strong> 的值（适用于字符串和数值查询）。</li>
+</ul>
+<p><strong>查询示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><hr>
+<h2 id="示例数据">示例数据</h2>
+<p>假设 <code>products</code> 表的结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> products (
+</span></span><span style="display:flex;"><span>    id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    name VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    attributes JSON
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>表中的数据：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">id</th>
+          <th style="text-align: left">name</th>
+          <th style="text-align: left">attributes</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">T-shirt</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;red&quot;, &quot;size&quot;: &quot;M&quot;, &quot;brand&quot;: &quot;Nike&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Shoes</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;black&quot;, &quot;size&quot;: &quot;42&quot;, &quot;brand&quot;: &quot;Adidas&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Jacket</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;blue&quot;, &quot;size&quot;: &quot;L&quot;, &quot;brand&quot;: &quot;Puma&quot;}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>执行 SQL：</p>]]></description>
+</item>
+<item>
+    <title>SQL时间相关总结</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</link>
     <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%80%BB%E7%BB%93/</guid>
-    <description><![CDATA[<h3 id="sql总结与面试">SQL总结与面试</h3>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</guid>
+    <description><![CDATA[<h3 id="sql时间相关总结">SQL时间相关总结</h3>
+<h3 id="1-常见时间类型">1. <strong>常见时间类型</strong></h3>
+<p>数据库通常支持以下几种时间类型：</p>
+<ul>
+<li><strong>DATE</strong>：仅存储日期，格式为 <code>YYYY-MM-DD</code>。</li>
+<li><strong>TIME</strong>：仅存储时间，格式为 <code>HH:MM:SS</code>。</li>
+<li><strong>DATETIME</strong> / <strong>TIMESTAMP</strong>：存储日期和时间，格式为 <code>YYYY-MM-DD HH:MM:SS</code>。</li>
+<li><strong>YEAR</strong>：仅存储年份。</li>
+<li><strong>INTERVAL</strong>：表示时间间隔（如 <code>30 days</code>、<code>1 month</code> 等）。</li>
+</ul>
+<hr>
+<h3 id="2-获取当前时间">2. <strong>获取当前时间</strong></h3>
+<p>数据库提供了多种函数来获取当前时间：</p>
+<ul>
+<li><strong><code>CURRENT_DATE</code></strong>：返回当前日期（不包括时间）。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span>;  <span style="color:#75715e">-- 2023-10-05
+</span></span></span></code></pre></div></li>
+<li><strong><code>CURRENT_TIME</code></strong>：返回当前时间（不包括日期）。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span>;  <span style="color:#75715e">-- 14:30:45
+</span></span></span></code></pre></div></li>
+<li><strong><code>CURRENT_TIMESTAMP</code></strong> / <strong><code>NOW()</code></strong>：返回当前日期和时间。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>;  <span style="color:#75715e">-- 2023-10-05 14:30:45
+</span></span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="3-时间计算">3. <strong>时间计算</strong></h3>
+<p>数据库支持对时间进行加减运算，常用的方式是使用 <code>INTERVAL</code>。</p>
+<h4 id="示例-1加减天数">示例 1：加减天数</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;10 days&#39;</span>;  <span style="color:#75715e">-- 10 天后的日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 days&#39;</span>; <span style="color:#75715e">-- 30 天前的日期
+</span></span></span></code></pre></div><h4 id="示例-2加减月份">示例 2：加减月份</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;1 month&#39;</span>;  <span style="color:#75715e">-- 1 个月后的日期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;3 months&#39;</span>; <span style="color:#75715e">-- 3 个月前的日期
+</span></span></span></code></pre></div><h4 id="示例-3加减时间">示例 3：加减时间</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;2 hours&#39;</span>;  <span style="color:#75715e">-- 2 小时后的时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 minutes&#39;</span>; <span style="color:#75715e">-- 30 分钟前的时间
+</span></span></span></code></pre></div><hr>
+<h3 id="4-时间过滤">4. <strong>时间过滤</strong></h3>
+<p>在查询中，经常需要根据时间范围过滤数据。例如：</p>]]></description>
+</item>
+<item>
+    <title>SQL易混淆知识点</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+    <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+    <description><![CDATA[<h3 id="sql易混淆知识点">SQL易混淆知识点</h3>
 <h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
-<h3 id="group-by"><strong><code>GROUP BY</code></strong></h3>
+<h4 id="group-by"><strong><code>GROUP BY</code></strong></h4>
 <ul>
 <li>
 <p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
@@ -37,7 +142,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="partition-by"><strong><code>PARTITION BY</code></strong></h3>
+<h4 id="partition-by"><strong><code>PARTITION BY</code></strong></h4>
 <ul>
 <li>
 <p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
@@ -63,7 +168,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="核心区别"><strong>核心区别</strong></h3>
+<h4 id="核心区别"><strong>核心区别</strong></h4>
 <table>
   <thead>
       <tr>
@@ -95,7 +200,7 @@
       </tr>
   </tbody>
 </table>
-<h3 id="示例对比"><strong>示例对比</strong></h3>
+<h4 id="示例对比"><strong>示例对比</strong></h4>
 <h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
