@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="Python异常、模块与包 （一）异常 1. 异常的概念 异常：程序运行过程中出现的错误。 Bug：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。 异常的影响： 程序可能因异常停止运行（崩溃）。 通过捕获异常，可以让程序在出现异常时继续运行。 2. 捕获异常 （1）基本语法 作用：提前假设某处会出现异常，并做好处理准备。
+语法：
+try: 可能发生错误的代码 except: 如果出现异常执行的代码 （2）捕获指定异常 作用：捕获特定类型的异常。
+语法：
+try: 可能发生错误的代码 except 异常类型 as e: 处理异常的代码 （3）捕获多个异常 作用：捕获多种类型的异常。 语法： try: 可能发生错误的代码 except (异常类型1, 异常类型2) as e: 处理异常的代码 示例： try: print(num) # 可能抛出 NameError print(1 / 0) # 可能抛出 ZeroDivisionError except (NameError, ZeroDivisionError) as e: print(&#34;捕获到异常:&#34;, e) （4）捕获所有异常 作用：捕获所有类型的异常。
+语法：
+try: 可能发生错误的代码 except Exception as e: 处理异常的代码 （5）else 和 finally else：当没有异常时执行的代码。 finally：无论是否发生异常，都会执行的代码（如关闭文件）。 语法： try: 可能发生错误的代码 except Exception as e: 处理异常的代码 else: 没有异常时执行的代码 finally: 无论是否异常都会执行的代码 示例： try: f = open(&#34;test.txt&#34;, &#34;r&#34;) except Exception as e: print(&#34;捕获到异常:&#34;, e) else: print(&#34;没有异常，真开心&#34;) finally: f.close() 3. 异常的传递性 定义：当函数中发生异常且未被捕获时，异常会传递给调用该函数的代码，直到被捕获或程序崩溃。 特点： 异常会从内层函数向外层函数传递。 如果所有函数都未捕获异常，程序会崩溃。 示例： def func01(): print(1 / 0) # 抛出 ZeroDivisionError def func02(): func01() # 异常传递到 func02 def main(): try: func02() # 异常传递到 main except Exception as e: print(&#34;捕获到异常:&#34;, e) main() # 输出 &#34;捕获到异常: division by zero&#34; （二）模块 1. 模块的概念 定义：模块是一个 Python 文件（以 .py 结尾），包含类、函数、变量等，可以被其他 Python 程序导入和使用。 作用： 将代码组织成可重用的单元。 提供工具包，帮助快速实现功能（如 time 模块用于时间操作）。 2. 导入模块 （1）基本语法 import 语句：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="Python异常、模块与包 （一）异常 1. 异常的概念 异常：程序运行过程中出现的错误。 Bug：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。 异常的影响： 程序可能因异常停止运行（崩溃）。 通过捕获异常，可以让程序在出现异常时继续运行。 2. 捕获异常 （1）基本语法 作用：提前假设某处会出现异常，并做好处理准备。
+语法：
+try: 可能发生错误的代码 except: 如果出现异常执行的代码 （2）捕获指定异常 作用：捕获特定类型的异常。
+语法：
+try: 可能发生错误的代码 except 异常类型 as e: 处理异常的代码 （3）捕获多个异常 作用：捕获多种类型的异常。 语法： try: 可能发生错误的代码 except (异常类型1, 异常类型2) as e: 处理异常的代码 示例： try: print(num) # 可能抛出 NameError print(1 / 0) # 可能抛出 ZeroDivisionError except (NameError, ZeroDivisionError) as e: print(&#34;捕获到异常:&#34;, e) （4）捕获所有异常 作用：捕获所有类型的异常。
+语法：
+try: 可能发生错误的代码 except Exception as e: 处理异常的代码 （5）else 和 finally else：当没有异常时执行的代码。 finally：无论是否发生异常，都会执行的代码（如关闭文件）。 语法： try: 可能发生错误的代码 except Exception as e: 处理异常的代码 else: 没有异常时执行的代码 finally: 无论是否异常都会执行的代码 示例： try: f = open(&#34;test.txt&#34;, &#34;r&#34;) except Exception as e: print(&#34;捕获到异常:&#34;, e) else: print(&#34;没有异常，真开心&#34;) finally: f.close() 3. 异常的传递性 定义：当函数中发生异常且未被捕获时，异常会传递给调用该函数的代码，直到被捕获或程序崩溃。 特点： 异常会从内层函数向外层函数传递。 如果所有函数都未捕获异常，程序会崩溃。 示例： def func01(): print(1 / 0) # 抛出 ZeroDivisionError def func02(): func01() # 异常传递到 func02 def main(): try: func02() # 异常传递到 main except Exception as e: print(&#34;捕获到异常:&#34;, e) main() # 输出 &#34;捕获到异常: division by zero&#34; （二）模块 1. 模块的概念 定义：模块是一个 Python 文件（以 .py 结尾），包含类、函数、变量等，可以被其他 Python 程序导入和使用。 作用： 将代码组织成可重用的单元。 提供工具包，帮助快速实现功能（如 time 模块用于时间操作）。 2. 导入模块 （1）基本语法 import 语句：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85\/"
+        },"genre": "posts","wordcount":  467 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;467 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一异常">（一）异常</a>
+      <ul>
+        <li><a href="#1-异常的概念">1. <strong>异常的概念</strong></a></li>
+        <li><a href="#2-捕获异常">2. <strong>捕获异常</strong></a></li>
+        <li><a href="#3-异常的传递性">3. <strong>异常的传递性</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#二模块">（二）模块</a>
+      <ul>
+        <li><a href="#1-模块的概念">1. <strong>模块的概念</strong></a></li>
+        <li><a href="#2-导入模块">2. <strong>导入模块</strong></a></li>
+        <li><a href="#3-自定义模块">3. <strong>自定义模块</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#三包">（三）包</a>
+      <ul>
+        <li><a href="#1-python-包的概念">1. <strong>Python 包的概念</strong></a></li>
+        <li><a href="#2-创建包">2. <strong>创建包</strong></a></li>
+        <li><a href="#3-导入包">3. <strong>导入包</strong></a></li>
+        <li><a href="#4-__init__py-文件">4. <strong><code>__init__.py</code> 文件</strong></a></li>
+        <li><a href="#5-安装第三方包">5. <strong>安装第三方包</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="python异常模块与包">Python异常、模块与包</h1>
+<h2 id="一异常">（一）异常</h2>
+<h3 id="1-异常的概念">1. <strong>异常的概念</strong></h3>
+<ul>
+<li><strong>异常</strong>：程序运行过程中出现的错误。</li>
+<li><strong>Bug</strong>：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。</li>
+<li><strong>异常的影响</strong>：
+<ul>
+<li>程序可能因异常停止运行（崩溃）。</li>
+<li>通过捕获异常，可以让程序在出现异常时继续运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-捕获异常">2. <strong>捕获异常</strong></h3>
+<h4 id="1基本语法">（1）<strong>基本语法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：提前假设某处会出现异常，并做好处理准备。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>    如果出现异常执行的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2捕获指定异常">（2）<strong>捕获指定异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获特定类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> 异常类型 <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3捕获多个异常">（3）<strong>捕获多个异常</strong></h4>
+<ul>
+<li><strong>作用</strong>：捕获多种类型的异常。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (异常类型1, 异常类型2) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    print(num)  <span style="color:#75715e"># 可能抛出 NameError</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 可能抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">NameError</span>, <span style="color:#a6e22e">ZeroDivisionError</span>) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4捕获所有异常">（4）<strong>捕获所有异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获所有类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5else-和-finally">（5）<strong><code>else</code> 和 <code>finally</code></strong></h4>
+<ul>
+<li><strong><code>else</code></strong>：当没有异常时执行的代码。</li>
+<li><strong><code>finally</code></strong>：无论是否发生异常，都会执行的代码（如关闭文件）。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    没有异常时执行的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    无论是否异常都会执行的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;test.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;没有异常，真开心&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="3-异常的传递性">3. <strong>异常的传递性</strong></h3>
+<ul>
+<li><strong>定义</strong>：当函数中发生异常且未被捕获时，异常会传递给调用该函数的代码，直到被捕获或程序崩溃。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>异常会从内层函数向外层函数传递。</li>
+<li>如果所有函数都未捕获异常，程序会崩溃。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func01</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func02</span>():
+</span></span><span style="display:flex;"><span>    func01()  <span style="color:#75715e"># 异常传递到 func02</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        func02()  <span style="color:#75715e"># 异常传递到 main</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>main()  <span style="color:#75715e"># 输出 &#34;捕获到异常: division by zero&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="二模块">（二）模块</h2>
+<h3 id="1-模块的概念">1. <strong>模块的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：模块是一个 Python 文件（以 <code>.py</code> 结尾），包含类、函数、变量等，可以被其他 Python 程序导入和使用。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>将代码组织成可重用的单元。</li>
+<li>提供工具包，帮助快速实现功能（如 <code>time</code> 模块用于时间操作）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-导入模块">2. <strong>导入模块</strong></h3>
+<h4 id="1基本语法-1">（1）<strong>基本语法</strong></h4>
+<ul>
+<li>
+<p><strong><code>import</code> 语句</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> 模块名
+</span></span></code></pre></div></li>
+<li>
+<p><strong>使用模块中的功能</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>模块名<span style="color:#f92672">.</span>功能名()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> math
+</span></span><span style="display:flex;"><span>print(math<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2from--import-语句">（2）<strong><code>from ... import</code> 语句</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> 模块名 <span style="color:#f92672">import</span> 功能名
+</span></span></code></pre></div></li>
+<li>
+<p><strong>使用功能</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>功能名()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> sqrt
+</span></span><span style="display:flex;"><span>print(sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3导入所有功能">（3）<strong>导入所有功能</strong></h4>
+<ul>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> 模块名 <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span></code></pre></div></li>
+<li><strong>注意</strong>：不推荐使用，可能导致命名冲突。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>print(sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4别名">（4）<strong>别名</strong></h4>
+<ul>
+<li>
+<p><strong>模块别名</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> 模块名 <span style="color:#66d9ef">as</span> 别名
+</span></span></code></pre></div></li>
+<li>
+<p><strong>功能别名</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> 模块名 <span style="color:#f92672">import</span> 功能名 <span style="color:#66d9ef">as</span> 别名
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> math <span style="color:#66d9ef">as</span> m
+</span></span><span style="display:flex;"><span>print(m<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> sqrt <span style="color:#66d9ef">as</span> square_root
+</span></span><span style="display:flex;"><span>print(square_root(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5导入多个模块">（5）<strong>导入多个模块</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> 模块1<span style="color:#f92672">,</span> 模块2
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> math<span style="color:#f92672">,</span> random
+</span></span><span style="display:flex;"><span>print(math<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># 输出 4.0</span>
+</span></span><span style="display:flex;"><span>print(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>))  <span style="color:#75715e"># 输出随机数</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="3-自定义模块">3. <strong>自定义模块</strong></h3>
+<h4 id="1创建模块">（1）<strong>创建模块</strong></h4>
+<ul>
+<li>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li>新建一个 Python 文件（如 <code>my_module.py</code>）。</li>
+<li>在文件中定义函数、类或变量。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># my_module.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2导入自定义模块">（2）<strong>导入自定义模块</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> 模块名
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> my_module
+</span></span><span style="display:flex;"><span>print(my_module<span style="color:#f92672">.</span>test(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3__main__-变量">（3）<strong><code>__main__</code> 变量</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：区分模块是直接运行还是被导入。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    直接运行时执行的代码
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># my_module.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    print(test(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>))  <span style="color:#75715e"># 直接运行时输出 2</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4__all__-变量">（4）<strong><code>__all__</code> 变量</strong></h4>
+<ul>
+<li><strong>作用</strong>：控制 <code>from 模块名 import *</code> 时导入的功能。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>__all__ <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;功能1&#34;</span>, <span style="color:#e6db74">&#34;功能2&#34;</span>]
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># my_module.py</span>
+</span></span><span style="display:flex;"><span>__all__ <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;test&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">another_function</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="三包">（三）包</h2>
+<h3 id="1-python-包的概念">1. <strong>Python 包的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：包是一个包含<strong>多个模块</strong>的文件夹，文件夹内<strong>必须有一个 <code>__init__.py</code> 文件</strong>。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>将功能相关的模块组织在一起，方便管理。</li>
+<li>提供命名空间，避免模块名冲突。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：
+<ul>
+<li>从物理上看，包是一个文件夹。</li>
+<li>从逻辑上看，包的本质依然是模块。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-创建包">2. <strong>创建包</strong></h3>
+<h4 id="1步骤">（1）<strong>步骤</strong></h4>
+<ol>
+<li>在 PyCharm 中，右键点击项目目录。</li>
+<li>选择 <code>New</code> → <code>Python Package</code>。</li>
+<li>输入包名，点击 <code>OK</code>。</li>
+<li>包内会自动生成 <code>__init__.py</code> 文件。</li>
+</ol>
+<h4 id="2示例">（2）<strong>示例</strong></h4>
+<ul>
+<li>创建包 <code>my_package</code>。</li>
+<li>在包内创建模块 <code>my_module1.py</code> 和 <code>my_module2.py</code>。</li>
+</ul>
+<h3 id="3-导入包">3. <strong>导入包</strong></h3>
+<h4 id="1导入包中的模块">（1）<strong>导入包中的模块</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> 包名.模块名
+</span></span></code></pre></div></li>
+<li>
+<p><strong>使用模块中的功能</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>包名<span style="color:#f92672">.</span>模块名<span style="color:#f92672">.</span>功能名()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> my_package.my_module1
+</span></span><span style="display:flex;"><span>print(my_package<span style="color:#f92672">.</span>my_module1<span style="color:#f92672">.</span>test(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2从包中导入模块">（2）<strong>从包中导入模块</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> 包名 <span style="color:#f92672">import</span> 模块名
+</span></span></code></pre></div></li>
+<li>
+<p><strong>使用模块中的功能</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>模块名<span style="color:#f92672">.</span>功能名()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> my_package <span style="color:#f92672">import</span> my_module1
+</span></span><span style="display:flex;"><span>print(my_module1<span style="color:#f92672">.</span>test(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3导入包中的所有模块">（3）<strong>导入包中的所有模块</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> 包名 <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>注意</strong>：需要在 <code>__init__.py</code> 文件中定义 <code>__all__</code> 变量，控制导入的模块。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># my_package/__init__.py</span>
+</span></span><span style="display:flex;"><span>__all__ <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;my_module1&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># main.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> my_package <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>print(my_module1<span style="color:#f92672">.</span>test(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="4-__init__py-文件">4. <strong><code>__init__.py</code> 文件</strong></h3>
+<ul>
+<li>标识一个文件夹是 Python 包。</li>
+<li>控制包的导入行为（如 <code>__all__</code> 变量）。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># my_package/__init__.py</span>
+</span></span><span style="display:flex;"><span>__all__ <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;my_module1&#34;</span>]
+</span></span></code></pre></div><h3 id="5-安装第三方包">5. <strong>安装第三方包</strong></h3>
+<h4 id="1使用-pip-安装">（1）<strong>使用 <code>pip</code> 安装</strong></h4>
+<ul>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install 包名
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install numpy
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2使用国内镜像加速">（2）<strong>使用国内镜像加速</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install -i 镜像地址 包名
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

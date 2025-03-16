@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="Python文件操作 （一）编码 1. 编码的概念 定义：编码是一种将 可识别内容（如文字、符号等）转换为 二进制数据 的规则，同时也定义了如何将二进制数据转换回可识别内容。 作用： 存储：将人类可读的内容转换为计算机可存储的二进制数据。 传输：在网络传输中，编码确保数据能够正确传递和解析。 显示：将二进制数据转换回人类可读的内容。 2. 常见编码 （1）UTF-8 是一种 可变长度 的 Unicode 编码。 支持全球所有语言的字符。 兼容 ASCII 编码。 （2）GBK 是一种针对 中文 的编码。 支持简体中文和繁体中文。 （3）Big5 是一种针对 繁体中文 的编码。 主要用于台湾、香港等地区。 3. 编码与解码 （1）编码（Encode） 作用：将字符串转换为二进制数据。
+字符串.encode(编码格式) text = &#34;我喜欢你&#34; binary_data = text.encode(&#34;UTF-8&#34;) print(binary_data) # 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39; （2）解码（Decode） 作用：将二进制数据转换为字符串。
+二进制数据.decode(编码格式) binary_data = b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39; text = binary_data.decode(&#34;UTF-8&#34;) print(text) # 输出 &#34;我喜欢你&#34; 4. 编码错误的处理 常见错误： UnicodeEncodeError：编码时无法将字符转换为指定编码。 UnicodeDecodeError：解码时无法将二进制数据转换为指定编码的字符。 解决方法： 使用 errors 参数指定错误处理方式。 ignore：忽略无法编码/解码的字符。 replace：用替代字符（如 ?）替换无法编码/解码的字符。 （二）文件操作 1. 打开文件 open(file, mode, encoding) file：文件路径（字符串类型）。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="Python文件操作 （一）编码 1. 编码的概念 定义：编码是一种将 可识别内容（如文字、符号等）转换为 二进制数据 的规则，同时也定义了如何将二进制数据转换回可识别内容。 作用： 存储：将人类可读的内容转换为计算机可存储的二进制数据。 传输：在网络传输中，编码确保数据能够正确传递和解析。 显示：将二进制数据转换回人类可读的内容。 2. 常见编码 （1）UTF-8 是一种 可变长度 的 Unicode 编码。 支持全球所有语言的字符。 兼容 ASCII 编码。 （2）GBK 是一种针对 中文 的编码。 支持简体中文和繁体中文。 （3）Big5 是一种针对 繁体中文 的编码。 主要用于台湾、香港等地区。 3. 编码与解码 （1）编码（Encode） 作用：将字符串转换为二进制数据。
+字符串.encode(编码格式) text = &#34;我喜欢你&#34; binary_data = text.encode(&#34;UTF-8&#34;) print(binary_data) # 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39; （2）解码（Decode） 作用：将二进制数据转换为字符串。
+二进制数据.decode(编码格式) binary_data = b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39; text = binary_data.decode(&#34;UTF-8&#34;) print(text) # 输出 &#34;我喜欢你&#34; 4. 编码错误的处理 常见错误： UnicodeEncodeError：编码时无法将字符转换为指定编码。 UnicodeDecodeError：解码时无法将二进制数据转换为指定编码的字符。 解决方法： 使用 errors 参数指定错误处理方式。 ignore：忽略无法编码/解码的字符。 replace：用替代字符（如 ?）替换无法编码/解码的字符。 （二）文件操作 1. 打开文件 open(file, mode, encoding) file：文件路径（字符串类型）。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/"
+        },"genre": "posts","wordcount":  206 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;206 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一编码">（一）编码</a>
+      <ul>
+        <li><a href="#1-编码的概念">1. <strong>编码的概念</strong></a></li>
+        <li><a href="#2-常见编码">2. <strong>常见编码</strong></a></li>
+        <li><a href="#3-编码与解码">3. <strong>编码与解码</strong></a></li>
+        <li><a href="#4-编码错误的处理">4. <strong>编码错误的处理</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#二文件操作">（二）文件操作</a>
+      <ul>
+        <li><a href="#1-打开文件">1. <strong>打开文件</strong></a></li>
+        <li><a href="#2-读取文件">2. <strong>读取文件</strong></a></li>
+        <li><a href="#3-关闭文件">3. <strong>关闭文件</strong></a></li>
+        <li><a href="#4-with-open-语法">4. <strong><code>with open</code> 语法</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="python文件操作">Python文件操作</h1>
+<h2 id="一编码">（一）编码</h2>
+<h3 id="1-编码的概念">1. <strong>编码的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：编码是一种将 <strong>可识别内容</strong>（如文字、符号等）转换为 <strong>二进制数据</strong> 的规则，同时也定义了如何将二进制数据转换回可识别内容。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>存储：将人类可读的内容转换为计算机可存储的二进制数据。</li>
+<li>传输：在网络传输中，编码确保数据能够正确传递和解析。</li>
+<li>显示：将二进制数据转换回人类可读的内容。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-常见编码">2. <strong>常见编码</strong></h3>
+<h4 id="1utf-8">（1）<strong>UTF-8</strong></h4>
+<ul>
+<li>是一种 <strong>可变长度</strong> 的 Unicode 编码。</li>
+<li>支持全球所有语言的字符。</li>
+<li>兼容 ASCII 编码。</li>
+</ul>
+<h5 id="2gbk">（2）<strong>GBK</strong></h5>
+<ul>
+<li>是一种针对 <strong>中文</strong> 的编码。</li>
+<li>支持简体中文和繁体中文。</li>
+</ul>
+<h4 id="3big5">（3）<strong>Big5</strong></h4>
+<ul>
+<li>是一种针对 <strong>繁体中文</strong> 的编码。</li>
+<li>主要用于台湾、香港等地区。</li>
+</ul>
+<hr>
+<h3 id="3-编码与解码">3. <strong>编码与解码</strong></h3>
+<h5 id="1编码encode">（1）<strong>编码（Encode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将字符串转换为二进制数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>encode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;我喜欢你&#34;</span>
+</span></span><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(binary_data)  <span style="color:#75715e"># 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="2解码decode">（2）<strong>解码（Decode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将二进制数据转换为字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>二进制数据<span style="color:#f92672">.</span>decode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>text <span style="color:#f92672">=</span> binary_data<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(text)  <span style="color:#75715e"># 输出 &#34;我喜欢你&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-编码错误的处理">4. <strong>编码错误的处理</strong></h3>
+<ul>
+<li><strong>常见错误</strong>：
+<ul>
+<li><code>UnicodeEncodeError</code>：编码时无法将字符转换为指定编码。</li>
+<li><code>UnicodeDecodeError</code>：解码时无法将二进制数据转换为指定编码的字符。</li>
+</ul>
+</li>
+<li><strong>解决方法</strong>：
+<ul>
+<li>使用 <code>errors</code> 参数指定错误处理方式。
+<ul>
+<li><code>ignore</code>：忽略无法编码/解码的字符。</li>
+<li><code>replace</code>：用替代字符（如 <code>?</code>）替换无法编码/解码的字符。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="heading"></h4>
+<h2 id="二文件操作">（二）文件操作</h2>
+<h3 id="1-打开文件">1. <strong>打开文件</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>open(file, mode, encoding)
+</span></span></code></pre></div><ul>
+<li>
+<p><code>file</code>：文件路径（字符串类型）。</p>
+</li>
+<li>
+<p><code>mode</code>：文件打开模式（字符串类型）。</p>
+</li>
+<li>
+<p><code>encoding</code>：文件编码格式（推荐使用 <code>UTF-8</code>）。</p>
+</li>
+<li>
+<p><strong>常用模式</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">模式</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>r</code></td>
+          <td style="text-align: left">以<strong>只读</strong>方式打开文件，文件指针在开头（默认模式）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>w</code></td>
+          <td style="text-align: left">以<strong>写入</strong>方式打开文件。如果<strong>文件存在，清空内容</strong>；如果文件<strong>不存在，创建新文件</strong>。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>a</code></td>
+          <td style="text-align: left">以<strong>追加</strong>方式打开文件。如果文件存在，新内容写入到文件末尾；如果文件不存在，创建新文件。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>b</code></td>
+          <td style="text-align: left">以<strong>二进制模式</strong>打开文件（如 <code>rb</code>、<code>wb</code>）。</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="2-读取文件">2. <strong>读取文件</strong></h3>
+<h4 id="1read-方法">（1）<strong><code>read()</code> 方法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：读取文件中<strong>指定长度</strong>的内容（以<strong>字节</strong>为单位），如果<strong>不指定长度，则读取全部内容</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>文件对象<span style="color:#f92672">.</span>read(num)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()  <span style="color:#75715e"># 读取全部内容</span>
+</span></span><span style="display:flex;"><span>print(content)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h4 id="2readline-方法">（2）<strong><code>readline()</code> 方法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：一次读取一行内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>文件对象<span style="color:#f92672">.</span>readline()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>line <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readline()  <span style="color:#75715e"># 读取一行</span>
+</span></span><span style="display:flex;"><span>print(line)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h4 id="3readlines-方法">（3）<strong><code>readlines()</code> 方法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：读取文件中的<strong>所有行</strong>，并返回一个<strong>列表</strong>，每行内容为列表中的一个元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>文件对象<span style="color:#f92672">.</span>readlines()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>lines <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readlines()  <span style="color:#75715e"># 读取所有行</span>
+</span></span><span style="display:flex;"><span>print(lines)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h4 id="4for-循环读取文件">（4）<strong><code>for</code> 循环读取文件</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：逐行读取文件内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> 文件对象:
+</span></span><span style="display:flex;"><span>    print(line)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+</span></span><span style="display:flex;"><span>    print(line)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="3-关闭文件">3. <strong>关闭文件</strong></h3>
+<ul>
+<li>
+<p><strong>作用</strong>：释放文件资源，避免文件被一直占用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>文件对象<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-with-open-语法">4. <strong><code>with open</code> 语法</strong></h3>
+<ul>
+<li>
+<p><strong>作用</strong>：<strong>自动管理文件的打开和关闭</strong>，避免忘记关闭文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(file, mode, encoding) <span style="color:#66d9ef">as</span> 文件对象:
+</span></span><span style="display:flex;"><span>    操作文件
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;python.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    content <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>    print(content)
+</span></span></code></pre></div></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

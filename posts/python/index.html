@@ -7,26 +7,32 @@
         <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/">
   <meta property="og:site_name" content="Jinxiwei">
   <meta property="og:title" content="Jinxiwei">
-  <meta property="og:description" content="（一）Python基础语法 一、标识符 由字母，数字，下划线组成 不能以数字开头 区分大小写，下划线开头的标识符有特殊意义 二、一种有五种标准的数据类 numbers数字 string字符串 list列表 tuple元组 dictionary字典 1、List 列表可以完成大多数集合类的数据结构实现。 列表支持字符，数字，字符串甚至可以包含列表（即嵌套）。 列表用 [ ] 标识，是 python 最通用的复合数据类型。 列表中值的切割也可以用到变量 [头下标:尾下标] ，就可以截取相应的列表，从左到右索引默认 0 开始，从右到左索引默认 -1 开始，下标可以为空表示取到头或尾。 加号 &#43; 是列表连接运算符，星号 * 是重复操作。 2、Tuple 元组用”()”标识。内部元素用逗号隔开。但是元组不能二次赋值，相当于只读列表。 3、dictionary 字典(dictionary)是除列表以外Python之中最灵活的内置数据结构类型。 列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。 字典用”{ }”标识。字典由索引(key)和它对应的值value组成。 三、Python 运算符 1.算术运算符 % : 取模，返回除法的余数 x**y : 幂，返回x的y次方 // : 取整除 - 返回商的整数部分
-2.比较运算符 /=、^=、%=、//=
-3.位运算符 &amp;,^（按位异或）,~（取反）,«,»
-4.逻辑运算符 and,or,not
-5.身份运算符 is:is 是判断两个标识符是不是引用自一个对象 x is y, 类似 id(x) == id(y) , 如果引用的是同一个对象则返回 True，否则返回 False">
+  <meta property="og:description" content="Python基础语法 (一) 6中常用数据（值）类型： 类型 描述 说明 数字（Number） 支持多种数字类型 - 整数（int） 如：10、-10 表示整数值 - 浮点数（float） 如：13.14、-13.14 表示带小数点的数值 - 复数（complex） 如：4&#43;3j 以 j 结尾表示复数 - 布尔（bool） True、False 表达逻辑值，True 记作 1，False 记作 0 字符串（String） 描述文本的数据类型 由任意数量的字符组成，如：&#34;Hello&#34; 列表（List） 有序的可变序列 可有序记录一堆数据，如：[1, 2, 3] 元组（Tuple） 有序的不可变序列 可有序记录一堆不可变的数据，如：(1, 2, 3) 集合（Set） 无序不重复集合 可无序记录一堆不重复的数据，如：{1, 2, 3} 字典（Dictionary） 无序 Key-Value 集合 可无序记录键值对数据，如：{&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 25} 数据类型： type()
+类型转换
+转换为字符串：str()
+转换为整数：int()
+转换为浮点数：float()
+任何类型，都可以通过str()，转换成字符串
+字符串内必须真的是数字，才可以将字符串转换为数字
+(二)运算符 运算符 描述 实例 &#43; 加 两个对象相加：a &#43; b，如 10 &#43; 20 输出结果 30 - 减 得到负数或一个数减去另一个数：a - b，如 10 - 20 输出结果 -10 * 乘 两个数相乘或返回一个被重复若干次的字符串：a * b，如 10 * 20 输出结果 200 / 除 返回除法结果：b / a，如 20 / 10 输出结果 2.0 // 取整除 返回商的整数部分：9 // 2 输出结果 4，9.0 // 2.0 输出结果 4.0 % 取余 返回除法的余数：b % a，如 20 % 10 输出结果 0 ** 指数 返回一个数的幂：a ** b，如 10 ** 20 输出结果 100000000000000000000 运算符 描述 说明 = 赋值运算符 将 = 右边的结果赋给左边的变量 &#43;= 加法赋值运算符 c &#43;= a 等效于 c = c &#43; a -= 减法赋值运算符 c -= a 等效于 c = c - a *= 乘法赋值运算符 c *= a 等效于 c = c * a /= 除法赋值运算符 c /= a 等效于 c = c / a %= 取模赋值运算符 c %= a 等效于 c = c % a **= 幂赋值运算符 c **= a 等效于 c = c ** a //= 取整除赋值运算符 c //= a 等效于 c = c // a (三)字符串 1、字符串定义形式 定义方式 语法 特点 单引号定义法 &#39;字符串内容&#39; 适合定义单行字符串 双引号定义法 &#34;字符串内容&#34; 适合定义单行字符串，内容中可包含单引号 三引号定义法 &#39;&#39;&#39;字符串内容&#39;&#39;&#39; 或 &#34;&#34;&#34;字符串内容&#34;&#34;&#34; 支持多行字符串，也可作为多行注释使用 2、字符串格式化 格式符号 转化 说明 %s 将内容转换成字符串，放入占位位置 适用于字符串、数字等类型，自动转换为字符串 %d 将内容转换成整数，放入占位位置 适用于整数类型，浮点数会被截断为整数 %f 将内容转换成浮点型，放入占位位置 适用于浮点数类型，默认保留 6 位小数，可通过 %.nf 指定小数位数（n 为数字） %s 示例：">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Jinxiwei">
-  <meta name="twitter:description" content="（一）Python基础语法 一、标识符 由字母，数字，下划线组成 不能以数字开头 区分大小写，下划线开头的标识符有特殊意义 二、一种有五种标准的数据类 numbers数字 string字符串 list列表 tuple元组 dictionary字典 1、List 列表可以完成大多数集合类的数据结构实现。 列表支持字符，数字，字符串甚至可以包含列表（即嵌套）。 列表用 [ ] 标识，是 python 最通用的复合数据类型。 列表中值的切割也可以用到变量 [头下标:尾下标] ，就可以截取相应的列表，从左到右索引默认 0 开始，从右到左索引默认 -1 开始，下标可以为空表示取到头或尾。 加号 &#43; 是列表连接运算符，星号 * 是重复操作。 2、Tuple 元组用”()”标识。内部元素用逗号隔开。但是元组不能二次赋值，相当于只读列表。 3、dictionary 字典(dictionary)是除列表以外Python之中最灵活的内置数据结构类型。 列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。 字典用”{ }”标识。字典由索引(key)和它对应的值value组成。 三、Python 运算符 1.算术运算符 % : 取模，返回除法的余数 x**y : 幂，返回x的y次方 // : 取整除 - 返回商的整数部分
-2.比较运算符 /=、^=、%=、//=
-3.位运算符 &amp;,^（按位异或）,~（取反）,«,»
-4.逻辑运算符 and,or,not
-5.身份运算符 is:is 是判断两个标识符是不是引用自一个对象 x is y, 类似 id(x) == id(y) , 如果引用的是同一个对象则返回 True，否则返回 False">
+  <meta name="twitter:description" content="Python基础语法 (一) 6中常用数据（值）类型： 类型 描述 说明 数字（Number） 支持多种数字类型 - 整数（int） 如：10、-10 表示整数值 - 浮点数（float） 如：13.14、-13.14 表示带小数点的数值 - 复数（complex） 如：4&#43;3j 以 j 结尾表示复数 - 布尔（bool） True、False 表达逻辑值，True 记作 1，False 记作 0 字符串（String） 描述文本的数据类型 由任意数量的字符组成，如：&#34;Hello&#34; 列表（List） 有序的可变序列 可有序记录一堆数据，如：[1, 2, 3] 元组（Tuple） 有序的不可变序列 可有序记录一堆不可变的数据，如：(1, 2, 3) 集合（Set） 无序不重复集合 可无序记录一堆不重复的数据，如：{1, 2, 3} 字典（Dictionary） 无序 Key-Value 集合 可无序记录键值对数据，如：{&#34;name&#34;: &#34;Alice&#34;, &#34;age&#34;: 25} 数据类型： type()
+类型转换
+转换为字符串：str()
+转换为整数：int()
+转换为浮点数：float()
+任何类型，都可以通过str()，转换成字符串
+字符串内必须真的是数字，才可以将字符串转换为数字
+(二)运算符 运算符 描述 实例 &#43; 加 两个对象相加：a &#43; b，如 10 &#43; 20 输出结果 30 - 减 得到负数或一个数减去另一个数：a - b，如 10 - 20 输出结果 -10 * 乘 两个数相乘或返回一个被重复若干次的字符串：a * b，如 10 * 20 输出结果 200 / 除 返回除法结果：b / a，如 20 / 10 输出结果 2.0 // 取整除 返回商的整数部分：9 // 2 输出结果 4，9.0 // 2.0 输出结果 4.0 % 取余 返回除法的余数：b % a，如 20 % 10 输出结果 0 ** 指数 返回一个数的幂：a ** b，如 10 ** 20 输出结果 100000000000000000000 运算符 描述 说明 = 赋值运算符 将 = 右边的结果赋给左边的变量 &#43;= 加法赋值运算符 c &#43;= a 等效于 c = c &#43; a -= 减法赋值运算符 c -= a 等效于 c = c - a *= 乘法赋值运算符 c *= a 等效于 c = c * a /= 除法赋值运算符 c /= a 等效于 c = c / a %= 取模赋值运算符 c %= a 等效于 c = c % a **= 幂赋值运算符 c **= a 等效于 c = c ** a //= 取整除赋值运算符 c //= a 等效于 c = c // a (三)字符串 1、字符串定义形式 定义方式 语法 特点 单引号定义法 &#39;字符串内容&#39; 适合定义单行字符串 双引号定义法 &#34;字符串内容&#34; 适合定义单行字符串，内容中可包含单引号 三引号定义法 &#39;&#39;&#39;字符串内容&#39;&#39;&#39; 或 &#34;&#34;&#34;字符串内容&#34;&#34;&#34; 支持多行字符串，也可作为多行注释使用 2、字符串格式化 格式符号 转化 说明 %s 将内容转换成字符串，放入占位位置 适用于字符串、数字等类型，自动转换为字符串 %d 将内容转换成整数，放入占位位置 适用于整数类型，浮点数会被截断为整数 %f 将内容转换成浮点型，放入占位位置 适用于浮点数类型，默认保留 6 位小数，可通过 %.nf 指定小数位数（n 为数字） %s 示例：">
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python2/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
@@ -37,7 +43,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python\/"
-        },"genre": "posts","wordcount":  525 ,
+        },"genre": "posts","wordcount":  982 ,
         "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python\/","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -79,8 +85,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;525 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;982 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -90,533 +96,717 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#一python基础语法">（一）Python基础语法</a></li>
+        <li><a href="#一-6中常用数据值类型">(一) 6中常用数据（值）类型：</a></li>
+        <li><a href="#二运算符">(二)运算符</a></li>
+        <li><a href="#三字符串">(三)字符串</a></li>
+        <li><a href="#四-数据输入输出">(四) 数据输入、输出</a></li>
+        <li><a href="#五-判断语句">(五) 判断语句</a></li>
+        <li><a href="#六-循环语句">(六) 循环语句</a></li>
+        <li><a href="#七-函数">(七) 函数</a></li>
       </ul>
     </li>
-    <li><a href="#一标识符">一、标识符</a></li>
-    <li><a href="#二一种有五种标准的数据类">二、一种有五种标准的数据类</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#三python-运算符">三、Python 运算符</a></li>
-  </ul>
-
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#二python基本用法">（二）Python基本用法</a></li>
-      </ul>
-    </li>
-    <li><a href="#21列表与元组">2.1列表与元组</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#22字符串">2.2字符串</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#23字典">2.3字典</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#24条件循环语句">2.4条件、循环语句</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#25函数">2.5函数</a></li>
-    <li><a href="#26文件">2.6文件</a>
-      <ul>
-        <li><a href="#三重要库的使用与案例">（三）重要库的使用与案例</a></li>
-      </ul>
-    </li>
-    <li><a href="#31numpy">3.1Numpy</a></li>
-    <li><a href="#32pandas">3.2Pandas</a></li>
-    <li><a href="#33">3.3</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h3 id="一python基础语法">（一）Python基础语法</h3>
-<h2 id="一标识符">一、标识符</h2>
-<ul>
-<li>由字母，数字，下划线组成</li>
-<li>不能以数字开头</li>
-<li>区分大小写，下划线开头的标识符有特殊意义</li>
-</ul>
-<h2 id="二一种有五种标准的数据类">二、一种有五种标准的数据类</h2>
-<ul>
-<li>numbers数字</li>
-<li>string字符串</li>
-<li>list列表</li>
-<li>tuple元组</li>
-<li>dictionary字典</li>
-</ul>
-<h1 id="1list">1、List</h1>
-<ul>
-<li>列表可以完成大多数集合类的数据结构实现。</li>
-<li>列表支持字符，数字，字符串甚至可以包含列表（即嵌套）。</li>
-<li>列表用 [ ] 标识，是 python 最通用的复合数据类型。</li>
-<li>列表中值的切割也可以用到变量 [头下标:尾下标] ，就可以截取相应的列表，从左到右索引默认 0 开始，从右到左索引默认 -1 开始，下标可以为空表示取到头或尾。</li>
-<li>加号 + 是列表连接运算符，星号 * 是重复操作。</li>
-</ul>
-<h1 id="2tuple">2、Tuple</h1>
-<ul>
-<li>元组用”()”标识。内部元素用逗号隔开。但是元组不能二次赋值，相当于只读列表。</li>
-</ul>
-<h1 id="3dictionary">3、dictionary</h1>
-<ul>
-<li>字典(dictionary)是除列表以外Python之中最灵活的内置数据结构类型。</li>
-<li>列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。</li>
-<li>字典用”{ }”标识。字典由索引(key)和它对应的值value组成。</li>
-</ul>
-<h2 id="三python-运算符">三、Python 运算符</h2>
-<h1 id="1算术运算符">1.算术运算符</h1>
-<p>% : 取模，返回除法的余数
-x**y : 幂，返回x的y次方
-// : 取整除 - 返回商的整数部分</p>
-<h1 id="2比较运算符">2.比较运算符</h1>
-<p>/=、^=、%=、//=</p>
-<h1 id="3位运算符">3.位运算符</h1>
-<p>&amp;,^（按位异或）,~（取反）,&laquo;,&raquo;</p>
-<h1 id="4逻辑运算符">4.逻辑运算符</h1>
-<p>and,or,not</p>
-<h1 id="5身份运算符">5.身份运算符</h1>
+            </div><div class="content" id="content"><h1 id="python基础语法">Python基础语法</h1>
+<h3 id="一-6中常用数据值类型">(一) 6中常用数据（值）类型：</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>类型</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>数字（Number）</strong></td>
+          <td style="text-align: left">支持多种数字类型</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 整数（int）</td>
+          <td style="text-align: left">如：<code>10</code>、<code>-10</code></td>
+          <td style="text-align: left">表示整数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 浮点数（float）</td>
+          <td style="text-align: left">如：<code>13.14</code>、<code>-13.14</code></td>
+          <td style="text-align: left">表示带小数点的数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 复数（complex）</td>
+          <td style="text-align: left">如：<code>4+3j</code></td>
+          <td style="text-align: left">以 <code>j</code> 结尾表示复数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 布尔（bool）</td>
+          <td style="text-align: left"><code>True</code>、<code>False</code></td>
+          <td style="text-align: left">表达逻辑值，<code>True</code> 记作 <code>1</code>，<code>False</code> 记作 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字符串（String）</strong></td>
+          <td style="text-align: left">描述文本的数据类型</td>
+          <td style="text-align: left">由任意数量的字符组成，如：<code>&quot;Hello&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>列表（List）</strong></td>
+          <td style="text-align: left">有序的可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆数据，如：<code>[1, 2, 3]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>元组（Tuple）</strong></td>
+          <td style="text-align: left">有序的不可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆<strong>不可变</strong>的数据，如：<code>(1, 2, 3)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>集合（Set）</strong></td>
+          <td style="text-align: left">无序不重复集合</td>
+          <td style="text-align: left">可<strong>无序</strong>记录一堆<strong>不重复</strong>的数据，如：<code>{1, 2, 3}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字典（Dictionary）</strong></td>
+          <td style="text-align: left">无序 Key-Value 集合</td>
+          <td style="text-align: left">可无序记录<strong>键值对</strong>数据，如：<code>{&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 25}</code></td>
+      </tr>
+  </tbody>
+</table>
 <ul>
 <li>
-<p>is:is 是判断两个标识符是不是引用自一个对象 x is y, 类似 id(x) == id(y) , 如果引用的是同一个对象则返回 True，否则返回 False</p>
+<p>数据类型： <code>type()</code></p>
 </li>
 <li>
-<p>is not ：is not 是判断两个标识符是不是引用自不同对象 x is not y ， 类似 id(a) != id(b)。如果引用的不是同一个对象则返回结果 True，否则返回 False。</p>
+<p>类型转换</p>
+<ul>
+<li>
+<p>转换为字符串：<code>str()</code></p>
 </li>
 <li>
-<p>注：is 与 == 区别：
-is 用于判断两个变量引用对象是否为同一个， == 用于判断引用变量的值是否相等。</p>
+<p>转换为整数：<code>int()</code></p>
+</li>
+<li>
+<p>转换为浮点数：<code>float()</code></p>
 </li>
 </ul>
-<h3 id="二python基本用法">（二）Python基本用法</h3>
-<h2 id="21列表与元组">2.1列表与元组</h2>
-<h1 id="211列表操作">2.1.1列表操作</h1>
+</li>
+<li>
+<p>任何类型，都可以通过str()，转换成字符串</p>
+</li>
+<li>
+<p>字符串内必须真的是数字，才可以将字符串转换为数字</p>
+</li>
+</ul>
+<h3 id="二运算符">(二)运算符</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>实例</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>+</code></td>
+          <td style="text-align: left">加</td>
+          <td style="text-align: left">两个对象相加：<code>a + b</code>，如 <code>10 + 20</code> 输出结果 <code>30</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-</code></td>
+          <td style="text-align: left">减</td>
+          <td style="text-align: left">得到负数或一个数减去另一个数：<code>a - b</code>，如 <code>10 - 20</code> 输出结果 <code>-10</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*</code></td>
+          <td style="text-align: left">乘</td>
+          <td style="text-align: left">两个数相乘或返回一个被重复若干次的字符串：<code>a * b</code>，如 <code>10 * 20</code> 输出结果 <code>200</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/</code></td>
+          <td style="text-align: left">除</td>
+          <td style="text-align: left">返回除法结果：<code>b / a</code>，如 <code>20 / 10</code> 输出结果 <code>2.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//</code></td>
+          <td style="text-align: left">取整除</td>
+          <td style="text-align: left">返回商的整数部分：<code>9 // 2</code> 输出结果 <code>4</code>，<code>9.0 // 2.0</code> 输出结果 <code>4.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%</code></td>
+          <td style="text-align: left">取余</td>
+          <td style="text-align: left">返回除法的余数：<code>b % a</code>，如 <code>20 % 10</code> 输出结果 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**</code></td>
+          <td style="text-align: left">指数</td>
+          <td style="text-align: left">返回一个数的幂：<code>a ** b</code>，如 <code>10 ** 20</code> 输出结果 <code>100000000000000000000</code></td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>=</code></td>
+          <td style="text-align: left">赋值运算符</td>
+          <td style="text-align: left">将 <code>=</code> 右边的结果赋给左边的变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>+=</code></td>
+          <td style="text-align: left">加法赋值运算符</td>
+          <td style="text-align: left"><code>c += a</code> 等效于 <code>c = c + a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-=</code></td>
+          <td style="text-align: left">减法赋值运算符</td>
+          <td style="text-align: left"><code>c -= a</code> 等效于 <code>c = c - a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*=</code></td>
+          <td style="text-align: left">乘法赋值运算符</td>
+          <td style="text-align: left"><code>c *= a</code> 等效于 <code>c = c * a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/=</code></td>
+          <td style="text-align: left">除法赋值运算符</td>
+          <td style="text-align: left"><code>c /= a</code> 等效于 <code>c = c / a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%=</code></td>
+          <td style="text-align: left">取模赋值运算符</td>
+          <td style="text-align: left"><code>c %= a</code> 等效于 <code>c = c % a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**=</code></td>
+          <td style="text-align: left">幂赋值运算符</td>
+          <td style="text-align: left"><code>c **= a</code> 等效于 <code>c = c ** a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//=</code></td>
+          <td style="text-align: left">取整除赋值运算符</td>
+          <td style="text-align: left"><code>c //= a</code> 等效于 <code>c = c // a</code></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="三字符串">(三)字符串</h3>
+<h4 id="1字符串定义形式">1、字符串定义形式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>定义方式</strong></th>
+          <th style="text-align: left"><strong>语法</strong></th>
+          <th style="text-align: left"><strong>特点</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">单引号定义法</td>
+          <td style="text-align: left"><code>'字符串内容'</code></td>
+          <td style="text-align: left">适合定义单行字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">双引号定义法</td>
+          <td style="text-align: left"><code>&quot;字符串内容&quot;</code></td>
+          <td style="text-align: left">适合定义单行字符串，内容中可包含单引号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">三引号定义法</td>
+          <td style="text-align: left"><code>'''字符串内容'''</code> 或 <code>&quot;&quot;&quot;字符串内容&quot;&quot;&quot;</code></td>
+          <td style="text-align: left">支持多行字符串，也可作为多行注释使用</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2字符串格式化">2、字符串格式化</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>格式符号</strong></th>
+          <th style="text-align: left"><strong>转化</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>%s</code></td>
+          <td style="text-align: left">将内容转换成字符串，放入占位位置</td>
+          <td style="text-align: left">适用于字符串、数字等类型，自动转换为字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%d</code></td>
+          <td style="text-align: left">将内容转换成整数，放入占位位置</td>
+          <td style="text-align: left">适用于整数类型，浮点数会被截断为整数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%f</code></td>
+          <td style="text-align: left">将内容转换成浮点型，放入占位位置</td>
+          <td style="text-align: left">适用于浮点数类型，默认保留 6 位小数，可通过 <code>%.nf</code> 指定小数位数（n 为数字）</td>
+      </tr>
+  </tbody>
+</table>
 <ol>
 <li>
-<p>索引：使用‘[]’表示索引，其中方框中的元素可以取正数，但也可以使用负数索引。当使用负数索引时，表示从最后一个元素开始往左数，取第-n个元素。</p>
+<p><strong><code>%s</code> 示例</strong>：</p>
+<ul>
+<li>将内容转换为字符串。</li>
+<li>代码：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Alice&#34;</span>
+</span></span><span style="display:flex;"><span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;姓名：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">，年龄：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (name, age))
+</span></span></code></pre></div></li>
+<li>输出：
+<pre tabindex="0"><code>姓名：Alice，年龄：25
+</code></pre></li>
+</ul>
 </li>
 <li>
-<p>切片：切片本质上是使用冒号间隔的两个索引，其中第一个索引指定的元素包含在切片内，但第二个索引指定的元素不包含在切片内。
-number_list = [0,1,2,3,4,5,6,7,8,9]
-number_list[3:7]=&gt;[3,4,5,6]</p>
-</li>
+<p><strong><code>%f</code> 示例</strong>：</p>
+<ul>
 <li>
-<p>加法：可以使用加法运算符来拼接序列
-list1 + list2</p>
-</li>
-<li>
-<p>乘法:将序列与数x相乘时，将重复这个序列x次来创建一个新序列。</p>
-</li>
-<li>
-<p>成员资格检查：可以通过in运算符来检查特定的值是否包含在序列中。它检查是否满足指定的条件，并返回相应的值：满足时返回True，不满足时返回False。</p>
-</li>
-<li>
-<p>列表修改</p>
+<p>指定保留 2 位小数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pi <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.1415926535</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;圆周率：</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> pi)
+</span></span></code></pre></div><p>输出：</p>
+<pre tabindex="0"><code>圆周率：3.14
+</code></pre></li>
+</ul>
 </li>
 </ol>
 <ul>
-<li>
-<p>元素赋值：使用索引法找到特定位置的元素，并使用赋值号=给元素赋值。但要注意，不能给超出列表长度范围的元素赋值</p>
+<li>如果需要格式化多个值，可以使用元组传递，例如 <code>&quot;字符串 %s %d&quot; % (值1, 值2)</code>。</li>
+<li>在 Python 3.6 及以上版本中，推荐使用 <strong>f-string</strong>（格式化字符串字面值），例如 <code>f&quot;姓名：{name}，年龄：{age}&quot;</code>。</li>
+</ul>
+<h4 id="3辅助符号-mn-的作用">3、辅助符号 <code>m.n</code> 的作用</h4>
+<ul>
+<li><strong><code>m</code></strong>：控制数据的宽度（总长度）。
+<ul>
+<li>要求是数字。</li>
+<li>如果设置的宽度小于数据本身的长度，则不生效。</li>
+</ul>
 </li>
-<li>
-<p>删除元素：使用下标索引并结合del语句来删除元素
-del lst[3]</p>
-</li>
-<li>
-<p>切片赋值：使用切片可以同时给多个元素赋值，并实现序列的长度改变。不仅如此，使用切片赋值还可以在不替换原有元素的情况下更新元素。
-number_list = [1,2,3,4,5,6]
-number_list[2:]=[20,30,40]=&gt;[1, 2, 20, 30, 40]
-number_list[1:1]=[5,10,15]=&gt;[1, 5, 10, 15, 2, 20, 30, 40]</p>
+<li><strong><code>.n</code></strong>：控制小数点精度（小数位数）。
+<ul>
+<li>要求是数字。</li>
+<li>会对小数部分进行四舍五入。</li>
+</ul>
 </li>
 </ul>
-<h1 id="212列表方法">2.1.2列表方法</h1>
-<p><em><strong>所谓方法是通过在方法名前加上对象和句点来调用：object.method(arguments)</strong></em></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>格式化符号</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>%md</code></td>
+          <td style="text-align: left">控制整数的宽度为 <code>m</code> 位，不足时左侧补空格</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%m.nf</code></td>
+          <td style="text-align: left">控制浮点数的宽度为 <code>m</code> 位，小数点精度为 <code>n</code> 位，不足时左侧补空格</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%.nf</code></td>
+          <td style="text-align: left">不限制宽度，只设置小数点精度为 <code>n</code> 位</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 整数宽度控制</span>
+</span></span><span style="display:flex;"><span>num1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;整数宽度控制：</span><span style="color:#e6db74">%5d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> num1)  <span style="color:#75715e"># 输出：   11</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 浮点数宽度和精度控制</span>
+</span></span><span style="display:flex;"><span>num2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">11.345</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;浮点数宽度和精度控制：</span><span style="color:#e6db74">%7.2f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> num2)  <span style="color:#75715e"># 输出：  11.35</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 仅精度控制</span>
+</span></span><span style="display:flex;"><span>num3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">11.345</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;仅精度控制：</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> num3)  <span style="color:#75715e"># 输出：11.35</span>
+</span></span></code></pre></div><h3 id="四-数据输入输出">(四) 数据输入、输出</h3>
+<ul>
+<li>输入：<code>name = input()</code></li>
+<li>输出：<code>print()</code></li>
+</ul>
+<p><strong>无论键盘输入的是什么格式的数据，接收到都是字符串类型</strong></p>
+<hr>
+<h3 id="五-判断语句">(五) 判断语句</h3>
+<p><strong>1、基本语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> 条件1:
+</span></span><span style="display:flex;"><span>    执行语句1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> 条件2:
+</span></span><span style="display:flex;"><span>    执行语句2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    执行语句3
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>三元运算符</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>值1 <span style="color:#66d9ef">if</span> 条件 <span style="color:#66d9ef">else</span> 值2
+</span></span></code></pre></div></li>
+<li>
+<p><strong>功能</strong>：如果条件为 <code>True</code>，返回 <code>值1</code>；否则返回 <code>值2</code>。适用于简单的条件赋值。</p>
+</li>
+<li>
+<p><strong>常用运算符</strong>：</p>
 <ul>
 <li>
-<p>append() : 将一个对象附加到列表的末尾 list.append(50)</p>
+<p><code>and</code>：所有条件都为 <code>True</code> 时返回 <code>True</code>。</p>
 </li>
 <li>
-<p>clear(): 用于清空列表中所有内容 list.clear()</p>
+<p><code>or</code>：至少一个条件为 <code>True</code> 时返回 <code>True</code>。</p>
 </li>
 <li>
-<p>copy(): 复制列表  nl = list.copy()</p>
-</li>
-<li>
-<p>insert(): 将一个对象插入到列表中 list.insert(2,7)</p>
-</li>
-<li>
-<p>remove(): 删除第一个为指定值的元素
-sentence = [&lsquo;how&rsquo;,&lsquo;do&rsquo;,&lsquo;you&rsquo;,&lsquo;do&rsquo;]
-sentence.remove(&lsquo;do&rsquo;)</p>
-</li>
-<li>
-<p>count(): 统计某个元素在列表中出现的次数 [&rsquo;to&rsquo;, &lsquo;be&rsquo;, &lsquo;or&rsquo;, &rsquo;not&rsquo;, &rsquo;to&rsquo;, &lsquo;be&rsquo;].count(&rsquo;to&rsquo;)x</p>
-</li>
-<li>
-<p>extend(): 在列表末尾一次性追加另一个序列中的多个值 a1.extend(b1)</p>
-</li>
-<li>
-<p>index(): 在列表中查找指定值第一次出现的索引 sentence.index(&lsquo;do&rsquo;)</p>
-</li>
-<li>
-<p>reverse(): 反向列表元素 name.reverse()</p>
+<p><code>not</code>：反转条件的布尔值。</p>
 </li>
 </ul>
-<h1 id="213特殊的列表-元组">2.1.3特殊的列表-元组</h1>
-<p>与列表一样，元组也是序列，唯一的差别在于元组是不能修改的。元组语法很简单，只要将一些值用逗号分隔，就能自动创建一个元组。</p>
-<ul>
-<li>定义元组：
-1，2，3=&gt; (1,2,3)
-(1,2,3)=&gt; (1,2,3)</li>
+</li>
 </ul>
-<h2 id="22字符串">2.2字符串</h2>
-<h1 id="221基础知识">2.2.1基础知识</h1>
-<p>字符串是Python中最常用的数据类型。我们可以使用引号(‘’或“”)来创建字符串。创建字符串很简单，只要为变量分配一个值即可。
-+字符串连接
-*重复输出字符串
-[]通过索引获取字符串中字符
-[:]截取字符串中的一部分
-in	如果字符串中包含给定的字符返回True
-not in	如果字符串中不包含给定的字符返回True</p>
-<h1 id="222字符串方法">2.2.2字符串方法</h1>
-<ol>
-<li>
-<p>find(): 在字符串中查找子串，找到则返回子串的第一个字符的索引，否则返回-1，当出现返回值为0时说明恰巧在最开始处找到了指定的子串。同时还可以指定搜索范围，第二个和第三个参数分别代表搜索的起点与终点，包含起点但不包含终点。
-sentence.find(&lsquo;speak&rsquo;)
-sentence.find(&rsquo;s&rsquo;,3,10)</p>
-</li>
-<li>
-<p>join(): 用于合并字符串，注意所有合并的序列元素都必须是字符串
-number_list = [&lsquo;1&rsquo;,&lsquo;2&rsquo;,&lsquo;3&rsquo;,&lsquo;4&rsquo;,&lsquo;5&rsquo;]
-add = &lsquo;+&rsquo;
-=&gt;&lsquo;1+2+3+4+5&rsquo;</p>
-</li>
-<li>
-<p>split(): 将字符串按照分隔符拆分为序列。如果没有指定分隔符，将默认在单个或多个连续的空白字符（空格、制表符、换行符等）处进行拆分。
-&lsquo;1+2+3+4+5&rsquo;.split(&rsquo;+&rsquo;)
-=&gt;[&lsquo;1&rsquo;, &lsquo;2&rsquo;, &lsquo;3&rsquo;, &lsquo;4&rsquo;, &lsquo;5&rsquo;]
-&ldquo;I am a student from BUPT&rdquo;.split()
-=&gt;[&lsquo;I&rsquo;, &lsquo;am&rsquo;, &lsquo;a&rsquo;, &lsquo;student&rsquo;, &lsquo;from&rsquo;, &lsquo;BUPT&rsquo;]</p>
-</li>
-<li>
-<p>strip(): 将字符串开头和末尾的空白（但不包括中间的空白）删除，并返回删除后的结果。
-&quot;      I am a student from BUPT       &ldquo;.strip()
-&lsquo;I am a student from BUPT&rsquo;
-&lsquo;<em><strong><strong>!!!!!Something important!!!!!</strong></strong></em>&rsquo;.strip(&rsquo;*!&rsquo;)
-&lsquo;Something important&rsquo;</p>
-</li>
-<li>
-<p>lower(): 返回字符串的小写版本。
-&lsquo;My favourite character is Mickey Mouse&rsquo;.lower()
-&lsquo;my favourite character is mickey mouse&rsquo;</p>
-</li>
-</ol>
-<h2 id="23字典">2.3字典</h2>
-<h1 id="231字典概述">2.3.1字典概述</h1>
+<h4 id="2in-和-not-in">2、<code>in</code> 和 <code>not in</code></h4>
 <ul>
 <li>
-<p>字典中的值不按顺序存放，而是通过键值索引，这里的键可能是数、字符串或元组等等。</p>
+<p><strong>功能</strong>：用于检查元素是否在序列（如列表、字符串等）中。</p>
 </li>
 <li>
-<p>字典中的这种键-值对被称为项（item）。每个键与其值之间都用冒号（：）进行分隔，项之间用逗号分隔，而整个字典放在花括号内，整体类似于{key1:value1, key2:value2}。空字典中没有任何项，用两个花括号表示，类似于：{}。</p>
-</li>
-<li>
-<p>Python中的字典能够实现轻松快速地查找，通过给定的键，找到该键对应的值。因此在字典中，<strong>键必须是独一无二的</strong>，而字典中的值无需如此。</p>
-</li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> x <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;x 在列表中&#34;</span>)
+</span></span></code></pre></div></li>
 </ul>
-<h1 id="232创建字典">2.3.2创建字典</h1>
+<h4 id="3is-和-is-not">3、<code>is</code> 和 <code>is not</code></h4>
+<ul>
+<li><strong>功能</strong>：用于比较两个对象的身份**（内存地址）**，而不仅仅是值。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> x <span style="color:#f92672">is</span> y:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;x 和 y 是同一个对象&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4pass-语句">4、<code>pass</code> 语句</h4>
 <ul>
 <li>
-<p>可以直接使用赋值的方式创建字典，但需要注意的是，<strong>键是唯一的，如果重复，最后的一个键值对会替换前面的</strong>，但值不需要唯一。值可以取任何数据类型，但<strong>键必须是不可变的</strong>，如字符串、数字或者元组。</p>
+<p><strong>功能</strong>：用于占位，表示<strong>不执行任何操作</strong>。常用于未完成的代码块中。</p>
 </li>
 <li>
-<p>也可以使用函数dict从其他映射或键-值对序列创建字典。
-student = [(&rsquo;name&rsquo;,&lsquo;Mickey&rsquo;),(&lsquo;age&rsquo;,24)]
-d = dict(student)
-=&gt;d={&lsquo;age&rsquo;: 24, &rsquo;name&rsquo;: &lsquo;Mickey&rsquo;}</p>
-</li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>  <span style="color:#75715e"># 待实现</span>
+</span></span></code></pre></div></li>
 </ul>
-<h1 id="233字典操作">2.3.3字典操作</h1>
-<p>student_dict={&lsquo;Tom&rsquo;:24,&lsquo;Mickey&rsquo;:23,&lsquo;Marry&rsquo;:15,&lsquo;Abel&rsquo;:18}</p>
+<h4 id="5assert-语句">5、<code>assert</code> 语句</h4>
 <ul>
-<li>求长度：len(student_dict) =&gt;4</li>
-<li>索引：student_dict[&lsquo;Marry&rsquo;] =&gt;15</li>
-<li>修改对应项的值:student_dict[&lsquo;Tom&rsquo;] = 28</li>
+<li><strong>功能</strong>：用于调试，检查条件是否为 <code>True</code>，如果为 <code>False</code> 则抛出 <code>AssertionError</code>。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;x 必须大于 0&#34;</span>
+</span></span></code></pre></div></li>
 </ul>
-<h1 id="234字典方法">2.3.4字典方法</h1>
-<ol>
-<li>
-<p>删除字典中的元素 del student_dict[&lsquo;Mickey&rsquo;]</p>
-</li>
-<li>
-<p>使用in判断某一关键字是否在字典中 &lsquo;Mickey&rsquo; in student_dict
-（两个方法不符合对象.方法格式）</p>
-</li>
-</ol>
-<p><em>虽然字典和列表有多个相同之处，但也有一些重要的不同之处。首先，字典中的键可以是整数，但并非必须是整数，只需要保证字典的键是任何不可变的类型，如实数、字符串或元组。其次不使用append或其他类似的方法就不能给列表中没有的元素赋值，但即便是字典中原本没有的键，也可以给它赋值，这样将在字典中创建一个新项。</em></p>
-<ol start="3">
-<li>
-<p>clear(): 删除所有的字典项，返回值为None。还可以通过给字典赋空值来清空此字典。
-student_dict = {&lsquo;Abel&rsquo;: 18, &lsquo;Alan&rsquo;: 24}
-student_dict.clear()</p>
-</li>
-<li>
-<p>copy(): 返回一个新字典，其包含的键值对与原来的字典相同。 y = x.copy()</p>
-</li>
-<li>
-<p>get(): 使用get来访问不存在的键时，没有引发异常，而是返回None。而如果字典包含指定的键，get的作用将与普通字典查找相同。d.get(&rsquo;name&rsquo;)</p>
-</li>
-<li>
-<p>keys(): 返回一个字典视图，其中包含指定字典中的键 x.keys()</p>
-</li>
-<li>
-<p>pop(): 用于获取与指定键相关联的值，并将该键值对从字典中删除</p>
-</li>
-<li>
-<p>items(): 方法items返回一个包含所有字典项的列表，其中每个元素都为(key, value)的形式</p>
-</li>
-</ol>
-<h2 id="24条件循环语句">2.4条件、循环语句</h2>
-<h1 id="241条件语句">2.4.1条件语句</h1>
-<pre><code>if 判断条件1：
-    执行语句段1
-elif 判断条件2：
-    执行语句段2
-else：
-    执行语句段3
-</code></pre>
+<h4 id="6布尔上下文中的真值">6、布尔上下文中的真值</h4>
 <ul>
-<li>python不支持swith语句，需要使用多个条件判断来实现</li>
-<li>if可以多层嵌套</li>
-<li><strong>python条件、循环语句中没有{},用格式缩进来体现</strong></li>
+<li><strong>在布尔上下文中，非零数字、非空字符串、非空列表等被视为 <code>True</code>；</strong></li>
+<li><strong><code>0</code>、<code>None</code>、空字符串、空列表等被视为 <code>False</code>。</strong></li>
 </ul>
-<h1 id="242循环语句">2.4.2循环语句</h1>
-<ol>
-<li>
-<p>while循环</p>
-<p>while 判断条件：
-执行语句段……</p>
-<p>或者</p>
-<p>while 判断条件：
-执行语句段1……
-else:
-执行语句段2……</p>
-</li>
-<li>
-<p>for 循环</p>
-<p>for 迭代变量 in 序列:
-执行语句……</p>
-</li>
-</ol>
+<h3 id="六-循环语句">(六) 循环语句</h3>
+<h4 id="1while-循环">1、<code>while</code> 循环</h4>
+<p><strong>基本语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> 条件:
+</span></span><span style="display:flex;"><span>    循环体
+</span></span></code></pre></div><h4 id="2for-循环">2、<code>for</code> 循环</h4>
+<p><strong>基本语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> 变量 <span style="color:#f92672">in</span> 可迭代对象:
+</span></span><span style="display:flex;"><span>    循环体
+</span></span></code></pre></div><ul>
+<li><strong>功能</strong>：遍历可迭代对象（如列表、字符串、字典、范围等），每次迭代将当前元素赋值给变量，并执行循环体。</li>
+<li><strong>特点</strong>：
 <ul>
-<li>和while相类似，for循环也可以同else结合表示跳出循环后执行的内容</li>
+<li>适合已知循环次数的场景。</li>
+<li>可迭代对象可以是 <code>range()</code>、列表、字符串等。</li>
 </ul>
-<ol start="3">
-<li>
-<p>break跳出循环：break语句用来终止循环语句，它在while和for中使用。break语句能停止执行最深层的循环，并开始执行下一行代码。</p>
 </li>
-<li>
-<p>continue跳出循环：continue 语句用来跳出本次循环，即跳过当前循环的剩余语句，然后继续进行下一轮循环。它可以在while和for循环中使用。</p>
-</li>
-<li>
-<p>pass跳出循环：空语句，pass不做任何事情，占位语句。</p>
-</li>
-</ol>
-<h2 id="25函数">2.5函数</h2>
-<ol>
-<li>定义函数
-定义函数需要遵照以下几点规则：</li>
-</ol>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):  <span style="color:#75715e"># range(5)取得的数据是：[0, 1, 2, 3, 4]</span>
+</span></span><span style="display:flex;"><span>    print(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#字符串</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> <span style="color:#e6db74">&#34;Python&#34;</span>:
+</span></span><span style="display:flex;"><span>    print(char)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列表</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
+</span></span><span style="display:flex;"><span>    print(fruit)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#元组</span>
+</span></span><span style="display:flex;"><span>colors <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#34;red&#34;</span>, <span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#e6db74">&#34;blue&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> color <span style="color:#f92672">in</span> colors:
+</span></span><span style="display:flex;"><span>    print(color)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 字典</span>
+</span></span><span style="display:flex;"><span>person <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>, <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;New York&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> person<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>key<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 集合</span>
+</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> num <span style="color:#f92672">in</span> numbers:
+</span></span><span style="display:flex;"><span>    print(num)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3break-语句">3、<code>break</code> 语句</h4>
 <ul>
 <li>
-<p>函数代码块以 def 关键词开头，后接函数标识符名称和圆括号</p>
+<p><strong>功能</strong>：立即终止当前循环，跳出循环体。当满足某个条件时，提前结束循环。</p>
 </li>
 <li>
-<p>任何传入参数和自变量必须放在圆括号中间。圆括号之间可以用于定义参数</p>
-</li>
-<li>
-<p>函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明</p>
-</li>
-<li>
-<p>函数内容以冒号起始，并且缩进</p>
-</li>
-<li>
-<p>return [表达式] 结束函数，返回一个值给调用者。</p>
-<p>def 函数名（参数列表）：
-函数执行语句段……
-return [表达式]</p>
-</li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>    print(i)  <span style="color:#75715e"># 输出 0 1 2 3 4</span>
+</span></span></code></pre></div></li>
 </ul>
-<ol start="2">
-<li>
-<p>调用函数</p>
-</li>
-<li>
-<p>参数传递</p>
-</li>
-</ol>
+<h4 id="4continue-语句">4、<code>continue</code> 语句</h4>
 <ul>
 <li>
-<p>在Python中，变量是没有类型的，仅仅是一个对象的引用，或者可以理解为一个指针。因此定义的函数参数列表中的变量类型取决于参数传递时所赋值的类型。</p>
+<p><strong>功能</strong>：跳过当前迭代，直接进入下一次循环。</p>
 </li>
 <li>
-<p>Python函数中的变量作为参数传递包括不可变类型与可变类型。不可变类型类似C语言中的值传递，在函数内部修改变量的值，只是修改另一个复制的对象，不会影响其本身。可变类型类似于C语言中的引用传递，将真正的变量传过去，修改后函数外部的变量也会受影响。</p>
-</li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>    print(i)  <span style="color:#75715e"># 输出 0 1 3 4</span>
+</span></span></code></pre></div></li>
 </ul>
-<ol start="4">
-<li>参数分类
-调用函数时可以使用的正式的参数类型包括：必备参数、关键字参数、默认参数等。</li>
-</ol>
-<ul>
-<li>必备参数指的是在函数定义时设置的参数，在函数调用阶段必须按照正确的顺序与数量传入。</li>
-<li>关键字参数指的是在传递参数时使用关键字标明对应的参数，允许函数调用时参数的顺序与声明时不一致。</li>
-<li>默认参数的值通常都在定义函数时指明，而默认参数也可以传入参数进行更新，若默认参数的值如果没有传入，则被认为是默认值。</li>
-</ul>
-<ol start="5">
-<li>
-<p>匿名函数
-Python 使用 lambda 来创建匿名函数。lambda只是一个表达式，函数体比def简单很多,它的主体是一个表达式，而不是一个代码块。lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。通常lambda函数的语法只包含一个语句，具体的结构如下：</p>
-<p>sum = lambda arg1, arg2: arg1 + arg2;
-print(&ldquo;相加后的值为 : &ldquo;, sum( 10, 20 ))</p>
-</li>
-<li>
-<p>return 语句
-“return[表达式]”语句表示退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。</p>
-</li>
-<li>
-<p>变量作用域
-定义在函数内部的变量拥有一个局部作用域，定义在函数外的变量拥有全局作用域。局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。</p>
-</li>
-</ol>
-<h2 id="26文件">2.6文件</h2>
-<ol>
-<li>打开文件
-通常使用open函数打开文件，该函数将文件名作为唯一必不可少的参数，并返回一个文件对象，同时函数open的第二个参数，可以显式地指定文件的打开模式。</li>
-</ol>
-<ul>
-<li>&lsquo;r&rsquo; 读取模式（默认值）</li>
-<li>&lsquo;w&rsquo; 写入模式</li>
-<li>&lsquo;x&rsquo; 独占写入模式</li>
-<li>&lsquo;a&rsquo; 附加模式</li>
-<li>&lsquo;b&rsquo; 二进制模式（与其他模式结合使用）</li>
-<li>&rsquo;t&rsquo; 文本模式（默认值，与其他模式结合使用）</li>
-<li>&lsquo;+&rsquo; 读写模式（与其他模式结合使用）</li>
-</ul>
-<p><em>默认的打开文件编码为UTF-8编码，可以使用关键字encoding指定其他编码</em></p>
-<ol start="2">
-<li>文件的基本操作
-假设已经获取了一个文件对象f, 使用f.read()来读取数据，使用f.write()来写入数据。
-当对打开的文件进行各种操作后往往会在最后使用f.close()函数来关闭文件。</li>
-</ol>
-<p>string_list = [&lsquo;Hello\n&rsquo;,&lsquo;World\n&rsquo;,&lsquo;Good\n&rsquo;,&lsquo;Morning\n &lsquo;]
-f.writelines(string_list)
-写入效果：
-Hello
-World
-Good
-Morning
-lines = f.readlines()
-读取效果=&gt;[&lsquo;Hello\n&rsquo;, &lsquo;World\n&rsquo;, &lsquo;Good\n&rsquo;, &lsquo;Morning\n&rsquo;]</p>
-<h3 id="三重要库的使用与案例">（三）重要库的使用与案例</h3>
-<h2 id="31numpy">3.1Numpy</h2>
-<ol>
-<li>
-<p>概述：NumPy(Numerical Python) 是 Python 语言的一个扩展程序库，支持大量的维度数组与矩阵运算，此外也针对数组运算提供大量的数学函数库。</p>
-</li>
-<li>
-<p>Ndarray对象：NumPy最重要的一个特点是其N维数组对象ndarray，它是一系列同类型数据的集合，以 0 下标为开始进行集合中元素的索引，相当于一个快速而灵活的大数据集容器，可以利用这种数据对整块数据执行一些数据运算。</p>
-</li>
-</ol>
-<ul>
-<li>每个ndarray数组都有一个shape(一个表示各维度大小的元组)和一个dtype(一个用于说明数组数据类型的对象)。</li>
-</ul>
-<ol start="3">
-<li>Ndarray的数据类型</li>
-</ol>
-<ul>
-<li>dtype是个特殊的对象，它含有ndarray将一块内存解释为特定数据类型所需的所有信息，他也正是NumPy如此灵活强大的原因之一。</li>
-<li>数据类型dtype的命名方式相同：一个类型名（如float或int）,后面跟一个用于表示各元素位长的数字。</li>
-<li>有些类型之间可以通过astype方法进行显式地转换。</li>
-</ul>
-<ol start="4">
-<li>
-<p>Ndarray的数据类型</p>
-</li>
-<li>
-<p>Ndarray的操作</p>
-</li>
-</ol>
+<h4 id="5else-子句">5、<code>else</code> 子句</h4>
 <ul>
 <li>
-<p>索引：由于选取数据自己或单个元素的方式有很多，因此numpy数组的索引内容丰富。对于高维度数组，各索引位置上的元素不再是标量，而是维度低一阶的ndarray数组。因此当想要访问某个具体的数值时，则需要使用多维下标索引。</p>
+<p><strong>功能</strong>：在循环正常结束后执行（即没有被 <code>break</code> 中断）。用于检查循环是否完整执行。</p>
 </li>
 <li>
-<p>切片：一维的数组切片语法跟Python列表操作差不多，对于高维度的数组，切片是沿着一个轴向选取元素。</p>
-</li>
-<li>
-<p>转置：转置是对数组进行反转操作，不仅有transpose方法，还有一个特殊的T属性。在进行矩阵计算时，经常需要用到该操作。</p>
-</li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>    print(i)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;循环结束&#34;</span>)  <span style="color:#75715e"># 输出 0 1 2 循环结束</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>    print(i)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;循环结束&#34;</span>)  <span style="color:#75715e"># 不会执行 else 部分</span>
+</span></span></code></pre></div></li>
 </ul>
-<h2 id="32pandas">3.2Pandas</h2>
-<ol>
-<li>
-<p>概述：Pandas是基于Numpy构建的，它含有使数据分析工作变得更快更简单的高级数据结构和操作工具，让以Numpy为中心的应用变得更加简单。</p>
+<h4 id="6-range-函数">6、 <code>range()</code> 函数</h4>
+<ul>
+<li><strong>功能</strong>：生成一个整数序列，常用于 <code>for</code> 循环。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>range(start, stop, step)
+</span></span></code></pre></div><ul>
+<li><code>start</code>：起始值（默认为 0）。</li>
+<li><code>stop</code>：结束值（不包含）。</li>
+<li><code>step</code>：步长（默认为 1）。</li>
+</ul>
 </li>
-<li>
-<p>Series数据结构</p>
-</li>
-</ol>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">2</span>):
+</span></span><span style="display:flex;"><span>    print(i)  <span style="color:#75715e"># 输出 2 4 6 8</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="7循环控制技巧">7、循环控制技巧</h4>
 <ul>
 <li>
-<p>Series是一种类似于一维数组的对象，它由一组数据（各种NumPy数据类型）以及一组与之相关的数据标签（即索引）组成。仅由一组数据即可产生最简单的Series。Series的字符串表现形式为：索引在左边，值在右边。
-obj = Series([2,5,7,-2])
-如下：
-0    2
-1    5
-2    7
-3   -2</p>
+<p><strong>避免无限循环</strong>：在 <code>while</code> 循环中确保条件最终会变为 <code>False</code>。</p>
 </li>
 <li>
-<p>可以在创建Series的时候指定标记的索引：
-obj2 = Series([2,7,-5,3], index = [&rsquo;d&rsquo;,&lsquo;b&rsquo;,&lsquo;a&rsquo;,&lsquo;c&rsquo;])
-如下：
-d    2
-b    7
-a   -5
-c    3</p>
-</li>
+<p><strong>使用 <code>enumerate()</code></strong>：在 <code>for</code> 循环中同时获取索引和值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, value <span style="color:#f92672">in</span> enumerate([<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>]):
+</span></span><span style="display:flex;"><span>    print(index, value)  <span style="color:#75715e"># 输出 0 a, 1 b, 2 c</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>使用 <code>zip()</code></strong>：同时遍历多个可迭代对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> a, b <span style="color:#f92672">in</span> zip([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>], [<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>]):
+</span></span><span style="display:flex;"><span>    print(a, b)  <span style="color:#75715e"># 输出 1 a, 2 b, 3 c</span>
+</span></span></code></pre></div></li>
 </ul>
-<ol start="3">
-<li>
-<p>DataFrame数据结构
-DataFrame是一个表格型的数据结构，它含有一组有序的列，每列可以是不同的值类型（数值、字符串、布尔值等）。DataFrame既有行索引也有列索引，它可以被看作由Series组成的字典。</p>
-</li>
-<li>
-<p>pandas操作</p>
-</li>
-</ol>
+<h3 id="七-函数">(七) 函数</h3>
+<h4 id="1-函数的定义"><strong>1. 函数的定义</strong></h4>
 <ul>
 <li>
-<p>重新索引：Pandas对象的一个重要方法是reindex,其作用是创建一个适应新索引的新对象。调用Series的reindex将会根据新索引进行重排。如果某个索引值当前不存在，就引入确缺失值。
-obj=Series([4.5,7.2,-5.3,3.6],index = [&lsquo;x&rsquo;,&rsquo;m&rsquo;,&lsquo;o&rsquo;,&rsquo;t&rsquo;])
-obj.reindex([&rsquo;m&rsquo;,&lsquo;o&rsquo;,&rsquo;t&rsquo;,&lsquo;x&rsquo;,&lsquo;z&rsquo;])
-m    7.2
-o   -5.3
-t    3.6
-x    4.5
-z    NaN</p>
-</li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">函数名</span>(参数1, 参数2, <span style="color:#f92672">...</span>):
+</span></span><span style="display:flex;"><span>    函数体
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> 返回值
+</span></span></code></pre></div></li>
 <li>
-<p>丢弃：使用drop方法可以返回一个丢弃了指定行或列中的新对象。
-obj=Series(np.arange(5.),index=[&lsquo;a&rsquo;,&lsquo;b&rsquo;,&lsquo;c&rsquo;,&rsquo;d&rsquo;,&rsquo;e&rsquo;])
-new_obj = obj.drop(&lsquo;c&rsquo;)</p>
+<p><strong>说明</strong>：</p>
+<ul>
+<li><code>def</code> 是定义函数的关键字。</li>
+<li>函数名是函数的标识符，遵循变量命名规则。</li>
+<li>参数是函数的输入（可选）。</li>
+<li><code>return</code> 用于返回函数的输出（可选）。</li>
+</ul>
 </li>
 </ul>
-<h2 id="33">3.3</h2>
-</div><div class="post-footer" id="post-footer">
+<h4 id="2-函数的参数">2. <strong>函数的参数</strong></h4>
+<h5 id="1位置参数">（1）<strong>位置参数</strong></h5>
+<ul>
+<li>
+<p>参数<strong>按顺序</strong>传递，位置必须匹配。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>print(add(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))  <span style="color:#75715e"># 输出 5</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="2关键字参数">（2）<strong>关键字参数</strong></h5>
+<ul>
+<li>通过参数名指定值，顺序可以任意。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(add(b<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, a<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))  <span style="color:#75715e"># 输出 5</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="3默认参数缺省参数">（3）<strong>默认参数</strong>（缺省参数）：</h5>
+<ul>
+<li>为参数提供默认值，调用时可省略。</li>
+<li>函数调用时，如果为缺省参数传值则修改默认参数值, 否则使用这个默认值</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">greet</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Guest&#34;</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Hello, </span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">!&#34;</span>
+</span></span><span style="display:flex;"><span>print(greet())  <span style="color:#75715e"># 输出 Hello, Guest!</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="4可变参数">（4）<strong>可变参数</strong></h5>
+<ul>
+<li><code>*args</code>：接收<strong>任意数量</strong>的<strong>位置参数</strong>，存储为<strong>元组</strong>。</li>
+<li><code>**kwargs</code>：接收<strong>任意数量</strong>的<strong>关键字参数</strong>，存储为<strong>字典</strong>。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">show_args</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;位置参数:&#34;</span>, args)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;关键字参数:&#34;</span>, kwargs)
+</span></span><span style="display:flex;"><span>show_args(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, a<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, b<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3-函数的返回值">3. <strong>函数的返回值</strong></h4>
+<ul>
+<li>
+<p>使用 <code>return</code> 语句返回结果，可以返回<strong>单个值、多个值（以元组形式）<strong>或</strong>无返回值（默认返回 <code>None</code>）</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_and_multiply</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b, a <span style="color:#f92672">*</span> b
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> add_and_multiply(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 (5, 6)</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4-函数说明文档">4. <strong>函数说明文档</strong></h4>
+<ul>
+<li>使用文档字符串（<code>docstring</code>）描述函数的功能、参数和返回值。</li>
+<li>文档字符串位于函数体的开头，用三引号（<code>&quot;&quot;&quot;</code>）包裹。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    计算两个数的和
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    参数:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    a (int): 第一个数
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    b (int): 第二个数
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    返回:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    int: 两个数的和
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>print(add<span style="color:#f92672">.</span>__doc__)  <span style="color:#75715e"># 查看文档字符串</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5-函数的嵌套调用">5. <strong>函数的嵌套调用</strong></h4>
+<ul>
+<li>在一个函数内部调用另一个函数。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">square</span>(x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">*</span> x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sum_of_squares</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> square(a) <span style="color:#f92672">+</span> square(b)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(sum_of_squares(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))  <span style="color:#75715e"># 输出 13</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="6-变量的作用域">6. <strong>变量的作用域</strong></h4>
+<ul>
+<li>
+<p><strong>局部变量</strong>：在函数内部定义的变量，只能在函数内部访问。</p>
+</li>
+<li>
+<p><strong>全局变量</strong>：在函数外部定义的变量，可以在整个程序访问。</p>
+</li>
+<li>
+<p>使用 <strong><code>global</code> 关键字</strong>在函数内部修改全局变量。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>  <span style="color:#75715e"># 全局变量</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change_x</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> x
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>  <span style="color:#75715e"># 修改全局变量</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>change_x()
+</span></span><span style="display:flex;"><span>print(x)  <span style="color:#75715e"># 输出 20</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="7-匿名函数lambda">7. <strong>匿名函数（Lambda）</strong>：</h4>
+<ul>
+<li>
+<p>函数没有名称，只能临时使用一次。</p>
+</li>
+<li>
+<p>函数体只能写一行代码,用于定义简单的<strong>单行</strong>函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">lambda</span> 参数1, 参数2, <span style="color:#f92672">...</span>: 表达式
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>square <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: x <span style="color:#f92672">*</span> x
+</span></span><span style="display:flex;"><span>print(square(<span style="color:#ae81ff">5</span>))  <span style="color:#75715e"># 输出 25</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>add <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x, y: x <span style="color:#f92672">+</span> y
+</span></span><span style="display:flex;"><span>print(add(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))  <span style="color:#75715e"># 输出 5</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="8函数作为参数传递">8.<strong>函数作为参数传递</strong></h4>
+<h5 id="1函数作为参数">（1）<strong>函数作为参数</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将函数作为参数传递给另一个函数，传递的是 <strong>计算逻辑</strong> 而非数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compute</span>(x, y, func):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> func(x, y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(a, b):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> compute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, add)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 5</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="2使用-lambda-作为参数">（2）<strong>使用 <code>lambda</code> 作为参数</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：临时定义一个匿名函数作为参数传递。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compute</span>(x, y, func):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> func(x, y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> compute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">lambda</span> a, b: a <span style="color:#f92672">*</span> b)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 6</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="9递归函数函数调用自身"><strong>9.递归函数</strong>：函数调用自身。</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">factorial</span>(n):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> n <span style="color:#f92672">*</span> factorial(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>print(factorial(<span style="color:#ae81ff">5</span>))  <span style="color:#75715e"># 输出 120</span>
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
@@ -637,8 +827,8 @@ new_obj = obj.drop(&lsquo;c&rsquo;)</p>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python2/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

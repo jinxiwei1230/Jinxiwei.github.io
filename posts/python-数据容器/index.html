@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="Python数据容器 Python 中的数据容器是用于存储和管理数据的对象。常见的数据容器包括列表（list）、元组（tuple）、字符串（str）、集合（set）和字典（dict）。
+（一） 数据容器：list（列表） 1、定义：
+列表是一种有序、可变的数据容器，可以存储任意类型的元素 元素可以重复、支持增删改查操作 列表可以一次存储多个数据，且可以为不同的数据类型（混装），支持嵌套 下标支持从前往后（正数）、从后往前（负数） 列表名 = [元素1, 元素2, ...] 2、list 的遍历
+方法 1：使用 for 循环
+for fruit in fruits: print(fruit) 方法 2：使用索引
+for i in range(len(fruits)): print(fruits[i]) 方法 3：使用 enumerate()
+for index, fruit in enumerate(fruits): print(f&#34;Index: {index}, Fruit: {fruit}&#34;) 3、列表常用操作 # 定义一个列表 fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;] # 1. 追加元素 fruits.append(&#34;orange&#34;) print(&#34;追加后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;] # 2. 扩展列表 fruits.extend([&#34;grape&#34;, &#34;mango&#34;]) print(&#34;扩展后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 3. 插入元素 fruits.insert(1, &#34;pear&#34;) print(&#34;插入后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 4. 删除元素 del fruits[2] print(&#34;删除后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 5. 弹出元素 removed_fruit = fruits.pop(3) print(&#34;弹出后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;] print(&#34;弹出的元素:&#34;, removed_fruit) # 输出 orange # 6. 移除元素 fruits.remove(&#34;pear&#34;) print(&#34;移除后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;] # 7. 清空列表 fruits.clear() print(&#34;清空后:&#34;, fruits) # 输出 [] # 8. 统计元素 fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;, &#34;banana&#34;] count = fruits.count(&#34;banana&#34;) print(&#34;banana 出现的次数:&#34;, count) # 输出 2 # 9. 查找元素下标 index = fruits.index(&#34;cherry&#34;) print(&#34;cherry 的下标:&#34;, index) # 输出 2 # 10. 获取列表长度 length = len(fruits) print(&#34;列表长度:&#34;, length) # 输出 4 # 11. 修改元素 fruits[1] = &#34;orange&#34; print(&#34;修改后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;] # 12. 反转列表 fruits.reverse() print(&#34;反转后:&#34;, fruits) # 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;] # 13. 排序列表 numbers = [3, 1, 4, 2] numbers.sort() print(&#34;排序后:&#34;, numbers) # 输出 [1, 2, 3, 4] # 14. 切片操作 subset = fruits[1:3] print(&#34;切片后:&#34;, subset) # 输出 [&#39;cherry&#39;, &#39;orange&#39;] （二）数据容器：tuple（元组） 1、定义：元组是一种有序、不可变的数据容器。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="Python数据容器 Python 中的数据容器是用于存储和管理数据的对象。常见的数据容器包括列表（list）、元组（tuple）、字符串（str）、集合（set）和字典（dict）。
+（一） 数据容器：list（列表） 1、定义：
+列表是一种有序、可变的数据容器，可以存储任意类型的元素 元素可以重复、支持增删改查操作 列表可以一次存储多个数据，且可以为不同的数据类型（混装），支持嵌套 下标支持从前往后（正数）、从后往前（负数） 列表名 = [元素1, 元素2, ...] 2、list 的遍历
+方法 1：使用 for 循环
+for fruit in fruits: print(fruit) 方法 2：使用索引
+for i in range(len(fruits)): print(fruits[i]) 方法 3：使用 enumerate()
+for index, fruit in enumerate(fruits): print(f&#34;Index: {index}, Fruit: {fruit}&#34;) 3、列表常用操作 # 定义一个列表 fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;] # 1. 追加元素 fruits.append(&#34;orange&#34;) print(&#34;追加后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;] # 2. 扩展列表 fruits.extend([&#34;grape&#34;, &#34;mango&#34;]) print(&#34;扩展后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 3. 插入元素 fruits.insert(1, &#34;pear&#34;) print(&#34;插入后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 4. 删除元素 del fruits[2] print(&#34;删除后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;] # 5. 弹出元素 removed_fruit = fruits.pop(3) print(&#34;弹出后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;] print(&#34;弹出的元素:&#34;, removed_fruit) # 输出 orange # 6. 移除元素 fruits.remove(&#34;pear&#34;) print(&#34;移除后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;] # 7. 清空列表 fruits.clear() print(&#34;清空后:&#34;, fruits) # 输出 [] # 8. 统计元素 fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;, &#34;banana&#34;] count = fruits.count(&#34;banana&#34;) print(&#34;banana 出现的次数:&#34;, count) # 输出 2 # 9. 查找元素下标 index = fruits.index(&#34;cherry&#34;) print(&#34;cherry 的下标:&#34;, index) # 输出 2 # 10. 获取列表长度 length = len(fruits) print(&#34;列表长度:&#34;, length) # 输出 4 # 11. 修改元素 fruits[1] = &#34;orange&#34; print(&#34;修改后:&#34;, fruits) # 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;] # 12. 反转列表 fruits.reverse() print(&#34;反转后:&#34;, fruits) # 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;] # 13. 排序列表 numbers = [3, 1, 4, 2] numbers.sort() print(&#34;排序后:&#34;, numbers) # 输出 [1, 2, 3, 4] # 14. 切片操作 subset = fruits[1:3] print(&#34;切片后:&#34;, subset) # 输出 [&#39;cherry&#39;, &#39;orange&#39;] （二）数据容器：tuple（元组） 1、定义：元组是一种有序、不可变的数据容器。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8\/"
+        },"genre": "posts","wordcount":  1592 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1592 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></a></li>
+        <li><a href="#二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#三-数据容器str字符串">（三） <strong>数据容器：<code>str</code>（字符串）</strong></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#四-数据容器的切片">(四) <strong>数据容器的切片</strong></a>
+      <ul>
+        <li></li>
+        <li><a href="#2-序列的切片操作">2. <strong>序列的切片操作</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#五-数据容器set集合">（五） <strong>数据容器：<code>set</code>（集合）</strong></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#六-数据容器dict字典映射">（六） <strong>数据容器：<code>dict</code>（字典、映射）</strong></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#七-数据容器的通用操作">（七） <strong>数据容器的通用操作</strong></a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="python数据容器">Python数据容器</h1>
+<p>Python 中的数据容器是用于<strong>存储和管理数据</strong>的对象。常见的数据容器包括<strong>列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）、集合（<code>set</code>）和字典（<code>dict</code>）</strong>。</p>
+<h3 id="一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></h3>
+<p><strong>1、定义</strong>：</p>
+<ul>
+<li>列表是一种<strong>有序</strong>、可变的数据容器，可以存储<strong>任意类型</strong>的元素</li>
+<li>元素<strong>可以重复</strong>、支持<strong>增删改查</strong>操作</li>
+<li>列表可以一次存储多个数据，且可以为<strong>不同的数据类型（混装）</strong>，支持嵌套</li>
+<li>下标支持从前往后（正数）、从后往前（负数）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>列表名 <span style="color:#f92672">=</span> [元素1, 元素2, <span style="color:#f92672">...</span>]
+</span></span></code></pre></div><p><strong>2、<code>list</code> 的遍历</strong></p>
+<ul>
+<li>
+<p><strong>方法 1：使用 <code>for</code> 循环</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
+</span></span><span style="display:flex;"><span>    print(fruit)
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 2：使用索引</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(fruits)):
+</span></span><span style="display:flex;"><span>    print(fruits[i])
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 3：使用 <code>enumerate()</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, fruit <span style="color:#f92672">in</span> enumerate(fruits):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">, Fruit: </span><span style="color:#e6db74">{</span>fruit<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3列表常用操作">3、列表常用操作</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个列表</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 追加元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;orange&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;追加后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 扩展列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>extend([<span style="color:#e6db74">&#34;grape&#34;</span>, <span style="color:#e6db74">&#34;mango&#34;</span>])
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;扩展后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 插入元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;插入后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 删除元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> fruits[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 弹出元素</span>
+</span></span><span style="display:flex;"><span>removed_fruit <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出后:&#34;</span>, fruits)        <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出的元素:&#34;</span>, removed_fruit)  <span style="color:#75715e"># 输出 orange</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 移除元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;移除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 清空列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 []</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 统计元素</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>]
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;banana&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;banana 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 9. 查找元素下标</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;cherry&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;cherry 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10. 获取列表长度</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(fruits)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;列表长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 11. 修改元素</span>
+</span></span><span style="display:flex;"><span>fruits[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;修改后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 12. 反转列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>reverse()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;反转后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 13. 排序列表</span>
+</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;排序后:&#34;</span>, numbers)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 14. 切片操作</span>
+</span></span><span style="display:flex;"><span>subset <span style="color:#f92672">=</span> fruits[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;切片后:&#34;</span>, subset)  <span style="color:#75715e"># 输出 [&#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span></code></pre></div><h3 id="二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></h3>
+<p><strong>1、定义</strong>：元组是一种<strong>有序、不可变</strong>的数据容器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>元组名 <span style="color:#f92672">=</span> (元素1, 元素2, <span style="color:#f92672">...</span>)
+</span></span></code></pre></div><h4 id="2元组相关操作">2、元组相关操作</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">作用</th>
+          <th style="text-align: left">代码示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>index()</code></td>
+          <td style="text-align: left">查找某个数据，如果数据存在返回对应的下标（第一个），否则报错</td>
+          <td style="text-align: left"><code>nums.index(2)</code> → <code>1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>count()</code></td>
+          <td style="text-align: left">统计某个数据在当前元组中出现的次数</td>
+          <td style="text-align: left"><code>nums.count(2)</code> → <code>2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>len(元组)</code></td>
+          <td style="text-align: left">统计元组内的元素个数</td>
+          <td style="text-align: left"><code>len(nums)</code> → <code>4</code></td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个元组</span>
+</span></span><span style="display:flex;"><span>nums <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 查找元素下标</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> nums<span style="color:#f92672">.</span>index(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;2 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 统计元素出现次数</span>
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> nums<span style="color:#f92672">.</span>count(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;2 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 获取元组长度</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(nums)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;元组长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
+</span></span></code></pre></div><h2 id="三-数据容器str字符串">（三） <strong>数据容器：<code>str</code>（字符串）</strong></h2>
+<p><strong>1、定义</strong>：字符串是一种<strong>有序、不可变</strong>的字符序列。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python&#34;</span>
+</span></span><span style="display:flex;"><span>print(text[<span style="color:#ae81ff">0</span>])  <span style="color:#75715e"># 输出 P</span>
+</span></span></code></pre></div><h4 id="2-字符串的分割">2. <strong>字符串的分割</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>split(分隔符字符串)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：按照指定的分隔符字符串，将字符串划分为多个子字符串，并存入列表对象中。</p>
+</li>
+<li>
+<p><strong>注意</strong>：字符串本身不变，返回一个新的列表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;apple banana cherry&#34;</span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34; &#34;</span>)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;]</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3-字符串的索引访问">3. <strong>字符串的索引访问</strong></h4>
+<ul>
+<li>
+<p>根据下标索引取出特定位置的字符。</p>
+<ul>
+<li>从前向后，下标从 <code>0</code> 开始。</li>
+<li>从后向前，下标从 <code>-1</code> 开始。</li>
+</ul>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python&#34;</span>
+</span></span><span style="display:flex;"><span>print(text[<span style="color:#ae81ff">0</span>])   <span style="color:#75715e"># 输出 P</span>
+</span></span><span style="display:flex;"><span>print(text[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])  <span style="color:#75715e"># 输出 n</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4-字符串的不可变性">4. <strong>字符串的不可变性</strong></h4>
+<ul>
+<li>字符串是一个 <strong>不可修改</strong> 的数据容器。</li>
+<li>以下操作均无法完成：
+<ul>
+<li>修改指定下标的字符（如 <code>字符串[0] = &quot;a&quot;</code>）。</li>
+<li>移除特定下标的字符（如 <code>del 字符串[0]</code>）。</li>
+<li>追加字符（如 <code>字符串.append()</code>）。</li>
+</ul>
+</li>
+<li>如果需要修改字符串，只能创建一个新的字符串。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python&#34;</span>
+</span></span><span style="display:flex;"><span>new_text <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;P&#34;</span>, <span style="color:#e6db74">&#34;J&#34;</span>)
+</span></span><span style="display:flex;"><span>print(new_text)  <span style="color:#75715e"># 输出 Jython</span>
+</span></span></code></pre></div><h4 id="5-查找特定字符串的下标索引值">5. <strong>查找特定字符串的下标索引值</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>index(字符串)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：查找给定字符串的第一个匹配项的下标。如果字符串不存在，会抛出 <code>ValueError</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python&#34;</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;th&#34;</span>)
+</span></span><span style="display:flex;"><span>print(index)  <span style="color:#75715e"># 输出 2</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="6-字符串的替换">6. <strong>字符串的替换</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>replace(字符串1, 字符串2)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：将字符串内的全部 <code>字符串1</code> 替换为 <code>字符串2</code>。不会修改原字符串，而是返回一个<strong>新</strong>的字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello World&#34;</span>
+</span></span><span style="display:flex;"><span>new_text <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;World&#34;</span>, <span style="color:#e6db74">&#34;Python&#34;</span>)
+</span></span><span style="display:flex;"><span>print(new_text)  <span style="color:#75715e"># 输出 Hello Python</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="7-字符串的规整操作">7. <strong>字符串的规整操作</strong></h4>
+<h5 id="1去除前后空格">（1）<strong>去除前后空格</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>strip()
+</span></span></code></pre></div><ul>
+<li>
+<p>移除字符串<strong>首尾</strong>的<strong>空格和换行符</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;  Python  &#34;</span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 Python</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="2去除前后指定字符串">（2）<strong>去除前后指定字符串</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>strip(字符串)
+</span></span></code></pre></div><ul>
+<li>
+<p>移除字符串<strong>首尾</strong>的<strong>指定字符</strong>（按单个字符处理）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;12Python21&#34;</span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>strip(<span style="color:#e6db74">&#34;12&#34;</span>)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 Python</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="8-统计字符串中某字符串的出现次数">8. <strong>统计字符串中某字符串的出现次数</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>count(字符串)
+</span></span></code></pre></div><ul>
+<li>
+<p>统计字符串内某字符串的出现次数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;apple banana apple&#34;</span>
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;apple&#34;</span>)
+</span></span><span style="display:flex;"><span>print(count)  <span style="color:#75715e"># 输出 2</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="9-统计字符串的长度">9. <strong>统计字符串的长度</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>len(字符串)
+</span></span></code></pre></div><ul>
+<li>
+<p>统计字符串的字符个数。<strong>数字、字母、符号、中文</strong>均算作 1 个字符。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python编程&#34;</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(text)
+</span></span><span style="display:flex;"><span>print(length)  <span style="color:#75715e"># 输出 8</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="10-字符串的遍历">10. <strong>字符串的遍历</strong></h4>
+<ul>
+<li>
+<p><strong>方法</strong>：使用 <code>for</code> 、<code>while</code>循环遍历字符串中的每个字符。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Python&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> text:
+</span></span><span style="display:flex;"><span>    print(char)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="11-综合表格总结">11. <strong>综合表格总结</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">操作</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>字符串[下标]</code></td>
+          <td style="text-align: left">根据下标索引取出特定位置字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.index(字符串)</code></td>
+          <td style="text-align: left">查找给定字符串的第一个匹配项的下标</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.replace(字符串1, 字符串2)</code></td>
+          <td style="text-align: left">将字符串内的全部 <code>字符串1</code> 替换为 <code>字符串2</code>，返回新字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.split(字符串)</code></td>
+          <td style="text-align: left">按照给定字符串对字符串进行分隔，返回列表</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.strip()</code></td>
+          <td style="text-align: left">移除首尾的空格和换行符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.strip(字符串)</code></td>
+          <td style="text-align: left">移除首尾的指定字符（按单个字符处理）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>字符串.count(字符串)</code></td>
+          <td style="text-align: left">统计字符串内某字符串的出现次数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>len(字符串)</code></td>
+          <td style="text-align: left">统计字符串的字符个数</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="11-综合代码示例">11. <strong>综合代码示例</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个字符串</span>
+</span></span><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;  Hello, World!  &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 分割字符串</span>
+</span></span><span style="display:flex;"><span>split_result <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;分割结果:&#34;</span>, split_result)  <span style="color:#75715e"># 输出 [&#39;  Hello&#39;, &#39; World!  &#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 索引访问</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;第一个字符:&#34;</span>, text[<span style="color:#ae81ff">0</span>])  <span style="color:#75715e"># 输出 &#34; &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 查找子字符串下标</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;World&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;World 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 9</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 替换字符串</span>
+</span></span><span style="display:flex;"><span>new_text <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;World&#34;</span>, <span style="color:#e6db74">&#34;Python&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;替换后:&#34;</span>, new_text)  <span style="color:#75715e"># 输出 &#34;  Hello, Python!  &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 去除前后空格</span>
+</span></span><span style="display:flex;"><span>stripped_text <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;去除空格后:&#34;</span>, stripped_text)  <span style="color:#75715e"># 输出 &#34;Hello, World!&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 统计子字符串出现次数</span>
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;l&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;l 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 统计字符串长度</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(text)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;字符串长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 17</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 遍历字符串</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;遍历字符串:&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> text:
+</span></span><span style="display:flex;"><span>    print(char)
+</span></span></code></pre></div><h2 id="四-数据容器的切片">(四) <strong>数据容器的切片</strong></h2>
+<h4 id="1-什么是序列">1. <strong>什么是序列？</strong></h4>
+<ul>
+<li><strong>定义</strong>：序列是一种 <strong>内容连续、有序</strong>，并支持 <strong>下标索引</strong> 的数据容器。</li>
+<li><strong>常见的序列类型</strong>：列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）</li>
+</ul>
+<h3 id="2-序列的切片操作">2. <strong>序列的切片操作</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>序列[起始下标:结束下标:步长]
+</span></span></code></pre></div><ul>
+<li><strong>作用</strong>：从序列中提取一个子序列，返回一个新的序列（列表、元组或字符串）。</li>
+<li><strong>参数说明</strong>：
+<ul>
+<li><strong>起始下标</strong>：从何处开始（包含）。如果省略，默认从头开始。</li>
+<li><strong>结束下标</strong>：到何处结束（不包含）。如果省略，默认到结尾。</li>
+<li><strong>步长</strong>：取元素的间隔。如果省略，默认为 <code>1</code>。
+<ul>
+<li>步长为正数：从左向右取。</li>
+<li>步长为负数：从右向左取（反向取）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-切片操作示例">3. <strong>切片操作示例</strong></h4>
+<h5 id="1基本切片">（1）<strong>基本切片</strong></h5>
+<ul>
+<li>
+<p><strong>示例 1</strong>：从列表中提取子列表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]
+</span></span><span style="display:flex;"><span>new_list <span style="color:#f92672">=</span> my_list[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">4</span>]  <span style="color:#75715e"># 从下标1开始，到下标4（不含）结束，步长1</span>
+</span></span><span style="display:flex;"><span>print(new_list)  <span style="color:#75715e"># 输出 [2, 3, 4]</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>示例 2</strong>：从元组中提取子元组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_tuple <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>new_tuple <span style="color:#f92672">=</span> my_tuple[:]  <span style="color:#75715e"># 从头开始，到尾结束，步长1</span>
+</span></span><span style="display:flex;"><span>print(new_tuple)  <span style="color:#75715e"># 输出 (1, 2, 3, 4, 5)</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>示例 3</strong>：从字符串中提取子字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;12345&#34;</span>
+</span></span><span style="display:flex;"><span>new_str <span style="color:#f92672">=</span> my_str[:<span style="color:#ae81ff">4</span>:<span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># 从头开始，到下标4（不含）结束，步长2</span>
+</span></span><span style="display:flex;"><span>print(new_str)  <span style="color:#75715e"># 输出 &#34;13&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="2步长切片">（2）<strong>步长切片</strong></h5>
+<ul>
+<li>
+<p><strong>示例 1</strong>：步长为正数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]
+</span></span><span style="display:flex;"><span>new_list <span style="color:#f92672">=</span> my_list[::<span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># 从头开始，到尾结束，步长2</span>
+</span></span><span style="display:flex;"><span>print(new_list)  <span style="color:#75715e"># 输出 [1, 3, 5]</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>示例 2</strong>：步长为负数（反向取）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;12345&#34;</span>
+</span></span><span style="display:flex;"><span>new_str <span style="color:#f92672">=</span> my_str[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># 从头（最后）开始，到尾结束，步长-1（倒序）</span>
+</span></span><span style="display:flex;"><span>print(new_str)  <span style="color:#75715e"># 输出 &#34;54321&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="3反向切片">（3）<strong>反向切片</strong></h5>
+<ul>
+<li>
+<p><strong>示例 1</strong>：从后向前提取子序列。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]
+</span></span><span style="display:flex;"><span>new_list <span style="color:#f92672">=</span> my_list[<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">1</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># 从下标3开始，到下标1（不含）结束，步长-1（倒序）</span>
+</span></span><span style="display:flex;"><span>print(new_list)  <span style="color:#75715e"># 输出 [4, 3]</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>示例 2</strong>：从后向前提取子元组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_tuple <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>new_tuple <span style="color:#f92672">=</span> my_tuple[:<span style="color:#ae81ff">1</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># 从头（最后）开始，到下标1（不含）结束，步长-2（倒序）</span>
+</span></span><span style="display:flex;"><span>print(new_tuple)  <span style="color:#75715e"># 输出 (5, 3)</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4-综合表格总结">4. <strong>综合表格总结</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">操作类型</th>
+          <th style="text-align: left">语法示例</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">基本切片</td>
+          <td style="text-align: left"><code>序列[起始:结束]</code></td>
+          <td style="text-align: left">从起始下标到结束下标（不含），步长默认为1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">省略起始</td>
+          <td style="text-align: left"><code>序列[:结束]</code></td>
+          <td style="text-align: left">从头开始到结束下标（不含），步长默认为1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">省略结束</td>
+          <td style="text-align: left"><code>序列[起始:]</code></td>
+          <td style="text-align: left">从起始下标到结尾，步长默认为1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">省略起始和结束</td>
+          <td style="text-align: left"><code>序列[:]</code></td>
+          <td style="text-align: left">从头到尾，步长默认为1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">步长切片</td>
+          <td style="text-align: left"><code>序列[起始:结束:步长]</code></td>
+          <td style="text-align: left">按指定步长提取子序列</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">反向切片</td>
+          <td style="text-align: left"><code>序列[起始:结束:-步长]</code></td>
+          <td style="text-align: left">从后向前提取子序列</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">倒序切片</td>
+          <td style="text-align: left"><code>序列[::-1]</code></td>
+          <td style="text-align: left">反转整个序列</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="五-数据容器set集合">（五） <strong>数据容器：<code>set</code>（集合）</strong></h2>
+<p><strong>定义</strong>：集合是一种<strong>无序、不重复</strong>的数据容器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合名 <span style="color:#f92672">=</span> {元素1, 元素2, <span style="color:#f92672">...</span>}
+</span></span></code></pre></div><h4 id="1-集合的特点">1. <strong>集合的特点</strong></h4>
+<ul>
+<li><strong>无序性</strong>：集合中的元素是无序存储的，不支持下标索引访问。</li>
+<li><strong>唯一性</strong>：集合中的元素不允许重复。</li>
+<li><strong>可变性</strong>：集合可以修改（添加、删除元素等）。</li>
+<li><strong>支持多种数据类型</strong>：集合可以容纳不同类型的数据（如数字、字符串、元组等）。</li>
+<li><strong>支持遍历</strong>：可以使用 <code>for</code> 循环遍历集合中的元素。</li>
+</ul>
+<h4 id="2-集合的常用操作">2. <strong>集合的常用操作</strong></h4>
+<h5 id="1添加元素">（1）<strong>添加元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合<span style="color:#f92672">.</span>add(元素)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>my_set<span style="color:#f92672">.</span>add(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>print(my_set)  <span style="color:#75715e"># 输出 {1, 2, 3, 4}</span>
+</span></span></code></pre></div><hr>
+<h5 id="2移除元素">（2）<strong>移除元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合<span style="color:#f92672">.</span>remove(元素)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>注意</strong>：如果元素不存在，会抛出 <code>KeyError</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>my_set<span style="color:#f92672">.</span>remove(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>print(my_set)  <span style="color:#75715e"># 输出 {1, 3}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="3随机取出元素">（3）<strong>随机取出元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合<span style="color:#f92672">.</span>pop()
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：从集合中随机取出一个元素。集合本身会<strong>被修改</strong>，元素被移除。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>element <span style="color:#f92672">=</span> my_set<span style="color:#f92672">.</span>pop()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;取出的元素:&#34;</span>, element)  <span style="color:#75715e"># 输出随机元素</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;剩余集合:&#34;</span>, my_set)     <span style="color:#75715e"># 输出剩余集合</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="4清空集合">（4）<strong>清空集合</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合<span style="color:#f92672">.</span>clear()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>my_set<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(my_set)  <span style="color:#75715e"># 输出 set()</span>
+</span></span></code></pre></div><hr>
+<h5 id="5取出两个集合的差集">（5）<strong>取出两个集合的差集</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合1<span style="color:#f92672">.</span>difference(集合2)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：返回一个新集合，包含 <strong><code>集合1</code> 中有而 <code>集合2</code> 中没有</strong>的元素。<strong>原集合不会被修改</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>set1 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>set2 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>}
+</span></span><span style="display:flex;"><span>diff <span style="color:#f92672">=</span> set1<span style="color:#f92672">.</span>difference(set2)
+</span></span><span style="display:flex;"><span>print(diff)  <span style="color:#75715e"># 输出 {1}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="6消除两个集合的差集">（6）<strong>消除两个集合的差集</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合1<span style="color:#f92672">.</span>difference_update(集合2)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：在 <code>集合1</code> 中删除与 <code>集合2</code> 相同的元素。<code>集合1</code> 会被修改，<code>集合2</code> 不变。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>set1 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>set2 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>}
+</span></span><span style="display:flex;"><span>set1<span style="color:#f92672">.</span>difference_update(set2)
+</span></span><span style="display:flex;"><span>print(set1)  <span style="color:#75715e"># 输出 {1}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="7合并两个集合">（7）<strong>合并两个集合</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>集合1<span style="color:#f92672">.</span>union(集合2)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：返回一个新集合，包含 <code>集合1</code> 和 <code>集合2</code> 的所有元素。原集合不会被修改。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>set1 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>set2 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+</span></span><span style="display:flex;"><span>union_set <span style="color:#f92672">=</span> set1<span style="color:#f92672">.</span>union(set2)
+</span></span><span style="display:flex;"><span>print(union_set)  <span style="color:#75715e"># 输出 {1, 2, 3, 4, 5}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="8统计集合元素数量">（8）<strong>统计集合元素数量</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>len(集合)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>print(len(my_set))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div><hr>
+<h5 id="9遍历集合">（9）<strong>遍历集合</strong></h5>
+<ul>
+<li>
+<p><strong>方法</strong>：使用 <code>for</code> 循环遍历集合中的元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> element <span style="color:#f92672">in</span> my_set:
+</span></span><span style="display:flex;"><span>    print(element)
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h4 id="3-综合表格总结">3. <strong>综合表格总结</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">操作</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"><code>集合.add(元素)</code></td>
+          <td style="text-align: left">向集合中添加一个元素</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"><code>集合.remove(元素)</code></td>
+          <td style="text-align: left">从集合中移除指定元素</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"><code>集合.pop()</code></td>
+          <td style="text-align: left">随机取出一个元素，集合被修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"><code>集合.clear()</code></td>
+          <td style="text-align: left">清空集合中的所有元素</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left"><code>集合1.difference(集合2)</code></td>
+          <td style="text-align: left">返回一个新集合，包含 <code>集合1</code> 有而 <code>集合2</code> 没有的元素</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left"><code>集合1.difference_update(集合2)</code></td>
+          <td style="text-align: left">在 <code>集合1</code> 中删除与 <code>集合2</code> 相同的元素，<code>集合1</code> 被修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left"><code>集合1.union(集合2)</code></td>
+          <td style="text-align: left">返回一个新集合，包含 <code>集合1</code> 和 <code>集合2</code> 的所有元素</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left"><code>len(集合)</code></td>
+          <td style="text-align: left">返回集合中元素的数量</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="六-数据容器dict字典映射">（六） <strong>数据容器：<code>dict</code>（字典、映射）</strong></h2>
+<p><strong>定义</strong>**：字典是一种<strong>无序</strong>的<strong>键值对</strong>集合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典名 <span style="color:#f92672">=</span> {键1: 值1, 键2: 值2, <span style="color:#f92672">...</span>}
+</span></span></code></pre></div><h4 id="1-字典的特点">1. <strong>字典的特点</strong></h4>
+<ul>
+<li><strong>键值对结构</strong>：字典中的每个元素是一个键值对（<code>Key: Value</code>）。</li>
+<li><strong>Key 的唯一性</strong>：字典中的 <code>Key</code> 不允许重复，如果重复会覆盖原有的 <code>Value</code>。</li>
+<li><strong>无序性</strong>：字典中的元素是无序存储的（Python 3.7+ 后字典保持插入顺序）。</li>
+<li><strong>可变性</strong>：字典可以修改（添加、删除、更新元素）。</li>
+<li><strong>支持多种数据类型</strong>：
+<ul>
+<li><code>Key</code> 可以是任意不可变类型（如数字、字符串、元组等），但不能是可变类型（如列表、字典）。</li>
+<li><code>Value</code> 可以是任意类型（包括列表、字典等）。</li>
+</ul>
+</li>
+<li><strong>支持遍历</strong>：可以使用 <code>for</code> 循环遍历字典中的 <code>Key</code> 或键值对。</li>
+</ul>
+<h4 id="2-字典的常用操作">2. <strong>字典的常用操作</strong></h4>
+<h5 id="1新增元素">（1）<strong>新增元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典[Key] <span style="color:#f92672">=</span> Value
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>my_dict[<span style="color:#e6db74">&#34;city&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;New York&#34;</span>
+</span></span><span style="display:flex;"><span>print(my_dict)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;, &#39;age&#39;: 25, &#39;city&#39;: &#39;New York&#39;}</span>
+</span></span></code></pre></div><hr>
+<h5 id="2更新元素">（2）<strong>更新元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典[Key] <span style="color:#f92672">=</span> Value
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：如果 <code>Key</code> 已存在，则更新对应的 <code>Value</code>。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>my_dict[<span style="color:#e6db74">&#34;age&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span>
+</span></span><span style="display:flex;"><span>print(my_dict)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;, &#39;age&#39;: 26}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="3删除元素">（3）<strong>删除元素</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典<span style="color:#f92672">.</span>pop(Key)
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：删除指定 <code>Key</code> 的键值对，并返回对应的 <code>Value</code>。</p>
+</li>
+<li>
+<p><strong>注意</strong>：如果 <code>Key</code> 不存在，会抛出 <code>KeyError</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> my_dict<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#34;age&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除的Value:&#34;</span>, value)  <span style="color:#75715e"># 输出 25</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, my_dict)     <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;}</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="4清空字典">（4）<strong>清空字典</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典<span style="color:#f92672">.</span>clear()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>my_dict<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(my_dict)  <span style="color:#75715e"># 输出 {}</span>
+</span></span></code></pre></div><hr>
+<h5 id="5获取全部-key">（5）<strong>获取全部 Key</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字典<span style="color:#f92672">.</span>keys()
+</span></span></code></pre></div><ul>
+<li>
+<p><strong>作用</strong>：返回字典中所有 <code>Key</code> 的视图对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> my_dict<span style="color:#f92672">.</span>keys()
+</span></span><span style="display:flex;"><span>print(keys)  <span style="color:#75715e"># 输出 dict_keys([&#39;name&#39;, &#39;age&#39;])</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="6遍历字典">（6）<strong>遍历字典</strong></h5>
+<ul>
+<li><strong>方法 1</strong>：遍历 <code>Key</code>。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> my_dict<span style="color:#f92672">.</span>keys():
+</span></span><span style="display:flex;"><span>    print(key)
+</span></span></code></pre></div></li>
+<li><strong>方法 2</strong>：遍历键值对。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> my_dict<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>key<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="7统计字典元素数量">（7）<strong>统计字典元素数量</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>len(字典)
+</span></span></code></pre></div><ul>
+<li><strong>作用</strong>：返回字典中键值对的数量。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>print(len(my_dict))  <span style="color:#75715e"># 输出 2</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h5 id="8嵌套字典">（8）<strong>嵌套字典</strong></h5>
+<ul>
+<li><strong>定义</strong>：字典中的 <code>Value</code> 可以是另一个字典。</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>students <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Alice&#34;</span>: {<span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>, <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;New York&#34;</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Bob&#34;</span>: {<span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">30</span>, <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;London&#34;</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>print(students[<span style="color:#e6db74">&#34;Alice&#34;</span>][<span style="color:#e6db74">&#34;city&#34;</span>])  <span style="color:#75715e"># 输出 New York</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4-综合代码示例">4. <strong>综合代码示例</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个字典</span>
+</span></span><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 新增元素</span>
+</span></span><span style="display:flex;"><span>my_dict[<span style="color:#e6db74">&#34;city&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;New York&#34;</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新增后:&#34;</span>, my_dict)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;, &#39;age&#39;: 25, &#39;city&#39;: &#39;New York&#39;}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 更新元素</span>
+</span></span><span style="display:flex;"><span>my_dict[<span style="color:#e6db74">&#34;age&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;更新后:&#34;</span>, my_dict)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;, &#39;age&#39;: 26, &#39;city&#39;: &#39;New York&#39;}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 删除元素</span>
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> my_dict<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#34;city&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除的Value:&#34;</span>, value)  <span style="color:#75715e"># 输出 New York</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, my_dict)     <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;Alice&#39;, &#39;age&#39;: 26}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 清空字典</span>
+</span></span><span style="display:flex;"><span>my_dict<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, my_dict)  <span style="color:#75715e"># 输出 {}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 获取全部 Key</span>
+</span></span><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> my_dict<span style="color:#f92672">.</span>keys()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;全部Key:&#34;</span>, keys)  <span style="color:#75715e"># 输出 dict_keys([&#39;name&#39;, &#39;age&#39;])</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 遍历字典</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;遍历字典:&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> my_dict<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>key<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 统计元素数量</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;字典长度:&#34;</span>, len(my_dict))  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 嵌套字典</span>
+</span></span><span style="display:flex;"><span>students <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Alice&#34;</span>: {<span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>, <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;New York&#34;</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Bob&#34;</span>: {<span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">30</span>, <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;London&#34;</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Alice 的城市:&#34;</span>, students[<span style="color:#e6db74">&#34;Alice&#34;</span>][<span style="color:#e6db74">&#34;city&#34;</span>])  <span style="color:#75715e"># 输出 New York</span>
+</span></span></code></pre></div><h2 id="七-数据容器的通用操作">（七） <strong>数据容器的通用操作</strong></h2>
+<h4 id="1长度">（1）<strong>长度</strong></h4>
+<ul>
+<li>使用 <code>len()</code> 获取容器中元素的数量。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(len(fruits))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2成员检查">（2）<strong>成员检查</strong></h4>
+<ul>
+<li>使用 <code>in</code> 检查元素是否在容器中。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;apple&#34;</span> <span style="color:#f92672">in</span> fruits)  <span style="color:#75715e"># 输出 True</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3统计元素">（3）<strong>统计元素</strong></h4>
+<ul>
+<li>
+<p><strong><code>len(容器)</code></strong>：统计容器中元素的数量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(len(my_list))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>max(容器)</code></strong>：返回容器中的最大元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(max(my_list))  <span style="color:#75715e"># 输出 3</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>min(容器)</code></strong>：返回容器中的最小元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(min(my_list))  <span style="color:#75715e"># 输出 1</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4排序">（4）<strong>排序</strong></h4>
+<ul>
+<li>
+<p><strong><code>sorted(容器, [reverse=True])</code></strong>：对容器进行排序，返回一个新的列表。</p>
+</li>
+<li>
+<p><code>reverse=True</code> 表示降序排序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> sorted(my_list)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(sorted(numbers, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))  <span style="color:#75715e"># 输出 [3, 2, 1]</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5类型转换">（5）<strong>类型转换</strong></h4>
+<ul>
+<li>
+<p><strong><code>str(容器)</code></strong>：将容器转换为字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> str(my_list)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 &#34;[1, 2, 3]&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>set(容器)</code></strong>：将容器转换为集合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> set(my_list)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 {1, 2, 3}</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>list(容器)</code></strong>：将容器转换为列表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_tuple <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> list(my_tuple)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 [1, 2, 3]</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><code>tuple(容器)</code></strong>：将容器转换为元组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> tuple(my_list)
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># 输出 (1, 2, 3)</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="6遍历容器">（6）<strong>遍历容器</strong></h4>
+<ul>
+<li><strong><code>for</code> 循环</strong>：遍历容器中的元素。
+<ul>
+<li>对于字典，默认遍历的是 <code>Key</code>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_list <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> my_list:
+</span></span><span style="display:flex;"><span>    print(item)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>my_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> my_dict:
+</span></span><span style="display:flex;"><span>    print(key)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="7-字符串比较">(7) <strong>字符串比较</strong></h4>
+<ul>
+<li><strong>ASCII 码</strong>：每个字符都有对应的 ASCII 码值。</li>
+<li><strong>字符串比较</strong>：基于字符的 ASCII 码值进行比较。
+<ul>
+<li>从第一个字符开始逐个比较，直到找到不同的字符。</li>
+<li>如果所有字符都相同，则较长的字符串更大。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;apple&#34;</span> <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;banana&#34;</span>)  <span style="color:#75715e"># 输出 False（&#39;a&#39; 的 ASCII 码值 &lt; &#39;b&#39;）</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;apple&#34;</span> <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;apples&#34;</span>)  <span style="color:#75715e"># 输出 True（&#34;apple&#34; 比 &#34;apples&#34; 短）</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;a&#34;</span>)          <span style="color:#75715e"># 输出 True（大写字母的 ASCII 码值 &lt; 小写字母）</span>
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
