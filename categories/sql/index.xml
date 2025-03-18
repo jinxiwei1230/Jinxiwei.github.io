@@ -207,5 +207,95 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
 </span></span></code></pre></div><p><strong>结果</strong>:</p>]]></description>
 </item>
+<item>
+    <title>mysql高级</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/</link>
+    <pubDate>Sat, 08 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/</guid>
+    <description><![CDATA[<h2 id="mysql高级">mysql高级</h2>
+<h3 id="1约束">1、约束</h3>
+<h3 id="11--概念">1.1  概念</h3>
+<ul>
+<li>
+<p>约束是作用于表中列上的规则，用于限制加入表的数据</p>
+<p>例如：我们可以给id列加约束，让其值不能重复，不能为null值。</p>
+</li>
+<li>
+<p>约束的存在保证了数据库中数据的正确性、有效性和完整性</p>
+<p>添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。</p>
+</li>
+</ul>
+<h3 id="12--分类">1.2  分类</h3>
+<ul>
+<li><strong>非空约束： 关键字是 NOT NULL</strong></li>
+</ul>
+<p>保证列中所有的数据不能有null值。</p>
+<p>例如：id列在添加 <code>马花疼</code> 这条数据时就不能添加成功。</p>
+<ul>
+<li>
+<p><strong>唯一约束：关键字是  UNIQUE</strong></p>
+<p>保证列中所有数据各不相同。</p>
+<p>例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。</p>
+</li>
+<li>
+<p><strong>主键约束： 关键字是  PRIMARY KEY</strong></p>
+</li>
+</ul>
+<p>主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。</p>
+<p>例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。</p>
+<ul>
+<li>
+<p><strong>检查约束： 关键字是  CHECK</strong></p>
+<p>保证列中的值满足某一条件。</p>
+<p>例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。</p>
+<blockquote>
+<p>注意：MySQL不支持检查约束。</p>
+<p>这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>默认约束： 关键字是   DEFAULT</strong></p>
+<p>保存数据时，未指定值则采用默认值。</p>
+<p>例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。</p>
+</li>
+<li>
+<p><strong>外键约束： 关键字是  FOREIGN KEY</strong></p>
+<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
+<p>外键约束现在可能还不太好理解，后面我们会重点进行讲解。</p>
+</li>
+</ul>
+<h3 id="13--非空约束">1.3  非空约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>非空约束用于保证列中所有数据不能有NULL值</p>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>添加约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>); 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加非空约束
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>删除约束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="14--唯一约束">1.4  唯一约束</h3>
+<ul>
+<li>
+<p>概念</p>
+<p>唯一约束用于保证列中所有数据各不相同</p>]]></description>
+</item>
 </channel>
 </rss>

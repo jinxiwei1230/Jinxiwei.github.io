@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/">
+        <title>Python异常、模块与包 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/">
   <meta property="og:site_name" content="Jinxiwei">
-  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:title" content="Python异常、模块与包">
   <meta property="og:description" content="Python异常、模块与包 （一）异常 1. 异常的概念 异常：程序运行过程中出现的错误。 Bug：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。 异常的影响： 程序可能因异常停止运行（崩溃）。 通过捕获异常，可以让程序在出现异常时继续运行。 2. 捕获异常 （1）基本语法 作用：提前假设某处会出现异常，并做好处理准备。
 语法：
 try: 可能发生错误的代码 except: 如果出现异常执行的代码 （2）捕获指定异常 作用：捕获特定类型的异常。
@@ -17,9 +17,12 @@ try: 可能发生错误的代码 except Exception as e: 处理异常的代码 �
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-15T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:title" content="Python异常、模块与包">
   <meta name="twitter:description" content="Python异常、模块与包 （一）异常 1. 异常的概念 异常：程序运行过程中出现的错误。 Bug：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。 异常的影响： 程序可能因异常停止运行（崩溃）。 通过捕获异常，可以让程序在出现异常时继续运行。 2. 捕获异常 （1）基本语法 作用：提前假设某处会出现异常，并做好处理准备。
 语法：
 try: 可能发生错误的代码 except: 如果出现异常执行的代码 （2）捕获指定异常 作用：捕获特定类型的异常。
@@ -30,23 +33,23 @@ try: 可能发生错误的代码 except Exception as e: 处理异常的代码 �
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "Python异常、模块与包",
         "inLanguage": "en-us",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85\/"
-        },"genre": "posts","wordcount":  467 ,
-        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85\/","publisher": {
+        },"genre": "posts","keywords": "python","wordcount":  467 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85\/","datePublished": "2025-03-15T00:00:00+00:00","dateModified": "2025-03-15T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
-                "name": "Author"
+                "name": "Jinxiwei"
             },"description": ""
     }
     </script></head>
@@ -81,9 +84,9 @@ try: 可能发生错误的代码 except Exception as e: 处理异常的代码 �
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;467 words&nbsp;
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Python异常、模块与包</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-15">2025-03-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;467 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -465,25 +468,25 @@ try: 可能发生错误的代码 except Exception as e: 处理异常的代码 �
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 0001-01-01</span>
+                <span>Updated on 2025-03-15</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title="Python异常、模块与包" data-hashtags="python"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-hashtag="python"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title="Python异常、模块与包"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title="Python异常、模块与包"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/" data-title="Python异常、模块与包"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/" class="prev" rel="prev" title="SQL：Json字段处理&#43;分布式ID生成"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>SQL：Json字段处理+分布式ID生成</a>
+            <a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" class="next" rel="next" title="Python可视化-折线图">Python可视化-折线图<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

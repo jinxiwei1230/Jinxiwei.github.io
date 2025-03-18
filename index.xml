@@ -3,9 +3,204 @@
         <title>Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/</link>
         <description>This is my cool site</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Python可视化-折线图</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/</link>
+    <pubDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/</guid>
+    <description><![CDATA[<h1 id="python可视化-折线图">Python可视化-折线图</h1>
+<h2 id="一-json-数据处理">（一） <strong>JSON 数据处理</strong></h2>
+<h4 id="1json-简介">（1）<strong>JSON 简介</strong></h4>
+<ul>
+<li><strong>定义</strong>：JSON（JavaScript Object Notation）是一种轻量级的数据交互格式，采用文本格式存储和表示数据。</li>
+</ul>
+<h4 id="2json-转换">（2）<strong>JSON 转换</strong></h4>
+<ul>
+<li>
+<p><strong>将 Python 数据转换为 JSON</strong>：</p>
+<ul>
+<li>使用 <code>json.dumps()</code> 方法。</li>
+<li>如果有中文，可以设置 <code>ensure_ascii=False</code> 确保中文正常转换。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(python_data, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(data, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>print(json_data)  <span style="color:#75715e"># 输出 {&#34;name&#34;: &#34;张三&#34;, &#34;age&#34;: 25}</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>将 JSON 转换为 Python 数据</strong>：</p>
+<ul>
+<li>使用 <code>json.loads()</code> 方法。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>python_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(json_data)
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;name&#34;: &#34;张三&#34;, &#34;age&#34;: 25}&#39;</span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(json_data)
+</span></span><span style="display:flex;"><span>print(data)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;张三&#39;, &#39;age&#39;: 25}</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h2 id="二-pyecharts-数据可视化">（二） <strong><code>pyecharts</code> 数据可视化</strong></h2>
+<h3 id="1pyecharts-简介">1、<strong><code>pyecharts</code> 简介</strong></h3>
+<ul>
+<li>
+<p><strong>定义</strong>：<code>pyecharts</code> 是一个基于 ECharts 的 Python 数据可视化库。</p>]]></description>
+</item>
+<item>
+    <title>Python异常、模块与包</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/</link>
+    <pubDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/</guid>
+    <description><![CDATA[<h1 id="python异常模块与包">Python异常、模块与包</h1>
+<h2 id="一异常">（一）异常</h2>
+<h3 id="1-异常的概念">1. <strong>异常的概念</strong></h3>
+<ul>
+<li><strong>异常</strong>：程序运行过程中出现的错误。</li>
+<li><strong>Bug</strong>：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。</li>
+<li><strong>异常的影响</strong>：
+<ul>
+<li>程序可能因异常停止运行（崩溃）。</li>
+<li>通过捕获异常，可以让程序在出现异常时继续运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-捕获异常">2. <strong>捕获异常</strong></h3>
+<h4 id="1基本语法">（1）<strong>基本语法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：提前假设某处会出现异常，并做好处理准备。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>    如果出现异常执行的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2捕获指定异常">（2）<strong>捕获指定异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获特定类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> 异常类型 <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3捕获多个异常">（3）<strong>捕获多个异常</strong></h4>
+<ul>
+<li><strong>作用</strong>：捕获多种类型的异常。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (异常类型1, 异常类型2) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    print(num)  <span style="color:#75715e"># 可能抛出 NameError</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 可能抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">NameError</span>, <span style="color:#a6e22e">ZeroDivisionError</span>) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4捕获所有异常">（4）<strong>捕获所有异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获所有类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5else-和-finally">（5）<strong><code>else</code> 和 <code>finally</code></strong></h4>
+<ul>
+<li><strong><code>else</code></strong>：当没有异常时执行的代码。</li>
+<li><strong><code>finally</code></strong>：无论是否发生异常，都会执行的代码（如关闭文件）。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    没有异常时执行的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    无论是否异常都会执行的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;test.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;没有异常，真开心&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="3-异常的传递性">3. <strong>异常的传递性</strong></h3>
+<ul>
+<li><strong>定义</strong>：当函数中发生异常且未被捕获时，异常会传递给调用该函数的代码，直到被捕获或程序崩溃。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>异常会从内层函数向外层函数传递。</li>
+<li>如果所有函数都未捕获异常，程序会崩溃。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func01</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func02</span>():
+</span></span><span style="display:flex;"><span>    func01()  <span style="color:#75715e"># 异常传递到 func02</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        func02()  <span style="color:#75715e"># 异常传递到 main</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>main()  <span style="color:#75715e"># 输出 &#34;捕获到异常: division by zero&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="二模块">（二）模块</h2>
+<h3 id="1-模块的概念">1. <strong>模块的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：模块是一个 Python 文件（以 <code>.py</code> 结尾），包含类、函数、变量等，可以被其他 Python 程序导入和使用。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>将代码组织成可重用的单元。</li>
+<li>提供工具包，帮助快速实现功能（如 <code>time</code> 模块用于时间操作）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-导入模块">2. <strong>导入模块</strong></h3>
+<h4 id="1基本语法-1">（1）<strong>基本语法</strong></h4>
+<ul>
+<li>
+<p><strong><code>import</code> 语句</strong>：</p>]]></description>
+</item>
+<item>
     <title>SQL：Json字段处理&#43;分布式ID生成</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/</link>
     <pubDate>Sat, 15 Mar 2025 00:00:00 &#43;0000</pubDate>
@@ -63,6 +258,444 @@
   </tbody>
 </table>
 <p>执行 SQL：</p>]]></description>
+</item>
+<item>
+    <title>Python基础语法</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/</link>
+    <pubDate>Tue, 11 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python/</guid>
+    <description><![CDATA[<h1 id="python基础语法">Python基础语法</h1>
+<h3 id="一-6中常用数据值类型">(一) 6中常用数据（值）类型：</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>类型</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>数字（Number）</strong></td>
+          <td style="text-align: left">支持多种数字类型</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 整数（int）</td>
+          <td style="text-align: left">如：<code>10</code>、<code>-10</code></td>
+          <td style="text-align: left">表示整数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 浮点数（float）</td>
+          <td style="text-align: left">如：<code>13.14</code>、<code>-13.14</code></td>
+          <td style="text-align: left">表示带小数点的数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 复数（complex）</td>
+          <td style="text-align: left">如：<code>4+3j</code></td>
+          <td style="text-align: left">以 <code>j</code> 结尾表示复数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 布尔（bool）</td>
+          <td style="text-align: left"><code>True</code>、<code>False</code></td>
+          <td style="text-align: left">表达逻辑值，<code>True</code> 记作 <code>1</code>，<code>False</code> 记作 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字符串（String）</strong></td>
+          <td style="text-align: left">描述文本的数据类型</td>
+          <td style="text-align: left">由任意数量的字符组成，如：<code>&quot;Hello&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>列表（List）</strong></td>
+          <td style="text-align: left">有序的可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆数据，如：<code>[1, 2, 3]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>元组（Tuple）</strong></td>
+          <td style="text-align: left">有序的不可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆<strong>不可变</strong>的数据，如：<code>(1, 2, 3)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>集合（Set）</strong></td>
+          <td style="text-align: left">无序不重复集合</td>
+          <td style="text-align: left">可<strong>无序</strong>记录一堆<strong>不重复</strong>的数据，如：<code>{1, 2, 3}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字典（Dictionary）</strong></td>
+          <td style="text-align: left">无序 Key-Value 集合</td>
+          <td style="text-align: left">可无序记录<strong>键值对</strong>数据，如：<code>{&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 25}</code></td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li>
+<p>数据类型： <code>type()</code></p>
+</li>
+<li>
+<p>类型转换</p>
+<ul>
+<li>
+<p>转换为字符串：<code>str()</code></p>
+</li>
+<li>
+<p>转换为整数：<code>int()</code></p>
+</li>
+<li>
+<p>转换为浮点数：<code>float()</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>任何类型，都可以通过str()，转换成字符串</p>
+</li>
+<li>
+<p>字符串内必须真的是数字，才可以将字符串转换为数字</p>
+</li>
+</ul>
+<h3 id="二运算符">(二)运算符</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>实例</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>+</code></td>
+          <td style="text-align: left">加</td>
+          <td style="text-align: left">两个对象相加：<code>a + b</code>，如 <code>10 + 20</code> 输出结果 <code>30</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-</code></td>
+          <td style="text-align: left">减</td>
+          <td style="text-align: left">得到负数或一个数减去另一个数：<code>a - b</code>，如 <code>10 - 20</code> 输出结果 <code>-10</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*</code></td>
+          <td style="text-align: left">乘</td>
+          <td style="text-align: left">两个数相乘或返回一个被重复若干次的字符串：<code>a * b</code>，如 <code>10 * 20</code> 输出结果 <code>200</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/</code></td>
+          <td style="text-align: left">除</td>
+          <td style="text-align: left">返回除法结果：<code>b / a</code>，如 <code>20 / 10</code> 输出结果 <code>2.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//</code></td>
+          <td style="text-align: left">取整除</td>
+          <td style="text-align: left">返回商的整数部分：<code>9 // 2</code> 输出结果 <code>4</code>，<code>9.0 // 2.0</code> 输出结果 <code>4.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%</code></td>
+          <td style="text-align: left">取余</td>
+          <td style="text-align: left">返回除法的余数：<code>b % a</code>，如 <code>20 % 10</code> 输出结果 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**</code></td>
+          <td style="text-align: left">指数</td>
+          <td style="text-align: left">返回一个数的幂：<code>a ** b</code>，如 <code>10 ** 20</code> 输出结果 <code>100000000000000000000</code></td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>=</code></td>
+          <td style="text-align: left">赋值运算符</td>
+          <td style="text-align: left">将 <code>=</code> 右边的结果赋给左边的变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>+=</code></td>
+          <td style="text-align: left">加法赋值运算符</td>
+          <td style="text-align: left"><code>c += a</code> 等效于 <code>c = c + a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-=</code></td>
+          <td style="text-align: left">减法赋值运算符</td>
+          <td style="text-align: left"><code>c -= a</code> 等效于 <code>c = c - a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*=</code></td>
+          <td style="text-align: left">乘法赋值运算符</td>
+          <td style="text-align: left"><code>c *= a</code> 等效于 <code>c = c * a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/=</code></td>
+          <td style="text-align: left">除法赋值运算符</td>
+          <td style="text-align: left"><code>c /= a</code> 等效于 <code>c = c / a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%=</code></td>
+          <td style="text-align: left">取模赋值运算符</td>
+          <td style="text-align: left"><code>c %= a</code> 等效于 <code>c = c % a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**=</code></td>
+          <td style="text-align: left">幂赋值运算符</td>
+          <td style="text-align: left"><code>c **= a</code> 等效于 <code>c = c ** a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//=</code></td>
+          <td style="text-align: left">取整除赋值运算符</td>
+          <td style="text-align: left"><code>c //= a</code> 等效于 <code>c = c // a</code></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="三字符串">(三)字符串</h3>
+<h4 id="1字符串定义形式">1、字符串定义形式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>定义方式</strong></th>
+          <th style="text-align: left"><strong>语法</strong></th>
+          <th style="text-align: left"><strong>特点</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">单引号定义法</td>
+          <td style="text-align: left"><code>'字符串内容'</code></td>
+          <td style="text-align: left">适合定义单行字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">双引号定义法</td>
+          <td style="text-align: left"><code>&quot;字符串内容&quot;</code></td>
+          <td style="text-align: left">适合定义单行字符串，内容中可包含单引号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">三引号定义法</td>
+          <td style="text-align: left"><code>'''字符串内容'''</code> 或 <code>&quot;&quot;&quot;字符串内容&quot;&quot;&quot;</code></td>
+          <td style="text-align: left">支持多行字符串，也可作为多行注释使用</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2字符串格式化">2、字符串格式化</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>格式符号</strong></th>
+          <th style="text-align: left"><strong>转化</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>%s</code></td>
+          <td style="text-align: left">将内容转换成字符串，放入占位位置</td>
+          <td style="text-align: left">适用于字符串、数字等类型，自动转换为字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%d</code></td>
+          <td style="text-align: left">将内容转换成整数，放入占位位置</td>
+          <td style="text-align: left">适用于整数类型，浮点数会被截断为整数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%f</code></td>
+          <td style="text-align: left">将内容转换成浮点型，放入占位位置</td>
+          <td style="text-align: left">适用于浮点数类型，默认保留 6 位小数，可通过 <code>%.nf</code> 指定小数位数（n 为数字）</td>
+      </tr>
+  </tbody>
+</table>
+<ol>
+<li>
+<p><strong><code>%s</code> 示例</strong>：</p>]]></description>
+</item>
+<item>
+    <title>Python数据容器</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/</link>
+    <pubDate>Tue, 11 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/</guid>
+    <description><![CDATA[<h1 id="python数据容器">Python数据容器</h1>
+<p>Python 中的数据容器是用于<strong>存储和管理数据</strong>的对象。常见的数据容器包括<strong>列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）、集合（<code>set</code>）和字典（<code>dict</code>）</strong>。</p>
+<h3 id="一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></h3>
+<p><strong>1、定义</strong>：</p>
+<ul>
+<li>列表是一种<strong>有序</strong>、可变的数据容器，可以存储<strong>任意类型</strong>的元素</li>
+<li>元素<strong>可以重复</strong>、支持<strong>增删改查</strong>操作</li>
+<li>列表可以一次存储多个数据，且可以为<strong>不同的数据类型（混装）</strong>，支持嵌套</li>
+<li>下标支持从前往后（正数）、从后往前（负数）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>列表名 <span style="color:#f92672">=</span> [元素1, 元素2, <span style="color:#f92672">...</span>]
+</span></span></code></pre></div><p><strong>2、<code>list</code> 的遍历</strong></p>
+<ul>
+<li>
+<p><strong>方法 1：使用 <code>for</code> 循环</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
+</span></span><span style="display:flex;"><span>    print(fruit)
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 2：使用索引</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(fruits)):
+</span></span><span style="display:flex;"><span>    print(fruits[i])
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 3：使用 <code>enumerate()</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, fruit <span style="color:#f92672">in</span> enumerate(fruits):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">, Fruit: </span><span style="color:#e6db74">{</span>fruit<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3列表常用操作">3、列表常用操作</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个列表</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 追加元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;orange&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;追加后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 扩展列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>extend([<span style="color:#e6db74">&#34;grape&#34;</span>, <span style="color:#e6db74">&#34;mango&#34;</span>])
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;扩展后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 插入元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;插入后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 删除元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> fruits[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 弹出元素</span>
+</span></span><span style="display:flex;"><span>removed_fruit <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出后:&#34;</span>, fruits)        <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出的元素:&#34;</span>, removed_fruit)  <span style="color:#75715e"># 输出 orange</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 移除元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;移除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 清空列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 []</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 统计元素</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>]
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;banana&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;banana 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 9. 查找元素下标</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;cherry&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;cherry 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10. 获取列表长度</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(fruits)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;列表长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 11. 修改元素</span>
+</span></span><span style="display:flex;"><span>fruits[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;修改后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 12. 反转列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>reverse()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;反转后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 13. 排序列表</span>
+</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;排序后:&#34;</span>, numbers)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 14. 切片操作</span>
+</span></span><span style="display:flex;"><span>subset <span style="color:#f92672">=</span> fruits[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;切片后:&#34;</span>, subset)  <span style="color:#75715e"># 输出 [&#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span></code></pre></div><h3 id="二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></h3>
+<p><strong>1、定义</strong>：元组是一种<strong>有序、不可变</strong>的数据容器。</p>]]></description>
+</item>
+<item>
+    <title>Python文件操作</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</link>
+    <pubDate>Tue, 11 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</guid>
+    <description><![CDATA[<h1 id="python文件操作">Python文件操作</h1>
+<h2 id="一编码">（一）编码</h2>
+<h3 id="1-编码的概念">1. <strong>编码的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：编码是一种将 <strong>可识别内容</strong>（如文字、符号等）转换为 <strong>二进制数据</strong> 的规则，同时也定义了如何将二进制数据转换回可识别内容。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>存储：将人类可读的内容转换为计算机可存储的二进制数据。</li>
+<li>传输：在网络传输中，编码确保数据能够正确传递和解析。</li>
+<li>显示：将二进制数据转换回人类可读的内容。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-常见编码">2. <strong>常见编码</strong></h3>
+<h4 id="1utf-8">（1）<strong>UTF-8</strong></h4>
+<ul>
+<li>是一种 <strong>可变长度</strong> 的 Unicode 编码。</li>
+<li>支持全球所有语言的字符。</li>
+<li>兼容 ASCII 编码。</li>
+</ul>
+<h5 id="2gbk">（2）<strong>GBK</strong></h5>
+<ul>
+<li>是一种针对 <strong>中文</strong> 的编码。</li>
+<li>支持简体中文和繁体中文。</li>
+</ul>
+<h4 id="3big5">（3）<strong>Big5</strong></h4>
+<ul>
+<li>是一种针对 <strong>繁体中文</strong> 的编码。</li>
+<li>主要用于台湾、香港等地区。</li>
+</ul>
+<hr>
+<h3 id="3-编码与解码">3. <strong>编码与解码</strong></h3>
+<h5 id="1编码encode">（1）<strong>编码（Encode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将字符串转换为二进制数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>encode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;我喜欢你&#34;</span>
+</span></span><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(binary_data)  <span style="color:#75715e"># 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="2解码decode">（2）<strong>解码（Decode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将二进制数据转换为字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>二进制数据<span style="color:#f92672">.</span>decode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>text <span style="color:#f92672">=</span> binary_data<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(text)  <span style="color:#75715e"># 输出 &#34;我喜欢你&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-编码错误的处理">4. <strong>编码错误的处理</strong></h3>
+<ul>
+<li><strong>常见错误</strong>：
+<ul>
+<li><code>UnicodeEncodeError</code>：编码时无法将字符转换为指定编码。</li>
+<li><code>UnicodeDecodeError</code>：解码时无法将二进制数据转换为指定编码的字符。</li>
+</ul>
+</li>
+<li><strong>解决方法</strong>：
+<ul>
+<li>使用 <code>errors</code> 参数指定错误处理方式。
+<ul>
+<li><code>ignore</code>：忽略无法编码/解码的字符。</li>
+<li><code>replace</code>：用替代字符（如 <code>?</code>）替换无法编码/解码的字符。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="heading"></h4>
+<h2 id="二文件操作">（二）文件操作</h2>
+<h3 id="1-打开文件">1. <strong>打开文件</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>open(file, mode, encoding)
+</span></span></code></pre></div><ul>
+<li>
+<p><code>file</code>：文件路径（字符串类型）。</p>]]></description>
 </item>
 <item>
     <title>python面试题1</title>
@@ -262,7 +895,7 @@
 </span></span></code></pre></div><p><strong>结果</strong>:</p>]]></description>
 </item>
 <item>
-    <title>IoC DI AOP.md</title>
+    <title>IoC DI AOP</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/ioc-di-aop/</link>
     <pubDate>Sat, 08 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
@@ -327,362 +960,6 @@ AOP通过切面将横切关注点（如日志、事务、安全等）与核心�
 <li><strong>织入（Weaving）</strong>：将切面应用到目标对象的过程。</li>
 </ul>
 <p><strong>示例</strong>：</p>]]></description>
-</item>
-<item>
-    <title>Urllib1</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/</link>
-    <pubDate>Fri, 28 Feb 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/</guid>
-    <description><![CDATA[<h2 id="urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</h2>
-<h3 id="1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</h3>
-<h4 id="1-基本用法">1. 基本用法</h4>
-<h5 id="11-发送请求并获取响应">1.1 发送请求并获取响应</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义URL</span>
-</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送请求并获取响应对象</span>
-</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url)
-</span></span></code></pre></div><ul>
-<li><code>urlopen(url)</code>：打开指定的 URL 并返回一个 <code>HTTPResponse</code> 对象。</li>
-</ul>
-<h5 id="12-获取响应内容">1.2 获取响应内容</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取响应内容并解码为字符串</span>
-</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-</span></span><span style="display:flex;"><span>print(content)
-</span></span></code></pre></div><ul>
-<li><code>read()</code>：读取整个响应内容，返回字节形式的二进制数据。</li>
-<li><strong><code>decode('utf-8')</code>：将二进制数据解码为字符串</strong>，<code>utf-8</code> 是常见的编码格式。</li>
-</ul>
-<h5 id="13-读取部分内容">1.3 读取部分内容</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取前10个字节</span>
-</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>print(content)
-</span></span></code></pre></div><ul>
-<li><code>read(n)</code>：读取响应内容的前 <code>n</code> 个字节。</li>
-</ul>
-<h5 id="14-逐行读取">1.4 逐行读取</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取一行</span>
-</span></span><span style="display:flex;"><span>content1 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readline()
-</span></span><span style="display:flex;"><span>print(content1)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 逐行读取所有内容</span>
-</span></span><span style="display:flex;"><span>content2 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readlines()
-</span></span><span style="display:flex;"><span>print(content2)
-</span></span></code></pre></div><ul>
-<li><code>readline()</code>：读取一行内容。</li>
-<li><code>readlines()</code>：读取所有行并返回一个列表。</li>
-</ul>
-<h4 id="2-响应对象-httpresponse-的方法和属性">2. 响应对象 (<code>HTTPResponse</code>) 的方法和属性</h4>
-<h5 id="21-获取状态码">2.1 获取状态码</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;状态码：&#34;</span>, response<span style="color:#f92672">.</span>getcode())
-</span></span></code></pre></div><ul>
-<li><code>getcode()</code>：返回 HTTP 响应的状态码（如 200 表示成功）。</li>
-</ul>
-<h5 id="22-获取请求的-url">2.2 获取请求的 URL</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;URL: &#34;</span>, response<span style="color:#f92672">.</span>geturl())
-</span></span></code></pre></div><ul>
-<li><code>geturl()</code>：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。</li>
-</ul>
-<h5 id="23-获取响应头信息">2.3 获取响应头信息</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;头信息：&#34;</span>, response<span style="color:#f92672">.</span>getheaders())
-</span></span></code></pre></div><ul>
-<li><code>getheaders()</code>：返回一个包含所有响应头信息的列表，每个元素是一个 <code>(header, value)</code> 元组。</li>
-</ul>
-<h4 id="3-总结">3. 总结</h4>
-<ul>
-<li><strong>一个类型</strong>：<code>HTTPResponse</code>，表示 HTTP 响应对象。</li>
-<li><strong>六个方法</strong>：
-<ol>
-<li><code>read()</code>：读取响应内容。</li>
-<li><code>read(n)</code>：读取前 <code>n</code> 个字节。</li>
-<li><code>readline()</code>：读取一行内容。</li>
-<li><code>readlines()</code>：读取所有行。</li>
-<li><code>getcode()</code>：获取状态码。</li>
-<li><code>geturl()</code>：获取请求的 URL。</li>
-<li><code>getheaders()</code>：获取响应头信息。</li>
-</ol>
-</li>
-</ul>
-<h4 id="4-下载文件">4. 下载文件</h4>
-<p><code>urllib.request</code> 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。</p>]]></description>
-</item>
-<item>
-    <title>Urllib2</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/</link>
-    <pubDate>Fri, 28 Feb 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib2/</guid>
-    <description><![CDATA[<h2 id="urllibajax异常cookie登录handler代理">Urllib：ajax、异常、cookie登录、handler、代理</h2>
-<h3 id="循环爬取多个页面">循环爬取多个页面</h3>
-<p>找到多个页面的url和data参数规律，循环发送不同请求</p>
-<h3 id="异常种类">异常种类</h3>
-<h4 id="urlliberrorurlerror">urllib.error.URLError</h4>
-<p><strong>常见场景：</strong></p>
-<ul>
-<li>连接超时（如请求的目标服务器无法访问，网络中断）。</li>
-<li>DNS 解析错误（例如，URL 域名无法解析到 IP 地址）。</li>
-<li>网络连接错误（例如，网络不可达）</li>
-</ul>
-<h4 id="urlliberrorhttperror">urllib.error.HTTPError</h4>
-<p>HTTPError 是 urllib 模块中的一个子类异常，专门用于处理 HTTP 错误状态码（如 404、500 等）。
-<strong>常见场景：</strong></p>
-<ul>
-<li>请求的资源不存在，返回 404 错误。</li>
-<li>请求无法通过认证，返回 401 或 403 错误。</li>
-<li>服务器错误，返回 500 错误。</li>
-</ul>
-<hr>
-<h3 id="cookiereferer">cookie、Referer</h3>
-<h4 id="1登录状态cookie">1、<strong>登录状态（Cookie）</strong>：</h4>
-<ul>
-<li><strong>Cookie</strong> 是模拟登录状态时至关重要的一部分。爬虫通过获取登录后浏览器中的 Cookie，将其放在请求头中，以模拟已登录的状态。</li>
-<li><code>cookie</code> 包含一系列从微博登录后获得的身份信息，如 <code>SCF</code>、<code>SINAGLOBAL</code>、<code>PC_TOKEN</code> 等。
-<strong>注意</strong>：使用 Cookie 时需要确保它是有效的，并且不要泄露敏感信息。</li>
-</ul>
-<h4 id="2防止反爬虫措施">2、<strong>防止反爬虫措施</strong>：</h4>
-<ul>
-<li><strong>Referer</strong>：一些网站通过检查 <code>referer</code> 来判断请求是否来自正常的浏览路径，防止直接访问资源。爬虫在请求头中加入合适的 <code>referer</code> 值可以绕过这种检查。</li>
-<li><strong>User-Agent</strong>：服务器根据请求头中的 <code>User-Agent</code> 判断请求是否来自浏览器。如果 <code>User-Agent</code> 显示是爬虫，服务器可能会阻止请求。为了绕过此问题，可以设置与常见浏览器相符的 <code>User-Agent</code>。</li>
-</ul>
-<h4 id="3爬虫中的常见技巧">3、<strong>爬虫中的常见技巧</strong>：</h4>
-<ul>
-<li><strong>模拟浏览器请求</strong>：通过自定义请求头信息，特别是 <code>User-Agent</code>、<code>Referer</code> 和 <code>Cookie</code>，使爬虫看起来像一个正常用户在浏览网页。</li>
-<li><strong>处理登录后的数据</strong>：当需要登录后获取数据时，确保爬虫能够通过获取到的 Cookie 维持登录状态。</li>
-<li><strong>防止被封禁</strong>：通过设置适当的请求头信息和延时控制，避免被目标网站封禁 IP。</li>
-</ul>
-<hr>
-<h3 id="爬虫-handler">爬虫 <code>handler</code></h3>
-<h4 id="1-什么是-handler">1. <strong>什么是 Handler？</strong></h4>
-<ul>
-<li><strong>Handler</strong> 是 <code>urllib</code> 模块中的一个类，负责处理请求中的不同操作（如建立连接、发送请求、接收响应等）。<code>Handler</code> 可以定制请求的处理方式，以便实现不同的需求。</li>
-<li>作用：将某些操作（例如 HTTP 请求、代理设置、重定向、认证等）抽象为一个“处理程序”，可以将不同的处理逻辑组合在一起。</li>
-</ul>
-<h4 id="2-httphandler-的作用">2. <strong><code>HTTPHandler</code> 的作用</strong>：</h4>
-<ul>
-<li><code>HTTPHandler</code> 是一个处理 HTTP 请求的 handler 类，它负责处理 HTTP 协议的请求和响应。</li>
-<li>它主要处理的操作包括建立 HTTP 连接、发送 HTTP 请求、获取 HTTP 响应等。</li>
-<li><code>HTTPHandler</code> 处理的内容相对简单，适用于普通的 HTTP 请求。</li>
-</ul>
-<p><strong>示例</strong>：</p>]]></description>
-</item>
-<item>
-    <title>Java静态代码块</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/</link>
-    <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/java%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97/</guid>
-    <description><![CDATA[<p>​       Java静态代码块（Static Block）：用 <code>static</code> 关键字修饰的代码块，它在<strong>类加载时执行，并且只执行一次</strong>。静态代码块通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</p>
-<h3 id="语法">语法</h3>
-<p>静态代码块的语法如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 静态代码块中的代码</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="特点">特点</h3>
-<ol>
-<li><strong>执行时机</strong>：静态代码块在类加载时执行，且只执行一次。</li>
-<li><strong>执行顺序</strong>：如果有多个静态代码块，它们会按照在类中出现的顺序依次执行。</li>
-<li><strong>用途</strong>：通常用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</li>
-</ol>
-<h3 id="示例">示例</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> staticVar;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 静态代码块</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;静态代码块执行&#34;</span>);
-</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">=</span> 10;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;main方法执行&#34;</span>);
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;staticVar = &#34;</span> <span style="color:#f92672">+</span> staticVar);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="输出">输出</h3>
-<pre tabindex="0"><code>静态代码块执行
-main方法执行
-staticVar = 10
-</code></pre><h3 id="解释">解释</h3>
-<ol>
-<li>当 <code>Example</code> 类被加载时，静态代码块首先执行，输出 <code>&quot;静态代码块执行&quot;</code>，并将 <code>staticVar</code> 初始化为 <code>10</code>。</li>
-<li>然后，<code>main</code> 方法执行，输出 <code>&quot;main方法执行&quot;</code> 和 <code>staticVar</code> 的值。</li>
-</ol>
-<h3 id="多个静态代码块">多个静态代码块</h3>
-<p>如果有多个静态代码块，它们会按照在类中出现的顺序依次执行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> staticVar;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第一个静态代码块</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;第一个静态代码块执行&#34;</span>);
-</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">=</span> 10;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第二个静态代码块</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;第二个静态代码块执行&#34;</span>);
-</span></span><span style="display:flex;"><span>        staticVar <span style="color:#f92672">+=</span> 5;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;main方法执行&#34;</span>);
-</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;staticVar = &#34;</span> <span style="color:#f92672">+</span> staticVar);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="输出-1">输出</h3>
-<pre tabindex="0"><code>第一个静态代码块执行
-第二个静态代码块执行
-main方法执行
-staticVar = 15
-</code></pre><h3 id="解释-1">解释</h3>
-<ol>
-<li>第一个静态代码块执行，输出 <code>&quot;第一个静态代码块执行&quot;</code>，并将 <code>staticVar</code> 初始化为 <code>10</code>。</li>
-<li>第二个静态代码块执行，输出 <code>&quot;第二个静态代码块执行&quot;</code>，并将 <code>staticVar</code> 增加 <code>5</code>，最终值为 <code>15</code>。</li>
-<li><code>main</code> 方法执行，输出 <code>&quot;main方法执行&quot;</code> 和 <code>staticVar</code> 的值。</li>
-</ol>
-<h3 id="总结">总结</h3>
-<p>静态代码块是Java中用于在类加载时执行初始化操作的一种机制。它在类加载时自动执行，并且只执行一次，适合用于初始化静态变量或执行一些只需要进行一次的静态初始化操作。</p>]]></description>
-</item>
-<item>
-    <title>Leetcode-C</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/</link>
-    <pubDate>Tue, 25 Feb 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/leetcode-c/</guid>
-    <description><![CDATA[<p><strong>1. qsort 函数：来自 C 标准库 stdlib.h，使用比较函数来确定两个元素的顺序。</strong>
-<strong>cmp 比较函数</strong>：cmp 是一个函数指针，指向用户定义的比较函数。该比较函数接受两个参数，返回值为：</p>
-<ul>
-<li>如果 cmp(a, b) &lt; 0（负数），则 a 排在 b 前面</li>
-<li>如果 cmp(a, b) &gt; 0（正数），则 b 排在 a 前面</li>
-<li>如果 cmp(a, b) == 0（零），则 a 和 b 视为相等，顺序不变</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">qsort</span>(nums1, nums1Size, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), cmp);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 升序比较函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>b)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 降序比较函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">cmp_desc</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> b) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)b <span style="color:#f92672">-</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)a;  <span style="color:#75715e">// 让较大的数排在前面
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div>]]></description>
-</item>
-<item>
-    <title>Linux：套接字变编程</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</link>
-    <pubDate>Thu, 19 Dec 2024 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B/</guid>
-    <description><![CDATA[<h3 id="socket概述">Socket概述</h3>
-<p><strong>1、网络协议栈分层实现</strong></p>
-<ol>
-<li>
-<p><strong>传输层以上（应用层）</strong></p>
-<ul>
-<li>由用户态应用程序实现。</li>
-<li>提供网络服务接口，如 HTTP、FTP 等。</li>
-</ul>
-</li>
-<li>
-<p><strong>传输层和网络互联层</strong></p>
-<ul>
-<li><strong>传输层</strong>：TCP/UDP 在内核中实现。</li>
-<li><strong>网络互联层</strong>：如 IP 协议的路由功能也在内核中实现。</li>
-<li><strong>路由协议</strong>：如 OSPF、BGP，通常由用户态进程实现。</li>
-</ul>
-</li>
-<li>
-<p><strong>第一层和第二层（物理层和数据链路层）</strong></p>
-<ul>
-<li>一般由硬件实现，如网卡、交换机等。</li>
-</ul>
-</li>
-</ol>
-<p><strong>2、UNIX 提供的网络功能接口</strong></p>
-<ol>
-<li>
-<p><strong>文件方式组织设备与通信</strong></p>
-<ul>
-<li>BSD 将设备和通信管道都组织为文件，创建方式不同，但访问方式一致。</li>
-<li>主要包括：
-<ul>
-<li><strong>终端设备</strong>：用于用户与计算机交互。</li>
-<li><strong>管道</strong>：实现进程间通信。</li>
-<li><strong>通信服务 Socket</strong>：为网络通信设计。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>AT&amp;T UNIX 的 TLI（Transport Layer Interface）编程接口</strong></p>
-<ul>
-<li>提供面向网络通信的接口。</li>
-<li>不仅支持 TCP/IP，也支持其他协议。</li>
-</ul>
-</li>
-<li>
-<p><strong>虚拟 Loopback 接口</strong></p>
-<ul>
-<li>使用回环地址 <code>127.0.0.1</code>。</li>
-<li>实现同一台计算机上不同进程之间的通信。</li>
-</ul>
-</li>
-</ol>
-<p><strong>3、TCP 与 UDP 的区别</strong></p>
-<ol>
-<li>
-<p><strong>TCP（Transmission Control Protocol）</strong></p>
-<ul>
-<li><strong>特点</strong>：
-<ul>
-<li>面向连接。</li>
-<li>可靠传输（通过确认机制、重传机制、流量控制实现）。</li>
-<li>字节流传输（不保证报文边界）。</li>
-</ul>
-</li>
-<li><strong>适用场景</strong>：文件传输、邮件服务、远程登录等。</li>
-</ul>
-</li>
-<li>
-<p><strong>UDP（User Datagram Protocol）</strong></p>
-<ul>
-<li><strong>特点</strong>：
-<ul>
-<li>面向数据报。</li>
-<li>不可靠传输（可能错报、丢报、乱序，无流量控制）。</li>
-<li>支持广播和组播。</li>
-<li>数据报传输（保留报文边界）。</li>
-</ul>
-</li>
-<li><strong>适用场景</strong>：视频流、实时通信、广播消息等。</li>
-</ul>
-</li>
-</ol>
-<p><strong>4、字节顺序</strong></p>
-<ol>
-<li>
-<p><strong>CPU 字节顺序</strong></p>
-<ul>
-<li><strong>Big Endian（大端序）</strong>：高字节存储在低地址。
-<ul>
-<li>适用 CPU：PowerPC、SPARC、Motorola。</li>
-</ul>
-</li>
-<li><strong>Little Endian（小端序）</strong>：低字节存储在低地址。
-<ul>
-<li>适用 CPU：Intel X86。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>网络字节顺序</strong></p>]]></description>
 </item>
 </channel>
 </rss>

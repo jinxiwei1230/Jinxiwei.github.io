@@ -58,547 +58,418 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/html/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="快速入门">快速入门</h2>
-<p>1.新建文本文件，后缀名改为 .html/.htm</p>
-<p>2.编写 HTML结构标签</p>
-<p>3.在<!-- raw HTML omitted -->中使用<!-- raw HTML omitted -->定义标题字体</p>
-<p>4.使用<!-- raw HTML omitted -->标签定义图片</p>
-<p>5.保存后，使用浏览器打开该文件</p>
-<p>| 标签           | 描述                                        |
-| &mdash;&mdash;&mdash;&mdash;&ndash; | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- |                                 |
-| &lt;HTML&gt;   | 定义 HTML 文档                              |
-| &lt;head&gt;   | 定义关于文档的信息                          |
-| &lt;title&gt;  | 定义文档的标题                              |
-| &lt;body&gt;   | 定义文档的主体                              |</p>
-<h2 id="基础标签">基础标签</h2>
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">数据收集</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h3 id="大数据的历史">大数据的历史</h3>
+<h3 id="大数据的产生和应用">大数据的产生和应用</h3>
+<h4 id="大数据的挑战">大数据的挑战</h4>
+<p>1、大数据带来的思维转变</p>
+<ul>
+<li><strong>全样而非抽样</strong>：大数据时代可以分析更多数据，甚至可以处理和某个特别现象相关的全部数据，而不再依赖于随机采样；</li>
+<li><strong>效率而非精确</strong>：大数据时代，数据量极大，乐于接受数据的纷繁复杂，而不再追求精确性；</li>
+<li><strong>相关而非因果</strong>：第三个转变由前两个转变促成，大数据时代不再热衷于寻找因果关系，即大数据告诉我们“是什么”而不是“为什么”，从因果关系向相关关系转变。</li>
+</ul>
+<h4 id="大数据的特征-4v">大数据的特征 4V</h4>
+<ul>
+<li>Volume：量大</li>
+<li>Velocity：快速化</li>
+<li>Value：价值密度低</li>
+<li>Variety：多样化</li>
+</ul>
+<h4 id="大数据的产生">大数据的产生</h4>
+<p><strong>1、运营式系统阶段</strong>
+数据库的出现使得数据管理的复杂度大大降低 ，数据往往伴随一定的运营活动产生并记录在数据库中，这种数据的产生方式是<strong>被动</strong>的。</p>
+<p><strong>2、用户原创内容阶段</strong>
+以博客、微博为代表的新型社交网络出现并快速发展；
+数据的产生方式是<strong>主动</strong>的。</p>
+<p><strong>3、感知式系统阶段</strong>
+感知式系统，如VR/AR等，广泛使用；</p>
+<p>4、大数据 vs 大规模数据 vs 海量数据</p>
+<p>5、科学研究四范式</p>
+<ul>
+<li>图灵奖获得者、著名数据库专家Jim Gray 博士观察并总结人类自古以来，在科学研究上，先后历经了<strong>实验</strong>、<strong>理论</strong>和<strong>计算</strong>三种范式。</li>
+<li>基于这种考虑，Jim Gray 提出了一种新的<strong>数据探索型</strong>研究方式，被他自己称之为科学研究的“第四种范式 ”。</li>
+</ul>
+<h4 id="大数据计算模式">大数据计算模式</h4>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">标签</th>
-          <th style="text-align: left">描述</th>
+          <th style="text-align: left">大数据计算模式</th>
+          <th style="text-align: left">解决问题</th>
+          <th style="text-align: left">代表产品</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&lt;h1&gt;  ~  &lt;h6&gt;</td>
-          <td style="text-align: left">定义标题，h1最大，h6最小</td>
+          <td style="text-align: left">批处理计算</td>
+          <td style="text-align: left">针对大规模数据的批量处理</td>
+          <td style="text-align: left">MapReduceSpark等</td>
       </tr>
       <tr>
-          <td style="text-align: left">&lt;font&gt;</td>
-          <td style="text-align: left">定义文本的字体、字体尺寸、字体颜色</td>
+          <td style="text-align: left">流计算</td>
+          <td style="text-align: left">针对流数据的实时计算</td>
+          <td style="text-align: left">Storm、S4、Flume、Streams、Puma、Dstream、银河流数据处理平台等</td>
       </tr>
       <tr>
-          <td style="text-align: left">&lt;b&gt;</td>
-          <td style="text-align: left">定义粗体文本</td>
+          <td style="text-align: left">图计算</td>
+          <td style="text-align: left">针对大规模图结构数据的处理</td>
+          <td style="text-align: left">Pregel、GraphX、Giraph等</td>
       </tr>
       <tr>
-          <td style="text-align: left">&lt;i&gt;</td>
-          <td style="text-align: left">定义斜体文本</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;u&gt;</td>
-          <td style="text-align: left">定义文本下划线</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;center&gt;</td>
-          <td style="text-align: left">定义文本居中</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;p&gt;</td>
-          <td style="text-align: left">定义段落</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;br&gt;</td>
-          <td style="text-align: left">定义折行</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;hr&gt;</td>
-          <td style="text-align: left">定义水平线</td>
+          <td style="text-align: left">查询分析计算</td>
+          <td style="text-align: left">大规模数据的存储管理和查询分析</td>
+          <td style="text-align: left">Dremel、Hive、Cassandra、Impala等</td>
       </tr>
   </tbody>
 </table>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">HTML 原代码</th>
-          <th style="text-align: left">显示结果</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">&amp;lt;</td>
-          <td style="text-align: left">&lt;</td>
-          <td style="text-align: left">小于号或显示标记</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;gt ;</td>
-          <td style="text-align: left">&gt;</td>
-          <td style="text-align: left">大于号或显示标记</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;amp;</td>
-          <td style="text-align: left">&amp;</td>
-          <td style="text-align: left">可用于显示其它特殊字符</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;quot;</td>
-          <td style="text-align: left">“</td>
-          <td style="text-align: left">引号</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;reg;</td>
-          <td style="text-align: left">®</td>
-          <td style="text-align: left">已注册</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;copy;</td>
-          <td style="text-align: left">©</td>
-          <td style="text-align: left">版权</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;trade;</td>
-          <td style="text-align: left">™</td>
-          <td style="text-align: left">商标</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&amp;nbsp;</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">不断行的空白</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="图片音频视频标签">图片、音频、视频标签</h2>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">标签</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">&lt;img&gt;</td>
-          <td style="text-align: left">定义图片</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;audio&gt;</td>
-          <td style="text-align: left">定义音频</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;video&gt;</td>
-          <td style="text-align: left">定义视频</td>
-      </tr>
-  </tbody>
-</table>
+<h3 id="大数据技术框架">大数据技术框架</h3>
+<p>1、从数据在信息系统中的生命周期看，大数据从数据源开始，经过分析、挖掘到最终获得价值一般需要经过6个主要环节，包括<strong>数据收集</strong>、<strong>数据存储</strong>、资<strong>源管理与服务协调</strong>、<strong>计算引擎</strong>、<strong>数据分析和可视化</strong>。</p>
+<p><strong>2、数据收集层</strong>
+数据源特点
+<strong>分布式</strong>：数据源通常分布在不同机器或设备上，并通过网络连接在一起
+<strong>异构性</strong>：任何能够产生数据的系统均可以称为数据源，比如Web服务器、数据库、传感器、手环、视频摄像头等
+<strong>多样化</strong>：数据的格式是多种多样的，既有像用户基本信息这样的关系型数据，也有如图片、音
+频和视频等非关系型数据
+<strong>流式产生</strong>：数据源如同“水龙头”一样，会源源不断地产生“流水”（数据），而数据收集系统应实时或近实时地将数据发送到后端，以便及时对数据进行分析</p>
+<p>收集系统特点
+<strong>扩展性</strong>：能够灵活适配不同的数据源，并能接入大量数据源而不产生系统瓶颈
+<strong>可靠性</strong>：数据在传输过程中不能够丢失
+<strong>安全性</strong>：对于一些敏感数据，应有机制保证数据收集过程中不会产生安全隐患
+<strong>低延迟</strong>：数据源产生的数据量往往非常庞大，收集系统应该能够在较低延迟的前提下将数据传输到后端存储系统中</p>
+<p><strong>3、数据存储层</strong>
+数据存储层主要负责海量结构化与非结构化数据的存储。
+收集系统会将各类数据源源不断地发到中央化存储系统，这对数据存储层的扩展性、容错性及存储模型等有较高要求：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Linux：正则表达式</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-30">2024-09-30</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+<h3 id="元字符和集合">元字符和集合</h3>
+<p>1、<strong>正则表达式的概念</strong>
+应用范围：字符串匹配操作和替换操作</p>
+<p>正则表达式的功能：描述一个字符串模式</p>
+<p><strong>注意:</strong>
+正则表达式规则与文件名通配符规则不同
+正则表达式规则用于文本处理的场合
+文件名匹配规则用于文件处理的场合</p>
+<p>不同软件对正则表达式的定义会有差异</p>
+<p>2、<strong>正则表达式中的特殊字符</strong>
+6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
+<p>转义:用反斜线可以取消特殊字符的特殊含义
+如：正则表达end.只与字符串end.匹配</p>
+<p>3、<strong>单字符正则表达式</strong>
+转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
+<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
+<p>4、<strong>单字符正则表达式:定义集合</strong>
+<strong>在[]之间的字符为集合的内容</strong>
+如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
+<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
+如:<code>[\*.]</code>可匹配3个单字符</p>
+<p><strong>用减号-定义一个区间</strong></p>
+<ul>
+<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
+<li><code>[][]</code> 集合含左右中括号两个字符</li>
+<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
+</ul>
+<p><strong>用^表示补集</strong>
+^在开头,则表示与集合内字符之外的任意字符匹配.
+<code>[^a-z]</code>匹配任一非小写字母.
+-<code>[^][]</code>匹配任一非中括号字符.</p>
+<p>^不在开头,则失去其表示补集的意义
+<code>[a-z^]</code>能匹配27个单字符</p>
+<h3 id="组合与锚点">组合与锚点</h3>
+<p><strong>1、单字符正则表达式的组合</strong>
+<strong>串结</strong>
+如abc， <code>[A-Z].[0-9]</code></p>
+<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
+<ul>
+<li>正则表达式<code>12*4 </code>
+与字符串1234不匹配，与1224，12224，14匹配</li>
+<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
+<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
+</ul>
+<p><strong>2、锚点:$和^</strong>
+<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
+<li><code>$123</code>与字符串<code>$123</code>匹配</li>
+<li><code>.$</code>匹配行尾的任意字符</li>
+</ul>
+<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
+<ul>
+<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
+<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
+<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
+</ul>
+<p><strong>3、正则表达式扩展</strong>
+<strong>基本正则表达式（BRE）</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">Linux：命令和工具、文本文件处理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-linux入门">第一章 Linux入门</h2>
+<h3 id="linux的历史">Linux的历史</h3>
+<p>1、 <strong>操作系统的演变</strong></p>
+<ul>
+<li>手工操作</li>
+<li>单道批处理操作系统</li>
+<li>多道批处理系统</li>
+<li>分时系统</li>
+</ul>
+<p>2、 <strong>Unix发展史</strong></p>
+<ul>
+<li>UNiplexed Information and Computing System</li>
+<li>Unix早期的两大流派：贝尔实验室、加州大学伯克利分校</li>
+</ul>
+<h3 id="linux字符终端">Linux字符终端</h3>
+<p>1、 <strong>Unix/Linux是多用户系统：</strong></p>
+<ul>
+<li>主机连接多台字符终端</li>
+<li>字符终端作为交互式输入输出设备</li>
+</ul>
+<p>2、 <strong>终端和主机</strong></p>
 <ul>
 <li>
-<p>img：定义图片</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/html/">Read More</a></div>
+<p>终端: 主机的输入和输出设备
+终端通过电缆把用户的按键信息送到主机，把主机发来的信息在屏幕上显示</p>
+</li>
+<li>
+<p>主机: 程序和数据的存储及处理
+数据及程序存放在主机的硬盘上，程序的运行也都由主机内的CPU占用主机内存来完成</p>
+</li>
+</ul>
+<p>3、 <strong>行律与驱动程序</strong></p>
+<ul>
+<li>
+<p>驱动程序：
+不同的硬件需要不同的驱动程序
+与行律模块的接口：上行和下行字符流</p>
+</li>
+<li>
+<p>行律的作用
+一行内字符的缓冲、回显与编辑，直到按下回车键
+数据加工，如：将\n转化为\r\n
+将Ctrl-C字符转化为中止进程运行的信号(signal)</p>
+</li>
+</ul>
+<p>4、 <strong>主机与终端间的通信过程</strong></p>
+<p>5、 <strong>终端转义序列</strong></p>
+<ul>
+<li>
+<p>转义字符
+Esc：ASCII码1B（十进制27，八进制033）</p>
+</li>
+<li>
+<p>主机发往终端方向数据中的转义序列的功能
+控制光标位置、字符颜色、字符大小等等
+选择终端的字符集
+控制终端上的打印机、刷卡机、磁条器、密码键盘</p>
+</li>
+</ul>
+<p><em>Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除屏幕
+Esc[8A 四字节序列，光标上移8行
+Esc[16;8H 七字节序列，光标移到16行8列
+Esc[1;31m 七字节序列，红色字符</em></p>
+<p>6、 <strong>终端类型</strong></p>
+<ul>
+<li>
+<p>定义:定义一组转移序列以及相对应的操作</p>
+</li>
+<li>
+<p>主机和终端之间的类型匹配
+主机根据终端类型，实现相应功能时发送对应的控制码
+当终端类型不对时，可能全屏幕操作失败</p>
+</li>
+</ul>
+<p>7、 <strong>主机和终端之间的流量控制</strong></p>
+<ul>
+<li>
+<p>必要性
+终端的显示速度跟不上主机的发送速度
+主机送来数据终端需要打印出来，但打印速度慢
+主机送来的显示内容，需暂停显示，仔细分析
+需要一种机制控制主机方向来的数据流量</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/httptomcatservlet/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="httptomcatservlet">HTTP&amp;Tomcat&amp;Servlet</h2>
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Linux补充知识</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
+解析：输出黄色的Hello
+<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
+<ul>
+<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
+<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
+<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
+<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
+<ul>
+<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
+<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
+<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
+</ul>
+</li>
+</ul>
+<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
+<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
+<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
+<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
+<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
+<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
+<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
+<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
+<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
+字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
+<ul>
+<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
+<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
+<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
+</ul>
+<h4 id="人工智能研究方法">人工智能研究方法</h4>
+<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
+主要观点：</p>
+<ul>
+<li>智能活动的基元是神经细胞；</li>
+<li>智能活动过程是神经网络的状态演化过程</li>
+<li>智能活动的基础是神经细胞的突触联结机制</li>
+<li>智能系统的工作模式是模仿人脑模式</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>通过神经元之间的并行协同作用实现信息
+处理，具有并行性、动态性、全局性。</li>
+<li>通过神经元间分布式的物理联接存储信息。
+联想记忆、容错性。</li>
+<li>通过神经元间连接强度的动态调整实现自
+学习和自适应功能。</li>
+<li>善于模拟人类的形象思维过程。</li>
+</ul>
+<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
+主要观点：</p>
+<ul>
+<li>思维的基元是符号；</li>
+<li>思维的过程是符号运算；</li>
+<li>智能的核心是知识，利用知识推理进行问题求解；</li>
+<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
+<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
+<li>知识用显式的符号表示，容易表达人的心理模型。</li>
+<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
+<li>能与传统的符号数据库进行链接，易于模块化。</li>
+<li>以知识为基础。</li>
+</ul>
+<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
+主要观点：</p>
+<ul>
+<li>智能行为的基础是感知－行动的反应机制；</li>
+<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
+<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
+<li>智能行为可以不要知识。</li>
+</ul>
+<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
+<p><strong>1、研究角度分：</strong></p>
+<ul>
+<li>符号智能：运用知识解决问题；</li>
+<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
+<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
+</ul>
+<p><strong>2、功能分：</strong></p>
+<ul>
+<li>机器感知/知识获取：机器听觉、视觉</li>
+<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
+<li>机器行为/知识运用：智能机器系统</li>
+</ul>
+<h2 id="第二章-知识表示">第二章 知识表示</h2>
+<h3 id="21知识及其特性">2.1知识及其特性</h3>
+<p>1、数据、信息和知识</p>
+<ul>
+<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
+<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
+<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
+规律解决问题的方法和策略</li>
+<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
+</ul>
+<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
+<p>3、知识的特性</p>
+<ul>
+<li>客观性</li>
+<li>相对正确性：一定条件、时间、环境</li>
+<li>进化性</li>
+<li>依附性：离开载体的知识是没有的</li>
+<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
+<li>经验性</li>
+<li>可表示性</li>
+<li>可利用性</li>
+<li>可重用性</li>
+<li>共享性</li>
+</ul>
+<p>4、知识的层次</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ai/">AI</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/htmlcss/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="htmlcss">HTML&amp;CSS</h2>
 <p><strong>今日目标：</strong></p>
 <blockquote>
 <ul>
-<li>了解JavaWeb开发的技术栈</li>
-<li>理解HTTP协议和HTTP请求与响应数据的格式</li>
-<li>掌握Tomcat的使用</li>
-<li>掌握在IDEA中使用Tomcat插件</li>
-<li>理解Servlet的执行流程和生命周期</li>
-<li>掌握Servlet的使用和相关配置</li>
+<li>能够掌握课程中讲解的标签的使用</li>
+<li>了解css的使用</li>
 </ul>
 </blockquote>
-<h2 id="1web概述">1，Web概述</h2>
-<h3 id="11-web和javaweb的概念">1.1 Web和JavaWeb的概念</h3>
-<p>==Web是全球广域网，也称为万维网(www)，能够通过浏览器访问的网站。==
-在我们日常的生活中，经常会使用浏览器去访问<code>百度</code>、<code>京东</code>、<code>传智官网</code>等这些网站，这些网站统称为Web网站。如下就是通过浏览器访问传智官网的界面:
-<img
+<h2 id="1html">1，HTML</h2>
+<h3 id="11--介绍">1.1  介绍</h3>
+<p>HTML 是一门语言，所有的网页都是用HTML 这门语言编写出来的，也就是HTML是用来写网页的，像京东，12306等网站有很多网页。</p>
+<p><img
         class="lazyload"
         src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/1627031023395.png"
-        data-srcset="assets/1627031023395.png, assets/1627031023395.png 1.5x, assets/1627031023395.png 2x"
+        data-src="assets/image-20210811151737929.png"
+        data-srcset="assets/image-20210811151737929.png, assets/image-20210811151737929.png 1.5x, assets/image-20210811151737929.png 2x"
         data-sizes="auto"
-        alt="assets/1627031023395.png"
-        title="1627031023395" />
-我们知道了什么是Web，那么JavaWeb又是什么呢？顾名思义==JavaWeb就是用Java技术来解决相关web互联网领域的技术栈。==
-等学习完JavaWeb之后，同学们就可以使用Java语言开发我们上述所说的网站。而国内很多大型网站公司也是首选Java语言来解决web互联网相关的问题。那都有哪些公司的系统是使用Java语言的呢?
-<img
+        alt="assets/image-20210811151737929.png"
+        title="image-20210811151737929" /></p>
+<!-- raw HTML omitted -->
+<p>这些都是网页展示出来的效果。而HTML也有专业的解释</p>
+<p>==HTML(HyperText Markup Language)：超文本标记语言：==</p>
+<ul>
+<li>
+<p>超文本：超越了文本的限制，比普通文本更强大。除了文字信息，还可以定义图片、音频、视频等内容</p>
+<p>如上图看到的页面，我们除了能看到一些文字，同时也有大量的图片展示；有些网页也有视频，音频等。这种展示效果超越了文本展示的限制。</p>
+</li>
+<li>
+<p>标记语言：由标签构成的语言</p>
+<p>之前学习的XML就是标记语言，由一个一个的标签组成，HTML 也是由标签组成 。我们在浏览器页面右键可以查看页面的源代码，如下</p>
+<p><img
         class="lazyload"
         src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/20210717183958532.png"
-        data-srcset="assets/20210717183958532.png, assets/20210717183958532.png 1.5x, assets/20210717183958532.png 2x"
+        data-src="assets/image-20210811152519471.png"
+        data-srcset="assets/image-20210811152519471.png, assets/image-20210811152519471.png 1.5x, assets/image-20210811152519471.png 2x"
         data-sizes="auto"
-        alt="assets/20210717183958532.png"
-        title="assets/20210717183958532.png" />
-使用Java语言开发互联网系统是有很多技术栈需要大家了解，具体都有哪些呢?</p>
-<h3 id="12-javaweb技术栈">1.2 JavaWeb技术栈</h3>
-<p>了解JavaWeb技术栈之前，有一个很重要的概念要介绍。</p>
-<h4 id="121-bs架构">1.2.1 B/S架构</h4>
-<p>什么是B/S架构?
-B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web资源，服务器把Web资源发送给浏览器即可。大家可以通过下面这张图来回想下我们平常的上网过程:
-<img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/1627031933553.png"
-        data-srcset="assets/1627031933553.png, assets/1627031933553.png 1.5x, assets/1627031933553.png 2x"
-        data-sizes="auto"
-        alt="assets/1627031933553.png"
-        title="1627031933553" /></p>
-<ul>
-<li>打开浏览器访问百度首页，输入要搜索的内容，点击回车或百度一下，就可以获取和搜索相关的内容</li>
-<li>思考下搜索的内容并不在我们自己的点上，那么这些内容从何而来？答案很明显是从百度服务器返回给我们的</li>
-<li>日常百度的小细节，逢年过节百度的logo会更换不同的图片，服务端发生变化，客户端不需做任务事情就能获取最新内容</li>
-<li>所以说B/S架构的好处:易于维护升级：服务器端升级后，客户端无需任何部署就可以使用到新的版本。
-了解了什么是B/S架构后，作为后台开发工程师的我们将来主要关注的是服务端的开发和维护工作。在服务端将来会放很多资源,都有哪些资源呢?</li>
-</ul>
-<h4 id="122-静态资源">1.2.2 静态资源</h4>
-<ul>
-<li>静态资源主要包含HTML、CSS、JavaScript、图片等，主要负责页面的展示。</li>
-<li>我们之前已经学过前端网页制作<code>三剑客</code>(HTML+CSS+JavaScript),使用这些技术我们就可以制作出效果比较丰富的网页，将来展现给用户。但是由于做出来的这些内容都是静态的，这就会导致所有的人看到的内容将是一模一样。</li>
-<li>在日常上网的过程中，我们除了看到这些好看的页面以外，还会碰到很多动态内容，比如我们常见的百度登录效果:
-<img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/1627037814180.png"
-        data-srcset="assets/1627037814180.png, assets/1627037814180.png 1.5x, assets/1627037814180.png 2x"
-        data-sizes="auto"
-        alt="assets/1627037814180.png"
-        title="1627037814180" />
-<code>张三</code>登录以后在网页的右上角看到的是 <code>张三</code>，而<code>李四</code>登录以后看到的则是<code>李四</code>。所以不同的用户访问相同的资源看到的内容大多数是不一样的，要想实现这样的效果，光靠静态资源是无法实现的。</li>
-</ul>
-<h4 id="123-动态资源">1.2.3 动态资源</h4>
-<ul>
-<li>动态资源主要包含Servlet、JSP等，主要用来负责逻辑处理。</li>
-<li>动态资源处理完逻辑后会把得到的结果交给静态资源来进行展示，动态资源和静态资源要结合一起使用。</li>
-<li>动态资源虽然可以处理逻辑，但是当用户来登录百度的时候，就需要输入<code>用户名</code>和<code>密码</code>,这个时候我们就又需要解决的一个问题是，用户在注册的时候填入的用户名和密码、以及我们经常会访问到一些数据列表的内容展示(如下图所示)，这些数据都存储在哪里?我们需要的时候又是从哪里来取呢?
-<img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/1627038674340.png"
-        data-srcset="assets/1627038674340.png, assets/1627038674340.png 1.5x, assets/1627038674340.png 2x"
-        data-sizes="auto"
-        alt="assets/1627038674340.png"
-        title="1627038674340" /></li>
-</ul>
-<h4 id="124-数据库">1.2.4 数据库</h4>
-<ul>
-<li>数据库主要负责存储数据。</li>
-<li>整个Web的访问过程就如下图所示:
-<img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/1627039320220.png"
-        data-srcset="assets/1627039320220.png, assets/1627039320220.png 1.5x, assets/1627039320220.png 2x"
-        data-sizes="auto"
-        alt="assets/1627039320220.png"
-        title="1627039320220" />
-(1)浏览器发送一个请求到服务端，去请求所需要的相关资源;
-(2)资源分为动态资源和静态资源,动态资源可以是使用Java代码按照Servlet和JSP的规范编写的内容;
-(3)在Java代码可以进行业务处理也可以从数据库中读取数据;
-(4)拿到数据后，把数据交给HTML页面进行展示,再结合CSS和JavaScript使展示效果更好;
-(5)服务端将静态资源响应给浏览器;
-(6)浏览器将这些资源进行解析;
-(7)解析后将效果展示在浏览器，用户就可以看到最终的结果。
-在整个Web的访问过程中，会设计到很多技术，这些技术有已经学习过的，也有还未涉及到的内容，都有哪些还没有涉及到呢?</li>
-</ul>
-<h4 id="125-http协议">1.2.5 HTTP协议</h4>
-<ul>
-<li>HTTP协议:主要定义通信规则</li>
-<li>浏览器发送请求给服务器，服务器响应数据给浏览器，这整个过程都需要遵守一定的规则，之前大家学习过TCP、UDP，这些都属于规则，这里我们需要使用的是HTTP协议，这也是一种规则。</li>
-</ul>
-<h4 id="126-web服务器">1.2.6 Web服务器</h4>
-<ul>
-<li>Web服务器:负责解析 HTTP 协议，解析请求数据，并发送响应数据</li>
-<li>浏览器按照HTTP协议发送请求和数据，后台就需要一个Web服务器软件来根据HTTP协议解析请求和数据，然后把处理结果再按照HTTP协议发送给浏览器</li>
-<li>Web服务器软件有很多，我们课程中将学习的是目前最为常用的==Tomcat==服务器</li>
-</ul>
-<p>到这为止，关于JavaWeb中用到的技术栈我们就介绍完了，这里面就只有HTTP协议、Servlet、JSP以及Tomcat这些知识是没有学习过的，所以整个Web核心主要就是来学习这些技术。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/httptomcatservlet/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/javascript/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="javascript">JavaScript</h2>
-<p><strong>今日目标</strong></p>
-<blockquote>
-<ul>
-<li>掌握 JavaScript 的基础语法</li>
-<li>掌握 JavaScript 的常用对象（Array、String）</li>
-<li>能根据需求灵活运用定时器及通过 js 代码进行页面跳转</li>
-<li>能通过DOM 对象对标签进行常规操作</li>
-<li>掌握常用的事件</li>
-<li>能独立完成表单校验案例</li>
-</ul>
-</blockquote>
-<h2 id="1javascript简介">1，JavaScript简介</h2>
-<p>==JavaScript 是一门跨平台、面向对象的脚本语言==，而Java语言也是跨平台的、面向对象的语言，只不过Java是编译语言，是需要编译成字节码文件才能运行的；JavaScript是脚本语言，不需要编译，由浏览器直接解析并执行。</p>
-<p>JavaScript 是用来控制网页行为的，它能使网页可交互；那么它可以做什么呢？如改变页面内容、修改指定元素的属性值、对表单进行校验等，下面是这些功能的效果展示：</p>
-<ul>
-<li>
-<p><strong>改变页面内容</strong></p>
-<!-- raw HTML omitted -->
-<p>当我点击上面左图的 <code>点击我</code> 按钮，按钮上面的文本就改为上面右图内容，这就是js 改变页面内容的功能。</p>
-</li>
-<li>
-<p><strong>修改指定元素的属性值</strong></p>
-<!-- raw HTML omitted -->
-<p>当我们点击上图的 <code>开灯</code> 按钮，效果就是上面右图效果；当我点击 <code>关灯</code> 按钮，效果就是上面左图效果。其他这个功能中有两张灯泡的图片（使用img标签进行展示），通过修改 img 标签的 src 属性值改变展示的图片来实现。</p>
-</li>
-<li>
-<p><strong>对表单进行校验</strong></p>
-<!-- raw HTML omitted -->
-<p>在上面左图的输入框输入用户名，如果输入的用户名是不满足规则的就展示右图(上) 的效果；如果输入的用户名是满足规则的就展示右图(下) 的效果。</p>
-</li>
-</ul>
-<p>JavaScript 和 Java 是完全不同的语言，不论是概念还是设计，只是名字比较像而已。但是==基础语法类似==，所以我们有java的学习经验，再学习JavaScript 语言就相对比较容易些。</p>
-<p>JavaScript（简称：JS） 在 1995 年由 Brendan Eich 发明，并于 1997 年成为一部 ECMA 标准。ECMA 规定了一套标准 就叫 <code>ECMAScript</code> ，所有的客户端校验语言必须遵守这个标准，当然 JavaScript 也遵守了这个标准。ECMAScript 6 (简称ES6) 是最新的 JavaScript 版本（发布于 2015 年)，我们的课程就是基于最新的 <code>ES6</code> 进行讲解。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/javascript/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/jdbc/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="jdbc">JDBC</h2>
-<p><strong>今日目标</strong></p>
-<blockquote>
-<ul>
-<li>掌握JDBC的的CRUD</li>
-<li>理解JDBC中各个对象的作用</li>
-<li>掌握Druid的使用</li>
-</ul>
-</blockquote>
-<h2 id="1jdbc概述">1，JDBC概述</h2>
-<p>在开发中我们使用的是java语言，那么势必要通过java语言操作数据库中的数据。这就是接下来要学习的JDBC。</p>
-<h3 id="11--jdbc概念">1.1  JDBC概念</h3>
-<blockquote>
-<p>JDBC   就是使用Java语言操作关系型数据库的一套API</p>
-<p>全称：( Java DataBase Connectivity ) Java 数据库连接</p>
-</blockquote>
-<!-- raw HTML omitted -->
-<p>我们开发的同一套Java代码是无法操作不同的关系型数据库，因为每一个关系型数据库的底层实现细节都不一样。如果这样，问题就很大了，在公司中可以在开发阶段使用的是MySQL数据库，而上线时公司最终选用oracle数据库，我们就需要对代码进行大批量修改，这显然并不是我们想看到的。我们要做到的是同一套Java代码操作不同的关系型数据库，而此时sun公司就指定了一套标准接口（JDBC），JDBC中定义了所有操作关系型数据库的规则。众所周知接口是无法直接使用的，我们需要使用接口的实现类，而这套实现类（称之为：驱动）就由各自的数据库厂商给出。</p>
-<h3 id="12--jdbc本质">1.2  JDBC本质</h3>
-<ul>
-<li>官方（sun公司）定义的一套操作所有关系型数据库的规则，即接口</li>
-<li>各个数据库厂商去实现这套接口，提供数据库驱动jar包</li>
-<li>我们可以使用这套接口（JDBC）编程，真正执行的代码是驱动jar包中的实现类</li>
-</ul>
-<h3 id="13--jdbc好处">1.3  JDBC好处</h3>
-<ul>
-<li>各数据库厂商使用相同的接口，Java代码不需要针对不同数据库分别开发</li>
-<li>可随时替换底层数据库，访问数据库的Java代码基本不变</li>
-</ul>
-<p>以后编写操作数据库的代码只需要面向JDBC（接口），操作哪儿个关系型数据库就需要导入该数据库的驱动包，如需要操作MySQL数据库，就需要再项目中导入MySQL数据库的驱动包。如下图就是MySQL驱动包</p>
-<!-- raw HTML omitted -->
-<h2 id="2jdbc快速入门">2，JDBC快速入门</h2>
-<p>先来看看通过Java操作数据库的流程</p>
-<!-- raw HTML omitted -->
-<p>第一步：编写Java代码</p>
-<p>第二步：Java代码将SQL发送到MySQL服务端</p>
-<p>第三步：MySQL服务端接收到SQL语句并执行该SQL语句</p>
-<p>第四步：将SQL语句执行的结果返回给Java代码</p>
-<h3 id="21--编写代码步骤">2.1  编写代码步骤</h3>
-<ul>
-<li>
-<p>创建工程，导入驱动jar包</p>
+        alt="assets/image-20210811152519471.png"
+        title="image-20210811152519471" /></p>
+<p>可以看到如下内容，就是由一个一个的标签组成的</p>
 <!-- raw HTML omitted -->
 </li>
-<li>
-<p>注册驱动</p>
-</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Class</span>.forName(<span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>);
-</span></span></code></pre></div><ul>
-<li>
-<p>获取连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Connection</span> conn <span style="color:#f92672">=</span> DriverManager.getConnection(url, username, password);
-</span></span></code></pre></div><p>Java代码需要发送SQL给MySQL服务端，就需要先建立连接</p>
-</li>
-<li>
-<p>定义SQL语句</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>String <span style="color:#66d9ef">sql</span> <span style="color:#f92672">=</span>  <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#66d9ef">update</span><span style="color:#960050;background-color:#1e0010">…”</span> ;
-</span></span></code></pre></div></li>
-<li>
-<p>获取执行SQL对象</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/jdbc/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="mysql高级">mysql高级</h2>
-<h3 id="1约束">1、约束</h3>
-<h3 id="11--概念">1.1  概念</h3>
+<p>这些标签不像XML那样可以自定义，==HTML中的标签都是预定义好的，运行在浏览器上并由浏览器解析，==然后展示出对应的效果。例如我们想在浏览器上展示出图片就需要使用预定义的 <code>img</code> 标签；想展示可以点击的链接的效果就可以使用预定义的 <code>a</code> 标签等。</p>
+<p>HTML 预定义了很多标签，由于我们是Java工程师、是做后端开发，所以不会每个都学习，页面开发是有专门的前端工程来开发。那为什么我们还要学习呢？在公司中或多或少大家也会涉及到前端开发。</p>
+<p>简单的给大家聊一下开发流程：</p>
+<p>以后我们是通过Java程序从数据库中查询出来数据，然后交给页面进行展示，这样用户就能通过在浏览器通过页面看到数据。</p>
+<p>==W3C标准：==</p>
+<p>W3C是万维网联盟，这个组成是用来定义标准的。他们规定了一个网页是由三部分组成，分别是：</p>
 <ul>
-<li>
-<p>约束是作用于表中列上的规则，用于限制加入表的数据</p>
-<p>例如：我们可以给id列加约束，让其值不能重复，不能为null值。</p>
-</li>
-<li>
-<p>约束的存在保证了数据库中数据的正确性、有效性和完整性</p>
-<p>添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。</p>
-</li>
+<li>结构：对应的是 HTML 语言</li>
+<li>表现：对应的是 CSS 语言</li>
+<li>行为：对应的是 JavaScript 语言</li>
 </ul>
-<h3 id="12--分类">1.2  分类</h3>
-<ul>
-<li><strong>非空约束： 关键字是 NOT NULL</strong></li>
-</ul>
-<p>保证列中所有的数据不能有null值。</p>
-<p>例如：id列在添加 <code>马花疼</code> 这条数据时就不能添加成功。</p>
-<ul>
-<li>
-<p><strong>唯一约束：关键字是  UNIQUE</strong></p>
-<p>保证列中所有数据各不相同。</p>
-<p>例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。</p>
-</li>
-<li>
-<p><strong>主键约束： 关键字是  PRIMARY KEY</strong></p>
-</li>
-</ul>
-<p>主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。</p>
-<p>例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。</p>
-<ul>
-<li>
-<p><strong>检查约束： 关键字是  CHECK</strong></p>
-<p>保证列中的值满足某一条件。</p>
-<p>例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。</p>
-<blockquote>
-<p>注意：MySQL不支持检查约束。</p>
-<p>这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。</p>
-</blockquote>
-</li>
-<li>
-<p><strong>默认约束： 关键字是   DEFAULT</strong></p>
-<p>保存数据时，未指定值则采用默认值。</p>
-<p>例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。</p>
-</li>
-<li>
-<p><strong>外键约束： 关键字是  FOREIGN KEY</strong></p>
-<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
-<p>外键约束现在可能还不太好理解，后面我们会重点进行讲解。</p>
-</li>
-</ul>
-<h3 id="13--非空约束">1.3  非空约束</h3>
-<ul>
-<li>
-<p>概念</p>
-<p>非空约束用于保证列中所有数据不能有NULL值</p>
-</li>
-<li>
-<p>语法</p>
-<ul>
-<li>
-<p>添加约束</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加非空约束
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
-</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
-</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
-</span></span><span style="display:flex;"><span>); 
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加非空约束
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
-</span></span></code></pre></div></li>
-<li>
-<p>删除约束</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>;
-</span></span></code></pre></div></li>
-</ul>
-</li>
-</ul>
-<h3 id="14--唯一约束">1.4  唯一约束</h3>
-<ul>
-<li>
-<p>概念</p>
-<p>唯一约束用于保证列中所有数据各不相同</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="python数据容器">Python数据容器</h1>
-<p>Python 中的数据容器是用于<strong>存储和管理数据</strong>的对象。常见的数据容器包括<strong>列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）、集合（<code>set</code>）和字典（<code>dict</code>）</strong>。</p>
-<h3 id="一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></h3>
-<p><strong>1、定义</strong>：</p>
-<ul>
-<li>列表是一种<strong>有序</strong>、可变的数据容器，可以存储<strong>任意类型</strong>的元素</li>
-<li>元素<strong>可以重复</strong>、支持<strong>增删改查</strong>操作</li>
-<li>列表可以一次存储多个数据，且可以为<strong>不同的数据类型（混装）</strong>，支持嵌套</li>
-<li>下标支持从前往后（正数）、从后往前（负数）</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>列表名 <span style="color:#f92672">=</span> [元素1, 元素2, <span style="color:#f92672">...</span>]
-</span></span></code></pre></div><p><strong>2、<code>list</code> 的遍历</strong></p>
-<ul>
-<li>
-<p><strong>方法 1：使用 <code>for</code> 循环</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
-</span></span><span style="display:flex;"><span>    print(fruit)
-</span></span></code></pre></div></li>
-<li>
-<p><strong>方法 2：使用索引</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(fruits)):
-</span></span><span style="display:flex;"><span>    print(fruits[i])
-</span></span></code></pre></div></li>
-<li>
-<p><strong>方法 3：使用 <code>enumerate()</code></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, fruit <span style="color:#f92672">in</span> enumerate(fruits):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">, Fruit: </span><span style="color:#e6db74">{</span>fruit<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span></code></pre></div></li>
-</ul>
-<h4 id="3列表常用操作">3、列表常用操作</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个列表</span>
-</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 追加元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;orange&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;追加后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 扩展列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>extend([<span style="color:#e6db74">&#34;grape&#34;</span>, <span style="color:#e6db74">&#34;mango&#34;</span>])
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;扩展后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 插入元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;pear&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;插入后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 删除元素</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> fruits[<span style="color:#ae81ff">2</span>]
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 弹出元素</span>
-</span></span><span style="display:flex;"><span>removed_fruit <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">3</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出后:&#34;</span>, fruits)        <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出的元素:&#34;</span>, removed_fruit)  <span style="color:#75715e"># 输出 orange</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 移除元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;pear&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;移除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 清空列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 []</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 统计元素</span>
-</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>]
-</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;banana&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;banana 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 9. 查找元素下标</span>
-</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;cherry&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;cherry 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10. 获取列表长度</span>
-</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(fruits)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;列表长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 11. 修改元素</span>
-</span></span><span style="display:flex;"><span>fruits[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;修改后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 12. 反转列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>reverse()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;反转后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 13. 排序列表</span>
-</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
-</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span>sort()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;排序后:&#34;</span>, numbers)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 14. 切片操作</span>
-</span></span><span style="display:flex;"><span>subset <span style="color:#f92672">=</span> fruits[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;切片后:&#34;</span>, subset)  <span style="color:#75715e"># 输出 [&#39;cherry&#39;, &#39;orange&#39;]</span>
-</span></span></code></pre></div><h3 id="二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></h3>
-<p><strong>1、定义</strong>：元组是一种<strong>有序、不可变</strong>的数据容器。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">Read More</a></div>
+<p>HTML定义页面的整体结构；CSS是用来美化页面，让页面看起来更加美观；JavaScript可以使网页动起来，比如轮播图也就是多张图片自动的进行切换等效果。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/htmlcss/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
