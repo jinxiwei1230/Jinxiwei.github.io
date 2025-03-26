@@ -3,7 +3,358 @@
         <title>All Posts - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/</link>
         <description>All Posts | Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Mar 2025 15:53:01 &#43;0800</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>模型评估指标</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</link>
+    <pubDate>Tue, 25 Mar 2025 15:53:01 &#43;0800</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</guid>
+    <description><![CDATA[<h3 id="1-混淆矩阵confusion-matrix"><strong>1. 混淆矩阵（Confusion Matrix）</strong></h3>
+<p>混淆矩阵是分类任务的基础，用于计算以下核心值：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"><strong>预测为正例 (1)</strong></th>
+          <th style="text-align: left"><strong>预测为负例 (0)</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>实际为正例 (1)</strong></td>
+          <td style="text-align: left">True Positive (TP)</td>
+          <td style="text-align: left">False Negative (FN)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>实际为负例 (0)</strong></td>
+          <td style="text-align: left">False Positive (FP)</td>
+          <td style="text-align: left">True Negative (TN)</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><strong>TP（True Positive）</strong>：模型正确预测为正例的样本数（真实为机器人，预测为机器人）。</li>
+<li><strong>TN（True Negative）</strong>：模型正确预测为负例的样本数（真实为人类，预测为人类）。</li>
+<li><strong>FP（False Positive）</strong>：模型错误预测为正例的样本数（真实为人类，预测为机器人）。</li>
+<li><strong>FN（False Negative）</strong>：模型错误预测为负例的样本数（真实为机器人，预测为人类）。</li>
+</ul>
+<hr>
+<h3 id="2-常用评估指标"><strong>2. 常用评估指标</strong></h3>
+<h4 id="1-基于混淆矩阵的指标"><strong>(1) 基于混淆矩阵的指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">公式</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>准确率 (Accuracy)</strong></td>
+          <td style="text-align: left">( \frac{TP + TN}{TP + TN + FP + FN} )</td>
+          <td style="text-align: left">所有预测正确的比例，对不平衡数据不敏感。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>精确率 (Precision)</strong></td>
+          <td style="text-align: left">( \frac{TP}{TP + FP} )</td>
+          <td style="text-align: left">预测为正例的样本中实际为正例的比例（避免误杀人类用户）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>召回率 (Recall)</strong></td>
+          <td style="text-align: left">( \frac{TP}{TP + FN} )</td>
+          <td style="text-align: left">实际为正例的样本中预测为正例的比例（避免漏检机器人）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>F1-Score</strong></td>
+          <td style="text-align: left">( 2 \times \frac{Precision \times Recall}{Precision + Recall} )</td>
+          <td style="text-align: left">精确率和召回率的调和平均，平衡两者关系。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>特异度 (Specificity)</strong></td>
+          <td style="text-align: left">( \frac{TN}{TN + FP} )</td>
+          <td style="text-align: left">实际为负例的样本中预测为负例的比例（人类用户不被误判的能力）。</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2-类似auc的阈值无关指标"><strong>(2) 类似AUC的阈值无关指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>AUC-ROC</strong></td>
+          <td style="text-align: left">ROC曲线下面积，反映模型在不同阈值下区分正负例的能力（范围0.5~1）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>AUC-PR</strong></td>
+          <td style="text-align: left">精确率-召回率曲线下面积，适用于高度不平衡数据（正例极少时更敏感）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>KS统计量</strong></td>
+          <td style="text-align: left">正负例累积分布的最大差异，值越大模型区分能力越强（范围0~1）。</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="3-其他重要指标"><strong>(3) 其他重要指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">公式/解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>G-Mean</strong></td>
+          <td style="text-align: left">( \sqrt{Recall \times Specificity} )，平衡正负例的检测能力。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>MCC (Matthews Correlation Coefficient)</strong></td>
+          <td style="text-align: left">( \frac{TP \times TN - FP \times FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}} )，范围-1~1，综合衡量分类质量。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Log Loss</strong></td>
+          <td style="text-align: left">基于概率的损失函数，值越小模型校准越好（对概率预测敏感）。</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="3-不同场景下的指标选择"><strong>3. 不同场景下的指标选择</strong></h3>
+<h4 id="1-平衡数据"><strong>(1) 平衡数据</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：Accuracy、F1-Score、AUC-ROC。</li>
+<li><strong>示例</strong>：正负样本比例接近1:1时，Accuracy可直接反映模型性能。</li>
+</ul>
+<h4 id="2-不平衡数据如机器人检测"><strong>(2) 不平衡数据（如机器人检测）</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：AUC-ROC、AUC-PR、Recall、F1-Score。</li>
+<li><strong>原因</strong>：避免模型偏向多数类（人类用户），需关注少数类（机器人）的检测能力。
+<ul>
+<li><strong>高Recall</strong>：确保尽可能捕获更多机器人（减少FN）。</li>
+<li><strong>高Precision</strong>：减少人类用户被误判为机器人（减少FP）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-概率预测任务"><strong>(3) 概率预测任务</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：Log Loss、AUC-ROC、Brier Score。</li>
+<li><strong>示例</strong>：预测用户是机器人的概率时，需评估概率的校准性。</li>
+</ul>
+<hr>
+<h3 id="4-可视化工具辅助分析"><strong>4. 可视化工具辅助分析</strong></h3>
+<ul>
+<li><strong>ROC曲线</strong>：横轴为FPR（( \frac{FP}{FP + TN} )），纵轴为TPR（Recall），曲线越靠近左上角性能越好。</li>
+<li><strong>PR曲线</strong>：横轴为Recall，纵轴为Precision，正例极少时曲线下面积（AUC-PR）比AUC-ROC更敏感。</li>
+</ul>
+<hr>
+<h3 id="5-总结"><strong>5. 总结</strong></h3>
+<ul>
+<li><strong>核心四元组</strong>：TP、TN、FP、FN 是计算所有指标的基础。</li>
+<li><strong>AUC类似指标</strong>：AUC-ROC、AUC-PR、KS统计量等，关注模型整体排序能力。</li>
+<li><strong>业务导向</strong>：
+<ul>
+<li>若容忍少量误杀（FP），优先优化Recall；</li>
+<li>若需高精度（如法律场景），优先优化Precision。</li>
+</ul>
+</li>
+</ul>
+<p>通过组合这些指标，可以全面评估模型在不同方面的性能，避免单一指标的局限性。</p>]]></description>
+</item>
+<item>
+    <title>DAU（日活跃用户数）下降</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/</link>
+    <pubDate>Fri, 21 Mar 2025 15:53:01 &#43;0800</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/</guid>
+    <description><![CDATA[<p><strong>DAU（日活跃用户数）下降</strong>是产品运营中常见的问题，可能由多种原因引起。为了有效应对DAU下降，需要系统性地分析问题并采取针对性措施。以下是详细的解决思路和步骤：</p>
+<hr>
+<h3 id="1-确认dau下降的真实性"><strong>1. 确认DAU下降的真实性</strong></h3>
+<ul>
+<li><strong>检查数据准确性</strong>：
+<ul>
+<li>确认数据采集是否正常，是否存在技术问题（如埋点错误、数据丢失）。</li>
+<li>排除外部因素（如节假日、季节性波动）的影响。</li>
+</ul>
+</li>
+<li><strong>对比历史数据</strong>：
+<ul>
+<li>分析DAU下降的时间点，是否与某些事件（如版本更新、市场活动结束）相关。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-分析dau下降的原因"><strong>2. 分析DAU下降的原因</strong></h3>
+<h4 id="用户维度"><strong>用户维度</strong></h4>
+<ol>
+<li><strong>新用户减少</strong>：
+<ul>
+<li>检查渠道投放是否减少或效果变差。</li>
+<li>分析市场环境是否变化（如竞争加剧、用户需求变化）。</li>
+</ul>
+</li>
+<li><strong>老用户流失</strong>：
+<ul>
+<li>分析用户留存率，查看流失用户的行为特征。</li>
+<li>检查是否因产品功能变更、体验下降导致用户流失。</li>
+</ul>
+</li>
+</ol>
+<h4 id="产品维度"><strong>产品维度</strong></h4>
+<ol>
+<li><strong>功能问题</strong>：
+<ul>
+<li>检查最近是否有新功能上线或旧功能改动，是否引发用户不满。</li>
+<li>分析用户反馈和评论，寻找共性问题。</li>
+</ul>
+</li>
+<li><strong>性能问题</strong>：
+<ul>
+<li>检查是否存在卡顿、崩溃等性能问题，影响用户体验。</li>
+</ul>
+</li>
+<li><strong>内容问题</strong>：
+<ul>
+<li>如果产品依赖内容（如社区、资讯），检查内容质量是否下降。</li>
+</ul>
+</li>
+</ol>
+<h4 id="外部因素"><strong>外部因素</strong></h4>
+<ol>
+<li><strong>市场竞争</strong>：
+<ul>
+<li>分析竞争对手是否推出了更具吸引力的产品或活动。</li>
+</ul>
+</li>
+<li><strong>政策变化</strong>：
+<ul>
+<li>检查是否有相关政策或法规变化，影响用户使用。</li>
+</ul>
+</li>
+<li><strong>季节性波动</strong>：
+<ul>
+<li>某些产品的DAU会受季节性影响（如教育类产品在寒暑假波动）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-制定解决方案"><strong>3. 制定解决方案</strong></h3>
+<h4 id="针对新用户减少"><strong>针对新用户减少</strong></h4>
+<ol>
+<li><strong>优化渠道投放</strong>：
+<ul>
+<li>分析各渠道的ROI，优化投放策略。</li>
+<li>尝试新的获客渠道（如社交媒体、KOL合作）。</li>
+</ul>
+</li>
+<li><strong>提升转化率</strong>：
+<ul>
+<li>优化落地页设计，提升用户注册或下载的转化率。</li>
+<li>提供新用户优惠或激励（如首单折扣、新人礼包）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对老用户流失"><strong>针对老用户流失</strong></h4>
+<ol>
+<li><strong>召回流失用户</strong>：
+<ul>
+<li>通过推送通知、短信、邮件等方式触达流失用户。</li>
+<li>提供专属优惠或福利，吸引用户回归。</li>
+</ul>
+</li>
+<li><strong>提升用户体验</strong>：
+<ul>
+<li>修复已知问题，优化产品性能和功能。</li>
+<li>根据用户反馈改进产品设计。</li>
+</ul>
+</li>
+<li><strong>增强用户粘性</strong>：
+<ul>
+<li>增加社交互动功能（如好友邀请、社区互动）。</li>
+<li>设计签到、任务等激励机制，提升用户活跃度。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对产品问题"><strong>针对产品问题</strong></h4>
+<ol>
+<li><strong>功能优化</strong>：
+<ul>
+<li>根据用户反馈和数据分析，优化核心功能。</li>
+<li>通过AB测试验证新功能的效果。</li>
+</ul>
+</li>
+<li><strong>内容运营</strong>：
+<ul>
+<li>提升内容质量，增加用户感兴趣的内容。</li>
+<li>引入UGC（用户生成内容）机制，增强用户参与感。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对外部因素"><strong>针对外部因素</strong></h4>
+<ol>
+<li><strong>竞争应对</strong>：
+<ul>
+<li>分析竞争对手的优势，优化自身产品的差异化价值。</li>
+<li>推出有针对性的市场活动，吸引用户注意力。</li>
+</ul>
+</li>
+<li><strong>政策合规</strong>：
+<ul>
+<li>确保产品符合相关政策和法规，避免因合规问题导致用户流失。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="4-监控与迭代"><strong>4. 监控与迭代</strong></h3>
+<ol>
+<li><strong>设置关键指标</strong>：
+<ul>
+<li>除了DAU，监控留存率、用户时长、转化率等指标。</li>
+</ul>
+</li>
+<li><strong>持续优化</strong>：
+<ul>
+<li>根据数据反馈，持续优化产品和运营策略。</li>
+</ul>
+</li>
+<li><strong>用户调研</strong>：
+<ul>
+<li>定期开展用户调研，了解用户需求和痛点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="5-案例分析"><strong>5. 案例分析</strong></h3>
+<h4 id="案例某社交app-dau下降"><strong>案例：某社交App DAU下降</strong></h4>
+<ol>
+<li><strong>问题分析</strong>：
+<ul>
+<li>新版本上线后，DAU持续下降。</li>
+<li>用户反馈新版本界面复杂，使用不便。</li>
+</ul>
+</li>
+<li><strong>解决方案</strong>：
+<ul>
+<li>回滚部分功能改动，恢复用户熟悉的界面。</li>
+<li>通过推送通知和邮件告知用户改进措施。</li>
+<li>推出限时活动，激励用户回归。</li>
+</ul>
+</li>
+<li><strong>结果</strong>：
+<ul>
+<li>DAU逐渐回升，用户留存率提升。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="总结"><strong>总结</strong></h3>
+<p>DAU下降是一个复杂的问题，需要从用户、产品、外部环境等多个维度进行分析。通过数据驱动的方法，找到根本原因并采取针对性措施，才能有效提升DAU。同时，持续监控和优化是保持用户活跃的关键。</p>]]></description>
+</item>
+<item>
     <title>Python可视化-折线图</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/</link>
     <pubDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</pubDate>
@@ -792,172 +1143,6 @@
 </span></span></span></code></pre></div><hr>
 <h3 id="4-时间过滤">4. <strong>时间过滤</strong></h3>
 <p>在查询中，经常需要根据时间范围过滤数据。例如：</p>]]></description>
-</item>
-<item>
-    <title>SQL易混淆知识点</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
-    <pubDate>Sun, 09 Mar 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
-    <description><![CDATA[<h3 id="sql易混淆知识点">SQL易混淆知识点</h3>
-<h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
-<h4 id="group-by"><strong><code>GROUP BY</code></strong></h4>
-<ul>
-<li>
-<p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
-</li>
-<li>
-<p><strong>结果</strong>: 它会将多行数据合并为一行，每个分组只返回一行结果。</p>
-</li>
-<li>
-<p><strong>使用场景</strong>: 当你需要对数据进行分组并计算汇总值时使用。</p>
-</li>
-<li>
-<p><strong>示例</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">AVG</span>(salary) <span style="color:#66d9ef">AS</span> avg_salary
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
-</span></span></code></pre></div><p>这个查询会返回每个部门的平均工资，每个部门只有一行结果。</p>
-</li>
-<li>
-<p><strong>特点</strong>:</p>
-<ul>
-<li>分组后的结果会减少行数。</li>
-<li>只能选择分组字段和聚合函数的结果。</li>
-</ul>
-</li>
-</ul>
-<h4 id="partition-by"><strong><code>PARTITION BY</code></strong></h4>
-<ul>
-<li>
-<p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
-</li>
-<li>
-<p><strong>结果</strong>: 它不会将多行合并为一行，而是为每一行计算一个值（如排名、累计值等）。</p>
-</li>
-<li>
-<p><strong>使用场景</strong>: 当你需要对数据进行分组计算，但希望保留原始行数时使用。</p>
-</li>
-<li>
-<p><strong>示例</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, salary, dept_id,
-</span></span><span style="display:flex;"><span>       RANK() OVER (PARTITION <span style="color:#66d9ef">BY</span> dept_id <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> salary <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rank
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees; 
-</span></span></code></pre></div><p>这个查询会为每个部门的员工根据工资排名，但不会减少行数，结果中每一行都会保留。</p>
-</li>
-<li>
-<p><strong>特点</strong>:</p>
-<ul>
-<li>分组后的结果不会减少行数。</li>
-<li>可以同时选择分组字段、原始字段和窗口函数的结果。</li>
-</ul>
-</li>
-</ul>
-<h4 id="核心区别"><strong>核心区别</strong></h4>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">特性</th>
-          <th style="text-align: left"><code>GROUP BY</code></th>
-          <th style="text-align: left"><code>PARTITION BY</code></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>行数变化</strong></td>
-          <td style="text-align: left">减少行数（每个分组返回一行）</td>
-          <td style="text-align: left">不减少行数（保留原始行数）</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>用途</strong></td>
-          <td style="text-align: left">数据分组和聚合</td>
-          <td style="text-align: left">数据分组并计算窗口函数</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>是否支持聚合函数</strong></td>
-          <td style="text-align: left">是（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）</td>
-          <td style="text-align: left">否（窗口函数如 <code>RANK</code>、<code>ROW_NUMBER</code>）</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>结果字段</strong></td>
-          <td style="text-align: left">只能选择分组字段和聚合结果</td>
-          <td style="text-align: left">可以选择原始字段和窗口函数结果</td>
-      </tr>
-  </tbody>
-</table>
-<h4 id="示例对比"><strong>示例对比</strong></h4>
-<h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
-</span></span></code></pre></div><p><strong>结果</strong>:</p>]]></description>
-</item>
-<item>
-    <title>IoC DI AOP</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/ioc-di-aop/</link>
-    <pubDate>Sat, 08 Mar 2025 00:00:00 &#43;0000</pubDate>
-    <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/ioc-di-aop/</guid>
-    <description><![CDATA[<ul>
-<li><strong>IoC</strong>：将对象创建和依赖管理的控制权交给框架。</li>
-<li><strong>DI</strong>：通过注入方式实现IoC，解耦对象及其依赖。</li>
-<li><strong>AOP</strong>：通过切面分离横切关注点，提升代码模块化和可维护性。</li>
-</ul>
-<h3 id="1-iocinversion-of-control控制反转">1. IoC（Inversion of Control，控制反转）</h3>
-<p><strong>定义</strong>：
-IoC是一种设计原则，将对象的创建和依赖管理交给框架或容器，而不是由开发者手动控制。</p>
-<p><strong>传统方式</strong>：
-开发者通常在代码中直接创建和管理对象，控制权在开发者手中。</p>
-<p><strong>IoC方式</strong>：
-框架或容器负责对象的创建和生命周期管理，开发者只需定义对象及其依赖关系，控制权转移到框架。</p>
-<p><strong>优点</strong>：</p>
-<ul>
-<li>降低耦合：对象不直接依赖具体实现，而是依赖抽象。</li>
-<li>提高灵活性：依赖关系可通过配置更改，无需修改代码。</li>
-<li>便于测试：依赖可替换为模拟对象，简化单元测试。</li>
-</ul>
-<h3 id="2-didependency-injection依赖注入">2. DI（Dependency Injection，依赖注入）</h3>
-<p><strong>定义</strong>：
-DI是IoC的一种实现方式，通过构造函数、setter方法或接口注入依赖对象。</p>
-<p><strong>实现方式</strong>：</p>
-<ul>
-<li><strong>构造函数注入</strong>：通过构造函数传递依赖。</li>
-<li><strong>Setter注入</strong>：通过setter方法设置依赖。</li>
-<li><strong>接口注入</strong>：通过接口方法注入依赖。</li>
-</ul>
-<p><strong>示例</strong>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyService</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> MyRepository repository;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造函数注入</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MyService</span>(MyRepository repository) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Setter注入</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setRepository</span>(MyRepository repository) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>优点</strong>：</p>
-<ul>
-<li>解耦：对象不直接创建依赖，依赖由外部注入。</li>
-<li>可测试性：依赖可替换为模拟对象，便于测试。</li>
-<li>可配置性：依赖关系可通过配置文件管理。</li>
-</ul>
-<h3 id="3-aopaspect-oriented-programming面向切面编程">3. AOP（Aspect-Oriented Programming，面向切面编程）</h3>
-<p><strong>定义</strong>：
-AOP通过切面将横切关注点（如日志、事务、安全等）与核心业务逻辑分离，提升代码的模块化。</p>
-<p><strong>核心概念</strong>：</p>
-<ul>
-<li><strong>切面（Aspect）</strong>：封装横切关注点的模块。</li>
-<li><strong>连接点（Join Point）</strong>：程序执行中的特定点（如方法调用）。</li>
-<li><strong>通知（Advice）</strong>：在连接点执行的动作（如前置、后置、环绕通知）。</li>
-<li><strong>切入点（Pointcut）</strong>：定义哪些连接点会触发通知。</li>
-<li><strong>引入（Introduction）</strong>：为类添加新方法或属性。</li>
-<li><strong>织入（Weaving）</strong>：将切面应用到目标对象的过程。</li>
-</ul>
-<p><strong>示例</strong>：</p>]]></description>
 </item>
 </channel>
 </rss>

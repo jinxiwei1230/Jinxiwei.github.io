@@ -58,6 +58,184 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/">Linux文件比较、vi、文件通配符</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第五章-文件比较vi文件通配符">第五章 文件比较、vi、文件通配符</h2>
+<h3 id="文件内容比对">文件内容比对</h3>
+<h4 id="两文件逐字节比较cmp">两文件逐字节比较：cmp</h4>
+<p><strong>用法</strong>
+<code>cmp file1 file2</code></p>
+<p><strong>功能</strong></p>
+<ul>
+<li>逐字节比较两个文件是否完全相同</li>
+<li>两个文件完全相同时，不给出任何提示</li>
+<li>两个文件不同时，打印出第一个不同之处</li>
+<li>在Windows中有类似的命令COMP</li>
+</ul>
+<h4 id="md5sumsha1sum文件内容比较">md5sum/sha1sum：文件内容比较</h4>
+<p>使用MD5算法（散列函数）根据文件内容生成16/32字节hash值，比较hash值是否相同，就可断定两文件内容是否完全相同
+输出：
+<code>4db9bfbea050ed07aa07d4ca55ad5cb0  8.txt</code>
+<code>8634a498b15d80ca59ac3d852b63fe35  a.txt</code></p>
+<p>使用SHA-1算法的命令名为sha1sum (40字节hash值) ： 160位，用40个16进制字节表示
+输出：
+<code>34150c466e7ca3550766cdd457418656a2a808b8  8.txt</code>
+<code>60a08508708a55279d298d123f0efeece7c41590  a.txt</code></p>
+<p>常用于数据完整性（Data Integrity）验证和判断位于网络不同机器上的两个文件内容是否相同
+其他散列函数也可以用来完成这一任务: sha512sum</p>
+<h4 id="diff查找文本文件版本之间的差异">diff：查找文本文件版本之间的差异</h4>
+<p><strong>用法</strong>
+<code>diff file1 file2 </code>
+<code>diff -u file1 file2 </code></p>
+<p><strong>功能</strong>
+比较两个版本的文本文件，以寻找两者间差别
+输出格式 normal，unified (-u)
+normal格式：列出一个如何将file1转化为file2的指令</p>
+<ul>
+<li>这些指令有<strong>a（Add）</strong>，<strong>c（Change）<strong>和</strong>d（Delete）</strong></li>
+<li>指令字母左边的行号是file1的行号，右面是file2的行号</li>
+<li>列出内容时，大于号后边的内容是需要在file1文件中增加的内容；小于号后边的内容是需从file1中删除的内容</li>
+</ul>
+<p><strong>normal格式文件转化指令</strong>
+1、25<strong>c</strong>25,26
+<strong>&lt;</strong> #define MAX_WEIGHT 2000000000
+<strong>&mdash;</strong>
+<strong>&gt;</strong> /* max signed 32-bit integer */
+<strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
+将原文件的第25行**更换(change)**成新文件的的第25~26行</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">分布式队列</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
+<h3 id="kafka">Kafka</h3>
+<h4 id="kafka-概述">Kafka 概述</h4>
+<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
+<ul>
+<li>数据生产者和消费者耦合度过高</li>
+<li>生产者和消费者间数据处理速率不对等</li>
+<li>大量并发的网络连接对后端消费者不够友好</li>
+</ul>
+<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
+<ul>
+<li>
+<p><strong>消息中间件</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
+<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息队列</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
+<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
+</ul>
+</li>
+<li>
+<p><strong>发布-订阅系统</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
+<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
+</ul>
+</li>
+<li>
+<p><strong>消息总线</strong>：</p>
+<ul>
+<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
+</ul>
+</li>
+</ul>
+<p>2、Kafka 特点：
+高吞吐量、良好的扩展性、持久性和可靠性</p>
+<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
+<strong>Kafka</strong></p>
+<ol>
+<li>
+<p><strong>发布-订阅模型</strong>：</p>
+<ul>
+<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
+<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>实时消息传递</strong>：</p>
+<ul>
+<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
+<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
+</ul>
+</li>
+<li>
+<p><strong>丰富的 API 和流处理集成</strong>：</p>
+<ul>
+<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
+</ul>
+</li>
+</ol>
+<p><strong>Flume</strong></p>
+<ol>
+<li>
+<p><strong>数据流模型</strong>：</p>
+<ul>
+<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
+<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
+</ul>
+</li>
+<li>
+<p><strong>Hadoop 集成优化</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">大数据存储</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第三章-大数据存储">第三章 大数据存储</h2>
+<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
+<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
+• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
+• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
+<h4 id="数据序列化">数据序列化</h4>
+<p>1、背景</p>
+<ul>
+<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
+<li>阶段二：采用编程语言内置的序列化机制。</li>
+<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
+<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
+</ul>
+<p>2、意义
+阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
+<h4 id="数据序列化方案">数据序列化方案</h4>
+<p><strong>1、序列化框架 Thrift</strong>
+Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
+<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
+struct中每个域由四个属性构成：</p>
+<ul>
+<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
+<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
+<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
+<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
+</ul>
+<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
+// 定义枚举类型DocLevel,表示网页内容级别
+enum DocLevel {
+CLEAN = 0,
+NORMAL = 1,
+MAYBE = 2,
+BAD = 3,
+}
+
+struct MergedDoc { // 定义网页,类似于Java和C++中的类
+1:required i64 docId, //每个网页被赋予一个64位唯一ID
+2: required string url, //网页URL
+3: optional string title, //网页标题
+4: optional string segBody, //经分词后的网页主体
+5: optional i32 pagerank, //网页pagerank,网页排名使用
+10: optional DocLevel docLevel, //网页内容级别
+11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
+12: optional list&lt;i64&gt; outLinks //网页出链
+}
+</code></pre><p><strong>2、序列化框架 Protobuf</strong>
+Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86/">数据收集</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
 <h3 id="大数据的历史">大数据的历史</h3>
@@ -291,185 +469,6 @@ Esc[1;31m 七字节序列，红色字符</em></p>
 需要一种机制控制主机方向来的数据流量</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Linux补充知识</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
-解析：输出黄色的Hello
-<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
-<ul>
-<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
-<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
-<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
-<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
-<ul>
-<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
-<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
-<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
-</ul>
-</li>
-</ul>
-<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
-<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
-<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
-<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
-<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
-<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
-<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
-<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
-<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
-字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
-<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
-<ul>
-<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
-<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
-<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
-</ul>
-<h4 id="人工智能研究方法">人工智能研究方法</h4>
-<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
-主要观点：</p>
-<ul>
-<li>智能活动的基元是神经细胞；</li>
-<li>智能活动过程是神经网络的状态演化过程</li>
-<li>智能活动的基础是神经细胞的突触联结机制</li>
-<li>智能系统的工作模式是模仿人脑模式</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>通过神经元之间的并行协同作用实现信息
-处理，具有并行性、动态性、全局性。</li>
-<li>通过神经元间分布式的物理联接存储信息。
-联想记忆、容错性。</li>
-<li>通过神经元间连接强度的动态调整实现自
-学习和自适应功能。</li>
-<li>善于模拟人类的形象思维过程。</li>
-</ul>
-<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
-主要观点：</p>
-<ul>
-<li>思维的基元是符号；</li>
-<li>思维的过程是符号运算；</li>
-<li>智能的核心是知识，利用知识推理进行问题求解；</li>
-<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
-<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
-</ul>
-<p>主要特征：</p>
-<ul>
-<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
-<li>知识用显式的符号表示，容易表达人的心理模型。</li>
-<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
-<li>能与传统的符号数据库进行链接，易于模块化。</li>
-<li>以知识为基础。</li>
-</ul>
-<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
-主要观点：</p>
-<ul>
-<li>智能行为的基础是感知－行动的反应机制；</li>
-<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
-<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
-<li>智能行为可以不要知识。</li>
-</ul>
-<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
-<p><strong>1、研究角度分：</strong></p>
-<ul>
-<li>符号智能：运用知识解决问题；</li>
-<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
-<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
-</ul>
-<p><strong>2、功能分：</strong></p>
-<ul>
-<li>机器感知/知识获取：机器听觉、视觉</li>
-<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
-<li>机器行为/知识运用：智能机器系统</li>
-</ul>
-<h2 id="第二章-知识表示">第二章 知识表示</h2>
-<h3 id="21知识及其特性">2.1知识及其特性</h3>
-<p>1、数据、信息和知识</p>
-<ul>
-<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
-<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
-<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
-规律解决问题的方法和策略</li>
-<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
-</ul>
-<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
-<p>3、知识的特性</p>
-<ul>
-<li>客观性</li>
-<li>相对正确性：一定条件、时间、环境</li>
-<li>进化性</li>
-<li>依附性：离开载体的知识是没有的</li>
-<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
-<li>经验性</li>
-<li>可表示性</li>
-<li>可利用性</li>
-<li>可重用性</li>
-<li>共享性</li>
-</ul>
-<p>4、知识的层次</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ai/">AI</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/htmlcss/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="htmlcss">HTML&amp;CSS</h2>
-<p><strong>今日目标：</strong></p>
-<blockquote>
-<ul>
-<li>能够掌握课程中讲解的标签的使用</li>
-<li>了解css的使用</li>
-</ul>
-</blockquote>
-<h2 id="1html">1，HTML</h2>
-<h3 id="11--介绍">1.1  介绍</h3>
-<p>HTML 是一门语言，所有的网页都是用HTML 这门语言编写出来的，也就是HTML是用来写网页的，像京东，12306等网站有很多网页。</p>
-<p><img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/image-20210811151737929.png"
-        data-srcset="assets/image-20210811151737929.png, assets/image-20210811151737929.png 1.5x, assets/image-20210811151737929.png 2x"
-        data-sizes="auto"
-        alt="assets/image-20210811151737929.png"
-        title="image-20210811151737929" /></p>
-<!-- raw HTML omitted -->
-<p>这些都是网页展示出来的效果。而HTML也有专业的解释</p>
-<p>==HTML(HyperText Markup Language)：超文本标记语言：==</p>
-<ul>
-<li>
-<p>超文本：超越了文本的限制，比普通文本更强大。除了文字信息，还可以定义图片、音频、视频等内容</p>
-<p>如上图看到的页面，我们除了能看到一些文字，同时也有大量的图片展示；有些网页也有视频，音频等。这种展示效果超越了文本展示的限制。</p>
-</li>
-<li>
-<p>标记语言：由标签构成的语言</p>
-<p>之前学习的XML就是标记语言，由一个一个的标签组成，HTML 也是由标签组成 。我们在浏览器页面右键可以查看页面的源代码，如下</p>
-<p><img
-        class="lazyload"
-        src="/Jinxiwei.github.io/svg/loading.min.svg"
-        data-src="assets/image-20210811152519471.png"
-        data-srcset="assets/image-20210811152519471.png, assets/image-20210811152519471.png 1.5x, assets/image-20210811152519471.png 2x"
-        data-sizes="auto"
-        alt="assets/image-20210811152519471.png"
-        title="image-20210811152519471" /></p>
-<p>可以看到如下内容，就是由一个一个的标签组成的</p>
-<!-- raw HTML omitted -->
-</li>
-</ul>
-<p>这些标签不像XML那样可以自定义，==HTML中的标签都是预定义好的，运行在浏览器上并由浏览器解析，==然后展示出对应的效果。例如我们想在浏览器上展示出图片就需要使用预定义的 <code>img</code> 标签；想展示可以点击的链接的效果就可以使用预定义的 <code>a</code> 标签等。</p>
-<p>HTML 预定义了很多标签，由于我们是Java工程师、是做后端开发，所以不会每个都学习，页面开发是有专门的前端工程来开发。那为什么我们还要学习呢？在公司中或多或少大家也会涉及到前端开发。</p>
-<p>简单的给大家聊一下开发流程：</p>
-<p>以后我们是通过Java程序从数据库中查询出来数据，然后交给页面进行展示，这样用户就能通过在浏览器通过页面看到数据。</p>
-<p>==W3C标准：==</p>
-<p>W3C是万维网联盟，这个组成是用来定义标准的。他们规定了一个网页是由三部分组成，分别是：</p>
-<ul>
-<li>结构：对应的是 HTML 语言</li>
-<li>表现：对应的是 CSS 语言</li>
-<li>行为：对应的是 JavaScript 语言</li>
-</ul>
-<p>HTML定义页面的整体结构；CSS是用来美化页面，让页面看起来更加美观；JavaScript可以使网页动起来，比如轮播图也就是多张图片自动的进行切换等效果。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/htmlcss/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -495,6 +494,10 @@ Esc[1;31m 七字节序列，红色字符</em></p>
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/8/">8</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/9/">9</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

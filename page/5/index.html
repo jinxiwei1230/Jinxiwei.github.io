@@ -58,6 +58,301 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/">Linux：文件和目录权限</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-31">2024-10-31</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第8章-linux文件和目录权限">第8章 Linux文件和目录权限</h2>
+<h3 id="文件的权限">文件的权限</h3>
+<p>1、用于控制<strong>进程</strong>对系统中<strong>文件和目录</strong>的访问</p>
+<p>2、权限的三个级别</p>
+<ul>
+<li><strong>文件主</strong>，<strong>同组用户</strong>，<strong>其他用户</strong></li>
+<li>每个文件有唯一的属主</li>
+</ul>
+<p>3、普通文件的权限</p>
+<ul>
+<li>读、写、可执行</li>
+<li>不可写文件也可能会被删除</li>
+</ul>
+<p>4、两类可执行文件</p>
+<ol>
+<li><strong>程序文件（可执行文件）</strong>：</li>
+</ol>
+<ul>
+<li>包含二进制的CPU指令集合。</li>
+<li>必须符合操作系统的格式要求才能加载运行。</li>
+<li>例如：Linux系统的ELF格式，Windows系统的PE格式。</li>
+</ul>
+<ol start="2">
+<li><strong>脚本文件</strong>：</li>
+</ol>
+<ul>
+<li>是普通的文本文件。</li>
+<li>默认解释程序为 <code>/bin/sh</code>。</li>
+<li>可以在文件第一行通过 <code>#!</code>（Shebang）指定解释程序，例如 <code>#! /bin/bash</code>。</li>
+<li>解释程序可以是操作系统内置的程序或用户自定义的应用程序。</li>
+</ul>
+<ol start="3">
+<li><strong>脚本程序运行机制</strong>：</li>
+</ol>
+<ul>
+<li>运行时由指定的解释程序解析并执行指令。</li>
+<li>解释程序会创建一个进程来执行脚本的每条指令。</li>
+</ul>
+<h3 id="目录的权限">目录的权限</h3>
+<p><strong>1、目录的读写权限</strong></p>
+<ul>
+<li>目录的<strong>读权限</strong>决定了能否查看目录内容。</li>
+<li>目录的<strong>写权限</strong>决定了能否在目录中添加或删除文件，但不影响对已有文件内容的修改。</li>
+</ul>
+<p><strong>2、目录的执行权限（x权限）</strong></p>
+<ol>
+<li>
+<p><strong>目录的执行权限</strong>：</p>
+<ul>
+<li><strong>x权限</strong>（执行权限）在目录中表示对路径的“可访问性”，即是否允许进入或访问目录中的内容。</li>
+<li>只有在具有执行权限的情况下，系统才允许在路径解析过程中“进入”该目录并进一步访问下一级目录或文件。</li>
+</ul>
+</li>
+<li>
+<p><strong>路径解析</strong>：</p>
+<ul>
+<li>当访问某个文件时，例如执行 <code>cat /a/b/c</code>，系统会依次解析路径中的每一级目录。</li>
+<li>要成功访问 <code>/a/b/c</code> 文件，路径中的每个目录（<code>/a</code> 和 <code>/a/b</code>）都需要有执行权限，否则系统无法进入这些目录，也就无法找到 <code>c</code> 文件。</li>
+<li>最终文件 <code>c</code> 本身只需具备<strong>读权限</strong>，以便 <code>cat</code> 命令能读取它的内容。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3、STICKY权限（粘着位）</strong></p>
+<ol>
+<li>
+<p><strong>STICKY权限的主要用途——公共目录的文件删除控制</strong>：当目录带有写权限且启用STICKY属性时，目录中的文件只能由文件的<strong>所有者</strong>或<strong>管理员</strong>删除，其他用户的删除操作会被禁止。这使公共目录更加安全，不会因意外删除影响其他用户的文件。</p>
+</li>
+<li>
+<p><strong>示例</strong>：</p>
+</li>
+</ol>
+<ul>
+<li><code>/tmp</code> 目录通常带有STICKY权限，因为它是公共目录，供所有用户存放临时文件。查看 <code>/tmp</code> 目录权限时可以看到STICKY位标志 <code>t</code>，例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">13</span> root root <span style="color:#ae81ff">20480</span> Mar <span style="color:#ae81ff">22</span> 06:11 /tmp
+</span></span></code></pre></div><ul>
+<li>权限的第一列显示 <code>t</code> 表示 <code>/tmp</code> 目录有STICKY权限。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4、文件权限的验证顺序</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-26">2024-10-26</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/machine-learning/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Machine Learning</a></span></div><div class="content"><h3 id="1-决策树decision-tree"><strong>1. 决策树（Decision Tree）</strong></h3>
+<h4 id="原理"><strong>原理</strong>：</h4>
+<p>决策树是一种树形结构的分类或回归模型，通过递归地将数据集划分为更小的子集，最终生成一棵由节点和分支组成的树。每个内部节点表示一个特征上的判断条件，每个分支代表一个可能的判断结果，每个叶节点代表一个类别（分类树）或一个值（回归树）。</p>
+<ul>
+<li><strong>核心思想</strong>：通过特征选择（如信息增益、基尼系数）找到最佳分割点，逐步构建树结构。</li>
+<li><strong>终止条件</strong>：达到最大深度、节点样本数过少或纯度足够高时停止分裂。</li>
+</ul>
+<h4 id="优点"><strong>优点</strong>：</h4>
+<ul>
+<li>易于理解和解释。</li>
+<li>能处理数值型和类别型数据。</li>
+<li>不需要数据标准化。</li>
+</ul>
+<h4 id="缺点"><strong>缺点</strong>：</h4>
+<ul>
+<li>容易过拟合，泛化能力较差。</li>
+<li>对数据扰动敏感，稳定性较低。</li>
+</ul>
+<hr>
+<h3 id="2-随机森林random-forest"><strong>2. 随机森林（Random Forest）</strong></h3>
+<h4 id="原理-1"><strong>原理</strong>：</h4>
+<p>随机森林是一种集成学习方法，通过构建多棵决策树并综合其结果来提高模型的准确性和稳定性。每棵树在训练时使用随机抽样的数据集（Bootstrap采样）和随机选择的特征子集，最终通过投票（分类）或平均（回归）得到最终结果。</p>
+<ul>
+<li><strong>核心思想</strong>：通过“多样性”降低单棵树的过拟合风险，提升泛化能力。</li>
+<li><strong>随机性来源</strong>：
+<ul>
+<li>数据随机性：Bootstrap采样。</li>
+<li>特征随机性：随机选择特征子集。</li>
+</ul>
+</li>
+</ul>
+<h4 id="优点-1"><strong>优点</strong>：</h4>
+<ul>
+<li>抗过拟合能力强，泛化性能好。</li>
+<li>能处理高维数据，适合大规模数据集。</li>
+<li>能评估特征重要性。</li>
+</ul>
+<h4 id="缺点-1"><strong>缺点</strong>：</h4>
+<ul>
+<li>训练时间较长，计算成本较高。</li>
+<li>模型解释性较差（相对于单棵决策树）。</li>
+</ul>
+<hr>
+<h3 id="3-支持向量机support-vector-machine-svm"><strong>3. 支持向量机（Support Vector Machine, SVM）</strong></h3>
+<h4 id="原理-2"><strong>原理</strong>：</h4>
+<p>SVM是一种二分类模型，其目标是找到一个最优超平面，将两类样本分开，并使两类样本到超平面的间隔（Margin）最大化。对于非线性可分的数据，SVM通过核函数将数据映射到高维空间，使其在高维空间中线性可分。</p>
+<ul>
+<li><strong>核心思想</strong>：最大化间隔，提升模型的泛化能力。</li>
+<li><strong>核函数</strong>：用于处理非线性问题，常见核函数包括线性核、多项式核、RBF核等。</li>
+</ul>
+<h4 id="优点-2"><strong>优点</strong>：</h4>
+<ul>
+<li>在高维空间中表现优异。</li>
+<li>对小样本数据集效果好。</li>
+<li>通过核函数能处理非线性问题。</li>
+</ul>
+<h4 id="缺点-2"><strong>缺点</strong>：</h4>
+<ul>
+<li>对大规模数据集训练时间较长。</li>
+<li>对参数（如核函数、正则化参数）敏感，调参复杂。</li>
+<li>模型解释性较差。</li>
+</ul>
+<hr>
+<h3 id="联系与区别"><strong>联系与区别</strong></h3>
+<h4 id="联系"><strong>联系</strong>：</h4>
+<ol>
+<li><strong>目标一致</strong>：三者都用于分类或回归任务。</li>
+<li><strong>非线性能力</strong>：都能处理非线性问题（决策树通过分裂规则，随机森林通过集成，SVM通过核函数）。</li>
+<li><strong>特征重要性</strong>：决策树和随机森林能直接评估特征重要性，SVM可通过权重间接分析。</li>
+</ol>
+<h4 id="区别"><strong>区别</strong>：</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>维度</strong></th>
+          <th style="text-align: left"><strong>决策树</strong></th>
+          <th style="text-align: left"><strong>随机森林</strong></th>
+          <th style="text-align: left"><strong>支持向量机（SVM）</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>模型类型</strong></td>
+          <td style="text-align: left">单一模型</td>
+          <td style="text-align: left">集成模型（多棵决策树）</td>
+          <td style="text-align: left">单一模型</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>核心思想</strong></td>
+          <td style="text-align: left">递归划分数据集</td>
+          <td style="text-align: left">通过多样性降低过拟合</td>
+          <td style="text-align: left">最大化间隔</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>随机性</strong></td>
+          <td style="text-align: left">无</td>
+          <td style="text-align: left">数据和特征的随机性</td>
+          <td style="text-align: left">无</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>过拟合风险</strong></td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">低</td>
+          <td style="text-align: left">中等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>计算复杂度</strong></td>
+          <td style="text-align: left">低</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">高（尤其在大规模数据集上）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>解释性</strong></td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">中等</td>
+          <td style="text-align: left">低</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left">小数据集、需要解释性的场景</td>
+          <td style="text-align: left">大规模数据集、高维数据</td>
+          <td style="text-align: left">小样本、高维数据、非线性问题</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="总结"><strong>总结</strong></h3>
+<ul>
+<li><strong>决策树</strong>：简单直观，适合小数据集和需要解释性的场景，但容易过拟合。</li>
+<li><strong>随机森林</strong>：通过集成提升泛化能力，适合大规模数据集和高维数据，但计算成本较高。</li>
+<li><strong>支持向量机</strong>：适合小样本和高维数据，尤其擅长处理非线性问题，但对参数敏感且计算复杂度高。</li>
+</ul>
+<p>根据具体任务需求和数据特点，可以选择合适的算法或结合多种方法（如随机森林+SVM）以提升模型性能。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/machine-learning/">Machine Learning</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Linux：命令风格与目录存储结构</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-24">2024-10-24</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第七章-命令风格与目录存储结构">第七章 命令风格与目录存储结构</h2>
+<h2 id="命令风格">命令风格</h2>
+<h3 id="linux系统命令和用户程序ap运行时获取信息的方式">Linux系统命令和用户程序(ap)运行时获取信息的方式</h3>
+<p>配置信息等硬编码是不可取的</p>
+<ul>
+<li>硬编码需要编程时就确定服务器的地址，程序运行时就无法改变，太不灵活</li>
+<li>运行时获取信息的常见方式，易变性从小到大为 :
+<ul>
+<li>配置文件</li>
+<li>环境变量</li>
+<li>命令行参数</li>
+<li>交互式键盘输入</li>
+</ul>
+</li>
+</ul>
+<h4 id="1配置文件"><strong>1、配置文件</strong></h4>
+<ul>
+<li>
+<p><strong>系统级配置</strong>与<strong>用户级配置</strong>：</p>
+<ul>
+<li><strong>系统级配置</strong>文件通常存储在系统目录下（如<code>/etc</code>），这些文件影响整个系统的行为，所有用户使用相同的配置。例如<code>/etc/profile</code>是所有用户登录时读取的Shell环境配置文件。</li>
+<li><strong>用户级配置</strong>文件存储在用户的家目录下（如<code>~/.bash_profile</code>）。这些文件只影响该用户的配置和环境，而不会对系统中的其他用户产生影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>持久化存储</strong>：配置文件通常用于存储<strong>相对不频繁改变</strong>的信息，比如数据库连接配置、日志级别、文件路径等。因为这些配置不需要频繁更改，存放在配置文件中可以确保即使系统重启或应用重新启动，配置信息仍然保持不变。</p>
+</li>
+<li>
+<p><strong>灵活性</strong>：配置文件为程序提供了<strong>灵活性</strong>。不同的用户可以读取自己的配置文件，使得同一程序可以表现出不同的行为。</p>
+</li>
+<li>
+<p><strong>优势</strong>：持久性高、可以定制不同环境的配置，不同用户可以使用不同配置来调整同一个程序的行为。</p>
+</li>
+</ul>
+<h4 id="2环境变量"><strong>2、环境变量</strong></h4>
+<p><strong>命令<code>env</code></strong>：
+- 在Linux或类Unix系统中，<code>env</code>命令可以用来打印出当前用户会话中的所有环境变量。例如：
+<code>bash env </code>
+这会显示诸如<code>PATH</code>、<code>HOME</code>、<code>USER</code>、<code>SHELL</code>等环境变量。</p>
+<p><strong>设置环境变量</strong>：
+环境变量可以通过命令行或者配置文件设置。设置环境变量可以使其在程序执行期间动态影响程序行为。例如：
+<code>bash export SERVER=&quot;180.249.151.131&quot; </code>
+这样设置的环境变量只会影响当前会话或当前终端执行的程序。如果要使其永久生效，可以将其写入用户的<code>~/.bash_profile</code>或<code>~/.bashrc</code>文件中。</p>
+<p><strong>用途</strong>：环境变量非常适合那些<strong>在程序运行时需要灵活调整的参数</strong>，例如程序路径、临时目录、语言设置等。它们可以动态设置，程序在运行时读取并应用。</p>
+<p><strong>系统级与用户级环境变量</strong>：</p>
+<ul>
+<li>系统级环境变量可以设置在系统的配置文件中（如<code>/etc/environment</code>），会影响整个系统所有用户的环境。</li>
+<li>用户级环境变量则设置在用户的Shell配置文件中（如<code>~/.bash_profile</code>或<code>~/.bashrc</code>），仅影响当前用户的Shell会话。</li>
+</ul>
+<p><strong>示例</strong>：
+- 系统级环境变量：<code>/etc/environment</code> 中设置 <code>JAVA_HOME</code> 以指示所有用户的Java安装路径。
+- 用户级环境变量：用户可以在<code>~/.bashrc</code>中设置自己的环境变量，比如<code>export PATH=&quot;$PATH:/home/user/myapp/bin&quot;</code>，为自己的程序添加自定义路径。</p>
+<p><strong>优势</strong>：灵活性高，可以在程序运行时动态更改，特别适合在不同环境中快速调整配置，不需要修改代码或配置文件。</p>
+<p><strong>与环境相关</strong>：环境变量通常存储一些与系统环境或用户环境有关的参数。例如：
+- <strong><code>LANG</code></strong>：系统的语言设置，决定程序运行时的语言环境。
+- <strong><code>HOME</code></strong>：当前用户的主目录路径。
+- <strong><code>TERM</code></strong>：终端类型，影响终端显示和交互行为。
+- <strong><code>PATH</code></strong>：可执行文件的搜索路径，决定从哪些目录中查找可执行程序。
+- <strong><code>CLASSPATH</code></strong>：在Java程序中，指定查找Java类文件的位置。
+- <strong><code>CVSROOT</code></strong>：版本控制系统CVS的根路径，指示CVS操作的默认目录。</p>
+<p><strong>感知环境差异</strong>：即使运行的程序（可执行文件）是相同的，程序可以通过读取环境变量来“感知”不同的环境设置，从而调整其行为。例如，不同的用户可能会有不同的<code>HOME</code>目录，程序读取此环境变量后会在用户自己的目录中执行操作。</p>
+<p><strong>环境变量的获取与设置</strong>： <strong>C语言中的<code>getenv()</code>函数</strong>：C语言提供了<code>getenv()</code>函数，用来从环境中获取指定变量的值。</p>
+<h4 id="3交互式键盘输入">3、交互式键盘输入</h4>
+<p>这种方式在Linux命令中极少使用，程序启动之后通过计算机与操作员之间的人机交互获取信息，C语言scanf()，fgets()函数</p>
+<h4 id="4命令行参数">4、命令行参数</h4>
+<p>程序启动之前指定：通过命令行参数，操作员输入命令时提供处理选项和操作对象</p>
+<h5 id="命令行参数的三种风格">命令行参数的三种风格</h5>
+<h2 id="文件系统的创建与安装">文件系统的创建与安装</h2>
+<h4 id="根文件系统与子文件系统">根文件系统与子文件系统</h4>
+<p><strong>1、 根文件系统（root filesystem）</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E9%A3%8E%E6%A0%BC%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">分布式存储</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-23">2024-10-23</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-分布式存储">第四章 分布式存储</h2>
 <h3 id="分布式文件系统">分布式文件系统</h3>
@@ -225,184 +520,6 @@
 <p><strong>4、ls其他选项</strong></p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/">Linux文件比较、vi、文件通配符</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第五章-文件比较vi文件通配符">第五章 文件比较、vi、文件通配符</h2>
-<h3 id="文件内容比对">文件内容比对</h3>
-<h4 id="两文件逐字节比较cmp">两文件逐字节比较：cmp</h4>
-<p><strong>用法</strong>
-<code>cmp file1 file2</code></p>
-<p><strong>功能</strong></p>
-<ul>
-<li>逐字节比较两个文件是否完全相同</li>
-<li>两个文件完全相同时，不给出任何提示</li>
-<li>两个文件不同时，打印出第一个不同之处</li>
-<li>在Windows中有类似的命令COMP</li>
-</ul>
-<h4 id="md5sumsha1sum文件内容比较">md5sum/sha1sum：文件内容比较</h4>
-<p>使用MD5算法（散列函数）根据文件内容生成16/32字节hash值，比较hash值是否相同，就可断定两文件内容是否完全相同
-输出：
-<code>4db9bfbea050ed07aa07d4ca55ad5cb0  8.txt</code>
-<code>8634a498b15d80ca59ac3d852b63fe35  a.txt</code></p>
-<p>使用SHA-1算法的命令名为sha1sum (40字节hash值) ： 160位，用40个16进制字节表示
-输出：
-<code>34150c466e7ca3550766cdd457418656a2a808b8  8.txt</code>
-<code>60a08508708a55279d298d123f0efeece7c41590  a.txt</code></p>
-<p>常用于数据完整性（Data Integrity）验证和判断位于网络不同机器上的两个文件内容是否相同
-其他散列函数也可以用来完成这一任务: sha512sum</p>
-<h4 id="diff查找文本文件版本之间的差异">diff：查找文本文件版本之间的差异</h4>
-<p><strong>用法</strong>
-<code>diff file1 file2 </code>
-<code>diff -u file1 file2 </code></p>
-<p><strong>功能</strong>
-比较两个版本的文本文件，以寻找两者间差别
-输出格式 normal，unified (-u)
-normal格式：列出一个如何将file1转化为file2的指令</p>
-<ul>
-<li>这些指令有<strong>a（Add）</strong>，<strong>c（Change）<strong>和</strong>d（Delete）</strong></li>
-<li>指令字母左边的行号是file1的行号，右面是file2的行号</li>
-<li>列出内容时，大于号后边的内容是需要在file1文件中增加的内容；小于号后边的内容是需从file1中删除的内容</li>
-</ul>
-<p><strong>normal格式文件转化指令</strong>
-1、25<strong>c</strong>25,26
-<strong>&lt;</strong> #define MAX_WEIGHT 2000000000
-<strong>&mdash;</strong>
-<strong>&gt;</strong> /* max signed 32-bit integer */
-<strong>&gt;</strong> #define MAX_WEIGHT 0x7fffffff
-将原文件的第25行**更换(change)**成新文件的的第25~26行</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">分布式队列</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第二章-分布式消息队列">第二章 分布式消息队列</h2>
-<h3 id="kafka">Kafka</h3>
-<h4 id="kafka-概述">Kafka 概述</h4>
-<p>0、数据会越来越多，此时可能需要增加多条数据线，每条数据线将收集到的数据导入不同的存储和分析系统。若仍采用之前的数据收集模式，会有以下潜在问题：</p>
-<ul>
-<li>数据生产者和消费者耦合度过高</li>
-<li>生产者和消费者间数据处理速率不对等</li>
-<li>大量并发的网络连接对后端消费者不够友好</li>
-</ul>
-<p>1、引入 Kafka 作为中间件在分布式数据系统中的重要作用：</p>
-<ul>
-<li>
-<p><strong>消息中间件</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 作为消息中间件，介于数据生产者（如 Web Server）和数据消费者（如 Hadoop 集群、实时监控系统）之间。</li>
-<li><strong>好处</strong>：通过引入 Kafka 消息中间件，生产者和消费者之间无需直接通信，因此减少了两者之间的依赖性。即使生产者或消费者发生变化，对方也不会受到影响，这提升了系统的可扩展性和灵活性。</li>
-</ul>
-</li>
-<li>
-<p><strong>消息队列</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 的消息队列功能可以缓存数据，使得消费者能够按需读取和处理数据。</li>
-<li><strong>好处</strong>：Kafka 中缓存的数据可以重复消费，这非常适合需要重新处理历史数据的场景。比如，如果最初的处理结果有误，消费者可以重复读取这些数据进行修正。此外，消息队列还能平衡生产者的数据生成速度和消费者的数据处理速度，缓解生产者快、消费者慢的压力。</li>
-</ul>
-</li>
-<li>
-<p><strong>发布-订阅系统</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 可以充当发布-订阅系统，消费者可以根据感兴趣的主题进行订阅。</li>
-<li><strong>好处</strong>：生产者一旦产生某个主题的数据，所有订阅该主题的消费者都会快速接收到新数据，实现了实时数据推送。同时，Kafka 的设计允许随时增加新的消费者，无需更改系统配置，这极大提高了系统的灵活性和扩展性。</li>
-</ul>
-</li>
-<li>
-<p><strong>消息总线</strong>：</p>
-<ul>
-<li><strong>作用</strong>：Kafka 作为消息总线，接收所有生产者发送的数据，然后分流到各个消费者。</li>
-</ul>
-</li>
-</ul>
-<p>2、Kafka 特点：
-高吞吐量、良好的扩展性、持久性和可靠性</p>
-<p>3、Kafka 和 Flume 都是数据传输系统，但在架构、应用场景和集成方面各有不同，具体如下：
-<strong>Kafka</strong></p>
-<ol>
-<li>
-<p><strong>发布-订阅模型</strong>：</p>
-<ul>
-<li>Kafka 基于发布-订阅模型，主要由 <strong>生产者</strong>、<strong>主题</strong> 和 <strong>消费者</strong> 组成。</li>
-<li><strong>用途</strong>：Kafka 非常适合用于实时数据的发布和订阅，支持高吞吐量的大数据实时处理。</li>
-</ul>
-</li>
-<li>
-<p><strong>实时消息传递</strong>：</p>
-<ul>
-<li>Kafka 的设计更侧重于实时消息的传递，能够确保数据从生产者到消费者的低延迟。</li>
-<li><strong>应用场景</strong>：适合实时数据分析、监控和流式处理场景。</li>
-</ul>
-</li>
-<li>
-<p><strong>丰富的 API 和流处理集成</strong>：</p>
-<ul>
-<li>Kafka 提供多种 API，可以与流处理框架（如 <strong>Spark Streaming</strong>、<strong>Flink</strong>）和其他系统（如 <strong>Storm</strong>、<strong>Hadoop</strong>）无缝集成，尤其适合构建实时数据管道。</li>
-</ul>
-</li>
-</ol>
-<p><strong>Flume</strong></p>
-<ol>
-<li>
-<p><strong>数据流模型</strong>：</p>
-<ul>
-<li>Flume 基于数据流模型，架构上有 <strong>source</strong>（源）、<strong>channel</strong>（通道）和 <strong>sink</strong>（汇）三大组件，数据流从 source 经 channel 传递至 sink。</li>
-<li><strong>用途</strong>：Flume 特别适用于日志收集与传输，常用于将大量分布式日志数据高效传送到集中系统。</li>
-</ul>
-</li>
-<li>
-<p><strong>Hadoop 集成优化</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">大数据存储</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-10-10">2024-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第三章-大数据存储">第三章 大数据存储</h2>
-<h3 id="数据序列化与文件存储格式">数据序列化与文件存储格式</h3>
-<p>• <strong>数据序列化</strong>是将内存对象转化为字节流的过程，它直接决定了数据解析效率以及模式演化能力。
-• <strong>文件存储格式</strong>是数据在磁盘上的组织方式，直接决定了数据存取效率以及被上层分布式计算集成的容易程度。
-• 针对不同类型的数据，可采用不同的<strong>存储系统</strong>，在Hadoop生态系统中，常用的存储系统有分布式文件系统HDFS和分布式数据库系统HBase。</p>
-<h4 id="数据序列化">数据序列化</h4>
-<p>1、背景</p>
-<ul>
-<li>阶段一：直接将数据转化为字符串，以文本形式保存或传输，如果一条数据存在多个字段，则使用分隔符分割。</li>
-<li>阶段二：采用编程语言内置的序列化机制。</li>
-<li>阶段三：使用应用范围广、跨语言的数据表示格式，比如JSON和XML</li>
-<li>阶段四：通过统一化的schema描述，约束每个字段的类型，进而为存储和解析数据带来优化的可能。</li>
-</ul>
-<p>2、意义
-阶段4中提到的方式便是序列化框架，常用的有Thrift、Protocol Buffers和Avro，它们被称为“Language Of Data”，通过引入schema，使得数据跨语言序列化变得非常高效。</p>
-<h4 id="数据序列化方案">数据序列化方案</h4>
-<p><strong>1、序列化框架 Thrift</strong>
-Thrift是Facebook开源的RPC框架，同时具有<strong>序列化</strong>和<strong>RPC</strong>两个功能，它几乎支持所有编程语言。Thrift提供了一套IDL语法用以定义和描述数据类型和服务。IDL文件由专门的代码生成器生成对应的目标语言代码，以供用户在应用程序中使用。</p>
-<p>Thrift用struct关键字描述一类对象的统称，经Thrift编译器编译后，将被翻译成目标语言中的类。Thrift
-struct中每个域由四个属性构成：</p>
-<ul>
-<li>域编号：每个域必须是唯一（但可以不连续）的整数，Thrift用该编号实现向后向前兼容性；</li>
-<li>域修饰：包括required和optional两个关键字，用以对域的数值进行限制；</li>
-<li>域类型：Thrift支持非常丰富的数据类型，既支持int、long等基本类型，也支持set、list及map等复杂容器类型；</li>
-<li>域名称：同一struct下每个域名称必须唯一，可为域设置默认数值。</li>
-</ul>
-<pre tabindex="0"><code>namespace java com.hadoopspark.generated.thrift
-// 定义枚举类型DocLevel,表示网页内容级别
-enum DocLevel {
-CLEAN = 0,
-NORMAL = 1,
-MAYBE = 2,
-BAD = 3,
-}
-
-struct MergedDoc { // 定义网页,类似于Java和C++中的类
-1:required i64 docId, //每个网页被赋予一个64位唯一ID
-2: required string url, //网页URL
-3: optional string title, //网页标题
-4: optional string segBody, //经分词后的网页主体
-5: optional i32 pagerank, //网页pagerank,网页排名使用
-10: optional DocLevel docLevel, //网页内容级别
-11: optional list&lt;i64&gt; inLinks, //网页入链,只保存入链网页的docId
-12: optional list&lt;i64&gt; outLinks //网页出链
-}
-</code></pre><p><strong>2、序列化框架 Protobuf</strong>
-Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++和Python三种语言，语法和使用方式与Thrift非常类似，但不包含RPC实现</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">大数据技术基础</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -430,8 +547,10 @@ Protocol Buffers是Google公司开源的序列化框架，主要支持Java，C++
                         <a href="/Jinxiwei.github.io/page/7/">7</a>
                     </span>
                 </li><li class="page-item ">
+                    <span class="page-link" aria-hidden="true">&hellip;</span>
+                </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/Jinxiwei.github.io/page/8/">8</a>
+                        <a href="/Jinxiwei.github.io/page/9/">9</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>SQL触发器 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="SQL触发器">
+  <meta property="og:description" content="SQL触发器 触发器(Trigger)是数据库中的一种特殊存储过程，它会在特定事件(如INSERT、UPDATE、DELETE)发生时自动执行。触发器主要用于维护数据的完整性、实施业务规则以及审计数据变更。
+一、触发器的基本概念 1. 触发器的定义 触发器是一段与表相关联的PL/SQL代码，当表发生特定事件时自动执行。触发器不接收参数，也不能被直接调用。
+2. 触发器的组成要素 触发事件：引起触发器执行的操作(INSERT/UPDATE/DELETE) 触发时间：BEFORE或AFTER，表示在事件之前或之后触发 触发级别：ROW或STATEMENT，表示行级或语句级触发 触发条件：WHEN子句指定的额外条件 触发体：触发器被激活时执行的PL/SQL代码块 3. 触发器的分类 按触发时间分类 BEFORE触发器：在触发事件执行之前激活 AFTER触发器：在触发事件执行之后激活 按触发级别分类 行级触发器(ROW)：对受影响的每一行都触发一次 语句级触发器(STATEMENT)：对整个SQL语句触发一次 按触发事件分类 INSERT触发器：当插入数据时触发 UPDATE触发器：当更新数据时触发 DELETE触发器：当删除数据时触发 二、触发器的创建语法 CREATE [OR REPLACE] TRIGGER trigger_name {BEFORE | AFTER} {INSERT | UPDATE | DELETE [OF column_name,...]} ON table_name [REFERENCING [OLD AS old_name] [NEW AS new_name]] [FOR EACH ROW] [WHEN (condition)] DECLARE -- 声明部分(可选) BEGIN -- 执行部分 EXCEPTION -- 异常处理部分(可选) END; 三、触发器的详细使用 1. BEFORE触发器 在数据被修改前执行，常用于数据验证或修改即将插入/更新的数据。
+示例1：数据验证
+CREATE OR REPLACE TRIGGER check_salary BEFORE INSERT OR UPDATE ON employees FOR EACH ROW BEGIN IF :NEW.salary &lt; 0 THEN RAISE_APPLICATION_ERROR(-20001, &#39;Salary cannot be negative&#39;); END IF; END; 示例2：自动计算字段值">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-08T00:00:00+00:00">
+    <meta property="article:tag" content="SQL">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SQL触发器">
+  <meta name="twitter:description" content="SQL触发器 触发器(Trigger)是数据库中的一种特殊存储过程，它会在特定事件(如INSERT、UPDATE、DELETE)发生时自动执行。触发器主要用于维护数据的完整性、实施业务规则以及审计数据变更。
+一、触发器的基本概念 1. 触发器的定义 触发器是一段与表相关联的PL/SQL代码，当表发生特定事件时自动执行。触发器不接收参数，也不能被直接调用。
+2. 触发器的组成要素 触发事件：引起触发器执行的操作(INSERT/UPDATE/DELETE) 触发时间：BEFORE或AFTER，表示在事件之前或之后触发 触发级别：ROW或STATEMENT，表示行级或语句级触发 触发条件：WHEN子句指定的额外条件 触发体：触发器被激活时执行的PL/SQL代码块 3. 触发器的分类 按触发时间分类 BEFORE触发器：在触发事件执行之前激活 AFTER触发器：在触发事件执行之后激活 按触发级别分类 行级触发器(ROW)：对受影响的每一行都触发一次 语句级触发器(STATEMENT)：对整个SQL语句触发一次 按触发事件分类 INSERT触发器：当插入数据时触发 UPDATE触发器：当更新数据时触发 DELETE触发器：当删除数据时触发 二、触发器的创建语法 CREATE [OR REPLACE] TRIGGER trigger_name {BEFORE | AFTER} {INSERT | UPDATE | DELETE [OF column_name,...]} ON table_name [REFERENCING [OLD AS old_name] [NEW AS new_name]] [FOR EACH ROW] [WHEN (condition)] DECLARE -- 声明部分(可选) BEGIN -- 执行部分 EXCEPTION -- 异常处理部分(可选) END; 三、触发器的详细使用 1. BEFORE触发器 在数据被修改前执行，常用于数据验证或修改即将插入/更新的数据。
+示例1：数据验证
+CREATE OR REPLACE TRIGGER check_salary BEFORE INSERT OR UPDATE ON employees FOR EACH ROW BEGIN IF :NEW.salary &lt; 0 THEN RAISE_APPLICATION_ERROR(-20001, &#39;Salary cannot be negative&#39;); END IF; END; 示例2：自动计算字段值">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/urllib1/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SQL触发器",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/sql%E8%A7%A6%E5%8F%91%E5%99%A8\/"
+        },"genre": "posts","keywords": "SQL","wordcount":  857 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/sql%E8%A7%A6%E5%8F%91%E5%99%A8\/","datePublished": "2025-03-08T00:00:00+00:00","dateModified": "2025-03-08T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">SQL触发器</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/db/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DB</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-08">2025-03-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;857 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一触发器的基本概念">一、触发器的基本概念</a>
+      <ul>
+        <li><a href="#1-触发器的定义">1. 触发器的定义</a></li>
+        <li><a href="#2-触发器的组成要素">2. 触发器的组成要素</a></li>
+        <li><a href="#3-触发器的分类">3. 触发器的分类</a></li>
+      </ul>
+    </li>
+    <li><a href="#二触发器的创建语法">二、触发器的创建语法</a></li>
+    <li><a href="#三触发器的详细使用">三、触发器的详细使用</a>
+      <ul>
+        <li><a href="#1-before触发器">1. BEFORE触发器</a></li>
+        <li><a href="#2-after触发器">2. AFTER触发器</a></li>
+        <li><a href="#3-instead-of触发器">3. INSTEAD OF触发器</a></li>
+        <li><a href="#4-复合触发器">4. 复合触发器</a></li>
+      </ul>
+    </li>
+    <li><a href="#四触发器的特殊变量和函数">四、触发器的特殊变量和函数</a>
+      <ul>
+        <li><a href="#1-old和new伪记录">1. :OLD和:NEW伪记录</a></li>
+        <li><a href="#2-条件谓词">2. 条件谓词</a></li>
+        <li><a href="#3-updating函数">3. UPDATING函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#五触发器的管理">五、触发器的管理</a>
+      <ul>
+        <li><a href="#1-查看触发器">1. 查看触发器</a></li>
+        <li><a href="#2-启用禁用触发器">2. 启用/禁用触发器</a></li>
+        <li><a href="#3-修改触发器">3. 修改触发器</a></li>
+        <li><a href="#4-删除触发器">4. 删除触发器</a></li>
+      </ul>
+    </li>
+    <li><a href="#六触发器的应用场景">六、触发器的应用场景</a>
+      <ul>
+        <li><a href="#1-数据完整性">1. 数据完整性</a></li>
+        <li><a href="#2-审计跟踪">2. 审计跟踪</a></li>
+        <li><a href="#3-派生数据">3. 派生数据</a></li>
+        <li><a href="#4-安全控制">4. 安全控制</a></li>
+        <li><a href="#5-业务规则">5. 业务规则</a></li>
+      </ul>
+    </li>
+    <li><a href="#七触发器的注意事项">七、触发器的注意事项</a></li>
+    <li><a href="#八触发器最佳实践">八、触发器最佳实践</a></li>
+    <li><a href="#九不同数据库中的触发器差异">九、不同数据库中的触发器差异</a>
+      <ul>
+        <li><a href="#1-oracle">1. Oracle</a></li>
+        <li><a href="#2-sql-server">2. SQL Server</a></li>
+        <li><a href="#3-mysql">3. MySQL</a></li>
+        <li><a href="#4-postgresql">4. PostgreSQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#十高级触发器技巧">十、高级触发器技巧</a>
+      <ul>
+        <li><a href="#1-动态sql在触发器中">1. 动态SQL在触发器中</a></li>
+        <li><a href="#2-条件触发器">2. 条件触发器</a></li>
+        <li><a href="#3-跨数据库触发器">3. 跨数据库触发器</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="sql触发器">SQL触发器</h1>
+<p>触发器(Trigger)是数据库中的一种特殊存储过程，它会在特定事件(如INSERT、UPDATE、DELETE)发生时自动执行。触发器主要用于维护数据的完整性、实施业务规则以及审计数据变更。</p>
+<h2 id="一触发器的基本概念">一、触发器的基本概念</h2>
+<h3 id="1-触发器的定义">1. 触发器的定义</h3>
+<p>触发器是一段与表相关联的PL/SQL代码，当表发生特定事件时自动执行。触发器不接收参数，也不能被直接调用。</p>
+<h3 id="2-触发器的组成要素">2. 触发器的组成要素</h3>
+<ul>
+<li><strong>触发事件</strong>：引起触发器执行的操作(INSERT/UPDATE/DELETE)</li>
+<li><strong>触发时间</strong>：BEFORE或AFTER，表示在事件之前或之后触发</li>
+<li><strong>触发级别</strong>：ROW或STATEMENT，表示行级或语句级触发</li>
+<li><strong>触发条件</strong>：WHEN子句指定的额外条件</li>
+<li><strong>触发体</strong>：触发器被激活时执行的PL/SQL代码块</li>
+</ul>
+<h3 id="3-触发器的分类">3. 触发器的分类</h3>
+<h4 id="按触发时间分类">按触发时间分类</h4>
+<ul>
+<li><strong>BEFORE触发器</strong>：在触发事件执行之前激活</li>
+<li><strong>AFTER触发器</strong>：在触发事件执行之后激活</li>
+</ul>
+<h4 id="按触发级别分类">按触发级别分类</h4>
+<ul>
+<li><strong>行级触发器(ROW)</strong>：对受影响的每一行都触发一次</li>
+<li><strong>语句级触发器(STATEMENT)</strong>：对整个SQL语句触发一次</li>
+</ul>
+<h4 id="按触发事件分类">按触发事件分类</h4>
+<ul>
+<li><strong>INSERT触发器</strong>：当插入数据时触发</li>
+<li><strong>UPDATE触发器</strong>：当更新数据时触发</li>
+<li><strong>DELETE触发器</strong>：当删除数据时触发</li>
+</ul>
+<h2 id="二触发器的创建语法">二、触发器的创建语法</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> [<span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span>] <span style="color:#66d9ef">TRIGGER</span> <span style="color:#66d9ef">trigger_name</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">{</span><span style="color:#66d9ef">BEFORE</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">AFTER</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#66d9ef">INSERT</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">DELETE</span> [<span style="color:#66d9ef">OF</span> <span style="color:#66d9ef">column_name</span>,...]<span style="color:#960050;background-color:#1e0010">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">table_name</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#66d9ef">REFERENCING</span> [<span style="color:#66d9ef">OLD</span> <span style="color:#66d9ef">AS</span> old_name] [<span style="color:#66d9ef">NEW</span> <span style="color:#66d9ef">AS</span> new_name]]
+</span></span><span style="display:flex;"><span>[<span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#66d9ef">WHEN</span> (condition)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 声明部分(可选)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 执行部分
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXCEPTION</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 异常处理部分(可选)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h2 id="三触发器的详细使用">三、触发器的详细使用</h2>
+<h3 id="1-before触发器">1. BEFORE触发器</h3>
+<p>在数据被修改前执行，常用于数据验证或修改即将插入/更新的数据。</p>
+<p><strong>示例1：数据验证</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> check_salary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">IF</span> :<span style="color:#66d9ef">NEW</span>.salary <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        RAISE_APPLICATION_ERROR(<span style="color:#f92672">-</span><span style="color:#ae81ff">20001</span>, <span style="color:#e6db74">&#39;Salary cannot be negative&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><p><strong>示例2：自动计算字段值</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> calculate_bonus
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">ON</span> sales
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    :<span style="color:#66d9ef">NEW</span>.bonus :<span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.amount <span style="color:#f92672">*</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">1</span>; <span style="color:#75715e">-- 自动计算奖金为销售额的10%
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h3 id="2-after触发器">2. AFTER触发器</h3>
+<p>在数据被修改后执行，常用于审计跟踪或级联操作。</p>
+<p><strong>示例1：审计日志</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> log_employee_changes
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
+</span></span><span style="display:flex;"><span>    v_action VARCHAR2(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">IF</span> INSERTING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_action :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;INSERT&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp_audit <span style="color:#66d9ef">VALUES</span>(
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.emp_id, :<span style="color:#66d9ef">NEW</span>.emp_name, :<span style="color:#66d9ef">NEW</span>.salary, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">USER</span>, SYSDATE, v_action
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> UPDATING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_action :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;UPDATE&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp_audit <span style="color:#66d9ef">VALUES</span>(
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.emp_id, :<span style="color:#66d9ef">NEW</span>.emp_name, :<span style="color:#66d9ef">NEW</span>.salary, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">USER</span>, SYSDATE, v_action
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> DELETING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_action :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DELETE&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp_audit <span style="color:#66d9ef">VALUES</span>(
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">OLD</span>.emp_id, :<span style="color:#66d9ef">OLD</span>.emp_name, :<span style="color:#66d9ef">OLD</span>.salary, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">USER</span>, SYSDATE, v_action
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><p><strong>示例2：级联更新</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> update_dept_stats
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">IF</span> INSERTING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">UPDATE</span> departments
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SET</span> emp_count <span style="color:#f92672">=</span> emp_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span> dept_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.dept_id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> UPDATING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">IF</span> :<span style="color:#66d9ef">NEW</span>.dept_id <span style="color:#f92672">!=</span> :<span style="color:#66d9ef">OLD</span>.dept_id <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">-- 减少原部门计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">UPDATE</span> departments
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">SET</span> emp_count <span style="color:#f92672">=</span> emp_count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">WHERE</span> dept_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">OLD</span>.dept_id;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">-- 增加新部门计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">UPDATE</span> departments
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">SET</span> emp_count <span style="color:#f92672">=</span> emp_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">WHERE</span> dept_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.dept_id;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> DELETING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">UPDATE</span> departments
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SET</span> emp_count <span style="color:#f92672">=</span> emp_count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span> dept_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">OLD</span>.dept_id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h3 id="3-instead-of触发器">3. INSTEAD OF触发器</h3>
+<p>主要用于视图上的触发器，允许对不可更新的视图执行DML操作。</p>
+<p><strong>示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> emp_dept_view_insert
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSTEAD</span> <span style="color:#66d9ef">OF</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">ON</span> emp_dept_view
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 检查部门是否存在
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">DECLARE</span>
+</span></span><span style="display:flex;"><span>        v_dept_id NUMBER;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SELECT</span> dept_id <span style="color:#66d9ef">INTO</span> v_dept_id
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">FROM</span> departments
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span> dept_name <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.dept_name;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 部门存在，插入员工
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> employees(emp_id, emp_name, salary, dept_id)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">VALUES</span>(:<span style="color:#66d9ef">NEW</span>.emp_id, :<span style="color:#66d9ef">NEW</span>.emp_name, :<span style="color:#66d9ef">NEW</span>.salary, v_dept_id);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">EXCEPTION</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHEN</span> NO_DATA_FOUND <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">-- 部门不存在，先插入部门
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> departments(dept_id, dept_name)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">VALUES</span>(dept_seq.NEXTVAL, :<span style="color:#66d9ef">NEW</span>.dept_name);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">-- 再插入员工
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> employees(emp_id, emp_name, salary, dept_id)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">VALUES</span>(:<span style="color:#66d9ef">NEW</span>.emp_id, :<span style="color:#66d9ef">NEW</span>.emp_name, :<span style="color:#66d9ef">NEW</span>.salary, dept_seq.CURRVAL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h3 id="4-复合触发器">4. 复合触发器</h3>
+<p>Oracle 11g引入的新特性，一个触发器可以包含多个触发时间点。</p>
+<p><strong>示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> compound_emp_trigger
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span>COMPOUND <span style="color:#66d9ef">TRIGGER</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 声明部分，所有时间点共享
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    v_count NUMBER :<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 语句执行前
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">STATEMENT</span> <span style="color:#66d9ef">IS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>        DBMS_OUTPUT.PUT_LINE(<span style="color:#e6db74">&#39;Before statement: &#39;</span> <span style="color:#f92672">||</span> v_count);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">STATEMENT</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 每行处理前
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span> <span style="color:#66d9ef">IS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>        v_count :<span style="color:#f92672">=</span> v_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">IF</span> INSERTING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.created_date :<span style="color:#f92672">=</span> SYSDATE;
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.created_by :<span style="color:#f92672">=</span> <span style="color:#66d9ef">USER</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">ELSIF</span> UPDATING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.modified_date :<span style="color:#f92672">=</span> SYSDATE;
+</span></span><span style="display:flex;"><span>            :<span style="color:#66d9ef">NEW</span>.modified_by :<span style="color:#f92672">=</span> <span style="color:#66d9ef">USER</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 每行处理后
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span> <span style="color:#66d9ef">IS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>        DBMS_OUTPUT.PUT_LINE(<span style="color:#e6db74">&#39;Processed row &#39;</span> <span style="color:#f92672">||</span> v_count);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 语句执行后
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">STATEMENT</span> <span style="color:#66d9ef">IS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>        DBMS_OUTPUT.PUT_LINE(<span style="color:#e6db74">&#39;Total rows processed: &#39;</span> <span style="color:#f92672">||</span> v_count);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> emp_audit_log(action_type, rows_affected, action_time)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">VALUES</span>(
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">CASE</span> 
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">WHEN</span> INSERTING <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;INSERT&#39;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">WHEN</span> UPDATING <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;UPDATE&#39;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">WHEN</span> DELETING <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;DELETE&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">END</span>,
+</span></span><span style="display:flex;"><span>            v_count,
+</span></span><span style="display:flex;"><span>            SYSDATE
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">STATEMENT</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span> compound_emp_trigger;
+</span></span></code></pre></div><h2 id="四触发器的特殊变量和函数">四、触发器的特殊变量和函数</h2>
+<h3 id="1-old和new伪记录">1. :OLD和:NEW伪记录</h3>
+<ul>
+<li><strong>:OLD</strong>：代表更新或删除前的行数据(INSERT操作中为NULL)</li>
+<li><strong>:NEW</strong>：代表插入或更新后的行数据(DELETE操作中为NULL)</li>
+</ul>
+<h3 id="2-条件谓词">2. 条件谓词</h3>
+<ul>
+<li><strong>INSERTING</strong>：如果触发器由INSERT语句触发则为TRUE</li>
+<li><strong>UPDATING</strong>：如果触发器由UPDATE语句触发则为TRUE</li>
+<li><strong>DELETING</strong>：如果触发器由DELETE语句触发则为TRUE</li>
+</ul>
+<h3 id="3-updating函数">3. UPDATING函数</h3>
+<p>检查特定列是否被更新(仅适用于UPDATE触发器)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">IF</span> UPDATING(<span style="color:#e6db74">&#39;salary&#39;</span>) <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 当salary列被更新时执行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span></code></pre></div><h2 id="五触发器的管理">五、触发器的管理</h2>
+<h3 id="1-查看触发器">1. 查看触发器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 查看所有触发器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">trigger_name</span>, <span style="color:#66d9ef">table_name</span>, triggering_event, status 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> user_triggers;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 查看触发器源代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> text <span style="color:#66d9ef">FROM</span> user_source 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TRIGGER_NAME&#39;</span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TRIGGER&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> line;
+</span></span></code></pre></div><h3 id="2-启用禁用触发器">2. 启用/禁用触发器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 禁用触发器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TRIGGER</span> <span style="color:#66d9ef">trigger_name</span> DISABLE;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 启用触发器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TRIGGER</span> <span style="color:#66d9ef">trigger_name</span> ENABLE;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 禁用表上的所有触发器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> DISABLE <span style="color:#66d9ef">ALL</span> TRIGGERS;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 启用表上的所有触发器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> ENABLE <span style="color:#66d9ef">ALL</span> TRIGGERS;
+</span></span></code></pre></div><h3 id="3-修改触发器">3. 修改触发器</h3>
+<p>使用<code>CREATE OR REPLACE TRIGGER</code>语句重新创建触发器</p>
+<h3 id="4-删除触发器">4. 删除触发器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TRIGGER</span> <span style="color:#66d9ef">trigger_name</span>;
+</span></span></code></pre></div><h2 id="六触发器的应用场景">六、触发器的应用场景</h2>
+<h3 id="1-数据完整性">1. 数据完整性</h3>
+<ul>
+<li>复杂约束检查</li>
+<li>跨表一致性维护</li>
+</ul>
+<h3 id="2-审计跟踪">2. 审计跟踪</h3>
+<ul>
+<li>记录数据变更</li>
+<li>跟踪用户操作</li>
+</ul>
+<h3 id="3-派生数据">3. 派生数据</h3>
+<ul>
+<li>自动计算字段值</li>
+<li>维护汇总数据</li>
+</ul>
+<h3 id="4-安全控制">4. 安全控制</h3>
+<ul>
+<li>实施额外的安全策略</li>
+<li>限制特定操作</li>
+</ul>
+<h3 id="5-业务规则">5. 业务规则</h3>
+<ul>
+<li>实施复杂业务逻辑</li>
+<li>自动工作流</li>
+</ul>
+<h2 id="七触发器的注意事项">七、触发器的注意事项</h2>
+<ol>
+<li><strong>性能影响</strong>：触发器会增加DML操作的开销，应谨慎使用</li>
+<li><strong>调试困难</strong>：触发器自动执行，错误可能不明显</li>
+<li><strong>递归触发</strong>：触发器可能引发其他触发器，导致无限循环</li>
+<li><strong>顺序问题</strong>：多个触发器的执行顺序可能影响结果</li>
+<li><strong>事务边界</strong>：触发器与触发语句在同一事务中，失败会回滚整个事务</li>
+<li><strong>避免过长逻辑</strong>：复杂业务逻辑最好放在应用程序中</li>
+</ol>
+<h2 id="八触发器最佳实践">八、触发器最佳实践</h2>
+<ol>
+<li><strong>保持简单</strong>：触发器逻辑应尽量简单直接</li>
+<li><strong>文档记录</strong>：为触发器添加详细注释</li>
+<li><strong>性能测试</strong>：评估触发器对系统性能的影响</li>
+<li><strong>错误处理</strong>：包含适当的异常处理</li>
+<li><strong>避免递归</strong>：设计时注意避免触发器间的循环调用</li>
+<li><strong>考虑替代方案</strong>：评估存储过程、约束等是否更适合需求</li>
+</ol>
+<h2 id="九不同数据库中的触发器差异">九、不同数据库中的触发器差异</h2>
+<h3 id="1-oracle">1. Oracle</h3>
+<ul>
+<li>支持BEFORE/AFTER/INSTEAD OF触发器</li>
+<li>支持行级和语句级触发器</li>
+<li>11g引入复合触发器</li>
+</ul>
+<h3 id="2-sql-server">2. SQL Server</h3>
+<ul>
+<li>使用INSTEAD OF和AFTER触发器(没有BEFORE触发器)</li>
+<li>支持DDL触发器</li>
+<li>使用inserted和deleted虚拟表代替:NEW和:OLD</li>
+</ul>
+<h3 id="3-mysql">3. MySQL</h3>
+<ul>
+<li>支持BEFORE/AFTER触发器</li>
+<li>只支持行级触发器</li>
+<li>不支持INSTEAD OF触发器</li>
+<li>使用NEW和OLD访问行数据</li>
+</ul>
+<h3 id="4-postgresql">4. PostgreSQL</h3>
+<ul>
+<li>支持BEFORE/AFTER/INSTEAD OF触发器</li>
+<li>支持行级和语句级触发器</li>
+<li>支持触发器函数</li>
+</ul>
+<h2 id="十高级触发器技巧">十、高级触发器技巧</h2>
+<h3 id="1-动态sql在触发器中">1. 动态SQL在触发器中</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> dynamic_audit
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
+</span></span><span style="display:flex;"><span>    v_sql VARCHAR2(<span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">IF</span> INSERTING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_sql :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;INSERT INTO emp_audit VALUES(&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 :<span style="color:#66d9ef">NEW</span>.emp_id <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> :<span style="color:#66d9ef">NEW</span>.emp_name <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 <span style="color:#66d9ef">USER</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, SYSDATE, &#39;&#39;INSERT&#39;&#39;)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> UPDATING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_sql :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;INSERT INTO emp_audit VALUES(&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 :<span style="color:#66d9ef">NEW</span>.emp_id <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> :<span style="color:#66d9ef">NEW</span>.emp_name <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 <span style="color:#66d9ef">USER</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, SYSDATE, &#39;&#39;UPDATE&#39;&#39;)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> DELETING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        v_sql :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;INSERT INTO emp_audit VALUES(&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 :<span style="color:#66d9ef">OLD</span>.emp_id <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> :<span style="color:#66d9ef">OLD</span>.emp_name <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, &#39;&#39;&#39;</span> <span style="color:#f92672">||</span> 
+</span></span><span style="display:flex;"><span>                 <span style="color:#66d9ef">USER</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;&#39;, SYSDATE, &#39;&#39;DELETE&#39;&#39;)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">EXECUTE</span> <span style="color:#66d9ef">IMMEDIATE</span> v_sql;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h3 id="2-条件触发器">2. 条件触发器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> conditional_trigger
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEFORE</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">ON</span> employees
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHEN</span> (<span style="color:#66d9ef">OLD</span>.salary <span style="color:#f92672">&lt;&gt;</span> <span style="color:#66d9ef">NEW</span>.salary) <span style="color:#75715e">-- 只有当薪资变化时才触发
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> salary_changes(emp_id, old_salary, new_salary, change_date)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">VALUES</span>(:<span style="color:#66d9ef">NEW</span>.emp_id, :<span style="color:#66d9ef">OLD</span>.salary, :<span style="color:#66d9ef">NEW</span>.salary, SYSDATE);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><h3 id="3-跨数据库触发器">3. 跨数据库触发器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">TRIGGER</span> sync_customer_data
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AFTER</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">ON</span> customers
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">ROW</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
+</span></span><span style="display:flex;"><span>    v_db_link VARCHAR2(<span style="color:#ae81ff">30</span>) :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;remote_db&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">IF</span> INSERTING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> customers<span style="color:#f92672">@</span>remote_db
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">VALUES</span>(:<span style="color:#66d9ef">NEW</span>.cust_id, :<span style="color:#66d9ef">NEW</span>.cust_name, :<span style="color:#66d9ef">NEW</span>.email);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> UPDATING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">UPDATE</span> customers<span style="color:#f92672">@</span>remote_db
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SET</span> cust_name <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.cust_name,
+</span></span><span style="display:flex;"><span>            email <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.email
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span> cust_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">NEW</span>.cust_id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSIF</span> DELETING <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> customers<span style="color:#f92672">@</span>remote_db
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">WHERE</span> cust_id <span style="color:#f92672">=</span> :<span style="color:#66d9ef">OLD</span>.cust_id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXCEPTION</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> OTHERS <span style="color:#66d9ef">THEN</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 记录错误但允许主操作继续
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> sync_errors <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;CUSTOMER&#39;</span>, :<span style="color:#66d9ef">NEW</span>.cust_id, SQLERRM, SYSDATE);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" data-title="SQL触发器" data-hashtags="SQL"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" data-hashtag="SQL"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" data-title="SQL触发器"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" data-title="SQL触发器"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/" data-title="SQL触发器"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/urllib1/" class="prev" rel="prev" title="Urllib1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Urllib1</a>
+            <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/" class="next" rel="next" title="mysql高级">mysql高级<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

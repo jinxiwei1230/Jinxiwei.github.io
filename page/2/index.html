@@ -58,6 +58,187 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">Python数据容器</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python数据容器">Python数据容器</h1>
+<p>Python 中的数据容器是用于<strong>存储和管理数据</strong>的对象。常见的数据容器包括<strong>列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）、集合（<code>set</code>）和字典（<code>dict</code>）</strong>。</p>
+<h3 id="一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></h3>
+<p><strong>1、定义</strong>：</p>
+<ul>
+<li>列表是一种<strong>有序</strong>、可变的数据容器，可以存储<strong>任意类型</strong>的元素</li>
+<li>元素<strong>可以重复</strong>、支持<strong>增删改查</strong>操作</li>
+<li>列表可以一次存储多个数据，且可以为<strong>不同的数据类型（混装）</strong>，支持嵌套</li>
+<li>下标支持从前往后（正数）、从后往前（负数）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>列表名 <span style="color:#f92672">=</span> [元素1, 元素2, <span style="color:#f92672">...</span>]
+</span></span></code></pre></div><p><strong>2、<code>list</code> 的遍历</strong></p>
+<ul>
+<li>
+<p><strong>方法 1：使用 <code>for</code> 循环</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
+</span></span><span style="display:flex;"><span>    print(fruit)
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 2：使用索引</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(fruits)):
+</span></span><span style="display:flex;"><span>    print(fruits[i])
+</span></span></code></pre></div></li>
+<li>
+<p><strong>方法 3：使用 <code>enumerate()</code></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, fruit <span style="color:#f92672">in</span> enumerate(fruits):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">, Fruit: </span><span style="color:#e6db74">{</span>fruit<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3列表常用操作">3、列表常用操作</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个列表</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 追加元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;orange&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;追加后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 扩展列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>extend([<span style="color:#e6db74">&#34;grape&#34;</span>, <span style="color:#e6db74">&#34;mango&#34;</span>])
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;扩展后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 插入元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;插入后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 删除元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> fruits[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 弹出元素</span>
+</span></span><span style="display:flex;"><span>removed_fruit <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出后:&#34;</span>, fruits)        <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出的元素:&#34;</span>, removed_fruit)  <span style="color:#75715e"># 输出 orange</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 移除元素</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;pear&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;移除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 清空列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>clear()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 []</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 统计元素</span>
+</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>]
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;banana&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;banana 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 9. 查找元素下标</span>
+</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;cherry&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;cherry 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10. 获取列表长度</span>
+</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(fruits)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;列表长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 11. 修改元素</span>
+</span></span><span style="display:flex;"><span>fruits[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;修改后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 12. 反转列表</span>
+</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>reverse()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;反转后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 13. 排序列表</span>
+</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;排序后:&#34;</span>, numbers)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 14. 切片操作</span>
+</span></span><span style="display:flex;"><span>subset <span style="color:#f92672">=</span> fruits[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;切片后:&#34;</span>, subset)  <span style="color:#75715e"># 输出 [&#39;cherry&#39;, &#39;orange&#39;]</span>
+</span></span></code></pre></div><h3 id="二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></h3>
+<p><strong>1、定义</strong>：元组是一种<strong>有序、不可变</strong>的数据容器。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">Python文件操作</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python文件操作">Python文件操作</h1>
+<h2 id="一编码">（一）编码</h2>
+<h3 id="1-编码的概念">1. <strong>编码的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：编码是一种将 <strong>可识别内容</strong>（如文字、符号等）转换为 <strong>二进制数据</strong> 的规则，同时也定义了如何将二进制数据转换回可识别内容。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>存储：将人类可读的内容转换为计算机可存储的二进制数据。</li>
+<li>传输：在网络传输中，编码确保数据能够正确传递和解析。</li>
+<li>显示：将二进制数据转换回人类可读的内容。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-常见编码">2. <strong>常见编码</strong></h3>
+<h4 id="1utf-8">（1）<strong>UTF-8</strong></h4>
+<ul>
+<li>是一种 <strong>可变长度</strong> 的 Unicode 编码。</li>
+<li>支持全球所有语言的字符。</li>
+<li>兼容 ASCII 编码。</li>
+</ul>
+<h5 id="2gbk">（2）<strong>GBK</strong></h5>
+<ul>
+<li>是一种针对 <strong>中文</strong> 的编码。</li>
+<li>支持简体中文和繁体中文。</li>
+</ul>
+<h4 id="3big5">（3）<strong>Big5</strong></h4>
+<ul>
+<li>是一种针对 <strong>繁体中文</strong> 的编码。</li>
+<li>主要用于台湾、香港等地区。</li>
+</ul>
+<hr>
+<h3 id="3-编码与解码">3. <strong>编码与解码</strong></h3>
+<h5 id="1编码encode">（1）<strong>编码（Encode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将字符串转换为二进制数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>encode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;我喜欢你&#34;</span>
+</span></span><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(binary_data)  <span style="color:#75715e"># 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h5 id="2解码decode">（2）<strong>解码（Decode）</strong></h5>
+<ul>
+<li>
+<p><strong>作用</strong>：将二进制数据转换为字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>二进制数据<span style="color:#f92672">.</span>decode(编码格式)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>text <span style="color:#f92672">=</span> binary_data<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
+</span></span><span style="display:flex;"><span>print(text)  <span style="color:#75715e"># 输出 &#34;我喜欢你&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-编码错误的处理">4. <strong>编码错误的处理</strong></h3>
+<ul>
+<li><strong>常见错误</strong>：
+<ul>
+<li><code>UnicodeEncodeError</code>：编码时无法将字符转换为指定编码。</li>
+<li><code>UnicodeDecodeError</code>：解码时无法将二进制数据转换为指定编码的字符。</li>
+</ul>
+</li>
+<li><strong>解决方法</strong>：
+<ul>
+<li>使用 <code>errors</code> 参数指定错误处理方式。
+<ul>
+<li><code>ignore</code>：忽略无法编码/解码的字符。</li>
+<li><code>replace</code>：用替代字符（如 <code>?</code>）替换无法编码/解码的字符。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="heading"></h4>
+<h2 id="二文件操作">（二）文件操作</h2>
+<h3 id="1-打开文件">1. <strong>打开文件</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>open(file, mode, encoding)
+</span></span></code></pre></div><ul>
+<li>
+<p><code>file</code>：文件路径（字符串类型）。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/">python面试题1</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h3 id="1python-中的三元表达式">1、Python 中的三元表达式</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[on_true] <span style="color:#66d9ef">if</span> [expression] <span style="color:#66d9ef">else</span> [on_false]
@@ -309,171 +490,6 @@ AOP通过切面将横切关注点（如日志、事务、安全等）与核心�
 <p><strong>示例</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/ioc-di-aop/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/java/">Java</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">mysql高级</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-08">2025-03-08</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div><div class="content"><h2 id="mysql高级">mysql高级</h2>
-<h3 id="1约束">1、约束</h3>
-<h3 id="11--概念">1.1  概念</h3>
-<ul>
-<li>
-<p>约束是作用于表中列上的规则，用于限制加入表的数据</p>
-<p>例如：我们可以给id列加约束，让其值不能重复，不能为null值。</p>
-</li>
-<li>
-<p>约束的存在保证了数据库中数据的正确性、有效性和完整性</p>
-<p>添加约束可以在添加数据的时候就限制不正确的数据，年龄是3000，数学成绩是-5分这样无效的数据，继而保障数据的完整性。</p>
-</li>
-</ul>
-<h3 id="12--分类">1.2  分类</h3>
-<ul>
-<li><strong>非空约束： 关键字是 NOT NULL</strong></li>
-</ul>
-<p>保证列中所有的数据不能有null值。</p>
-<p>例如：id列在添加 <code>马花疼</code> 这条数据时就不能添加成功。</p>
-<ul>
-<li>
-<p><strong>唯一约束：关键字是  UNIQUE</strong></p>
-<p>保证列中所有数据各不相同。</p>
-<p>例如：id列中三条数据的值都是1，这样的数据在添加时是绝对不允许的。</p>
-</li>
-<li>
-<p><strong>主键约束： 关键字是  PRIMARY KEY</strong></p>
-</li>
-</ul>
-<p>主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。</p>
-<p>例如：上图表中id就可以作为主键，来标识每条数据。那么这样就要求数据中id的值不能重复，不能为null值。</p>
-<ul>
-<li>
-<p><strong>检查约束： 关键字是  CHECK</strong></p>
-<p>保证列中的值满足某一条件。</p>
-<p>例如：我们可以给age列添加一个范围，最低年龄可以设置为1，最大年龄就可以设置为300，这样的数据才更合理些。</p>
-<blockquote>
-<p>注意：MySQL不支持检查约束。</p>
-<p>这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在java代码中进行限制，一样也可以实现要求。</p>
-</blockquote>
-</li>
-<li>
-<p><strong>默认约束： 关键字是   DEFAULT</strong></p>
-<p>保存数据时，未指定值则采用默认值。</p>
-<p>例如：我们在给english列添加该约束，指定默认值是0，这样在添加数据时没有指定具体值时就会采用默认给定的0。</p>
-</li>
-<li>
-<p><strong>外键约束： 关键字是  FOREIGN KEY</strong></p>
-<p>外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。</p>
-<p>外键约束现在可能还不太好理解，后面我们会重点进行讲解。</p>
-</li>
-</ul>
-<h3 id="13--非空约束">1.3  非空约束</h3>
-<ul>
-<li>
-<p>概念</p>
-<p>非空约束用于保证列中所有数据不能有NULL值</p>
-</li>
-<li>
-<p>语法</p>
-<ul>
-<li>
-<p>添加约束</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 创建表时添加非空约束
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span>(
-</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">列名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
-</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>
-</span></span><span style="display:flex;"><span>); 
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建完表后添加非空约束
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>;
-</span></span></code></pre></div></li>
-<li>
-<p>删除约束</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">MODIFY</span> <span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#960050;background-color:#1e0010">数据类型</span>;
-</span></span></code></pre></div></li>
-</ul>
-</li>
-</ul>
-<h3 id="14--唯一约束">1.4  唯一约束</h3>
-<ul>
-<li>
-<p>概念</p>
-<p>唯一约束用于保证列中所有数据各不相同</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/mysql%E9%AB%98%E7%BA%A7/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/urllib1/">Urllib1</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-02-28">2025-02-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E7%88%AC%E8%99%AB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>爬虫</a></span></div><div class="content"><h2 id="urllib基本使用urlencodeurlretrieveurlopenquote">Urllib基本使用(urlencode\urlretrieve\urlopen\quote)</h2>
-<h3 id="1urllibrequest-发送-http-请求并获取响应">1<code>urllib.request</code> 发送 HTTP 请求并获取响应</h3>
-<h4 id="1-基本用法">1. 基本用法</h4>
-<h5 id="11-发送请求并获取响应">1.1 发送请求并获取响应</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义URL</span>
-</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送请求并获取响应对象</span>
-</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url)
-</span></span></code></pre></div><ul>
-<li><code>urlopen(url)</code>：打开指定的 URL 并返回一个 <code>HTTPResponse</code> 对象。</li>
-</ul>
-<h5 id="12-获取响应内容">1.2 获取响应内容</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取响应内容并解码为字符串</span>
-</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-</span></span><span style="display:flex;"><span>print(content)
-</span></span></code></pre></div><ul>
-<li><code>read()</code>：读取整个响应内容，返回字节形式的二进制数据。</li>
-<li><strong><code>decode('utf-8')</code>：将二进制数据解码为字符串</strong>，<code>utf-8</code> 是常见的编码格式。</li>
-</ul>
-<h5 id="13-读取部分内容">1.3 读取部分内容</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取前10个字节</span>
-</span></span><span style="display:flex;"><span>content <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>print(content)
-</span></span></code></pre></div><ul>
-<li><code>read(n)</code>：读取响应内容的前 <code>n</code> 个字节。</li>
-</ul>
-<h5 id="14-逐行读取">1.4 逐行读取</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 读取一行</span>
-</span></span><span style="display:flex;"><span>content1 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readline()
-</span></span><span style="display:flex;"><span>print(content1)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 逐行读取所有内容</span>
-</span></span><span style="display:flex;"><span>content2 <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>readlines()
-</span></span><span style="display:flex;"><span>print(content2)
-</span></span></code></pre></div><ul>
-<li><code>readline()</code>：读取一行内容。</li>
-<li><code>readlines()</code>：读取所有行并返回一个列表。</li>
-</ul>
-<h4 id="2-响应对象-httpresponse-的方法和属性">2. 响应对象 (<code>HTTPResponse</code>) 的方法和属性</h4>
-<h5 id="21-获取状态码">2.1 获取状态码</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;状态码：&#34;</span>, response<span style="color:#f92672">.</span>getcode())
-</span></span></code></pre></div><ul>
-<li><code>getcode()</code>：返回 HTTP 响应的状态码（如 200 表示成功）。</li>
-</ul>
-<h5 id="22-获取请求的-url">2.2 获取请求的 URL</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;URL: &#34;</span>, response<span style="color:#f92672">.</span>geturl())
-</span></span></code></pre></div><ul>
-<li><code>geturl()</code>：返回实际请求的 URL（可能会与原始 URL 不同，例如发生重定向时）。</li>
-</ul>
-<h5 id="23-获取响应头信息">2.3 获取响应头信息</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;头信息：&#34;</span>, response<span style="color:#f92672">.</span>getheaders())
-</span></span></code></pre></div><ul>
-<li><code>getheaders()</code>：返回一个包含所有响应头信息的列表，每个元素是一个 <code>(header, value)</code> 元组。</li>
-</ul>
-<h4 id="3-总结">3. 总结</h4>
-<ul>
-<li><strong>一个类型</strong>：<code>HTTPResponse</code>，表示 HTTP 响应对象。</li>
-<li><strong>六个方法</strong>：
-<ol>
-<li><code>read()</code>：读取响应内容。</li>
-<li><code>read(n)</code>：读取前 <code>n</code> 个字节。</li>
-<li><code>readline()</code>：读取一行内容。</li>
-<li><code>readlines()</code>：读取所有行。</li>
-<li><code>getcode()</code>：获取状态码。</li>
-<li><code>geturl()</code>：获取请求的 URL。</li>
-<li><code>getheaders()</code>：获取响应头信息。</li>
-</ol>
-</li>
-</ul>
-<h4 id="4-下载文件">4. 下载文件</h4>
-<p><code>urllib.request</code> 模块不仅可以用于获取网页内容，还可以用于下载文件，如图片、视频等。以下是下载文件的基本用法。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/urllib1/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/urllib/">Urllib</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -494,7 +510,7 @@ AOP通过切面将横切关注点（如日志、事务、安全等）与核心�
                     <span class="page-link" aria-hidden="true">&hellip;</span>
                 </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/Jinxiwei.github.io/page/8/">8</a>
+                        <a href="/Jinxiwei.github.io/page/9/">9</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

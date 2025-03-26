@@ -4,26 +4,144 @@
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/machine-learning/</link>
         <description>Machine Learning - Category - Jinxiwei</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/machine-learning/" rel="self" type="application/rss+xml" /><item>
-    <title>Introduction of Machine / Deep Learning</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/</link>
+    <title>机器学习</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
     <pubDate>Sat, 26 Oct 2024 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/introduction-of-machine-learning/</guid>
-    <description><![CDATA[<p>1、Machine Learning ≈ Looking for Function</p>
-<p>2、函数的不同类型: Regression, Classification, Structured Learning</p>
-<p>3、Training:
-<strong>1. Function with Unknown Parameters</strong>
-( y = b + w x_1 )</p>
-<p><strong>2. Define Loss from Training Data</strong>
-( L = \frac{1}{N} \sum_{n} e_n )
-( e_n = (y_n - \hat{y}_n)^2 )</p>
-<p><strong>3. Optimization</strong></p>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+    <description><![CDATA[<h3 id="1-决策树decision-tree"><strong>1. 决策树（Decision Tree）</strong></h3>
+<h4 id="原理"><strong>原理</strong>：</h4>
+<p>决策树是一种树形结构的分类或回归模型，通过递归地将数据集划分为更小的子集，最终生成一棵由节点和分支组成的树。每个内部节点表示一个特征上的判断条件，每个分支代表一个可能的判断结果，每个叶节点代表一个类别（分类树）或一个值（回归树）。</p>
 <ul>
-<li>
-<p><strong>初始化参数</strong>：随机选择 ( w^0 ) 和 ( b^0 ) 作为初始值，分别表示权重 ( w ) 和偏置 ( b ) 的起始点。</p>
+<li><strong>核心思想</strong>：通过特征选择（如信息增益、基尼系数）找到最佳分割点，逐步构建树结构。</li>
+<li><strong>终止条件</strong>：达到最大深度、节点样本数过少或纯度足够高时停止分裂。</li>
+</ul>
+<h4 id="优点"><strong>优点</strong>：</h4>
+<ul>
+<li>易于理解和解释。</li>
+<li>能处理数值型和类别型数据。</li>
+<li>不需要数据标准化。</li>
+</ul>
+<h4 id="缺点"><strong>缺点</strong>：</h4>
+<ul>
+<li>容易过拟合，泛化能力较差。</li>
+<li>对数据扰动敏感，稳定性较低。</li>
+</ul>
+<hr>
+<h3 id="2-随机森林random-forest"><strong>2. 随机森林（Random Forest）</strong></h3>
+<h4 id="原理-1"><strong>原理</strong>：</h4>
+<p>随机森林是一种集成学习方法，通过构建多棵决策树并综合其结果来提高模型的准确性和稳定性。每棵树在训练时使用随机抽样的数据集（Bootstrap采样）和随机选择的特征子集，最终通过投票（分类）或平均（回归）得到最终结果。</p>
+<ul>
+<li><strong>核心思想</strong>：通过“多样性”降低单棵树的过拟合风险，提升泛化能力。</li>
+<li><strong>随机性来源</strong>：
+<ul>
+<li>数据随机性：Bootstrap采样。</li>
+<li>特征随机性：随机选择特征子集。</li>
+</ul>
 </li>
-<li>
-<p><strong>定义目标</strong>：寻找 ( w^<em>, b^</em> = \arg \min_{w, b} L )，其中 ( w^* ) 和 ( b^* ) 是使损失函数 ( L ) 达到最小的参数值。</p>]]></description>
+</ul>
+<h4 id="优点-1"><strong>优点</strong>：</h4>
+<ul>
+<li>抗过拟合能力强，泛化性能好。</li>
+<li>能处理高维数据，适合大规模数据集。</li>
+<li>能评估特征重要性。</li>
+</ul>
+<h4 id="缺点-1"><strong>缺点</strong>：</h4>
+<ul>
+<li>训练时间较长，计算成本较高。</li>
+<li>模型解释性较差（相对于单棵决策树）。</li>
+</ul>
+<hr>
+<h3 id="3-支持向量机support-vector-machine-svm"><strong>3. 支持向量机（Support Vector Machine, SVM）</strong></h3>
+<h4 id="原理-2"><strong>原理</strong>：</h4>
+<p>SVM是一种二分类模型，其目标是找到一个最优超平面，将两类样本分开，并使两类样本到超平面的间隔（Margin）最大化。对于非线性可分的数据，SVM通过核函数将数据映射到高维空间，使其在高维空间中线性可分。</p>
+<ul>
+<li><strong>核心思想</strong>：最大化间隔，提升模型的泛化能力。</li>
+<li><strong>核函数</strong>：用于处理非线性问题，常见核函数包括线性核、多项式核、RBF核等。</li>
+</ul>
+<h4 id="优点-2"><strong>优点</strong>：</h4>
+<ul>
+<li>在高维空间中表现优异。</li>
+<li>对小样本数据集效果好。</li>
+<li>通过核函数能处理非线性问题。</li>
+</ul>
+<h4 id="缺点-2"><strong>缺点</strong>：</h4>
+<ul>
+<li>对大规模数据集训练时间较长。</li>
+<li>对参数（如核函数、正则化参数）敏感，调参复杂。</li>
+<li>模型解释性较差。</li>
+</ul>
+<hr>
+<h3 id="联系与区别"><strong>联系与区别</strong></h3>
+<h4 id="联系"><strong>联系</strong>：</h4>
+<ol>
+<li><strong>目标一致</strong>：三者都用于分类或回归任务。</li>
+<li><strong>非线性能力</strong>：都能处理非线性问题（决策树通过分裂规则，随机森林通过集成，SVM通过核函数）。</li>
+<li><strong>特征重要性</strong>：决策树和随机森林能直接评估特征重要性，SVM可通过权重间接分析。</li>
+</ol>
+<h4 id="区别"><strong>区别</strong>：</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>维度</strong></th>
+          <th style="text-align: left"><strong>决策树</strong></th>
+          <th style="text-align: left"><strong>随机森林</strong></th>
+          <th style="text-align: left"><strong>支持向量机（SVM）</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>模型类型</strong></td>
+          <td style="text-align: left">单一模型</td>
+          <td style="text-align: left">集成模型（多棵决策树）</td>
+          <td style="text-align: left">单一模型</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>核心思想</strong></td>
+          <td style="text-align: left">递归划分数据集</td>
+          <td style="text-align: left">通过多样性降低过拟合</td>
+          <td style="text-align: left">最大化间隔</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>随机性</strong></td>
+          <td style="text-align: left">无</td>
+          <td style="text-align: left">数据和特征的随机性</td>
+          <td style="text-align: left">无</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>过拟合风险</strong></td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">低</td>
+          <td style="text-align: left">中等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>计算复杂度</strong></td>
+          <td style="text-align: left">低</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">高（尤其在大规模数据集上）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>解释性</strong></td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">中等</td>
+          <td style="text-align: left">低</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left">小数据集、需要解释性的场景</td>
+          <td style="text-align: left">大规模数据集、高维数据</td>
+          <td style="text-align: left">小样本、高维数据、非线性问题</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="总结"><strong>总结</strong></h3>
+<ul>
+<li><strong>决策树</strong>：简单直观，适合小数据集和需要解释性的场景，但容易过拟合。</li>
+<li><strong>随机森林</strong>：通过集成提升泛化能力，适合大规模数据集和高维数据，但计算成本较高。</li>
+<li><strong>支持向量机</strong>：适合小样本和高维数据，尤其擅长处理非线性问题，但对参数敏感且计算复杂度高。</li>
+</ul>
+<p>根据具体任务需求和数据特点，可以选择合适的算法或结合多种方法（如随机森林+SVM）以提升模型性能。</p>]]></description>
 </item>
 </channel>
 </rss>

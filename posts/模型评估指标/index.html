@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>模型评估指标 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="模型评估指标">
+  <meta property="og:description" content="1. 混淆矩阵（Confusion Matrix） 混淆矩阵是分类任务的基础，用于计算以下核心值：
+预测为正例 (1) 预测为负例 (0) 实际为正例 (1) True Positive (TP) False Negative (FN) 实际为负例 (0) False Positive (FP) True Negative (TN) TP（True Positive）：模型正确预测为正例的样本数（真实为机器人，预测为机器人）。 TN（True Negative）：模型正确预测为负例的样本数（真实为人类，预测为人类）。 FP（False Positive）：模型错误预测为正例的样本数（真实为人类，预测为机器人）。 FN（False Negative）：模型错误预测为负例的样本数（真实为机器人，预测为人类）。 2. 常用评估指标 (1) 基于混淆矩阵的指标 指标 公式 解释 准确率 (Accuracy) ( \frac{TP &#43; TN}{TP &#43; TN &#43; FP &#43; FN} ) 所有预测正确的比例，对不平衡数据不敏感。 精确率 (Precision) ( \frac{TP}{TP &#43; FP} ) 预测为正例的样本中实际为正例的比例（避免误杀人类用户）。 召回率 (Recall) ( \frac{TP}{TP &#43; FN} ) 实际为正例的样本中预测为正例的比例（避免漏检机器人）。 F1-Score ( 2 \times \frac{Precision \times Recall}{Precision &#43; Recall} ) 精确率和召回率的调和平均，平衡两者关系。 特异度 (Specificity) ( \frac{TN}{TN &#43; FP} ) 实际为负例的样本中预测为负例的比例（人类用户不被误判的能力）。 (2) 类似AUC的阈值无关指标 指标 解释 AUC-ROC ROC曲线下面积，反映模型在不同阈值下区分正负例的能力（范围0.5~1）。 AUC-PR 精确率-召回率曲线下面积，适用于高度不平衡数据（正例极少时更敏感）。 KS统计量 正负例累积分布的最大差异，值越大模型区分能力越强（范围0~1）。 (3) 其他重要指标 指标 公式/解释 G-Mean ( \sqrt{Recall \times Specificity} )，平衡正负例的检测能力。 MCC (Matthews Correlation Coefficient) ( \frac{TP \times TN - FP \times FN}{\sqrt{(TP&#43;FP)(TP&#43;FN)(TN&#43;FP)(TN&#43;FN)}} )，范围-1~1，综合衡量分类质量。 Log Loss 基于概率的损失函数，值越小模型校准越好（对概率预测敏感）。 3. 不同场景下的指标选择 (1) 平衡数据 优先指标：Accuracy、F1-Score、AUC-ROC。 示例：正负样本比例接近1:1时，Accuracy可直接反映模型性能。 (2) 不平衡数据（如机器人检测） 优先指标：AUC-ROC、AUC-PR、Recall、F1-Score。 原因：避免模型偏向多数类（人类用户），需关注少数类（机器人）的检测能力。 高Recall：确保尽可能捕获更多机器人（减少FN）。 高Precision：减少人类用户被误判为机器人（减少FP）。 (3) 概率预测任务 优先指标：Log Loss、AUC-ROC、Brier Score。 示例：预测用户是机器人的概率时，需评估概率的校准性。 4. 可视化工具辅助分析 ROC曲线：横轴为FPR（( \frac{FP}{FP &#43; TN} )），纵轴为TPR（Recall），曲线越靠近左上角性能越好。 PR曲线：横轴为Recall，纵轴为Precision，正例极少时曲线下面积（AUC-PR）比AUC-ROC更敏感。 5. 总结 核心四元组：TP、TN、FP、FN 是计算所有指标的基础。 AUC类似指标：AUC-ROC、AUC-PR、KS统计量等，关注模型整体排序能力。 业务导向： 若容忍少量误杀（FP），优先优化Recall； 若需高精度（如法律场景），优先优化Precision。 通过组合这些指标，可以全面评估模型在不同方面的性能，避免单一指标的局限性。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-25T15:53:01+08:00">
+    <meta property="article:modified_time" content="2025-03-25T15:53:01+08:00">
+    <meta property="article:tag" content="BA/DS">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="模型评估指标">
+  <meta name="twitter:description" content="1. 混淆矩阵（Confusion Matrix） 混淆矩阵是分类任务的基础，用于计算以下核心值：
+预测为正例 (1) 预测为负例 (0) 实际为正例 (1) True Positive (TP) False Negative (FN) 实际为负例 (0) False Positive (FP) True Negative (TN) TP（True Positive）：模型正确预测为正例的样本数（真实为机器人，预测为机器人）。 TN（True Negative）：模型正确预测为负例的样本数（真实为人类，预测为人类）。 FP（False Positive）：模型错误预测为正例的样本数（真实为人类，预测为机器人）。 FN（False Negative）：模型错误预测为负例的样本数（真实为机器人，预测为人类）。 2. 常用评估指标 (1) 基于混淆矩阵的指标 指标 公式 解释 准确率 (Accuracy) ( \frac{TP &#43; TN}{TP &#43; TN &#43; FP &#43; FN} ) 所有预测正确的比例，对不平衡数据不敏感。 精确率 (Precision) ( \frac{TP}{TP &#43; FP} ) 预测为正例的样本中实际为正例的比例（避免误杀人类用户）。 召回率 (Recall) ( \frac{TP}{TP &#43; FN} ) 实际为正例的样本中预测为正例的比例（避免漏检机器人）。 F1-Score ( 2 \times \frac{Precision \times Recall}{Precision &#43; Recall} ) 精确率和召回率的调和平均，平衡两者关系。 特异度 (Specificity) ( \frac{TN}{TN &#43; FP} ) 实际为负例的样本中预测为负例的比例（人类用户不被误判的能力）。 (2) 类似AUC的阈值无关指标 指标 解释 AUC-ROC ROC曲线下面积，反映模型在不同阈值下区分正负例的能力（范围0.5~1）。 AUC-PR 精确率-召回率曲线下面积，适用于高度不平衡数据（正例极少时更敏感）。 KS统计量 正负例累积分布的最大差异，值越大模型区分能力越强（范围0~1）。 (3) 其他重要指标 指标 公式/解释 G-Mean ( \sqrt{Recall \times Specificity} )，平衡正负例的检测能力。 MCC (Matthews Correlation Coefficient) ( \frac{TP \times TN - FP \times FN}{\sqrt{(TP&#43;FP)(TP&#43;FN)(TN&#43;FP)(TN&#43;FN)}} )，范围-1~1，综合衡量分类质量。 Log Loss 基于概率的损失函数，值越小模型校准越好（对概率预测敏感）。 3. 不同场景下的指标选择 (1) 平衡数据 优先指标：Accuracy、F1-Score、AUC-ROC。 示例：正负样本比例接近1:1时，Accuracy可直接反映模型性能。 (2) 不平衡数据（如机器人检测） 优先指标：AUC-ROC、AUC-PR、Recall、F1-Score。 原因：避免模型偏向多数类（人类用户），需关注少数类（机器人）的检测能力。 高Recall：确保尽可能捕获更多机器人（减少FN）。 高Precision：减少人类用户被误判为机器人（减少FP）。 (3) 概率预测任务 优先指标：Log Loss、AUC-ROC、Brier Score。 示例：预测用户是机器人的概率时，需评估概率的校准性。 4. 可视化工具辅助分析 ROC曲线：横轴为FPR（( \frac{FP}{FP &#43; TN} )），纵轴为TPR（Recall），曲线越靠近左上角性能越好。 PR曲线：横轴为Recall，纵轴为Precision，正例极少时曲线下面积（AUC-PR）比AUC-ROC更敏感。 5. 总结 核心四元组：TP、TN、FP、FN 是计算所有指标的基础。 AUC类似指标：AUC-ROC、AUC-PR、KS统计量等，关注模型整体排序能力。 业务导向： 若容忍少量误杀（FP），优先优化Recall； 若需高精度（如法律场景），优先优化Precision。 通过组合这些指标，可以全面评估模型在不同方面的性能，避免单一指标的局限性。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "模型评估指标",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87\/"
+        },"genre": "posts","keywords": "BA\/DS","wordcount":  159 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87\/","datePublished": "2025-03-25T15:53:01+08:00","dateModified": "2025-03-25T15:53:01+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">模型评估指标</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/ba/ds/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>BA/DS</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-25">2025-03-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;159 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-混淆矩阵confusion-matrix"><strong>1. 混淆矩阵（Confusion Matrix）</strong></a></li>
+        <li><a href="#2-常用评估指标"><strong>2. 常用评估指标</strong></a></li>
+        <li><a href="#3-不同场景下的指标选择"><strong>3. 不同场景下的指标选择</strong></a></li>
+        <li><a href="#4-可视化工具辅助分析"><strong>4. 可视化工具辅助分析</strong></a></li>
+        <li><a href="#5-总结"><strong>5. 总结</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="1-混淆矩阵confusion-matrix"><strong>1. 混淆矩阵（Confusion Matrix）</strong></h3>
+<p>混淆矩阵是分类任务的基础，用于计算以下核心值：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"><strong>预测为正例 (1)</strong></th>
+          <th style="text-align: left"><strong>预测为负例 (0)</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>实际为正例 (1)</strong></td>
+          <td style="text-align: left">True Positive (TP)</td>
+          <td style="text-align: left">False Negative (FN)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>实际为负例 (0)</strong></td>
+          <td style="text-align: left">False Positive (FP)</td>
+          <td style="text-align: left">True Negative (TN)</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><strong>TP（True Positive）</strong>：模型正确预测为正例的样本数（真实为机器人，预测为机器人）。</li>
+<li><strong>TN（True Negative）</strong>：模型正确预测为负例的样本数（真实为人类，预测为人类）。</li>
+<li><strong>FP（False Positive）</strong>：模型错误预测为正例的样本数（真实为人类，预测为机器人）。</li>
+<li><strong>FN（False Negative）</strong>：模型错误预测为负例的样本数（真实为机器人，预测为人类）。</li>
+</ul>
+<hr>
+<h3 id="2-常用评估指标"><strong>2. 常用评估指标</strong></h3>
+<h4 id="1-基于混淆矩阵的指标"><strong>(1) 基于混淆矩阵的指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">公式</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>准确率 (Accuracy)</strong></td>
+          <td style="text-align: left">( \frac{TP + TN}{TP + TN + FP + FN} )</td>
+          <td style="text-align: left">所有预测正确的比例，对不平衡数据不敏感。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>精确率 (Precision)</strong></td>
+          <td style="text-align: left">( \frac{TP}{TP + FP} )</td>
+          <td style="text-align: left">预测为正例的样本中实际为正例的比例（避免误杀人类用户）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>召回率 (Recall)</strong></td>
+          <td style="text-align: left">( \frac{TP}{TP + FN} )</td>
+          <td style="text-align: left">实际为正例的样本中预测为正例的比例（避免漏检机器人）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>F1-Score</strong></td>
+          <td style="text-align: left">( 2 \times \frac{Precision \times Recall}{Precision + Recall} )</td>
+          <td style="text-align: left">精确率和召回率的调和平均，平衡两者关系。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>特异度 (Specificity)</strong></td>
+          <td style="text-align: left">( \frac{TN}{TN + FP} )</td>
+          <td style="text-align: left">实际为负例的样本中预测为负例的比例（人类用户不被误判的能力）。</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2-类似auc的阈值无关指标"><strong>(2) 类似AUC的阈值无关指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>AUC-ROC</strong></td>
+          <td style="text-align: left">ROC曲线下面积，反映模型在不同阈值下区分正负例的能力（范围0.5~1）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>AUC-PR</strong></td>
+          <td style="text-align: left">精确率-召回率曲线下面积，适用于高度不平衡数据（正例极少时更敏感）。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>KS统计量</strong></td>
+          <td style="text-align: left">正负例累积分布的最大差异，值越大模型区分能力越强（范围0~1）。</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="3-其他重要指标"><strong>(3) 其他重要指标</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指标</th>
+          <th style="text-align: left">公式/解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>G-Mean</strong></td>
+          <td style="text-align: left">( \sqrt{Recall \times Specificity} )，平衡正负例的检测能力。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>MCC (Matthews Correlation Coefficient)</strong></td>
+          <td style="text-align: left">( \frac{TP \times TN - FP \times FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}} )，范围-1~1，综合衡量分类质量。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Log Loss</strong></td>
+          <td style="text-align: left">基于概率的损失函数，值越小模型校准越好（对概率预测敏感）。</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="3-不同场景下的指标选择"><strong>3. 不同场景下的指标选择</strong></h3>
+<h4 id="1-平衡数据"><strong>(1) 平衡数据</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：Accuracy、F1-Score、AUC-ROC。</li>
+<li><strong>示例</strong>：正负样本比例接近1:1时，Accuracy可直接反映模型性能。</li>
+</ul>
+<h4 id="2-不平衡数据如机器人检测"><strong>(2) 不平衡数据（如机器人检测）</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：AUC-ROC、AUC-PR、Recall、F1-Score。</li>
+<li><strong>原因</strong>：避免模型偏向多数类（人类用户），需关注少数类（机器人）的检测能力。
+<ul>
+<li><strong>高Recall</strong>：确保尽可能捕获更多机器人（减少FN）。</li>
+<li><strong>高Precision</strong>：减少人类用户被误判为机器人（减少FP）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-概率预测任务"><strong>(3) 概率预测任务</strong></h4>
+<ul>
+<li><strong>优先指标</strong>：Log Loss、AUC-ROC、Brier Score。</li>
+<li><strong>示例</strong>：预测用户是机器人的概率时，需评估概率的校准性。</li>
+</ul>
+<hr>
+<h3 id="4-可视化工具辅助分析"><strong>4. 可视化工具辅助分析</strong></h3>
+<ul>
+<li><strong>ROC曲线</strong>：横轴为FPR（( \frac{FP}{FP + TN} )），纵轴为TPR（Recall），曲线越靠近左上角性能越好。</li>
+<li><strong>PR曲线</strong>：横轴为Recall，纵轴为Precision，正例极少时曲线下面积（AUC-PR）比AUC-ROC更敏感。</li>
+</ul>
+<hr>
+<h3 id="5-总结"><strong>5. 总结</strong></h3>
+<ul>
+<li><strong>核心四元组</strong>：TP、TN、FP、FN 是计算所有指标的基础。</li>
+<li><strong>AUC类似指标</strong>：AUC-ROC、AUC-PR、KS统计量等，关注模型整体排序能力。</li>
+<li><strong>业务导向</strong>：
+<ul>
+<li>若容忍少量误杀（FP），优先优化Recall；</li>
+<li>若需高精度（如法律场景），优先优化Precision。</li>
+</ul>
+</li>
+</ul>
+<p>通过组合这些指标，可以全面评估模型在不同方面的性能，避免单一指标的局限性。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-25</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" data-title="模型评估指标" data-hashtags="BA/DS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" data-hashtag="BA/DS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" data-title="模型评估指标"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" data-title="模型评估指标"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" data-title="模型评估指标"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ba/ds/">BA/DS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/" class="prev" rel="prev" title="DAU（日活跃用户数）下降"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>DAU（日活跃用户数）下降</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
