@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Neo4j - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Neo4j">
+  <meta property="og:description" content="(一) Neo4j DB 1. Neo4j 特点 性能优越：读写能力高效。 设计灵活：无固定模式，易于根据业务需求扩展。 迭代的敏捷性：适应敏捷开发方法。 安全可靠：支持事务管理，提供实时在线备份和日志恢复功能。 简单易用：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。 类 SQL 的查询语言：提供 Cypher 语言用于图数据查询。 批量导入导出：支持图数据的批量操作。 Web UI：提供浏览器操作的 Web 界面。 原生图存储与计算引擎：采用原生图存储模式，支持高效的图计算。 丰富的算法库：提供 APOC、GDS 等图数据处理与分析算法库。 索引与约束：支持索引机制和 UNIQUE 约束。 集群架构：易于横向扩展。 适应新型场景：V5.17&#43; 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。 2. Neo4j 数据模型 Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：
+节点（Node）：表示实体，可包含属性。 关系（Relationship）：表示节点之间的连接，可包含属性。 节点属性（Node Properties）：节点的键值对属性。 关系属性（Relationship Properties）：关系的键值对属性。 标签（Label）：表示节点的类别或类型。 存储结构： 节点存储（Node store） 关系存储（Relationship store） 属性存储（Property store） 3. 数据类型 Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：
+Key：字符串类型，表示属性名称。 Value：支持以下数据类型： Boolean：布尔值（true/false）。 Integer：64 位整型。 Float：64 位浮点。 String：字符串。 Date：日期。 Time：时间。 DateTime：日期时间。 LocalDateTime：本地日期时间。 LocalTime：本地时间。 Duration：时段。 Point：地理位置坐标点。 Map 类型：键值对形式。 List 类型：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。 ByteArray：字节数组，用于小取值范围数值属性。 null 类型：表示不存在属性，查询时返回 null。 4. 时间与日期处理 时间与日期类型：通过函数调用获取值，例如： date()：获取当前日期。 timestamp()：获取当前毫秒级时间戳（基于 System.currentTimeMillis()）。 使用 APOC 库函数（如 apoc.date.format）进行格式转换，例如按 &#34;yyyy-MM-dd HH:mm:ss&#34; 格式显示。 5. 结构类型 结构类型可以作为 Cypher 查询语句的返回结果，包括：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-19T00:00:00+00:00">
+    <meta property="article:tag" content="Neo4j">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Neo4j">
+  <meta name="twitter:description" content="(一) Neo4j DB 1. Neo4j 特点 性能优越：读写能力高效。 设计灵活：无固定模式，易于根据业务需求扩展。 迭代的敏捷性：适应敏捷开发方法。 安全可靠：支持事务管理，提供实时在线备份和日志恢复功能。 简单易用：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。 类 SQL 的查询语言：提供 Cypher 语言用于图数据查询。 批量导入导出：支持图数据的批量操作。 Web UI：提供浏览器操作的 Web 界面。 原生图存储与计算引擎：采用原生图存储模式，支持高效的图计算。 丰富的算法库：提供 APOC、GDS 等图数据处理与分析算法库。 索引与约束：支持索引机制和 UNIQUE 约束。 集群架构：易于横向扩展。 适应新型场景：V5.17&#43; 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。 2. Neo4j 数据模型 Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：
+节点（Node）：表示实体，可包含属性。 关系（Relationship）：表示节点之间的连接，可包含属性。 节点属性（Node Properties）：节点的键值对属性。 关系属性（Relationship Properties）：关系的键值对属性。 标签（Label）：表示节点的类别或类型。 存储结构： 节点存储（Node store） 关系存储（Relationship store） 属性存储（Property store） 3. 数据类型 Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：
+Key：字符串类型，表示属性名称。 Value：支持以下数据类型： Boolean：布尔值（true/false）。 Integer：64 位整型。 Float：64 位浮点。 String：字符串。 Date：日期。 Time：时间。 DateTime：日期时间。 LocalDateTime：本地日期时间。 LocalTime：本地时间。 Duration：时段。 Point：地理位置坐标点。 Map 类型：键值对形式。 List 类型：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。 ByteArray：字节数组，用于小取值范围数值属性。 null 类型：表示不存在属性，查询时返回 null。 4. 时间与日期处理 时间与日期类型：通过函数调用获取值，例如： date()：获取当前日期。 timestamp()：获取当前毫秒级时间戳（基于 System.currentTimeMillis()）。 使用 APOC 库函数（如 apoc.date.format）进行格式转换，例如按 &#34;yyyy-MM-dd HH:mm:ss&#34; 格式显示。 5. 结构类型 结构类型可以作为 Cypher 查询语句的返回结果，包括：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Neo4j",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/neo4j\/"
+        },"genre": "posts","keywords": "Neo4j","wordcount":  621 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/neo4j\/","datePublished": "2025-03-19T00:00:00+00:00","dateModified": "2025-03-19T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Neo4j</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/db/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DB</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-19">2025-03-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;621 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一-neo4j-db">(一) Neo4j DB</a></li>
+        <li><a href="#二-neo4j-节点操作">(二) Neo4j 节点操作</a></li>
+        <li><a href="#三-neo4j-关系操作">(三) Neo4j 关系操作</a></li>
+        <li><a href="#四neo4j-集群技术与管理">(四）Neo4j 集群技术与管理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="一-neo4j-db">(一) Neo4j DB</h3>
+<h4 id="1-neo4j-特点">1. <strong>Neo4j 特点</strong></h4>
+<ul>
+<li><strong>性能优越</strong>：读写能力高效。</li>
+<li><strong>设计灵活</strong>：无固定模式，易于根据业务需求扩展。</li>
+<li><strong>迭代的敏捷性</strong>：适应敏捷开发方法。</li>
+<li><strong>安全可靠</strong>：支持事务管理，提供实时在线备份和日志恢复功能。</li>
+<li><strong>简单易用</strong>：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。</li>
+<li><strong>类 SQL 的查询语言</strong>：提供 <strong>Cypher 语言</strong>用于图数据查询。</li>
+<li><strong>批量导入导出</strong>：支持图数据的批量操作。</li>
+<li><strong>Web UI</strong>：提供浏览器操作的 Web 界面。</li>
+<li><strong>原生图存储与计算引擎</strong>：采用原生图存储模式，支持高效的图计算。</li>
+<li><strong>丰富的算法库</strong>：提供 APOC、GDS 等图数据处理与分析算法库。</li>
+<li><strong>索引与约束</strong>：支持索引机制和 UNIQUE 约束。</li>
+<li><strong>集群架构</strong>：易于横向扩展。</li>
+<li><strong>适应新型场景</strong>：V5.17+ 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。</li>
+</ul>
+<h4 id="2-neo4j-数据模型">2. <strong>Neo4j 数据模型</strong></h4>
+<p>Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：</p>
+<ul>
+<li><strong>节点（Node）</strong>：表示实体，可包含属性。</li>
+<li><strong>关系（Relationship）</strong>：表示节点之间的连接，可包含属性。</li>
+<li><strong>节点属性（Node Properties）</strong>：节点的键值对属性。</li>
+<li><strong>关系属性（Relationship Properties）</strong>：关系的键值对属性。</li>
+<li><strong>标签（Label）</strong>：表示节点的类别或类型。</li>
+<li><strong>存储结构</strong>：
+<ul>
+<li>节点存储（Node store）</li>
+<li>关系存储（Relationship store）</li>
+<li>属性存储（Property store）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据类型">3. <strong>数据类型</strong></h4>
+<p>Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：</p>
+<ul>
+<li><strong>Key</strong>：字符串类型，表示属性名称。</li>
+<li><strong>Value</strong>：支持以下数据类型：
+<ol>
+<li><strong>Boolean</strong>：布尔值（true/false）。</li>
+<li><strong>Integer</strong>：64 位整型。</li>
+<li><strong>Float</strong>：64 位浮点。</li>
+<li><strong>String</strong>：字符串。</li>
+<li><strong>Date</strong>：日期。</li>
+<li><strong>Time</strong>：时间。</li>
+<li><strong>DateTime</strong>：日期时间。</li>
+<li><strong>LocalDateTime</strong>：本地日期时间。</li>
+<li><strong>LocalTime</strong>：本地时间。</li>
+<li><strong>Duration</strong>：时段。</li>
+<li><strong>Point</strong>：地理位置坐标点。</li>
+<li><strong>Map 类型</strong>：键值对形式。</li>
+<li><strong>List 类型</strong>：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。</li>
+<li><strong>ByteArray</strong>：字节数组，用于小取值范围数值属性。</li>
+<li><strong>null 类型</strong>：表示不存在属性，查询时返回 null。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-时间与日期处理">4. <strong>时间与日期处理</strong></h4>
+<ul>
+<li><strong>时间与日期类型</strong>：通过函数调用获取值，例如：
+<ul>
+<li><code>date()</code>：获取当前日期。</li>
+<li><code>timestamp()</code>：获取当前毫秒级时间戳（基于 <code>System.currentTimeMillis()</code>）。</li>
+<li>使用 APOC 库函数（如 <code>apoc.date.format</code>）进行格式转换，例如按 <code>&quot;yyyy-MM-dd HH:mm:ss&quot;</code> 格式显示。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-结构类型">5. <strong>结构类型</strong></h4>
+<p>结构类型可以作为 Cypher 查询语句的返回结果，包括：</p>
+<ul>
+<li><strong>节点（Node）</strong>：
+<ul>
+<li>包含节点 ID、标签（Labels）和 Map 类型属性列表。</li>
+</ul>
+</li>
+<li><strong>关系（Relationship）</strong>：
+<ul>
+<li>包含关系 ID、类型（Type）、Map 类型属性列表、起始节点标识和终止节点标识。</li>
+</ul>
+</li>
+<li><strong>路径（Path）</strong>：
+<ul>
+<li>由节点和关系的序列构成。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="二-neo4j-节点操作">(二) Neo4j 节点操作</h3>
+<h4 id="1-创建节点">1. <strong>创建节点</strong></h4>
+<ul>
+<li>
+<p><strong>创建没有属性的节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (&lt;node-v-name&gt;:&lt;label-name&gt;)
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (emp:Employee)
+CREATE (dept:Dept)
+</code></pre><p><strong>注意</strong>：如果执行两次相同的创建语句，不会报错，但会创建<strong>重复</strong>的节点。</p>
+</li>
+<li>
+<p><strong>创建有属性的节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (
+  &lt;node-v-name&gt;:&lt;label-name&gt;
+  { 
+    &lt;Property1-name&gt;:&lt;Property1-Value&gt;,
+    ...
+    &lt;Propertyn-name&gt;:&lt;Propertyn-Value&gt;
+  }
+)
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (dept:Dept { 
+  deptno:10, 
+  dname:&#34;Accounting&#34;, 
+  location:&#34;Haidian&#34; 
+})
+</code></pre></li>
+</ul>
+<h4 id="2-创建标签">2. <strong>创建标签</strong></h4>
+<ul>
+<li>
+<p><strong>创建单一标签的节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (&lt;node-v-name&gt;:&lt;label-name&gt;)
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (tnode:Paper)
+</code></pre></li>
+<li>
+<p><strong>创建多个标签的节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (&lt;node-v-name&gt;:&lt;label-name1&gt;:&lt;label-name2&gt;.....:&lt;label-namen&gt;)
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (m:Movie:Cinema:Film:Picture)
+</code></pre></li>
+</ul>
+<h4 id="3-节点查找">3. <strong>节点查找</strong></h4>
+<ul>
+<li>
+<p><strong>查找满足条件的节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (emp:Employee) 
+WHERE emp.name = &#39;Abc&#39; OR emp.name = &#39;Xyz&#39; 
+RETURN emp
+</code></pre></li>
+<li>
+<p><strong>查找所有节点</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n) RETURN n
+</code></pre></li>
+</ul>
+<h4 id="4-更改节点属性">4. <strong>更改节点属性</strong></h4>
+<ul>
+<li>
+<p><strong>批量修改节点属性</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (emp:Employee) SET emp.sal=3456 RETURN emp
+</code></pre></li>
+<li>
+<p><strong>根据条件修改节点属性</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (emp:Employee) 
+WHERE emp.id=121 
+SET emp.sal=5678 
+RETURN emp
+</code></pre></li>
+<li>
+<p><strong>根据属性匹配修改节点属性</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (emp{id:121}) 
+SET emp.sal=9000 
+RETURN emp
+</code></pre></li>
+</ul>
+<h4 id="5-删除节点">5. <strong>删除节点</strong></h4>
+<ul>
+<li><strong>删除节点</strong><br>
+语法：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">DELETE &lt;node-name-list&gt;
+</code></pre>示例：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (e:Employee) DELETE e
+</code></pre><strong>注意</strong>：如果节点包含关系，则无法直接删除。</li>
+</ul>
+<h4 id="6-删除节点属性">6. <strong>删除节点属性</strong></h4>
+<ul>
+<li><strong>删除节点属性</strong><br>
+语法：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">REMOVE &lt;property-name-list&gt;
+</code></pre>示例：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (book{id:122}) 
+REMOVE book.price 
+RETURN book
+</code></pre></li>
+</ul>
+<h4 id="7-删除节点标签">7. <strong>删除节点标签</strong></h4>
+<ul>
+<li>
+<p><strong>删除节点标签</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">REMOVE &lt;label-name-list&gt;
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (m:Movie) 
+REMOVE m:Picture
+</code></pre></li>
+<li>
+<p><strong>REMOVE 与 DELETE 的区别</strong>：</p>
+<ul>
+<li><strong>DELETE</strong>：用于删除节点和关系。</li>
+<li><strong>REMOVE</strong>：用于删除属性和标签。</li>
+<li>两者都需要与 <code>MATCH</code> 配合使用。</li>
+</ul>
+</li>
+</ul>
+<h4 id="8-使用循环批量创建节点">8. <strong>使用循环批量创建节点</strong></h4>
+<ul>
+<li><strong>批量创建节点</strong><br>
+语法：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">WITH [&#34;a&#34;,&#34;b&#34;,&#34;c&#34;] as coll
+FOREACH (value in coll | CREATE(:person{name:value}))
+</code></pre>示例：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">WITH [&#34;Alice&#34;, &#34;Bob&#34;, &#34;Charlie&#34;] as names
+FOREACH (name in names | CREATE(:Person{name:name}))
+</code></pre></li>
+</ul>
+<hr>
+<h3 id="三-neo4j-关系操作">(三) Neo4j 关系操作</h3>
+<h4 id="1-创建关系">1. <strong>创建关系</strong></h4>
+<ul>
+<li>
+<p><strong>创建无属性的关系</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE
+(&lt;node1-v-name&gt;:&lt;node1-label-name&gt;{…})
+-[&lt;relationship-v-name&gt;:&lt;relationship-label-name&gt;]
+-&gt;(&lt;node2-v-name&gt;:&lt;node2-label-name&gt;{…})
+RETURN &lt;relationship-v-name&gt;
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (p1:Person)-[like:LIKES]-&gt;(p2:Person)
+</code></pre><p><strong>注意</strong>：<code>RETURN</code> 子句是可选的，可以返回关系或其他表达式的结果。</p>
+</li>
+<li>
+<p><strong>创建有属性的关系</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (&lt;node1-v-name&gt;:&lt;node1-label-name&gt;{&lt;define-properties-list&gt;})
+-[&lt;relationship-v-name&gt;:&lt;relationship-label-name&gt;{&lt;define-properties-list&gt;}]
+-&gt;(&lt;node2-v-name&gt;:&lt;node2-label-name&gt;{&lt;define-properties-list&gt;})
+RETURN &lt;relationship-v-name&gt;
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (TheMatrix:Movie {title:&#39;The Matrix&#39;, released:1999, tagline:&#39;Welcome to the Real World&#39;})
+CREATE (Keanu:Person {name:&#39;Keanu Reeves&#39;, born:1964})
+CREATE (Keanu)-[:ACTED_IN {roles:[&#39;Neo&#39;]}]-&gt;(TheMatrix)
+</code></pre></li>
+<li>
+<p><strong>匹配已有节点并创建关系</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (&lt;node1-v-name&gt;:&lt;node1-label-name&gt;{…}),(&lt;node2-v-name&gt;:&lt;node2-label-name&gt;{…})
+CREATE (&lt;node1-v-name&gt;)-[&lt;relationship-v-name&gt;:&lt;relationship-label-name&gt; {&lt;define-properties-list&gt;}]-&gt;(&lt;node2-v-name&gt;)
+RETURN &lt;relationship-v-name&gt;
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (e:Customer{custID:100});
+CREATE (cc:CreditCard{cardID:300360});
+MATCH (e:Customer{custID:100}),(cc:CreditCard{cardID:300360})
+CREATE (e)-[r:DO_SHOPPING_WITH]-&gt;(cc);
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="2-删除关系">2. <strong>删除关系</strong></h4>
+<ul>
+<li>
+<p><strong>删除关系</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">DELETE &lt;relationship-v-name&gt;
+</code></pre><p><strong>注意</strong>：需配合 <code>MATCH</code> 子句指定要删除的关系。<br>
+示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (cc:CreditCard)-[r]-(e:Customer)
+WHERE id(r)=273 
+DELETE r
+</code></pre></li>
+<li>
+<p><strong>删除节点及关系</strong><br>
+示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (cc:CreditCard)-[r]-(e:Customer)
+DELETE r
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="3-排序子句">3. <strong>排序子句</strong></h4>
+<ul>
+<li><strong>排序</strong><br>
+语法：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">ORDER BY &lt;property-name-list&gt; [DESC]
+</code></pre>示例：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (emp:Employee) 
+RETURN emp.Eid, emp.name, emp.sal, emp.deptno 
+ORDER BY emp.name DESC
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="4-使用-with-连接子句">4. <strong>使用 WITH 连接子句</strong></h4>
+<ul>
+<li><strong>WITH 子句</strong><br>
+语法：
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (a:Person)-[:ACTED_IN]-&gt;(b:Movie)
+WITH a, count(b) AS k
+WHERE k &gt; 0
+RETURN a, k
+ORDER BY k DESC
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="5-路径操作">5. <strong>路径操作</strong></h4>
+<ul>
+<li>
+<p><strong>最短路径查询</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (bacon:Person {name:&#34;Kevin Bacon&#34;})-[*1..4]-(hollywood)
+RETURN DISTINCT hollywood
+</code></pre></li>
+<li>
+<p><strong>最短路径函数</strong><br>
+使用 <code>shortestPath</code> 函数查询最短路径。</p>
+</li>
+</ul>
+<hr>
+<h4 id="6-索引操作">6. <strong>索引操作</strong></h4>
+<ul>
+<li>
+<p><strong>创建索引</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE INDEX index_name FOR ()-[r:REL_TYPE]-() ON (r.property)
+</code></pre><p>示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE INDEX rel_range_index_name FOR ()-[r:KNOWS]-() ON (r.since)
+</code></pre></li>
+<li>
+<p><strong>删除索引</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">DROP INDEX index_name [IF EXISTS]
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="7-约束操作">7. <strong>约束操作</strong></h4>
+<ul>
+<li>
+<p><strong>创建唯一约束</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE CONSTRAINT constraint_name
+REQUIRE &lt;property_name&gt; IS UNIQUE
+</code></pre></li>
+<li>
+<p><strong>删除唯一约束</strong><br>
+语法：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">DROP CONSTRAINT constraint_name [IF EXISTS]
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="8-存储过程调用">8. <strong>存储过程调用</strong></h4>
+<ul>
+<li>
+<p><strong>调用存储过程</strong><br>
+示例：</p>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CALL db.labels()  // 显示当前所有标签
+CALL db.relationshipTypes()  // 显示当前所有关系类型
+SHOW PROCEDURES  // 返回可用存储过程列表及说明
+</code></pre></li>
+</ul>
+<hr>
+<h3 id="四neo4j-集群技术与管理">(四）Neo4j 集群技术与管理</h3>
+<hr>
+<h4 id="1-neo4j-集群技术">1. <strong>Neo4j 集群技术</strong></h4>
+<p>Neo4j 提供两种主要的集群方式，以满足高性能、高可用性和扩展性需求：</p>
+<h5 id="1高可用性集群high-availability-ha">（1）<strong>高可用性集群（High Availability, HA）</strong></h5>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>主从架构，支持 <strong>1 主多从</strong>。</li>
+<li><strong>主服务器</strong>负责<strong>写</strong>入，数据同步到从服务器。</li>
+<li><strong>从服务器</strong>可以处理<strong>读</strong>请求，写请求需转发到主服务器。</li>
+<li>数据一致性通过主节点同步实现，从节点的写入在其他从节点上不是立即可见。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>适用于低版本 Neo4j，现代版本已较少使用。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2因果集群causal-clustering">（2）<strong>因果集群（Causal Clustering）</strong></h5>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>采用先进的 <strong>Raft 协议</strong>。</li>
+<li>节点分为两类：
+<ul>
+<li><strong>核心服务器（Core Server/PRIMARY）</strong>：负责读写操作，大多数核心服务器处理写操作。</li>
+<li><strong>读复制服务器（Read Replicas/SECONDARIES）</strong>：负责分担读数据任务，数据从核心服务器异步更新。</li>
+</ul>
+</li>
+<li><strong>容错能力</strong>：通过公式 <code>M = 2F + 1</code> 计算核心服务器数量，其中 <code>F</code> 为可容忍的故障服务器数量。
+<ul>
+<li>例如，容忍 1 台故障需 3 台核心服务器，容忍 2 台故障需 5 台核心服务器。</li>
+</ul>
+</li>
+<li><strong>因果一致性</strong>：保证客户端至少能读取自己的写入。</li>
+<li><strong>扩展性</strong>：读复制服务器支持大规模横向扩展，高效分担查询负载。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-neo4j-管理与监控">2. <strong>Neo4j 管理与监控</strong></h4>
+<p>Neo4j 提供了丰富的管理与监控功能，包括数据导入、备份恢复、事务管理和日志监控等。</p>
+<h5 id="1图数据导入">（1）<strong>图数据导入</strong></h5>
+<ul>
+<li><strong>方法</strong>：
+<ol>
+<li><strong>LOAD CSV 命令</strong>：导入 CSV 格式数据。
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">LOAD CSV WITH HEADERS FROM &#34;http://data.neo4j.com/northwind/products.csv&#34; AS row
+</code></pre></li>
+<li><strong>neo4j-admin database import</strong>：通过命令行工具导入数据。</li>
+<li><strong>第三方 ETL 工具</strong>：如 Apache NiFi、Talend 等。</li>
+</ol>
+</li>
+</ul>
+<h5 id="2图数据备份与恢复离线">（2）<strong>图数据备份与恢复</strong>（<strong>离线</strong>）</h5>
+<ul>
+<li><strong>备份</strong>：
+<ul>
+<li>支持完全备份和增量备份</li>
+<li>使用 <code>neo4j-admin</code> 命令：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>neo4j-admin database dump --to-path<span style="color:#f92672">=</span>/backup/path neo4j
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li><strong>恢复</strong>：
+<ul>
+<li>使用 <code>neo4j-admin</code> 命令：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>neo4j-admin database load --from-path<span style="color:#f92672">=</span>/backup/path --overwrite-destination<span style="color:#f92672">=</span>true neo4j
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h5 id="3事务管理">（3）<strong>事务管理</strong></h5>
+<ul>
+<li><strong>显式事务管理</strong>：
+<ol>
+<li>开始事务。</li>
+<li>执行写操作。</li>
+<li>标记事务成功或失败。</li>
+<li>提交或回滚事务。</li>
+</ol>
+</li>
+<li><strong>隐式事务管理</strong>：
+<ul>
+<li>单条 Cypher 语句自动提交（Auto-commit）。</li>
+</ul>
+</li>
+<li><strong>隔离级别</strong>：
+<ul>
+<li>默认 <code>READ_COMMITTED</code>。</li>
+<li>支持手动获取读锁、写锁以实现更高隔离级别（如 <code>REPEATABLE_READ</code>、<code>SERIALIZABLE</code>）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="4监控与日志">（4）<strong>监控与日志</strong></h5>
+<ul>
+<li><strong>日志类型</strong>：
+<ul>
+<li><code>neo4j.log</code>：基础日志。</li>
+<li><code>debug.log</code>：调试日志。</li>
+<li><code>query.log</code>：记录超时查询（企业版）。</li>
+<li><code>security.log</code>：安全事件日志（企业版）。</li>
+<li><code>http.log</code>：HTTP API 请求日志。</li>
+<li><code>gc.log</code>：JVM 垃圾回收日志。</li>
+</ul>
+</li>
+<li><strong>日志路径配置</strong>：
+<ul>
+<li>一般日志路径：<code>server.directories.logs=logs</code>。</li>
+<li>事务日志路径：<code>server.directories.transaction.logs.root=data/transactions</code>。</li>
+</ul>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-19</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" data-title="Neo4j" data-hashtags="Neo4j"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" data-hashtag="Neo4j"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" data-title="Neo4j"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" data-title="Neo4j"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/" data-title="Neo4j"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/neo4j/">Neo4j</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/" class="prev" rel="prev" title="Python可视化-折线图"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Python可视化-折线图</a>
+            <a href="/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/" class="next" rel="next" title="DAU（日活跃用户数）下降">DAU（日活跃用户数）下降<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

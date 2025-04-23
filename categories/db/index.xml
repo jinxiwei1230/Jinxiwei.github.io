@@ -3,7 +3,442 @@
         <title>DB - Category - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/db/</link>
         <description>DB - Category - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 08 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/db/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/db/" rel="self" type="application/rss+xml" /><item>
+    <title>Redis</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</link>
+    <pubDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</guid>
+    <description><![CDATA[<h3 id="1-键值数据库概述">1 键值数据库概述</h3>
+<h4 id="1-键值数据库技术特点"><strong>1. 键值数据库技术特点</strong></h4>
+<h5 id="核心优势"><strong>核心优势</strong></h5>
+<ul>
+<li><strong>高性能</strong>：
+<ul>
+<li>哈希算法关联Key-Value，时间复杂度O(1)的查询效率。</li>
+</ul>
+</li>
+<li><strong>操作简单</strong>：
+<ul>
+<li>提供丰富API，支持增删改查、范围查询、集合运算（并集/交集/差集）。</li>
+</ul>
+</li>
+<li><strong>多数据结构支持</strong>：
+<ul>
+<li>字符串、双向链表、Hash表、集合、有序集合等。</li>
+<li>值可为二进制、文本、JSON等格式。</li>
+</ul>
+</li>
+</ul>
+<h5 id="高级特性"><strong>高级特性</strong></h5>
+<ul>
+<li><strong>Key过期管理</strong>：支持TTL（Time to Live）。</li>
+<li><strong>持久化</strong>：内存数据可持久化到磁盘，防止数据丢失。</li>
+<li><strong>事务</strong>：
+<ul>
+<li>单命令原子性执行，支持批量操作的事务管理。</li>
+</ul>
+</li>
+<li><strong>扩展性</strong>：
+<ul>
+<li>分片技术实现水平扩展。</li>
+</ul>
+</li>
+<li><strong>高可用</strong>：
+<ul>
+<li>主从复制、读写分离、哨兵机制保障容错性。</li>
+</ul>
+</li>
+<li><strong>多语言API</strong>：支持多种编程语言接口。</li>
+</ul>
+<hr>
+<h4 id="2-redis高可用架构"><strong>2. Redis高可用架构</strong></h4>
+<ul>
+<li><strong>机制</strong>：
+<ul>
+<li>主从集群、读写分离、哨兵监控、增量复制。</li>
+</ul>
+</li>
+<li><strong>节点角色</strong>：
+<ul>
+<li>主节点（Master）与从节点（Replica）。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：
+<ul>
+<li>通过副本节点提升读性能，主从切换保障故障恢复。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="3-对比amazon-dynamodb">3. 对比：Amazon DynamoDB</h4>
+<ul>
+<li><strong>核心能力</strong>：
+<ul>
+<li>完全托管，毫秒级延迟（&lt;10ms）。</li>
+<li>内置安全、备份、恢复机制。</li>
+</ul>
+</li>
+<li><strong>数据模型</strong>：
+<ul>
+<li><strong>项目</strong>：主键/复合键 + 不限数量的属性（总大小≤400KB）。</li>
+<li><strong>表</strong>：无限制的数据项集合（类似关系型数据库的表）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-键值数据存储逻辑架构">2 键值数据存储逻辑架构</h3>
+<h4 id="1-键值存储核心逻辑"><strong>1. 键值存储核心逻辑</strong></h4>
+<ul>
+<li><strong>数据模型</strong>：
+<ul>
+<li>基于<strong>关联数组</strong>（键值对集合），每条记录可包含不同属性，体现NoSQL模式灵活性。</li>
+<li><strong>键（Key）</strong>：唯一标识记录，支持快速读写单行数据。</li>
+</ul>
+</li>
+<li><strong>基本操作</strong>：
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">操作</th>
+          <th style="text-align: left">命令示例</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>set</strong></td>
+          <td style="text-align: left"><code>set(key, value)</code></td>
+          <td style="text-align: left">存储/覆盖键值数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>get</strong></td>
+          <td style="text-align: left"><code>get(key)</code></td>
+          <td style="text-align: left">读取键值数据（键不存在时报错）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>del</strong></td>
+          <td style="text-align: left"><code>del(key)</code></td>
+          <td style="text-align: left">删除键值数据</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><em>注：不同数据库的命令名称可能差异（如Redis用<code>SET/GET/DEL</code>）</em></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-redis键值存储实现"><strong>2. Redis键值存储实现</strong></h4>
+<h5 id="内存结构分层"><strong>内存结构分层</strong></h5>
+<ol>
+<li>
+<p><strong>dictEntry</strong></p>
+<ul>
+<li>包含：
+<ul>
+<li>指向<strong>Key</strong>的指针（SDS字符串对象）</li>
+<li>指向<strong>Value</strong>的指针（RedisObject形式）</li>
+<li>指向下一个dictEntry的指针（哈希冲突时链式存储）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>RedisObject</strong>（值对象的元数据）</p>]]></description>
+</item>
+<item>
+    <title>MongoDB</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/</link>
+    <pubDate>Wed, 26 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/</guid>
+    <description><![CDATA[<h2 id="一-文档数据库概述">(一) 文档数据库概述</h2>
+<h3 id="1-文档数据库核心特点">1. 文档数据库核心特点</h3>
+<ol>
+<li><strong>灵活的数据模型</strong>：
+<ul>
+<li>文档是基本存储单位，采用<strong>JSON/BSON</strong>格式</li>
+<li>支持嵌套结构和树形数据存储</li>
+<li>文档结构可<strong>自描述</strong>，无需严格模式定义</li>
+</ul>
+</li>
+<li><strong>强大的功能支持</strong>：
+<ul>
+<li>支持多种索引类型（单字段、复合、全文、地理空间等）</li>
+<li>提供丰富的查询语言和聚合框架</li>
+<li>支持ACID事务管理机制</li>
+</ul>
+</li>
+<li><strong>扩展性与高可用</strong>：
+<ul>
+<li>分布式集群架构（分片+复制集）</li>
+<li>易于水平扩展，支持高并发访问</li>
+<li>自动故障转移，保障数据高可用性</li>
+</ul>
+</li>
+<li><strong>完善的生态系统</strong>：
+<ul>
+<li>支持多种编程语言驱动</li>
+<li>提供管理监控工具（如MongoDB Atlas、Compass）</li>
+<li>具备完善的安全机制（认证、加密、审计）</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-文档数据模型优势">2. 文档数据模型优势</h3>
+<ul>
+<li><strong>自包含性</strong>：文档同时包含数据及其结构信息</li>
+<li><strong>灵活性</strong>：同一集合中的文档可具有不同结构</li>
+<li><strong>高效性</strong>：相关数据存储在单一文档中，减少join操作</li>
+</ul>
+<h3 id="3-xml与json比较">3. XML与JSON比较</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">XML</th>
+          <th style="text-align: left">JSON</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">格式</td>
+          <td style="text-align: left">标记语言，语法严格</td>
+          <td style="text-align: left">轻量级键值对结构</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">扩展性</td>
+          <td style="text-align: left">通过DTD/XSD定义模式</td>
+          <td style="text-align: left">无严格模式定义</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">可读性</td>
+          <td style="text-align: left">相对冗长</td>
+          <td style="text-align: left">简洁易读</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">处理效率</td>
+          <td style="text-align: left">解析复杂</td>
+          <td style="text-align: left">解析高效</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据类型支持</td>
+          <td style="text-align: left">有限</td>
+          <td style="text-align: left">基本类型+嵌套</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">典型应用场景</td>
+          <td style="text-align: left">企业级数据交换、文档标记</td>
+          <td style="text-align: left">Web API、NoSQL数据库存储</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="4-json与bson深入对比">4. JSON与BSON深入对比</h3>
+<p><strong>JSON特点</strong>：</p>
+<ul>
+<li>人类可读的文本格式</li>
+<li>基本结构：对象（无序键值对）和数组（有序值列表）</li>
+<li>支持数据类型：字符串、数字、布尔值、null、对象、数组</li>
+</ul>
+<p><strong>BSON增强特性</strong>：</p>
+<ol>
+<li><strong>二进制编码</strong>：
+<ul>
+<li>存储空间更紧凑</li>
+<li>包含长度前缀，支持快速跳转</li>
+<li>例：<code>{&quot;hello&quot;: &quot;world&quot;}</code> → <code>\x16\x00\x00\x00\x02hello\x00\x06\x00\x00\x00world\x00\x00</code></li>
+</ul>
+</li>
+<li><strong>扩展数据类型</strong>：
+<ul>
+<li>日期（Date）</li>
+<li>二进制数据（BinData）</li>
+<li>对象ID（ObjectId）</li>
+<li>正则表达式</li>
+<li>JavaScript代码</li>
+<li>时间戳（Timestamp）</li>
+<li>小数128（Decimal128）</li>
+</ul>
+</li>
+<li>每种类型都有一个<strong>数字代号</strong>和一个<strong>英文别称</strong>
+<ul>
+<li>$type 运算可以返回field的类型</li>
+<li>$isNumber运算可以返回是否是数值类型</li>
+</ul>
+</li>
+<li><strong>查询优势</strong>：
+<ul>
+<li>支持类型操作符：<code>$type</code>, <code>$isNumber</code> 示例查询：<code>db.collection.find({&quot;field&quot;: {$type: &quot;date&quot;}})</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="二-mongodb数据存储模型逻辑架构">(二) MongoDB数据存储模型逻辑架构</h2>
+<h3 id="1-关键概念">1. 关键概念</h3>
+<p>MongoDB数据存储模型中的核心概念包括：</p>]]></description>
+</item>
+<item>
+    <title>Neo4j实验</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</link>
+    <pubDate>Wed, 26 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</guid>
+    <description><![CDATA[<h1 id="一相关知识回顾">（一）相关知识回顾</h1>
+<h2 id="1-关于create子句的问题">1. 关于CREATE子句的问题</h2>
+<ol>
+<li>
+<p><strong>一个语句可以有多个CREATE子句吗？</strong></p>
+<ul>
+<li>是的，一个Cypher语句可以包含多个CREATE子句，用逗号分隔。</li>
+</ul>
+</li>
+<li>
+<p><strong>不同CREATE子句节点变量名称能相同吗？</strong></p>
+<ul>
+<li>不能，在同一查询中，变量名必须是唯一的。如果重复使用相同变量名，后面的会覆盖前面的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-cypher语句分析">2. Cypher语句分析</h2>
+<h3 id="21-创建和修改节点">2.1 创建和修改节点</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (n:人物{name:&#39;关羽&#39;}) RETURN n;
+</code></pre><ul>
+<li>创建一个带有&quot;人物&quot;标签的节点，设置name属性为&quot;关羽&quot;，并返回该节点</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n:五虎上将:蜀; 
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，并添加&quot;五虎上将&quot;和&quot;蜀&quot;两个标签</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n.gender =&#39;男&#39;;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，设置gender属性为&quot;男&quot;</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+RETURN labels(n) AS nodeLabel, keys(n) AS nodeProperties, n.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，返回:
+<ul>
+<li>节点的所有<strong>标签</strong></li>
+<li>节点的所有<strong>属性键</strong></li>
+<li>节点的name<strong>属性值</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="22-删除标签">2.2 删除标签</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) REMOVE n:蜀;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，删除&quot;蜀&quot;标签</li>
+</ul>
+<h3 id="23-创建关系">2.3 创建关系</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+CREATE (n)-[r:义弟{地点:&#39;桃园&#39;}]-&gt;(n1:人物{name:&#39;刘备&#39;})
+RETURN n,n1;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点</li>
+<li>创建一个新节点n1(刘备)和从n到n1的关系，关系类型为&quot;义弟&quot;，关系属性&quot;地点&quot;为&quot;桃园&quot;</li>
+<li>返回关羽和刘备两个节点</li>
+</ul>
+<h3 id="24-查询关系和节点信息">2.4 查询关系和节点信息</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) -[r]- (n1) 
+RETURN type(r) AS relationshipType,
+keys(r) AS relationshipProperties,
+labels(n1) AS nodeLabel, 
+keys(n1) AS nodeProperties, 
+n1.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点及其所有关系和相连节点</li>
+<li>返回:
+<ul>
+<li>关系类型</li>
+<li>关系的所有属性键</li>
+<li>相连节点的所有标签</li>
+<li>相连节点的所有属性键</li>
+<li>相连节点的name属性值</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-删除节点及其关系">2.5 删除节点及其关系</h3>
+<h4 id="问题1以下语句是否能删除两个节点及其关联关系">问题1：以下语句是否能删除两个节点及其关联关系？</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) 
+where id(a)=1241 and id(b)=1242
+delete a,b;
+</code></pre><p><strong>答案</strong>：不能。这个语句会报错，因为节点上存在关系时不能直接删除节点。必须先删除关系或使用<strong>DETACH</strong> <strong>DELETE</strong>。</p>]]></description>
+</item>
+<item>
+    <title>Neo4j</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</link>
+    <pubDate>Wed, 19 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</guid>
+    <description><![CDATA[<h3 id="一-neo4j-db">(一) Neo4j DB</h3>
+<h4 id="1-neo4j-特点">1. <strong>Neo4j 特点</strong></h4>
+<ul>
+<li><strong>性能优越</strong>：读写能力高效。</li>
+<li><strong>设计灵活</strong>：无固定模式，易于根据业务需求扩展。</li>
+<li><strong>迭代的敏捷性</strong>：适应敏捷开发方法。</li>
+<li><strong>安全可靠</strong>：支持事务管理，提供实时在线备份和日志恢复功能。</li>
+<li><strong>简单易用</strong>：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。</li>
+<li><strong>类 SQL 的查询语言</strong>：提供 <strong>Cypher 语言</strong>用于图数据查询。</li>
+<li><strong>批量导入导出</strong>：支持图数据的批量操作。</li>
+<li><strong>Web UI</strong>：提供浏览器操作的 Web 界面。</li>
+<li><strong>原生图存储与计算引擎</strong>：采用原生图存储模式，支持高效的图计算。</li>
+<li><strong>丰富的算法库</strong>：提供 APOC、GDS 等图数据处理与分析算法库。</li>
+<li><strong>索引与约束</strong>：支持索引机制和 UNIQUE 约束。</li>
+<li><strong>集群架构</strong>：易于横向扩展。</li>
+<li><strong>适应新型场景</strong>：V5.17+ 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。</li>
+</ul>
+<h4 id="2-neo4j-数据模型">2. <strong>Neo4j 数据模型</strong></h4>
+<p>Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：</p>
+<ul>
+<li><strong>节点（Node）</strong>：表示实体，可包含属性。</li>
+<li><strong>关系（Relationship）</strong>：表示节点之间的连接，可包含属性。</li>
+<li><strong>节点属性（Node Properties）</strong>：节点的键值对属性。</li>
+<li><strong>关系属性（Relationship Properties）</strong>：关系的键值对属性。</li>
+<li><strong>标签（Label）</strong>：表示节点的类别或类型。</li>
+<li><strong>存储结构</strong>：
+<ul>
+<li>节点存储（Node store）</li>
+<li>关系存储（Relationship store）</li>
+<li>属性存储（Property store）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据类型">3. <strong>数据类型</strong></h4>
+<p>Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：</p>
+<ul>
+<li><strong>Key</strong>：字符串类型，表示属性名称。</li>
+<li><strong>Value</strong>：支持以下数据类型：
+<ol>
+<li><strong>Boolean</strong>：布尔值（true/false）。</li>
+<li><strong>Integer</strong>：64 位整型。</li>
+<li><strong>Float</strong>：64 位浮点。</li>
+<li><strong>String</strong>：字符串。</li>
+<li><strong>Date</strong>：日期。</li>
+<li><strong>Time</strong>：时间。</li>
+<li><strong>DateTime</strong>：日期时间。</li>
+<li><strong>LocalDateTime</strong>：本地日期时间。</li>
+<li><strong>LocalTime</strong>：本地时间。</li>
+<li><strong>Duration</strong>：时段。</li>
+<li><strong>Point</strong>：地理位置坐标点。</li>
+<li><strong>Map 类型</strong>：键值对形式。</li>
+<li><strong>List 类型</strong>：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。</li>
+<li><strong>ByteArray</strong>：字节数组，用于小取值范围数值属性。</li>
+<li><strong>null 类型</strong>：表示不存在属性，查询时返回 null。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-时间与日期处理">4. <strong>时间与日期处理</strong></h4>
+<ul>
+<li><strong>时间与日期类型</strong>：通过函数调用获取值，例如：
+<ul>
+<li><code>date()</code>：获取当前日期。</li>
+<li><code>timestamp()</code>：获取当前毫秒级时间戳（基于 <code>System.currentTimeMillis()</code>）。</li>
+<li>使用 APOC 库函数（如 <code>apoc.date.format</code>）进行格式转换，例如按 <code>&quot;yyyy-MM-dd HH:mm:ss&quot;</code> 格式显示。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-结构类型">5. <strong>结构类型</strong></h4>
+<p>结构类型可以作为 Cypher 查询语句的返回结果，包括：</p>]]></description>
+</item>
+<item>
     <title>SQL触发器</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/sql%E8%A7%A6%E5%8F%91%E5%99%A8/</link>
     <pubDate>Sat, 08 Mar 2025 00:00:00 &#43;0000</pubDate>

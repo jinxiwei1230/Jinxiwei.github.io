@@ -58,73 +58,580 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">计算学习理论</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
+        <a href="/Jinxiwei.github.io/posts/httptomcatservlet/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="httptomcatservlet">HTTP&amp;Tomcat&amp;Servlet</h2>
+<p><strong>今日目标：</strong></p>
+<blockquote>
+<ul>
+<li>了解JavaWeb开发的技术栈</li>
+<li>理解HTTP协议和HTTP请求与响应数据的格式</li>
+<li>掌握Tomcat的使用</li>
+<li>掌握在IDEA中使用Tomcat插件</li>
+<li>理解Servlet的执行流程和生命周期</li>
+<li>掌握Servlet的使用和相关配置</li>
+</ul>
+</blockquote>
+<h2 id="1web概述">1，Web概述</h2>
+<h3 id="11-web和javaweb的概念">1.1 Web和JavaWeb的概念</h3>
+<p>==Web是全球广域网，也称为万维网(www)，能够通过浏览器访问的网站。==
+在我们日常的生活中，经常会使用浏览器去访问<code>百度</code>、<code>京东</code>、<code>传智官网</code>等这些网站，这些网站统称为Web网站。如下就是通过浏览器访问传智官网的界面:
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/1627031023395.png"
+        data-srcset="assets/1627031023395.png, assets/1627031023395.png 1.5x, assets/1627031023395.png 2x"
+        data-sizes="auto"
+        alt="assets/1627031023395.png"
+        title="1627031023395" />
+我们知道了什么是Web，那么JavaWeb又是什么呢？顾名思义==JavaWeb就是用Java技术来解决相关web互联网领域的技术栈。==
+等学习完JavaWeb之后，同学们就可以使用Java语言开发我们上述所说的网站。而国内很多大型网站公司也是首选Java语言来解决web互联网相关的问题。那都有哪些公司的系统是使用Java语言的呢?
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/20210717183958532.png"
+        data-srcset="assets/20210717183958532.png, assets/20210717183958532.png 1.5x, assets/20210717183958532.png 2x"
+        data-sizes="auto"
+        alt="assets/20210717183958532.png"
+        title="assets/20210717183958532.png" />
+使用Java语言开发互联网系统是有很多技术栈需要大家了解，具体都有哪些呢?</p>
+<h3 id="12-javaweb技术栈">1.2 JavaWeb技术栈</h3>
+<p>了解JavaWeb技术栈之前，有一个很重要的概念要介绍。</p>
+<h4 id="121-bs架构">1.2.1 B/S架构</h4>
+<p>什么是B/S架构?
+B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web资源，服务器把Web资源发送给浏览器即可。大家可以通过下面这张图来回想下我们平常的上网过程:
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/1627031933553.png"
+        data-srcset="assets/1627031933553.png, assets/1627031933553.png 1.5x, assets/1627031933553.png 2x"
+        data-sizes="auto"
+        alt="assets/1627031933553.png"
+        title="1627031933553" /></p>
+<ul>
+<li>打开浏览器访问百度首页，输入要搜索的内容，点击回车或百度一下，就可以获取和搜索相关的内容</li>
+<li>思考下搜索的内容并不在我们自己的点上，那么这些内容从何而来？答案很明显是从百度服务器返回给我们的</li>
+<li>日常百度的小细节，逢年过节百度的logo会更换不同的图片，服务端发生变化，客户端不需做任务事情就能获取最新内容</li>
+<li>所以说B/S架构的好处:易于维护升级：服务器端升级后，客户端无需任何部署就可以使用到新的版本。
+了解了什么是B/S架构后，作为后台开发工程师的我们将来主要关注的是服务端的开发和维护工作。在服务端将来会放很多资源,都有哪些资源呢?</li>
+</ul>
+<h4 id="122-静态资源">1.2.2 静态资源</h4>
+<ul>
+<li>静态资源主要包含HTML、CSS、JavaScript、图片等，主要负责页面的展示。</li>
+<li>我们之前已经学过前端网页制作<code>三剑客</code>(HTML+CSS+JavaScript),使用这些技术我们就可以制作出效果比较丰富的网页，将来展现给用户。但是由于做出来的这些内容都是静态的，这就会导致所有的人看到的内容将是一模一样。</li>
+<li>在日常上网的过程中，我们除了看到这些好看的页面以外，还会碰到很多动态内容，比如我们常见的百度登录效果:
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/1627037814180.png"
+        data-srcset="assets/1627037814180.png, assets/1627037814180.png 1.5x, assets/1627037814180.png 2x"
+        data-sizes="auto"
+        alt="assets/1627037814180.png"
+        title="1627037814180" />
+<code>张三</code>登录以后在网页的右上角看到的是 <code>张三</code>，而<code>李四</code>登录以后看到的则是<code>李四</code>。所以不同的用户访问相同的资源看到的内容大多数是不一样的，要想实现这样的效果，光靠静态资源是无法实现的。</li>
+</ul>
+<h4 id="123-动态资源">1.2.3 动态资源</h4>
+<ul>
+<li>动态资源主要包含Servlet、JSP等，主要用来负责逻辑处理。</li>
+<li>动态资源处理完逻辑后会把得到的结果交给静态资源来进行展示，动态资源和静态资源要结合一起使用。</li>
+<li>动态资源虽然可以处理逻辑，但是当用户来登录百度的时候，就需要输入<code>用户名</code>和<code>密码</code>,这个时候我们就又需要解决的一个问题是，用户在注册的时候填入的用户名和密码、以及我们经常会访问到一些数据列表的内容展示(如下图所示)，这些数据都存储在哪里?我们需要的时候又是从哪里来取呢?
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/1627038674340.png"
+        data-srcset="assets/1627038674340.png, assets/1627038674340.png 1.5x, assets/1627038674340.png 2x"
+        data-sizes="auto"
+        alt="assets/1627038674340.png"
+        title="1627038674340" /></li>
+</ul>
+<h4 id="124-数据库">1.2.4 数据库</h4>
+<ul>
+<li>数据库主要负责存储数据。</li>
+<li>整个Web的访问过程就如下图所示:
+<img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/1627039320220.png"
+        data-srcset="assets/1627039320220.png, assets/1627039320220.png 1.5x, assets/1627039320220.png 2x"
+        data-sizes="auto"
+        alt="assets/1627039320220.png"
+        title="1627039320220" />
+(1)浏览器发送一个请求到服务端，去请求所需要的相关资源;
+(2)资源分为动态资源和静态资源,动态资源可以是使用Java代码按照Servlet和JSP的规范编写的内容;
+(3)在Java代码可以进行业务处理也可以从数据库中读取数据;
+(4)拿到数据后，把数据交给HTML页面进行展示,再结合CSS和JavaScript使展示效果更好;
+(5)服务端将静态资源响应给浏览器;
+(6)浏览器将这些资源进行解析;
+(7)解析后将效果展示在浏览器，用户就可以看到最终的结果。
+在整个Web的访问过程中，会设计到很多技术，这些技术有已经学习过的，也有还未涉及到的内容，都有哪些还没有涉及到呢?</li>
+</ul>
+<h4 id="125-http协议">1.2.5 HTTP协议</h4>
+<ul>
+<li>HTTP协议:主要定义通信规则</li>
+<li>浏览器发送请求给服务器，服务器响应数据给浏览器，这整个过程都需要遵守一定的规则，之前大家学习过TCP、UDP，这些都属于规则，这里我们需要使用的是HTTP协议，这也是一种规则。</li>
+</ul>
+<h4 id="126-web服务器">1.2.6 Web服务器</h4>
+<ul>
+<li>Web服务器:负责解析 HTTP 协议，解析请求数据，并发送响应数据</li>
+<li>浏览器按照HTTP协议发送请求和数据，后台就需要一个Web服务器软件来根据HTTP协议解析请求和数据，然后把处理结果再按照HTTP协议发送给浏览器</li>
+<li>Web服务器软件有很多，我们课程中将学习的是目前最为常用的==Tomcat==服务器</li>
+</ul>
+<p>到这为止，关于JavaWeb中用到的技术栈我们就介绍完了，这里面就只有HTTP协议、Servlet、JSP以及Tomcat这些知识是没有学习过的，所以整个Web核心主要就是来学习这些技术。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/httptomcatservlet/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/javascript/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="javascript">JavaScript</h2>
+<p><strong>今日目标</strong></p>
+<blockquote>
+<ul>
+<li>掌握 JavaScript 的基础语法</li>
+<li>掌握 JavaScript 的常用对象（Array、String）</li>
+<li>能根据需求灵活运用定时器及通过 js 代码进行页面跳转</li>
+<li>能通过DOM 对象对标签进行常规操作</li>
+<li>掌握常用的事件</li>
+<li>能独立完成表单校验案例</li>
+</ul>
+</blockquote>
+<h2 id="1javascript简介">1，JavaScript简介</h2>
+<p>==JavaScript 是一门跨平台、面向对象的脚本语言==，而Java语言也是跨平台的、面向对象的语言，只不过Java是编译语言，是需要编译成字节码文件才能运行的；JavaScript是脚本语言，不需要编译，由浏览器直接解析并执行。</p>
+<p>JavaScript 是用来控制网页行为的，它能使网页可交互；那么它可以做什么呢？如改变页面内容、修改指定元素的属性值、对表单进行校验等，下面是这些功能的效果展示：</p>
+<ul>
+<li>
+<p><strong>改变页面内容</strong></p>
+<!-- raw HTML omitted -->
+<p>当我点击上面左图的 <code>点击我</code> 按钮，按钮上面的文本就改为上面右图内容，这就是js 改变页面内容的功能。</p>
+</li>
+<li>
+<p><strong>修改指定元素的属性值</strong></p>
+<!-- raw HTML omitted -->
+<p>当我们点击上图的 <code>开灯</code> 按钮，效果就是上面右图效果；当我点击 <code>关灯</code> 按钮，效果就是上面左图效果。其他这个功能中有两张灯泡的图片（使用img标签进行展示），通过修改 img 标签的 src 属性值改变展示的图片来实现。</p>
+</li>
+<li>
+<p><strong>对表单进行校验</strong></p>
+<!-- raw HTML omitted -->
+<p>在上面左图的输入框输入用户名，如果输入的用户名是不满足规则的就展示右图(上) 的效果；如果输入的用户名是满足规则的就展示右图(下) 的效果。</p>
+</li>
+</ul>
+<p>JavaScript 和 Java 是完全不同的语言，不论是概念还是设计，只是名字比较像而已。但是==基础语法类似==，所以我们有java的学习经验，再学习JavaScript 语言就相对比较容易些。</p>
+<p>JavaScript（简称：JS） 在 1995 年由 Brendan Eich 发明，并于 1997 年成为一部 ECMA 标准。ECMA 规定了一套标准 就叫 <code>ECMAScript</code> ，所有的客户端校验语言必须遵守这个标准，当然 JavaScript 也遵守了这个标准。ECMAScript 6 (简称ES6) 是最新的 JavaScript 版本（发布于 2015 年)，我们的课程就是基于最新的 <code>ES6</code> 进行讲解。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/javascript/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/jdbc/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="jdbc">JDBC</h2>
+<p><strong>今日目标</strong></p>
+<blockquote>
+<ul>
+<li>掌握JDBC的的CRUD</li>
+<li>理解JDBC中各个对象的作用</li>
+<li>掌握Druid的使用</li>
+</ul>
+</blockquote>
+<h2 id="1jdbc概述">1，JDBC概述</h2>
+<p>在开发中我们使用的是java语言，那么势必要通过java语言操作数据库中的数据。这就是接下来要学习的JDBC。</p>
+<h3 id="11--jdbc概念">1.1  JDBC概念</h3>
+<blockquote>
+<p>JDBC   就是使用Java语言操作关系型数据库的一套API</p>
+<p>全称：( Java DataBase Connectivity ) Java 数据库连接</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<p>我们开发的同一套Java代码是无法操作不同的关系型数据库，因为每一个关系型数据库的底层实现细节都不一样。如果这样，问题就很大了，在公司中可以在开发阶段使用的是MySQL数据库，而上线时公司最终选用oracle数据库，我们就需要对代码进行大批量修改，这显然并不是我们想看到的。我们要做到的是同一套Java代码操作不同的关系型数据库，而此时sun公司就指定了一套标准接口（JDBC），JDBC中定义了所有操作关系型数据库的规则。众所周知接口是无法直接使用的，我们需要使用接口的实现类，而这套实现类（称之为：驱动）就由各自的数据库厂商给出。</p>
+<h3 id="12--jdbc本质">1.2  JDBC本质</h3>
+<ul>
+<li>官方（sun公司）定义的一套操作所有关系型数据库的规则，即接口</li>
+<li>各个数据库厂商去实现这套接口，提供数据库驱动jar包</li>
+<li>我们可以使用这套接口（JDBC）编程，真正执行的代码是驱动jar包中的实现类</li>
+</ul>
+<h3 id="13--jdbc好处">1.3  JDBC好处</h3>
+<ul>
+<li>各数据库厂商使用相同的接口，Java代码不需要针对不同数据库分别开发</li>
+<li>可随时替换底层数据库，访问数据库的Java代码基本不变</li>
+</ul>
+<p>以后编写操作数据库的代码只需要面向JDBC（接口），操作哪儿个关系型数据库就需要导入该数据库的驱动包，如需要操作MySQL数据库，就需要再项目中导入MySQL数据库的驱动包。如下图就是MySQL驱动包</p>
+<!-- raw HTML omitted -->
+<h2 id="2jdbc快速入门">2，JDBC快速入门</h2>
+<p>先来看看通过Java操作数据库的流程</p>
+<!-- raw HTML omitted -->
+<p>第一步：编写Java代码</p>
+<p>第二步：Java代码将SQL发送到MySQL服务端</p>
+<p>第三步：MySQL服务端接收到SQL语句并执行该SQL语句</p>
+<p>第四步：将SQL语句执行的结果返回给Java代码</p>
+<h3 id="21--编写代码步骤">2.1  编写代码步骤</h3>
+<ul>
+<li>
+<p>创建工程，导入驱动jar包</p>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>注册驱动</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Class</span>.forName(<span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>);
+</span></span></code></pre></div><ul>
+<li>
+<p>获取连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Connection</span> conn <span style="color:#f92672">=</span> DriverManager.getConnection(url, username, password);
+</span></span></code></pre></div><p>Java代码需要发送SQL给MySQL服务端，就需要先建立连接</p>
+</li>
+<li>
+<p>定义SQL语句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>String <span style="color:#66d9ef">sql</span> <span style="color:#f92672">=</span>  <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#66d9ef">update</span><span style="color:#960050;background-color:#1e0010">…”</span> ;
+</span></span></code></pre></div></li>
+<li>
+<p>获取执行SQL对象</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/jdbc/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="python面向对象">Python面向对象</h1>
+<h3 id="1-类的组成">1. 类的组成</h3>
+<p>类由两部分组成：</p>
+<ul>
+<li><strong>成员变量（属性）</strong>：描述类的特征或状态。</li>
+<li><strong>成员方法（行为）</strong>：描述类的行为或功能。</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：函数写在类外，而定义在类内部的函数称为方法。</p>
+</blockquote>
+<hr>
+<h3 id="2-类和成员方法的定义语法">2. 类和成员方法的定义语法</h3>
+<h4 id="类的定义语法">类的定义语法：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">类名</span>:
+</span></span><span style="display:flex;"><span>    成员变量
+</span></span><span style="display:flex;"><span>    成员方法
+</span></span></code></pre></div><h4 id="成员方法的定义语法">成员方法的定义语法：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">方法名</span>(self, 参数1, 参数2, <span style="color:#f92672">...</span>):
+</span></span><span style="display:flex;"><span>    方法体
+</span></span></code></pre></div><hr>
+<h3 id="3-self-的作用">3. <code>self</code> 的作用</h3>
+<ul>
+<li><code>self</code> 表示类对象本身。</li>
+<li>只有通过 <code>self</code>，成员方法才能访问类的成员变量。</li>
+<li><code>self</code> 出现在形参列表中，但不占用参数位置，调用时无需传递。</li>
+</ul>
+<hr>
+<h3 id="4-构造方法">4. 构造方法</h3>
+<h4 id="构造方法的名称">构造方法的名称：</h4>
+<p><code>__init__</code>，注意 <code>init</code> 前后有两个下划线。</p>
+<h4 id="构造方法的作用">构造方法的作用：</h4>
+<ul>
+<li>在创建类对象时自动运行。</li>
+<li>构造方法的参数会传递给类对象，借此可以初始化成员变量。</li>
+</ul>
+<h4 id="注意事项">注意事项：</h4>
+<ul>
+<li>构造方法中不要忘记 <code>self</code> 关键字。</li>
+<li>在方法内使用成员变量时需要使用 <code>self</code>。</li>
+</ul>
+<hr>
+<h3 id="8-常用特殊方法">8. 常用特殊方法</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>__init__</code></td>
+          <td style="text-align: left">构造方法，用于创建类对象时设置初始化行为。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>__str__</code></td>
+          <td style="text-align: left">用于实现类对象转字符串的行为，通常用于打印对象信息。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>__lt__</code></td>
+          <td style="text-align: left">用于两个类对象进行小于或大于比较。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>__le__</code></td>
+          <td style="text-align: left">用于两个类对象进行小于等于或大于等于比较。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>__eq__</code></td>
+          <td style="text-align: left">用于两个类对象进行相等比较。</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="示例代码">示例代码</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 构造方法</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, name, age):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name  <span style="color:#75715e"># 成员变量</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> age
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 成员方法</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say_hello</span>(self):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Hello, my name is </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> and I am </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>age<span style="color:#e6db74">}</span><span style="color:#e6db74"> years old.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># __str__ 方法</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Person(name=</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">, age=</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>age<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># __eq__ 方法</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __eq__(self, other):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name <span style="color:#f92672">==</span> other<span style="color:#f92672">.</span>name <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>age <span style="color:#f92672">==</span> other<span style="color:#f92672">.</span>age
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建对象</span>
+</span></span><span style="display:flex;"><span>person1 <span style="color:#f92672">=</span> Person(<span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#ae81ff">25</span>)
+</span></span><span style="display:flex;"><span>person2 <span style="color:#f92672">=</span> Person(<span style="color:#e6db74">&#34;Bob&#34;</span>, <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 调用方法</span>
+</span></span><span style="display:flex;"><span>person1<span style="color:#f92672">.</span>say_hello()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 打印对象信息</span>
+</span></span><span style="display:flex;"><span>print(person1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 比较对象</span>
+</span></span><span style="display:flex;"><span>print(person1 <span style="color:#f92672">==</span> person2)  <span style="color:#75715e"># False</span>
+</span></span></code></pre></div><h3 id="面向对象编程的三大特性封装继承多态">面向对象编程的三大特性：封装、继承、多态</h3>
+<hr>
+<h3 id="1-封装">1. 封装</h3>
+<p>将现实世界事物的 <strong>属性</strong> 和 <strong>行为</strong> 封装到类中，描述为 <strong>成员变量</strong> 和 <strong>成员方法</strong>，从而完成程序对现实世界事物的描述。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1机器学习基础">1.机器学习基础</h5>
+<h3 id="11-概念">1.1 概念</h3>
 <ol>
 <li>
-<p><strong>什么是成功的学习？</strong></p>
-<ul>
-<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
-</ul>
+<p>机器学习定义：通过数据以及以往经验，优化计算机程序性能。</p>
 </li>
 <li>
-<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
-<ul>
-<li>成功的学习通常在以下条件下更可能实现：
-<ul>
-<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
-<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
-<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
-<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
-<ul>
-<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
-<ul>
-<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
-<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
-<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
-<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
-</ul>
-</li>
-</ul>
+<p>机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)</p>
 </li>
 </ol>
-<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
-<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
+<ul>
+<li><strong>利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型”</strong></li>
+</ul>
+<ol start="3">
+<li>
+<p>机器学习的目的：机器学习的目的是分<strong>类</strong>和<strong>预测</strong>。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个<em>向量</em>，也称为<em>特征</em>(Feature)，输出则是一个<em>分类</em>或者一个<em>数值</em>。</p>
+</li>
+<li>
+<p>机器学习的基本过程：机器学习的基本过程是用<strong>训练数据</strong>(包含输入数据和预期输出的分类或者数值)训练一个<em>模型</em>
+(Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。</p>
+</li>
+<li>
+<p>机器学习应用；</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong>数据挖掘</strong>：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。</p>
+</li>
+<li>
+<p><strong>计算机视觉</strong>：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。</p>
+</li>
+<li>
+<p><strong>自然语言处理</strong>：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。</p>
+</li>
+<li>
+<p><strong>生物特征识别</strong>：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。</p>
+</li>
+</ul>
+<h3 id="12-机器学习基本术语">1.2 机器学习基本术语</h3>
+<ol>
+<li><strong>机器学习</strong></li>
+</ol>
+<ul>
+<li>
+<p>一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。</p>
+</li>
+<li>
+<p>要进行机器学习，必须要获取<strong>经验E</strong>，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。</p>
+</li>
+<li>
+<p>机器学习中我们经验通常从<strong>数据集</strong>中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。</p>
+</li>
+</ul>
+<ol start="2">
+<li><strong>数据集(data set)</strong></li>
+</ol>
+<ul>
+<li>
+<p>一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。</p>
+</li>
+<li>
+<p>样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。</p>
+</li>
+<li>
+<p>属性张成的空间称为<em>属性空间</em>(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。</p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>训练(training)</strong></li>
+</ol>
+<ul>
+<li>
+<p>从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。</p>
+</li>
+<li>
+<p>训练模型的目的是<strong>预测</strong>(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为<em>标记</em>(label)。</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>预测(prediction)</strong></li>
+</ol>
+<ul>
+<li>
+<p>预测<em>离散值</em>，则此类任务称为<em>分类</em>(classification)</p>
+</li>
+<li>
+<p>预测<em>连续值</em>，则将此类任务称之为<em>回归</em>(regression)。</p>
+</li>
+<li>
+<p>学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。</p>
+</li>
+<li>
+<p>学得模型适用于新样本的能力称为<strong>泛化</strong>(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。
+（预测能力好-泛化能力强）</p>
+</li>
+<li>
+<p>聚类(clustering)将训练集的样本分为若干组，每个组称为一个<strong>簇</strong>(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。</p>
+</li>
+<li>
+<p>回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。</p>
+</li>
+<li>
+<p>按照训练数据有无标记信息可以将学习任务分为两大类：<strong>监督学习</strong>(supervised learning)和<strong>无监督学习</strong>(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。</p>
+</li>
+</ul>
+<ol start="5">
+<li>回归：(有标记信息)</li>
+</ol>
+<ul>
+<li>回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。</li>
+<li>通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。</li>
+</ul>
+<ol start="6">
+<li>
+<p>分类(有标记信息)</p>
+</li>
+<li>
+<p>聚类(无标记信息)</p>
+</li>
+<li>
+<p><strong>模型评估方法</strong>:</p>
+</li>
+</ol>
+<ul>
+<li>模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有<strong>留出法</strong>、交<strong>叉验证法</strong>和<strong>自助法</strong>。</li>
+</ul>
+<ol start="9">
+<li><strong>留出法（hold-out）</strong>（适用大数据集）</li>
+</ol>
+<ul>
+<li>将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。</li>
+</ul>
+<ol start="10">
+<li><strong>交叉验证法（cross validation）</strong>（适用大数据集）</li>
+</ol>
+<ul>
+<li>
+<p>先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数
+据集D的比例相同）。</p>
+</li>
+<li>
+<p>然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。</p>
+</li>
+<li>
+<p>从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。</p>
+</li>
+<li>
+<p>若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。
+优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。
+缺点:数据集较大时，训练m个模型计算开销太大。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1-数据预处理概述">1 数据预处理概述</h5>
 <ol>
 <li>
-<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
-<ul>
-<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
-</ul>
+<p>数据质量的多维测度
+¢ 准确性（Accuracy）
+¢ 完整性 （Completeness）
+¢ 一致性 （Consistency）
+¢ 时效性 （Timeliness）
+¢ 相关性 （Relevance）
+¢ 可信性（Believability）
+¢ 可解释性（Interpretability）</p>
 </li>
 <li>
-<p><strong>训练集</strong></p>
-<ul>
-<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
-</ul>
+<p>数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。</p>
 </li>
 <li>
-<p><strong>假设函数集合 ( H )</strong></p>
-<ul>
-<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
-</ul>
+<p>属性是一个数据字段，表示数据对象的特征。
+在文献中，属性、维度（dimension）、特征（feature）、变量
+（variance）可以互换的使用。
+p
+“维”，一般用在数据仓库中。
+p
+“特征”，一般用在机器学习中。
+p
+“变量”，一般用在统计学中。</p>
 </li>
 <li>
-<p><strong>机器学习算法 ( A )</strong></p>
-<ul>
-<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
-</ul>
+<p>标称属性：标称属性的值是一些符号或事物的名称。</p>
 </li>
 <li>
-<p><strong>问题（困惑）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
+<p>二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。</p>
+</li>
+<li>
+<p>序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。</p>
+</li>
+<li>
+<p>数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。</p>
+</li>
+<li>
+<p>离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。</p>
+</li>
+</ol>
+<ul>
+<li>有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。</li>
+<li>无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。</li>
+</ul>
+<ol start="9">
+<li>性：如果属性不是离散的，则它是连续的。</li>
+</ol>
+<ul>
+<li>文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。</li>
+</ul>
+<ol start="10">
+<li>数据的基本统计᧿述的图形显示：</li>
+</ol>
+<ul>
+<li>
+<p>分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。</p>
+</li>
+<li>
+<p>分位数-分位数图：分位数-分位数图（quantile-quantile plot）
+或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工
+具，使得用户可以观察从一个分布到另一个分布是否有偏移。</p>
+</li>
+<li>
+<p>直方图：直方图或频率直方图是一种被广泛使用的统计方法。
+它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin），
+是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对
+象的计数</p>
+</li>
+<li>
+<p>散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。</p>
+</li>
+</ul>
+<ol start="11">
+<li>用DataFrame对象.to_csv()方法来保存数据成csv文件。</li>
+</ol>
+<p>DataFrame 数据的保存和读取：
+df.to_csv 写入到 csv 文件
+pd.read_csv 读取 csv 文件
+df.to_json 写入到 json 文件
+pd.read_json 读取 json 文件
+df.to_html 写入到 html 文件
+pd.read_html 读取 html 文件
+df.to_excel 写入到 excel 文件
+pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -142,6 +649,10 @@
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/9/">9</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/10/">10</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

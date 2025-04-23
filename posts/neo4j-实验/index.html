@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Neo4j实验 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Neo4j实验">
+  <meta property="og:description" content="（一）相关知识回顾 1. 关于CREATE子句的问题 一个语句可以有多个CREATE子句吗？
+是的，一个Cypher语句可以包含多个CREATE子句，用逗号分隔。 不同CREATE子句节点变量名称能相同吗？
+不能，在同一查询中，变量名必须是唯一的。如果重复使用相同变量名，后面的会覆盖前面的。 2. Cypher语句分析 2.1 创建和修改节点 CREATE (n:人物{name:&#39;关羽&#39;}) RETURN n; 创建一个带有&#34;人物&#34;标签的节点，设置name属性为&#34;关羽&#34;，并返回该节点 MATCH (n:人物{name:&#39;关羽&#39;}) SET n:五虎上将:蜀; 查找name为&#34;关羽&#34;的人物节点，并添加&#34;五虎上将&#34;和&#34;蜀&#34;两个标签 MATCH (n:人物{name:&#39;关羽&#39;}) SET n.gender =&#39;男&#39;; 查找name为&#34;关羽&#34;的人物节点，设置gender属性为&#34;男&#34; MATCH (n:人物{name:&#39;关羽&#39;}) RETURN labels(n) AS nodeLabel, keys(n) AS nodeProperties, n.name; 查找name为&#34;关羽&#34;的人物节点，返回: 节点的所有标签 节点的所有属性键 节点的name属性值 2.2 删除标签 MATCH (n:人物{name:&#39;关羽&#39;}) REMOVE n:蜀; 查找name为&#34;关羽&#34;的人物节点，删除&#34;蜀&#34;标签 2.3 创建关系 MATCH (n:人物{name:&#39;关羽&#39;}) CREATE (n)-[r:义弟{地点:&#39;桃园&#39;}]-&gt;(n1:人物{name:&#39;刘备&#39;})RETURN n,n1; 查找name为&#34;关羽&#34;的人物节点 创建一个新节点n1(刘备)和从n到n1的关系，关系类型为&#34;义弟&#34;，关系属性&#34;地点&#34;为&#34;桃园&#34; 返回关羽和刘备两个节点 2.4 查询关系和节点信息 MATCH (n:人物{name:&#39;关羽&#39;}) -[r]- (n1) RETURN type(r) AS relationshipType,keys(r) AS relationshipProperties,labels(n1) AS nodeLabel, keys(n1) AS nodeProperties, n1.name; 查找name为&#34;关羽&#34;的人物节点及其所有关系和相连节点 返回: 关系类型 关系的所有属性键 相连节点的所有标签 相连节点的所有属性键 相连节点的name属性值 2.5 删除节点及其关系 问题1：以下语句是否能删除两个节点及其关联关系？ match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) where id(a)=1241 and id(b)=1242delete a,b; 答案：不能。这个语句会报错，因为节点上存在关系时不能直接删除节点。必须先删除关系或使用DETACH DELETE。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-26T00:00:00+00:00">
+    <meta property="article:tag" content="Neo4j">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Neo4j实验">
+  <meta name="twitter:description" content="（一）相关知识回顾 1. 关于CREATE子句的问题 一个语句可以有多个CREATE子句吗？
+是的，一个Cypher语句可以包含多个CREATE子句，用逗号分隔。 不同CREATE子句节点变量名称能相同吗？
+不能，在同一查询中，变量名必须是唯一的。如果重复使用相同变量名，后面的会覆盖前面的。 2. Cypher语句分析 2.1 创建和修改节点 CREATE (n:人物{name:&#39;关羽&#39;}) RETURN n; 创建一个带有&#34;人物&#34;标签的节点，设置name属性为&#34;关羽&#34;，并返回该节点 MATCH (n:人物{name:&#39;关羽&#39;}) SET n:五虎上将:蜀; 查找name为&#34;关羽&#34;的人物节点，并添加&#34;五虎上将&#34;和&#34;蜀&#34;两个标签 MATCH (n:人物{name:&#39;关羽&#39;}) SET n.gender =&#39;男&#39;; 查找name为&#34;关羽&#34;的人物节点，设置gender属性为&#34;男&#34; MATCH (n:人物{name:&#39;关羽&#39;}) RETURN labels(n) AS nodeLabel, keys(n) AS nodeProperties, n.name; 查找name为&#34;关羽&#34;的人物节点，返回: 节点的所有标签 节点的所有属性键 节点的name属性值 2.2 删除标签 MATCH (n:人物{name:&#39;关羽&#39;}) REMOVE n:蜀; 查找name为&#34;关羽&#34;的人物节点，删除&#34;蜀&#34;标签 2.3 创建关系 MATCH (n:人物{name:&#39;关羽&#39;}) CREATE (n)-[r:义弟{地点:&#39;桃园&#39;}]-&gt;(n1:人物{name:&#39;刘备&#39;})RETURN n,n1; 查找name为&#34;关羽&#34;的人物节点 创建一个新节点n1(刘备)和从n到n1的关系，关系类型为&#34;义弟&#34;，关系属性&#34;地点&#34;为&#34;桃园&#34; 返回关羽和刘备两个节点 2.4 查询关系和节点信息 MATCH (n:人物{name:&#39;关羽&#39;}) -[r]- (n1) RETURN type(r) AS relationshipType,keys(r) AS relationshipProperties,labels(n1) AS nodeLabel, keys(n1) AS nodeProperties, n1.name; 查找name为&#34;关羽&#34;的人物节点及其所有关系和相连节点 返回: 关系类型 关系的所有属性键 相连节点的所有标签 相连节点的所有属性键 相连节点的name属性值 2.5 删除节点及其关系 问题1：以下语句是否能删除两个节点及其关联关系？ match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) where id(a)=1241 and id(b)=1242delete a,b; 答案：不能。这个语句会报错，因为节点上存在关系时不能直接删除节点。必须先删除关系或使用DETACH DELETE。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Neo4j实验",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/neo4j-%E5%AE%9E%E9%AA%8C\/"
+        },"genre": "posts","keywords": "Neo4j","wordcount":  176 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/neo4j-%E5%AE%9E%E9%AA%8C\/","datePublished": "2025-03-26T00:00:00+00:00","dateModified": "2025-03-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Neo4j实验</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/db/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DB</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-26">2025-03-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;176 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-关于create子句的问题">1. 关于CREATE子句的问题</a></li>
+    <li><a href="#2-cypher语句分析">2. Cypher语句分析</a>
+      <ul>
+        <li><a href="#21-创建和修改节点">2.1 创建和修改节点</a></li>
+        <li><a href="#22-删除标签">2.2 删除标签</a></li>
+        <li><a href="#23-创建关系">2.3 创建关系</a></li>
+        <li><a href="#24-查询关系和节点信息">2.4 查询关系和节点信息</a></li>
+        <li><a href="#25-删除节点及其关系">2.5 删除节点及其关系</a></li>
+        <li><a href="#26-merge操作">2.6 MERGE操作</a></li>
+        <li><a href="#3-unwind和collect示例">3. UNWIND和COLLECT示例</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="一相关知识回顾">（一）相关知识回顾</h1>
+<h2 id="1-关于create子句的问题">1. 关于CREATE子句的问题</h2>
+<ol>
+<li>
+<p><strong>一个语句可以有多个CREATE子句吗？</strong></p>
+<ul>
+<li>是的，一个Cypher语句可以包含多个CREATE子句，用逗号分隔。</li>
+</ul>
+</li>
+<li>
+<p><strong>不同CREATE子句节点变量名称能相同吗？</strong></p>
+<ul>
+<li>不能，在同一查询中，变量名必须是唯一的。如果重复使用相同变量名，后面的会覆盖前面的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-cypher语句分析">2. Cypher语句分析</h2>
+<h3 id="21-创建和修改节点">2.1 创建和修改节点</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (n:人物{name:&#39;关羽&#39;}) RETURN n;
+</code></pre><ul>
+<li>创建一个带有&quot;人物&quot;标签的节点，设置name属性为&quot;关羽&quot;，并返回该节点</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n:五虎上将:蜀; 
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，并添加&quot;五虎上将&quot;和&quot;蜀&quot;两个标签</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n.gender =&#39;男&#39;;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，设置gender属性为&quot;男&quot;</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+RETURN labels(n) AS nodeLabel, keys(n) AS nodeProperties, n.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，返回:
+<ul>
+<li>节点的所有<strong>标签</strong></li>
+<li>节点的所有<strong>属性键</strong></li>
+<li>节点的name<strong>属性值</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="22-删除标签">2.2 删除标签</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) REMOVE n:蜀;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，删除&quot;蜀&quot;标签</li>
+</ul>
+<h3 id="23-创建关系">2.3 创建关系</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+CREATE (n)-[r:义弟{地点:&#39;桃园&#39;}]-&gt;(n1:人物{name:&#39;刘备&#39;})
+RETURN n,n1;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点</li>
+<li>创建一个新节点n1(刘备)和从n到n1的关系，关系类型为&quot;义弟&quot;，关系属性&quot;地点&quot;为&quot;桃园&quot;</li>
+<li>返回关羽和刘备两个节点</li>
+</ul>
+<h3 id="24-查询关系和节点信息">2.4 查询关系和节点信息</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) -[r]- (n1) 
+RETURN type(r) AS relationshipType,
+keys(r) AS relationshipProperties,
+labels(n1) AS nodeLabel, 
+keys(n1) AS nodeProperties, 
+n1.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点及其所有关系和相连节点</li>
+<li>返回:
+<ul>
+<li>关系类型</li>
+<li>关系的所有属性键</li>
+<li>相连节点的所有标签</li>
+<li>相连节点的所有属性键</li>
+<li>相连节点的name属性值</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-删除节点及其关系">2.5 删除节点及其关系</h3>
+<h4 id="问题1以下语句是否能删除两个节点及其关联关系">问题1：以下语句是否能删除两个节点及其关联关系？</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) 
+where id(a)=1241 and id(b)=1242
+delete a,b;
+</code></pre><p><strong>答案</strong>：不能。这个语句会报错，因为节点上存在关系时不能直接删除节点。必须先删除关系或使用<strong>DETACH</strong> <strong>DELETE</strong>。</p>
+<h4 id="正确的删除方式">正确的删除方式</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) 
+where id(a)=1241 and id(b)=1242
+DETACH DELETE a,b;
+</code></pre><ul>
+<li><code>DETACH DELETE</code>会先删除节点上的所有关系，然后再删除节点本身</li>
+</ul>
+<h3 id="26-merge操作">2.6 MERGE操作</h3>
+<h4 id="创建初始节点">创建初始节点</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (e:Customer{custID:100});
+CREATE (cc:CreditCard{cardID:300360});
+</code></pre><h4 id="两种创建关系的区别">两种创建关系的区别</h4>
+<ol>
+<li><strong>使用CREATE创建关系</strong></li>
+</ol>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (e:Customer{custID:100}),(cc:CreditCard{cardID:300360}) 
+CREATE (e)-[r:DO_SHOPPING_WITH]-&gt;(cc);
+</code></pre><ul>
+<li>必须<strong>确保两个节点已存在</strong></li>
+<li>如果关系已存在，会<strong>创建重复</strong>的关系</li>
+<li>如果节点不存在，不会创建新节点</li>
+</ul>
+<ol start="2">
+<li><strong>使用MERGE创建关系</strong></li>
+</ol>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MERGE (e:Customer{custID:100})
+MERGE (cc:CreditCard{cardID:300360})
+MERGE (e)-[r:DO_SHOPPING_WITH]-&gt;(cc);
+</code></pre><ul>
+<li>如果<strong>节点不存在会自动创建</strong></li>
+<li>会检查关系是否已存在，<strong>避免重复创建</strong></li>
+<li>是原子操作，保证整个模式存在</li>
+</ul>
+<h3 id="3-unwind和collect示例">3. UNWIND和COLLECT示例</h3>
+<h4 id="unwind示例">UNWIND示例</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">WITH [1,2,3] AS list
+UNWIND list AS item
+RETURN item;
+</code></pre><ul>
+<li>将列表[1,2,3]展开为三行，每行一个值</li>
+</ul>
+<h4 id="collect示例">COLLECT示例</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:Person)
+RETURN collect(n.name) AS names;
+</code></pre><ul>
+<li>将所有Person节点的name属性收集到一个列表中</li>
+</ul>
+<h4 id="组合使用示例">组合使用示例</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">WITH [&#39;Alice&#39;,&#39;Bob&#39;,&#39;Charlie&#39;] AS names
+UNWIND names AS name
+MERGE (p:Person{name:name})
+RETURN collect(p.name) AS createdNames;
+</code></pre><ul>
+<li>展开names列表并为每个名字创建Person节点</li>
+<li>最后返回所有创建的节点名称集合</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" data-title="Neo4j实验" data-hashtags="Neo4j"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" data-hashtag="Neo4j"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" data-title="Neo4j实验"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" data-title="Neo4j实验"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" data-title="Neo4j实验"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/neo4j/">Neo4j</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" class="prev" rel="prev" title="模型评估指标"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>模型评估指标</a>
+            <a href="/Jinxiwei.github.io/posts/mongodb/" class="next" rel="next" title="MongoDB">MongoDB<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

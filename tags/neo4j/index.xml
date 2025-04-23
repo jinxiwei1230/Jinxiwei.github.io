@@ -1,0 +1,170 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Neo4j - Tag - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/neo4j/</link>
+        <description>Neo4j - Tag - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 26 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/neo4j/" rel="self" type="application/rss+xml" /><item>
+    <title>Neo4j实验</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</link>
+    <pubDate>Wed, 26 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</guid>
+    <description><![CDATA[<h1 id="一相关知识回顾">（一）相关知识回顾</h1>
+<h2 id="1-关于create子句的问题">1. 关于CREATE子句的问题</h2>
+<ol>
+<li>
+<p><strong>一个语句可以有多个CREATE子句吗？</strong></p>
+<ul>
+<li>是的，一个Cypher语句可以包含多个CREATE子句，用逗号分隔。</li>
+</ul>
+</li>
+<li>
+<p><strong>不同CREATE子句节点变量名称能相同吗？</strong></p>
+<ul>
+<li>不能，在同一查询中，变量名必须是唯一的。如果重复使用相同变量名，后面的会覆盖前面的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-cypher语句分析">2. Cypher语句分析</h2>
+<h3 id="21-创建和修改节点">2.1 创建和修改节点</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">CREATE (n:人物{name:&#39;关羽&#39;}) RETURN n;
+</code></pre><ul>
+<li>创建一个带有&quot;人物&quot;标签的节点，设置name属性为&quot;关羽&quot;，并返回该节点</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n:五虎上将:蜀; 
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，并添加&quot;五虎上将&quot;和&quot;蜀&quot;两个标签</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) SET n.gender =&#39;男&#39;;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，设置gender属性为&quot;男&quot;</li>
+</ul>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+RETURN labels(n) AS nodeLabel, keys(n) AS nodeProperties, n.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，返回:
+<ul>
+<li>节点的所有<strong>标签</strong></li>
+<li>节点的所有<strong>属性键</strong></li>
+<li>节点的name<strong>属性值</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="22-删除标签">2.2 删除标签</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) REMOVE n:蜀;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点，删除&quot;蜀&quot;标签</li>
+</ul>
+<h3 id="23-创建关系">2.3 创建关系</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) 
+CREATE (n)-[r:义弟{地点:&#39;桃园&#39;}]-&gt;(n1:人物{name:&#39;刘备&#39;})
+RETURN n,n1;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点</li>
+<li>创建一个新节点n1(刘备)和从n到n1的关系，关系类型为&quot;义弟&quot;，关系属性&quot;地点&quot;为&quot;桃园&quot;</li>
+<li>返回关羽和刘备两个节点</li>
+</ul>
+<h3 id="24-查询关系和节点信息">2.4 查询关系和节点信息</h3>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">MATCH (n:人物{name:&#39;关羽&#39;}) -[r]- (n1) 
+RETURN type(r) AS relationshipType,
+keys(r) AS relationshipProperties,
+labels(n1) AS nodeLabel, 
+keys(n1) AS nodeProperties, 
+n1.name;
+</code></pre><ul>
+<li>查找name为&quot;关羽&quot;的人物节点及其所有关系和相连节点</li>
+<li>返回:
+<ul>
+<li>关系类型</li>
+<li>关系的所有属性键</li>
+<li>相连节点的所有标签</li>
+<li>相连节点的所有属性键</li>
+<li>相连节点的name属性值</li>
+</ul>
+</li>
+</ul>
+<h3 id="25-删除节点及其关系">2.5 删除节点及其关系</h3>
+<h4 id="问题1以下语句是否能删除两个节点及其关联关系">问题1：以下语句是否能删除两个节点及其关联关系？</h4>
+<pre tabindex="0"><code class="language-cypher" data-lang="cypher">match (a{name:&#34;张三&#34;})--(b{name:&#34;李四&#34;}) 
+where id(a)=1241 and id(b)=1242
+delete a,b;
+</code></pre><p><strong>答案</strong>：不能。这个语句会报错，因为节点上存在关系时不能直接删除节点。必须先删除关系或使用<strong>DETACH</strong> <strong>DELETE</strong>。</p>]]></description>
+</item>
+<item>
+    <title>Neo4j</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</link>
+    <pubDate>Wed, 19 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</guid>
+    <description><![CDATA[<h3 id="一-neo4j-db">(一) Neo4j DB</h3>
+<h4 id="1-neo4j-特点">1. <strong>Neo4j 特点</strong></h4>
+<ul>
+<li><strong>性能优越</strong>：读写能力高效。</li>
+<li><strong>设计灵活</strong>：无固定模式，易于根据业务需求扩展。</li>
+<li><strong>迭代的敏捷性</strong>：适应敏捷开发方法。</li>
+<li><strong>安全可靠</strong>：支持事务管理，提供实时在线备份和日志恢复功能。</li>
+<li><strong>简单易用</strong>：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。</li>
+<li><strong>类 SQL 的查询语言</strong>：提供 <strong>Cypher 语言</strong>用于图数据查询。</li>
+<li><strong>批量导入导出</strong>：支持图数据的批量操作。</li>
+<li><strong>Web UI</strong>：提供浏览器操作的 Web 界面。</li>
+<li><strong>原生图存储与计算引擎</strong>：采用原生图存储模式，支持高效的图计算。</li>
+<li><strong>丰富的算法库</strong>：提供 APOC、GDS 等图数据处理与分析算法库。</li>
+<li><strong>索引与约束</strong>：支持索引机制和 UNIQUE 约束。</li>
+<li><strong>集群架构</strong>：易于横向扩展。</li>
+<li><strong>适应新型场景</strong>：V5.17+ 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。</li>
+</ul>
+<h4 id="2-neo4j-数据模型">2. <strong>Neo4j 数据模型</strong></h4>
+<p>Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：</p>
+<ul>
+<li><strong>节点（Node）</strong>：表示实体，可包含属性。</li>
+<li><strong>关系（Relationship）</strong>：表示节点之间的连接，可包含属性。</li>
+<li><strong>节点属性（Node Properties）</strong>：节点的键值对属性。</li>
+<li><strong>关系属性（Relationship Properties）</strong>：关系的键值对属性。</li>
+<li><strong>标签（Label）</strong>：表示节点的类别或类型。</li>
+<li><strong>存储结构</strong>：
+<ul>
+<li>节点存储（Node store）</li>
+<li>关系存储（Relationship store）</li>
+<li>属性存储（Property store）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据类型">3. <strong>数据类型</strong></h4>
+<p>Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：</p>
+<ul>
+<li><strong>Key</strong>：字符串类型，表示属性名称。</li>
+<li><strong>Value</strong>：支持以下数据类型：
+<ol>
+<li><strong>Boolean</strong>：布尔值（true/false）。</li>
+<li><strong>Integer</strong>：64 位整型。</li>
+<li><strong>Float</strong>：64 位浮点。</li>
+<li><strong>String</strong>：字符串。</li>
+<li><strong>Date</strong>：日期。</li>
+<li><strong>Time</strong>：时间。</li>
+<li><strong>DateTime</strong>：日期时间。</li>
+<li><strong>LocalDateTime</strong>：本地日期时间。</li>
+<li><strong>LocalTime</strong>：本地时间。</li>
+<li><strong>Duration</strong>：时段。</li>
+<li><strong>Point</strong>：地理位置坐标点。</li>
+<li><strong>Map 类型</strong>：键值对形式。</li>
+<li><strong>List 类型</strong>：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。</li>
+<li><strong>ByteArray</strong>：字节数组，用于小取值范围数值属性。</li>
+<li><strong>null 类型</strong>：表示不存在属性，查询时返回 null。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-时间与日期处理">4. <strong>时间与日期处理</strong></h4>
+<ul>
+<li><strong>时间与日期类型</strong>：通过函数调用获取值，例如：
+<ul>
+<li><code>date()</code>：获取当前日期。</li>
+<li><code>timestamp()</code>：获取当前毫秒级时间戳（基于 <code>System.currentTimeMillis()</code>）。</li>
+<li>使用 APOC 库函数（如 <code>apoc.date.format</code>）进行格式转换，例如按 <code>&quot;yyyy-MM-dd HH:mm:ss&quot;</code> 格式显示。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-结构类型">5. <strong>结构类型</strong></h4>
+<p>结构类型可以作为 Cypher 查询语句的返回结果，包括：</p>]]></description>
+</item>
+</channel>
+</rss>

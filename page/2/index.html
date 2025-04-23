@@ -58,438 +58,757 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">Python数据容器</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python数据容器">Python数据容器</h1>
-<p>Python 中的数据容器是用于<strong>存储和管理数据</strong>的对象。常见的数据容器包括<strong>列表（<code>list</code>）、元组（<code>tuple</code>）、字符串（<code>str</code>）、集合（<code>set</code>）和字典（<code>dict</code>）</strong>。</p>
-<h3 id="一-数据容器list列表">（一） <strong>数据容器：<code>list</code>（列表）</strong></h3>
-<p><strong>1、定义</strong>：</p>
+        <a href="/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/">DAU（日活跃用户数）下降</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-21">2025-03-21</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/ba/ds/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>BA/DS</a></span></div><div class="content"><p><strong>DAU（日活跃用户数）下降</strong>是产品运营中常见的问题，可能由多种原因引起。为了有效应对DAU下降，需要系统性地分析问题并采取针对性措施。以下是详细的解决思路和步骤：</p>
+<hr>
+<h3 id="1-确认dau下降的真实性"><strong>1. 确认DAU下降的真实性</strong></h3>
 <ul>
-<li>列表是一种<strong>有序</strong>、可变的数据容器，可以存储<strong>任意类型</strong>的元素</li>
-<li>元素<strong>可以重复</strong>、支持<strong>增删改查</strong>操作</li>
-<li>列表可以一次存储多个数据，且可以为<strong>不同的数据类型（混装）</strong>，支持嵌套</li>
-<li>下标支持从前往后（正数）、从后往前（负数）</li>
+<li><strong>检查数据准确性</strong>：
+<ul>
+<li>确认数据采集是否正常，是否存在技术问题（如埋点错误、数据丢失）。</li>
+<li>排除外部因素（如节假日、季节性波动）的影响。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>列表名 <span style="color:#f92672">=</span> [元素1, 元素2, <span style="color:#f92672">...</span>]
-</span></span></code></pre></div><p><strong>2、<code>list</code> 的遍历</strong></p>
+</li>
+<li><strong>对比历史数据</strong>：
+<ul>
+<li>分析DAU下降的时间点，是否与某些事件（如版本更新、市场活动结束）相关。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-分析dau下降的原因"><strong>2. 分析DAU下降的原因</strong></h3>
+<h4 id="用户维度"><strong>用户维度</strong></h4>
+<ol>
+<li><strong>新用户减少</strong>：
+<ul>
+<li>检查渠道投放是否减少或效果变差。</li>
+<li>分析市场环境是否变化（如竞争加剧、用户需求变化）。</li>
+</ul>
+</li>
+<li><strong>老用户流失</strong>：
+<ul>
+<li>分析用户留存率，查看流失用户的行为特征。</li>
+<li>检查是否因产品功能变更、体验下降导致用户流失。</li>
+</ul>
+</li>
+</ol>
+<h4 id="产品维度"><strong>产品维度</strong></h4>
+<ol>
+<li><strong>功能问题</strong>：
+<ul>
+<li>检查最近是否有新功能上线或旧功能改动，是否引发用户不满。</li>
+<li>分析用户反馈和评论，寻找共性问题。</li>
+</ul>
+</li>
+<li><strong>性能问题</strong>：
+<ul>
+<li>检查是否存在卡顿、崩溃等性能问题，影响用户体验。</li>
+</ul>
+</li>
+<li><strong>内容问题</strong>：
+<ul>
+<li>如果产品依赖内容（如社区、资讯），检查内容质量是否下降。</li>
+</ul>
+</li>
+</ol>
+<h4 id="外部因素"><strong>外部因素</strong></h4>
+<ol>
+<li><strong>市场竞争</strong>：
+<ul>
+<li>分析竞争对手是否推出了更具吸引力的产品或活动。</li>
+</ul>
+</li>
+<li><strong>政策变化</strong>：
+<ul>
+<li>检查是否有相关政策或法规变化，影响用户使用。</li>
+</ul>
+</li>
+<li><strong>季节性波动</strong>：
+<ul>
+<li>某些产品的DAU会受季节性影响（如教育类产品在寒暑假波动）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-制定解决方案"><strong>3. 制定解决方案</strong></h3>
+<h4 id="针对新用户减少"><strong>针对新用户减少</strong></h4>
+<ol>
+<li><strong>优化渠道投放</strong>：
+<ul>
+<li>分析各渠道的ROI，优化投放策略。</li>
+<li>尝试新的获客渠道（如社交媒体、KOL合作）。</li>
+</ul>
+</li>
+<li><strong>提升转化率</strong>：
+<ul>
+<li>优化落地页设计，提升用户注册或下载的转化率。</li>
+<li>提供新用户优惠或激励（如首单折扣、新人礼包）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对老用户流失"><strong>针对老用户流失</strong></h4>
+<ol>
+<li><strong>召回流失用户</strong>：
+<ul>
+<li>通过推送通知、短信、邮件等方式触达流失用户。</li>
+<li>提供专属优惠或福利，吸引用户回归。</li>
+</ul>
+</li>
+<li><strong>提升用户体验</strong>：
+<ul>
+<li>修复已知问题，优化产品性能和功能。</li>
+<li>根据用户反馈改进产品设计。</li>
+</ul>
+</li>
+<li><strong>增强用户粘性</strong>：
+<ul>
+<li>增加社交互动功能（如好友邀请、社区互动）。</li>
+<li>设计签到、任务等激励机制，提升用户活跃度。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对产品问题"><strong>针对产品问题</strong></h4>
+<ol>
+<li><strong>功能优化</strong>：
+<ul>
+<li>根据用户反馈和数据分析，优化核心功能。</li>
+<li>通过AB测试验证新功能的效果。</li>
+</ul>
+</li>
+<li><strong>内容运营</strong>：
+<ul>
+<li>提升内容质量，增加用户感兴趣的内容。</li>
+<li>引入UGC（用户生成内容）机制，增强用户参与感。</li>
+</ul>
+</li>
+</ol>
+<h4 id="针对外部因素"><strong>针对外部因素</strong></h4>
+<ol>
+<li><strong>竞争应对</strong>：
+<ul>
+<li>分析竞争对手的优势，优化自身产品的差异化价值。</li>
+<li>推出有针对性的市场活动，吸引用户注意力。</li>
+</ul>
+</li>
+<li><strong>政策合规</strong>：
+<ul>
+<li>确保产品符合相关政策和法规，避免因合规问题导致用户流失。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="4-监控与迭代"><strong>4. 监控与迭代</strong></h3>
+<ol>
+<li><strong>设置关键指标</strong>：
+<ul>
+<li>除了DAU，监控留存率、用户时长、转化率等指标。</li>
+</ul>
+</li>
+<li><strong>持续优化</strong>：
+<ul>
+<li>根据数据反馈，持续优化产品和运营策略。</li>
+</ul>
+</li>
+<li><strong>用户调研</strong>：
+<ul>
+<li>定期开展用户调研，了解用户需求和痛点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="5-案例分析"><strong>5. 案例分析</strong></h3>
+<h4 id="案例某社交app-dau下降"><strong>案例：某社交App DAU下降</strong></h4>
+<ol>
+<li><strong>问题分析</strong>：
+<ul>
+<li>新版本上线后，DAU持续下降。</li>
+<li>用户反馈新版本界面复杂，使用不便。</li>
+</ul>
+</li>
+<li><strong>解决方案</strong>：
+<ul>
+<li>回滚部分功能改动，恢复用户熟悉的界面。</li>
+<li>通过推送通知和邮件告知用户改进措施。</li>
+<li>推出限时活动，激励用户回归。</li>
+</ul>
+</li>
+<li><strong>结果</strong>：
+<ul>
+<li>DAU逐渐回升，用户留存率提升。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="总结"><strong>总结</strong></h3>
+<p>DAU下降是一个复杂的问题，需要从用户、产品、外部环境等多个维度进行分析。通过数据驱动的方法，找到根本原因并采取针对性措施，才能有效提升DAU。同时，持续监控和优化是保持用户活跃的关键。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/dau%E6%97%A5%E6%B4%BB%E8%B7%83%E7%94%A8%E6%88%B7%E6%95%B0%E4%B8%8B%E9%99%8D/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ba/ds/">BA/DS</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/neo4j/">Neo4j</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-19">2025-03-19</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/db/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DB</a></span></div><div class="content"><h3 id="一-neo4j-db">(一) Neo4j DB</h3>
+<h4 id="1-neo4j-特点">1. <strong>Neo4j 特点</strong></h4>
+<ul>
+<li><strong>性能优越</strong>：读写能力高效。</li>
+<li><strong>设计灵活</strong>：无固定模式，易于根据业务需求扩展。</li>
+<li><strong>迭代的敏捷性</strong>：适应敏捷开发方法。</li>
+<li><strong>安全可靠</strong>：支持事务管理，提供实时在线备份和日志恢复功能。</li>
+<li><strong>简单易用</strong>：支持多种程序设计语言（如 Spring Data Neo4j）和 REST API。</li>
+<li><strong>类 SQL 的查询语言</strong>：提供 <strong>Cypher 语言</strong>用于图数据查询。</li>
+<li><strong>批量导入导出</strong>：支持图数据的批量操作。</li>
+<li><strong>Web UI</strong>：提供浏览器操作的 Web 界面。</li>
+<li><strong>原生图存储与计算引擎</strong>：采用原生图存储模式，支持高效的图计算。</li>
+<li><strong>丰富的算法库</strong>：提供 APOC、GDS 等图数据处理与分析算法库。</li>
+<li><strong>索引与约束</strong>：支持索引机制和 UNIQUE 约束。</li>
+<li><strong>集群架构</strong>：易于横向扩展。</li>
+<li><strong>适应新型场景</strong>：V5.17+ 支持图分析、GenAI 等新型应用场景，支持向量索引的创建和高效搜索。</li>
+</ul>
+<h4 id="2-neo4j-数据模型">2. <strong>Neo4j 数据模型</strong></h4>
+<p>Neo4j 采用属性图模型描述业务关键图数据，其核心要素包括：</p>
+<ul>
+<li><strong>节点（Node）</strong>：表示实体，可包含属性。</li>
+<li><strong>关系（Relationship）</strong>：表示节点之间的连接，可包含属性。</li>
+<li><strong>节点属性（Node Properties）</strong>：节点的键值对属性。</li>
+<li><strong>关系属性（Relationship Properties）</strong>：关系的键值对属性。</li>
+<li><strong>标签（Label）</strong>：表示节点的类别或类型。</li>
+<li><strong>存储结构</strong>：
+<ul>
+<li>节点存储（Node store）</li>
+<li>关系存储（Relationship store）</li>
+<li>属性存储（Property store）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据类型">3. <strong>数据类型</strong></h4>
+<p>Neo4j 支持多种数据类型，节点和关系的属性是键值对（Key-Value），其中：</p>
+<ul>
+<li><strong>Key</strong>：字符串类型，表示属性名称。</li>
+<li><strong>Value</strong>：支持以下数据类型：
+<ol>
+<li><strong>Boolean</strong>：布尔值（true/false）。</li>
+<li><strong>Integer</strong>：64 位整型。</li>
+<li><strong>Float</strong>：64 位浮点。</li>
+<li><strong>String</strong>：字符串。</li>
+<li><strong>Date</strong>：日期。</li>
+<li><strong>Time</strong>：时间。</li>
+<li><strong>DateTime</strong>：日期时间。</li>
+<li><strong>LocalDateTime</strong>：本地日期时间。</li>
+<li><strong>LocalTime</strong>：本地时间。</li>
+<li><strong>Duration</strong>：时段。</li>
+<li><strong>Point</strong>：地理位置坐标点。</li>
+<li><strong>Map 类型</strong>：键值对形式。</li>
+<li><strong>List 类型</strong>：类似数组，存储多个值的序列，支持位置索引（从 0 开始，负索引表示从尾部开始）。</li>
+<li><strong>ByteArray</strong>：字节数组，用于小取值范围数值属性。</li>
+<li><strong>null 类型</strong>：表示不存在属性，查询时返回 null。</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-时间与日期处理">4. <strong>时间与日期处理</strong></h4>
+<ul>
+<li><strong>时间与日期类型</strong>：通过函数调用获取值，例如：
+<ul>
+<li><code>date()</code>：获取当前日期。</li>
+<li><code>timestamp()</code>：获取当前毫秒级时间戳（基于 <code>System.currentTimeMillis()</code>）。</li>
+<li>使用 APOC 库函数（如 <code>apoc.date.format</code>）进行格式转换，例如按 <code>&quot;yyyy-MM-dd HH:mm:ss&quot;</code> 格式显示。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-结构类型">5. <strong>结构类型</strong></h4>
+<p>结构类型可以作为 Cypher 查询语句的返回结果，包括：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/neo4j/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/neo4j/">Neo4j</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/">Python可视化-折线图</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-16">2025-03-16</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python可视化-折线图">Python可视化-折线图</h1>
+<h2 id="一-json-数据处理">（一） <strong>JSON 数据处理</strong></h2>
+<h4 id="1json-简介">（1）<strong>JSON 简介</strong></h4>
+<ul>
+<li><strong>定义</strong>：JSON（JavaScript Object Notation）是一种轻量级的数据交互格式，采用文本格式存储和表示数据。</li>
+</ul>
+<h4 id="2json-转换">（2）<strong>JSON 转换</strong></h4>
 <ul>
 <li>
-<p><strong>方法 1：使用 <code>for</code> 循环</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> fruit <span style="color:#f92672">in</span> fruits:
-</span></span><span style="display:flex;"><span>    print(fruit)
+<p><strong>将 Python 数据转换为 JSON</strong>：</p>
+<ul>
+<li>使用 <code>json.dumps()</code> 方法。</li>
+<li>如果有中文，可以设置 <code>ensure_ascii=False</code> 确保中文正常转换。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(python_data, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div></li>
-<li>
-<p><strong>方法 2：使用索引</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(fruits)):
-</span></span><span style="display:flex;"><span>    print(fruits[i])
-</span></span></code></pre></div></li>
-<li>
-<p><strong>方法 3：使用 <code>enumerate()</code></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, fruit <span style="color:#f92672">in</span> enumerate(fruits):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">, Fruit: </span><span style="color:#e6db74">{</span>fruit<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(data, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>print(json_data)  <span style="color:#75715e"># 输出 {&#34;name&#34;: &#34;张三&#34;, &#34;age&#34;: 25}</span>
 </span></span></code></pre></div></li>
 </ul>
-<h4 id="3列表常用操作">3、列表常用操作</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定义一个列表</span>
-</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 追加元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;orange&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;追加后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 扩展列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>extend([<span style="color:#e6db74">&#34;grape&#34;</span>, <span style="color:#e6db74">&#34;mango&#34;</span>])
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;扩展后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 插入元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;pear&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;插入后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 删除元素</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> fruits[<span style="color:#ae81ff">2</span>]
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;删除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 弹出元素</span>
-</span></span><span style="display:flex;"><span>removed_fruit <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">3</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出后:&#34;</span>, fruits)        <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;pear&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;弹出的元素:&#34;</span>, removed_fruit)  <span style="color:#75715e"># 输出 orange</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 6. 移除元素</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;pear&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;移除后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;cherry&#39;, &#39;grape&#39;, &#39;mango&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 7. 清空列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;清空后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 []</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8. 统计元素</span>
-</span></span><span style="display:flex;"><span>fruits <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;cherry&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>]
-</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#34;banana&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;banana 出现的次数:&#34;</span>, count)  <span style="color:#75715e"># 输出 2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 9. 查找元素下标</span>
-</span></span><span style="display:flex;"><span>index <span style="color:#f92672">=</span> fruits<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;cherry&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;cherry 的下标:&#34;</span>, index)  <span style="color:#75715e"># 输出 2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10. 获取列表长度</span>
-</span></span><span style="display:flex;"><span>length <span style="color:#f92672">=</span> len(fruits)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;列表长度:&#34;</span>, length)  <span style="color:#75715e"># 输出 4</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 11. 修改元素</span>
-</span></span><span style="display:flex;"><span>fruits[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;修改后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;apple&#39;, &#39;orange&#39;, &#39;cherry&#39;, &#39;banana&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 12. 反转列表</span>
-</span></span><span style="display:flex;"><span>fruits<span style="color:#f92672">.</span>reverse()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;反转后:&#34;</span>, fruits)  <span style="color:#75715e"># 输出 [&#39;banana&#39;, &#39;cherry&#39;, &#39;orange&#39;, &#39;apple&#39;]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 13. 排序列表</span>
-</span></span><span style="display:flex;"><span>numbers <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>]
-</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span>sort()
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;排序后:&#34;</span>, numbers)  <span style="color:#75715e"># 输出 [1, 2, 3, 4]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 14. 切片操作</span>
-</span></span><span style="display:flex;"><span>subset <span style="color:#f92672">=</span> fruits[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;切片后:&#34;</span>, subset)  <span style="color:#75715e"># 输出 [&#39;cherry&#39;, &#39;orange&#39;]</span>
-</span></span></code></pre></div><h3 id="二数据容器tuple元组">（二）<strong>数据容器：<code>tuple</code>（元组）</strong></h3>
-<p><strong>1、定义</strong>：元组是一种<strong>有序、不可变</strong>的数据容器。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8/">Read More</a><div class="post-tags">
+</li>
+<li>
+<p><strong>将 JSON 转换为 Python 数据</strong>：</p>
+<ul>
+<li>使用 <code>json.loads()</code> 方法。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>python_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(json_data)
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;name&#34;: &#34;张三&#34;, &#34;age&#34;: 25}&#39;</span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(json_data)
+</span></span><span style="display:flex;"><span>print(data)  <span style="color:#75715e"># 输出 {&#39;name&#39;: &#39;张三&#39;, &#39;age&#39;: 25}</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h2 id="二-pyecharts-数据可视化">（二） <strong><code>pyecharts</code> 数据可视化</strong></h2>
+<h3 id="1pyecharts-简介">1、<strong><code>pyecharts</code> 简介</strong></h3>
+<ul>
+<li>
+<p><strong>定义</strong>：<code>pyecharts</code> 是一个基于 ECharts 的 Python 数据可视化库。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">Python文件操作</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python文件操作">Python文件操作</h1>
-<h2 id="一编码">（一）编码</h2>
-<h3 id="1-编码的概念">1. <strong>编码的概念</strong></h3>
+        <a href="/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/">Python异常、模块与包</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-15">2025-03-15</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python异常模块与包">Python异常、模块与包</h1>
+<h2 id="一异常">（一）异常</h2>
+<h3 id="1-异常的概念">1. <strong>异常的概念</strong></h3>
 <ul>
-<li><strong>定义</strong>：编码是一种将 <strong>可识别内容</strong>（如文字、符号等）转换为 <strong>二进制数据</strong> 的规则，同时也定义了如何将二进制数据转换回可识别内容。</li>
+<li><strong>异常</strong>：程序运行过程中出现的错误。</li>
+<li><strong>Bug</strong>：指程序中的异常或错误，源于历史上因小虫子导致计算机失灵的案例。</li>
+<li><strong>异常的影响</strong>：
+<ul>
+<li>程序可能因异常停止运行（崩溃）。</li>
+<li>通过捕获异常，可以让程序在出现异常时继续运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-捕获异常">2. <strong>捕获异常</strong></h3>
+<h4 id="1基本语法">（1）<strong>基本语法</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：提前假设某处会出现异常，并做好处理准备。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>    如果出现异常执行的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2捕获指定异常">（2）<strong>捕获指定异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获特定类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> 异常类型 <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3捕获多个异常">（3）<strong>捕获多个异常</strong></h4>
+<ul>
+<li><strong>作用</strong>：捕获多种类型的异常。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (异常类型1, 异常类型2) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    print(num)  <span style="color:#75715e"># 可能抛出 NameError</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 可能抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">NameError</span>, <span style="color:#a6e22e">ZeroDivisionError</span>) <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="4捕获所有异常">（4）<strong>捕获所有异常</strong></h4>
+<ul>
+<li>
+<p><strong>作用</strong>：捕获所有类型的异常。</p>
+</li>
+<li>
+<p><strong>语法</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="5else-和-finally">（5）<strong><code>else</code> 和 <code>finally</code></strong></h4>
+<ul>
+<li><strong><code>else</code></strong>：当没有异常时执行的代码。</li>
+<li><strong><code>finally</code></strong>：无论是否发生异常，都会执行的代码（如关闭文件）。</li>
+<li><strong>语法</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    可能发生错误的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    处理异常的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    没有异常时执行的代码
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    无论是否异常都会执行的代码
+</span></span></code></pre></div></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;test.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;没有异常，真开心&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="3-异常的传递性">3. <strong>异常的传递性</strong></h3>
+<ul>
+<li><strong>定义</strong>：当函数中发生异常且未被捕获时，异常会传递给调用该函数的代码，直到被捕获或程序崩溃。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>异常会从内层函数向外层函数传递。</li>
+<li>如果所有函数都未捕获异常，程序会崩溃。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func01</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 抛出 ZeroDivisionError</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func02</span>():
+</span></span><span style="display:flex;"><span>    func01()  <span style="color:#75715e"># 异常传递到 func02</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        func02()  <span style="color:#75715e"># 异常传递到 main</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;捕获到异常:&#34;</span>, e)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>main()  <span style="color:#75715e"># 输出 &#34;捕获到异常: division by zero&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="二模块">（二）模块</h2>
+<h3 id="1-模块的概念">1. <strong>模块的概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：模块是一个 Python 文件（以 <code>.py</code> 结尾），包含类、函数、变量等，可以被其他 Python 程序导入和使用。</li>
 <li><strong>作用</strong>：
 <ul>
-<li>存储：将人类可读的内容转换为计算机可存储的二进制数据。</li>
-<li>传输：在网络传输中，编码确保数据能够正确传递和解析。</li>
-<li>显示：将二进制数据转换回人类可读的内容。</li>
+<li>将代码组织成可重用的单元。</li>
+<li>提供工具包，帮助快速实现功能（如 <code>time</code> 模块用于时间操作）。</li>
 </ul>
 </li>
 </ul>
-<hr>
-<h3 id="2-常见编码">2. <strong>常见编码</strong></h3>
-<h4 id="1utf-8">（1）<strong>UTF-8</strong></h4>
-<ul>
-<li>是一种 <strong>可变长度</strong> 的 Unicode 编码。</li>
-<li>支持全球所有语言的字符。</li>
-<li>兼容 ASCII 编码。</li>
-</ul>
-<h5 id="2gbk">（2）<strong>GBK</strong></h5>
-<ul>
-<li>是一种针对 <strong>中文</strong> 的编码。</li>
-<li>支持简体中文和繁体中文。</li>
-</ul>
-<h4 id="3big5">（3）<strong>Big5</strong></h4>
-<ul>
-<li>是一种针对 <strong>繁体中文</strong> 的编码。</li>
-<li>主要用于台湾、香港等地区。</li>
-</ul>
-<hr>
-<h3 id="3-编码与解码">3. <strong>编码与解码</strong></h3>
-<h5 id="1编码encode">（1）<strong>编码（Encode）</strong></h5>
+<h3 id="2-导入模块">2. <strong>导入模块</strong></h3>
+<h4 id="1基本语法-1">（1）<strong>基本语法</strong></h4>
 <ul>
 <li>
-<p><strong>作用</strong>：将字符串转换为二进制数据。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>字符串<span style="color:#f92672">.</span>encode(编码格式)
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;我喜欢你&#34;</span>
-</span></span><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
-</span></span><span style="display:flex;"><span>print(binary_data)  <span style="color:#75715e"># 输出 b&#39;\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0&#39;</span>
-</span></span></code></pre></div></li>
-</ul>
-<h5 id="2解码decode">（2）<strong>解码（Decode）</strong></h5>
-<ul>
-<li>
-<p><strong>作用</strong>：将二进制数据转换为字符串。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>二进制数据<span style="color:#f92672">.</span>decode(编码格式)
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>binary_data <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe6\x88\x91\xe5\x96\x9c\xe6\xac\xa2\xe4\xbd\xa0</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>text <span style="color:#f92672">=</span> binary_data<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;UTF-8&#34;</span>)
-</span></span><span style="display:flex;"><span>print(text)  <span style="color:#75715e"># 输出 &#34;我喜欢你&#34;</span>
-</span></span></code></pre></div></li>
-</ul>
-<hr>
-<h3 id="4-编码错误的处理">4. <strong>编码错误的处理</strong></h3>
-<ul>
-<li><strong>常见错误</strong>：
-<ul>
-<li><code>UnicodeEncodeError</code>：编码时无法将字符转换为指定编码。</li>
-<li><code>UnicodeDecodeError</code>：解码时无法将二进制数据转换为指定编码的字符。</li>
-</ul>
-</li>
-<li><strong>解决方法</strong>：
-<ul>
-<li>使用 <code>errors</code> 参数指定错误处理方式。
-<ul>
-<li><code>ignore</code>：忽略无法编码/解码的字符。</li>
-<li><code>replace</code>：用替代字符（如 <code>?</code>）替换无法编码/解码的字符。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="heading"></h4>
-<h2 id="二文件操作">（二）文件操作</h2>
-<h3 id="1-打开文件">1. <strong>打开文件</strong></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>open(file, mode, encoding)
-</span></span></code></pre></div><ul>
-<li>
-<p><code>file</code>：文件路径（字符串类型）。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">Read More</a><div class="post-tags">
+<p><strong><code>import</code> 语句</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/">python面试题1</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h3 id="1python-中的三元表达式">1、Python 中的三元表达式</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[on_true] <span style="color:#66d9ef">if</span> [expression] <span style="color:#66d9ef">else</span> [on_false]
-</span></span></code></pre></div><ul>
-<li><code>[expression]</code> 是一个布尔表达式，结果为 <code>True</code> 或 <code>False</code>。</li>
-<li>如果 <code>[expression]</code> 为 <code>True</code>，则整个表达式的结果是 <code>[on_true]</code>。</li>
-<li>如果 <code>[expression]</code> 为 <code>False</code>，则整个表达式的结果是 <code>[on_false]</code>。</li>
-</ul>
-<h4 id="例子">例子：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
-</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用三元表达式选择较大的值</span>
-</span></span><span style="display:flex;"><span>max_value <span style="color:#f92672">=</span> x <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> y <span style="color:#66d9ef">else</span> y
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(max_value)  <span style="color:#75715e"># 输出: 20</span>
-</span></span></code></pre></div><p>在这个例子中，<code>x &gt; y</code> 是 <code>False</code>，所以 <code>max_value</code> 被赋值为 <code>y</code>，即 <code>20</code>。</p>
-<h3 id="2python-中如何实现多线程">2、Python 中如何实现多线程？</h3>
-<p>Python 中的多线程可以通过 <code>threading</code> 模块来实现。线程是轻量级的进程，多线程允许程序同时执行多个任务。然而，由于 Python 的全局解释器锁（GIL），多线程在 CPU 密集型任务中并不能真正实现并行执行，但在 I/O 密集型任务中仍然有用。</p>
-<h4 id="使用-threading-模块实现多线程">使用 <code>threading</code> 模块实现多线程</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> threading
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_numbers</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
-</span></span><span style="display:flex;"><span>        print(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_letters</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> letter <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;d&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>]:
-</span></span><span style="display:flex;"><span>        print(letter)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建线程</span>
-</span></span><span style="display:flex;"><span>thread1 <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>print_numbers)
-</span></span><span style="display:flex;"><span>thread2 <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>print_letters)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动线程</span>
-</span></span><span style="display:flex;"><span>thread1<span style="color:#f92672">.</span>start()
-</span></span><span style="display:flex;"><span>thread2<span style="color:#f92672">.</span>start()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 等待线程完成</span>
-</span></span><span style="display:flex;"><span>thread1<span style="color:#f92672">.</span>join()
-</span></span><span style="display:flex;"><span>thread2<span style="color:#f92672">.</span>join()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;多线程执行完毕&#34;</span>)
-</span></span></code></pre></div><ol>
-<li>
-<p><strong>GIL（全局解释器锁）</strong>：Python 的 GIL 确保同一时间只有一个线程执行 Python 字节码。这意味着即使在多核 CPU 上，Python 的多线程也不能真正并行执行 CPU 密集型任务。GIL 的存在是为了保护 Python 解释器的内部数据结构不被多个线程同时修改。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E8%AF%95%E9%A2%98/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/">SQL时间相关总结</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div><div class="content"><h3 id="sql时间相关总结">SQL时间相关总结</h3>
-<h3 id="1-常见时间类型">1. <strong>常见时间类型</strong></h3>
-<p>数据库通常支持以下几种时间类型：</p>
-<ul>
-<li><strong>DATE</strong>：仅存储日期，格式为 <code>YYYY-MM-DD</code>。</li>
-<li><strong>TIME</strong>：仅存储时间，格式为 <code>HH:MM:SS</code>。</li>
-<li><strong>DATETIME</strong> / <strong>TIMESTAMP</strong>：存储日期和时间，格式为 <code>YYYY-MM-DD HH:MM:SS</code>。</li>
-<li><strong>YEAR</strong>：仅存储年份。</li>
-<li><strong>INTERVAL</strong>：表示时间间隔（如 <code>30 days</code>、<code>1 month</code> 等）。</li>
-</ul>
+        <a href="/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/">SQL：Json字段处理+分布式ID生成</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-15">2025-03-15</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div><div class="content"><h3 id="mysql-json-数据处理解析"><strong>MySQL JSON 数据处理解析</strong></h3>
 <hr>
-<h3 id="2-获取当前时间">2. <strong>获取当前时间</strong></h3>
-<p>数据库提供了多种函数来获取当前时间：</p>
-<ul>
-<li><strong><code>CURRENT_DATE</code></strong>：返回当前日期（不包括时间）。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span>;  <span style="color:#75715e">-- 2023-10-05
-</span></span></span></code></pre></div></li>
-<li><strong><code>CURRENT_TIME</code></strong>：返回当前时间（不包括日期）。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span>;  <span style="color:#75715e">-- 14:30:45
-</span></span></span></code></pre></div></li>
-<li><strong><code>CURRENT_TIMESTAMP</code></strong> / <strong><code>NOW()</code></strong>：返回当前日期和时间。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>;  <span style="color:#75715e">-- 2023-10-05 14:30:45
-</span></span></span></code></pre></div></li>
-</ul>
+<p><strong>题目要求</strong>：
+从 <code>products</code> 表的 <code>attributes</code>（JSON 字段）中提取 <code>color</code> 和 <code>size</code> 字段的值。</p>
 <hr>
-<h3 id="3-时间计算">3. <strong>时间计算</strong></h3>
-<p>数据库支持对时间进行加减运算，常用的方式是使用 <code>INTERVAL</code>。</p>
-<h4 id="示例-1加减天数">示例 1：加减天数</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;10 days&#39;</span>;  <span style="color:#75715e">-- 10 天后的日期
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 days&#39;</span>; <span style="color:#75715e">-- 30 天前的日期
-</span></span></span></code></pre></div><h4 id="示例-2加减月份">示例 2：加减月份</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;1 month&#39;</span>;  <span style="color:#75715e">-- 1 个月后的日期
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_DATE</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;3 months&#39;</span>; <span style="color:#75715e">-- 3 个月前的日期
-</span></span></span></code></pre></div><h4 id="示例-3加减时间">示例 3：加减时间</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">+</span> INTERVAL <span style="color:#e6db74">&#39;2 hours&#39;</span>;  <span style="color:#75715e">-- 2 小时后的时间
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_TIME</span> <span style="color:#f92672">-</span> INTERVAL <span style="color:#e6db74">&#39;30 minutes&#39;</span>; <span style="color:#75715e">-- 30 分钟前的时间
-</span></span></span></code></pre></div><hr>
-<h3 id="4-时间过滤">4. <strong>时间过滤</strong></h3>
-<p>在查询中，经常需要根据时间范围过滤数据。例如：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/sql%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/">SQL易混淆知识点</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/sql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>SQL</a></span></div><div class="content"><h3 id="sql易混淆知识点">SQL易混淆知识点</h3>
-<h3 id="1partition-by-和-group-by的区别">1、partition by 和 group by的区别</h3>
-<h4 id="group-by"><strong><code>GROUP BY</code></strong></h4>
+<h2 id="json-提取语法">JSON 提取语法</h2>
+<p>在 MySQL 中，JSON 数据存储在 <code>JSON</code> 类型的列中，使用 <strong><code>-&gt;&gt;</code> 和 <code>-&gt;</code> 操作符</strong> 提取值：</p>
 <ul>
-<li>
-<p><strong>用途</strong>: <code>GROUP BY</code> 用于将数据分组，并对每个分组进行聚合计算（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）。</p>
-</li>
-<li>
-<p><strong>结果</strong>: 它会将多行数据合并为一行，每个分组只返回一行结果。</p>
-</li>
-<li>
-<p><strong>使用场景</strong>: 当你需要对数据进行分组并计算汇总值时使用。</p>
-</li>
-<li>
-<p><strong>示例</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">AVG</span>(salary) <span style="color:#66d9ef">AS</span> avg_salary
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
-</span></span></code></pre></div><p>这个查询会返回每个部门的平均工资，每个部门只有一行结果。</p>
-</li>
-<li>
-<p><strong>特点</strong>:</p>
-<ul>
-<li>分组后的结果会减少行数。</li>
-<li>只能选择分组字段和聚合函数的结果。</li>
+<li><code>-&gt;</code>  返回 <strong>JSON 格式</strong> 的值（适用于嵌套查询）。</li>
+<li><code>-&gt;&gt;</code> 返回 <strong>文本格式</strong> 的值（适用于字符串和数值查询）。</li>
 </ul>
-</li>
-</ul>
-<h4 id="partition-by"><strong><code>PARTITION BY</code></strong></h4>
-<ul>
-<li>
-<p><strong>用途</strong>: <code>PARTITION BY</code> 是窗口函数的一部分，用于在窗口函数中对数据进行分组，但不会减少行数。</p>
-</li>
-<li>
-<p><strong>结果</strong>: 它不会将多行合并为一行，而是为每一行计算一个值（如排名、累计值等）。</p>
-</li>
-<li>
-<p><strong>使用场景</strong>: 当你需要对数据进行分组计算，但希望保留原始行数时使用。</p>
-</li>
-<li>
-<p><strong>示例</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, salary, dept_id,
-</span></span><span style="display:flex;"><span>       RANK() OVER (PARTITION <span style="color:#66d9ef">BY</span> dept_id <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> salary <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rank
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees; 
-</span></span></code></pre></div><p>这个查询会为每个部门的员工根据工资排名，但不会减少行数，结果中每一行都会保留。</p>
-</li>
-<li>
-<p><strong>特点</strong>:</p>
-<ul>
-<li>分组后的结果不会减少行数。</li>
-<li>可以同时选择分组字段、原始字段和窗口函数的结果。</li>
-</ul>
-</li>
-</ul>
-<h4 id="核心区别"><strong>核心区别</strong></h4>
+<p><strong>查询示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.color&#39;</span> <span style="color:#66d9ef">AS</span> color,
+</span></span><span style="display:flex;"><span>    attributes<span style="color:#f92672">-&gt;&gt;</span><span style="color:#e6db74">&#39;$.size&#39;</span> <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">size</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> products;
+</span></span></code></pre></div><hr>
+<h2 id="示例数据">示例数据</h2>
+<p>假设 <code>products</code> 表的结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> products (
+</span></span><span style="display:flex;"><span>    id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    name VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    attributes JSON
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>表中的数据：</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">特性</th>
-          <th style="text-align: left"><code>GROUP BY</code></th>
-          <th style="text-align: left"><code>PARTITION BY</code></th>
+          <th style="text-align: left">id</th>
+          <th style="text-align: left">name</th>
+          <th style="text-align: left">attributes</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><strong>行数变化</strong></td>
-          <td style="text-align: left">减少行数（每个分组返回一行）</td>
-          <td style="text-align: left">不减少行数（保留原始行数）</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">T-shirt</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;red&quot;, &quot;size&quot;: &quot;M&quot;, &quot;brand&quot;: &quot;Nike&quot;}</code></td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>用途</strong></td>
-          <td style="text-align: left">数据分组和聚合</td>
-          <td style="text-align: left">数据分组并计算窗口函数</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Shoes</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;black&quot;, &quot;size&quot;: &quot;42&quot;, &quot;brand&quot;: &quot;Adidas&quot;}</code></td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>是否支持聚合函数</strong></td>
-          <td style="text-align: left">是（如 <code>SUM</code>、<code>AVG</code>、<code>COUNT</code> 等）</td>
-          <td style="text-align: left">否（窗口函数如 <code>RANK</code>、<code>ROW_NUMBER</code>）</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>结果字段</strong></td>
-          <td style="text-align: left">只能选择分组字段和聚合结果</td>
-          <td style="text-align: left">可以选择原始字段和窗口函数结果</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Jacket</td>
+          <td style="text-align: left"><code>{&quot;color&quot;: &quot;blue&quot;, &quot;size&quot;: &quot;L&quot;, &quot;brand&quot;: &quot;Puma&quot;}</code></td>
       </tr>
   </tbody>
 </table>
-<h4 id="示例对比"><strong>示例对比</strong></h4>
-<h4 id="使用-group-by">使用 <code>GROUP BY</code>:</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> dept_id, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> employee_count
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> employees
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> dept_id;
-</span></span></code></pre></div><p><strong>结果</strong>:</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/sql%E6%98%93%E6%B7%B7%E6%B7%86%E7%9F%A5%E8%AF%86%E7%82%B9/">Read More</a><div class="post-tags">
+<p>执行 SQL：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/sql-json%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86&#43;%E5%88%86%E5%B8%83%E5%BC%8Fid%E7%94%9F%E6%88%90/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/sql/">SQL</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/ioc-di-aop/">IoC DI AOP</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-08">2025-03-08</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content"><ul>
-<li><strong>IoC</strong>：将对象创建和依赖管理的控制权交给框架。</li>
-<li><strong>DI</strong>：通过注入方式实现IoC，解耦对象及其依赖。</li>
-<li><strong>AOP</strong>：通过切面分离横切关注点，提升代码模块化和可维护性。</li>
-</ul>
-<h3 id="1-iocinversion-of-control控制反转">1. IoC（Inversion of Control，控制反转）</h3>
-<p><strong>定义</strong>：
-IoC是一种设计原则，将对象的创建和依赖管理交给框架或容器，而不是由开发者手动控制。</p>
-<p><strong>传统方式</strong>：
-开发者通常在代码中直接创建和管理对象，控制权在开发者手中。</p>
-<p><strong>IoC方式</strong>：
-框架或容器负责对象的创建和生命周期管理，开发者只需定义对象及其依赖关系，控制权转移到框架。</p>
-<p><strong>优点</strong>：</p>
+        <a href="/Jinxiwei.github.io/posts/python/">Python基础语法</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2025-03-11">2025-03-11</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div><div class="content"><h1 id="python基础语法">Python基础语法</h1>
+<h3 id="一-6中常用数据值类型">(一) 6中常用数据（值）类型：</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>类型</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>数字（Number）</strong></td>
+          <td style="text-align: left">支持多种数字类型</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 整数（int）</td>
+          <td style="text-align: left">如：<code>10</code>、<code>-10</code></td>
+          <td style="text-align: left">表示整数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 浮点数（float）</td>
+          <td style="text-align: left">如：<code>13.14</code>、<code>-13.14</code></td>
+          <td style="text-align: left">表示带小数点的数值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 复数（complex）</td>
+          <td style="text-align: left">如：<code>4+3j</code></td>
+          <td style="text-align: left">以 <code>j</code> 结尾表示复数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">- 布尔（bool）</td>
+          <td style="text-align: left"><code>True</code>、<code>False</code></td>
+          <td style="text-align: left">表达逻辑值，<code>True</code> 记作 <code>1</code>，<code>False</code> 记作 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字符串（String）</strong></td>
+          <td style="text-align: left">描述文本的数据类型</td>
+          <td style="text-align: left">由任意数量的字符组成，如：<code>&quot;Hello&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>列表（List）</strong></td>
+          <td style="text-align: left">有序的可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆数据，如：<code>[1, 2, 3]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>元组（Tuple）</strong></td>
+          <td style="text-align: left">有序的不可变序列</td>
+          <td style="text-align: left">可<strong>有序</strong>记录一堆<strong>不可变</strong>的数据，如：<code>(1, 2, 3)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>集合（Set）</strong></td>
+          <td style="text-align: left">无序不重复集合</td>
+          <td style="text-align: left">可<strong>无序</strong>记录一堆<strong>不重复</strong>的数据，如：<code>{1, 2, 3}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字典（Dictionary）</strong></td>
+          <td style="text-align: left">无序 Key-Value 集合</td>
+          <td style="text-align: left">可无序记录<strong>键值对</strong>数据，如：<code>{&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 25}</code></td>
+      </tr>
+  </tbody>
+</table>
 <ul>
-<li>降低耦合：对象不直接依赖具体实现，而是依赖抽象。</li>
-<li>提高灵活性：依赖关系可通过配置更改，无需修改代码。</li>
-<li>便于测试：依赖可替换为模拟对象，简化单元测试。</li>
-</ul>
-<h3 id="2-didependency-injection依赖注入">2. DI（Dependency Injection，依赖注入）</h3>
-<p><strong>定义</strong>：
-DI是IoC的一种实现方式，通过构造函数、setter方法或接口注入依赖对象。</p>
-<p><strong>实现方式</strong>：</p>
+<li>
+<p>数据类型： <code>type()</code></p>
+</li>
+<li>
+<p>类型转换</p>
 <ul>
-<li><strong>构造函数注入</strong>：通过构造函数传递依赖。</li>
-<li><strong>Setter注入</strong>：通过setter方法设置依赖。</li>
-<li><strong>接口注入</strong>：通过接口方法注入依赖。</li>
+<li>
+<p>转换为字符串：<code>str()</code></p>
+</li>
+<li>
+<p>转换为整数：<code>int()</code></p>
+</li>
+<li>
+<p>转换为浮点数：<code>float()</code></p>
+</li>
 </ul>
-<p><strong>示例</strong>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyService</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> MyRepository repository;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造函数注入</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MyService</span>(MyRepository repository) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Setter注入</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setRepository</span>(MyRepository repository) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">repository</span> <span style="color:#f92672">=</span> repository;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>优点</strong>：</p>
-<ul>
-<li>解耦：对象不直接创建依赖，依赖由外部注入。</li>
-<li>可测试性：依赖可替换为模拟对象，便于测试。</li>
-<li>可配置性：依赖关系可通过配置文件管理。</li>
+</li>
+<li>
+<p>任何类型，都可以通过str()，转换成字符串</p>
+</li>
+<li>
+<p>字符串内必须真的是数字，才可以将字符串转换为数字</p>
+</li>
 </ul>
-<h3 id="3-aopaspect-oriented-programming面向切面编程">3. AOP（Aspect-Oriented Programming，面向切面编程）</h3>
-<p><strong>定义</strong>：
-AOP通过切面将横切关注点（如日志、事务、安全等）与核心业务逻辑分离，提升代码的模块化。</p>
-<p><strong>核心概念</strong>：</p>
-<ul>
-<li><strong>切面（Aspect）</strong>：封装横切关注点的模块。</li>
-<li><strong>连接点（Join Point）</strong>：程序执行中的特定点（如方法调用）。</li>
-<li><strong>通知（Advice）</strong>：在连接点执行的动作（如前置、后置、环绕通知）。</li>
-<li><strong>切入点（Pointcut）</strong>：定义哪些连接点会触发通知。</li>
-<li><strong>引入（Introduction）</strong>：为类添加新方法或属性。</li>
-<li><strong>织入（Weaving）</strong>：将切面应用到目标对象的过程。</li>
-</ul>
-<p><strong>示例</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/ioc-di-aop/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/java/">Java</a></div></div>
+<h3 id="二运算符">(二)运算符</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>实例</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>+</code></td>
+          <td style="text-align: left">加</td>
+          <td style="text-align: left">两个对象相加：<code>a + b</code>，如 <code>10 + 20</code> 输出结果 <code>30</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-</code></td>
+          <td style="text-align: left">减</td>
+          <td style="text-align: left">得到负数或一个数减去另一个数：<code>a - b</code>，如 <code>10 - 20</code> 输出结果 <code>-10</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*</code></td>
+          <td style="text-align: left">乘</td>
+          <td style="text-align: left">两个数相乘或返回一个被重复若干次的字符串：<code>a * b</code>，如 <code>10 * 20</code> 输出结果 <code>200</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/</code></td>
+          <td style="text-align: left">除</td>
+          <td style="text-align: left">返回除法结果：<code>b / a</code>，如 <code>20 / 10</code> 输出结果 <code>2.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//</code></td>
+          <td style="text-align: left">取整除</td>
+          <td style="text-align: left">返回商的整数部分：<code>9 // 2</code> 输出结果 <code>4</code>，<code>9.0 // 2.0</code> 输出结果 <code>4.0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%</code></td>
+          <td style="text-align: left">取余</td>
+          <td style="text-align: left">返回除法的余数：<code>b % a</code>，如 <code>20 % 10</code> 输出结果 <code>0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**</code></td>
+          <td style="text-align: left">指数</td>
+          <td style="text-align: left">返回一个数的幂：<code>a ** b</code>，如 <code>10 ** 20</code> 输出结果 <code>100000000000000000000</code></td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>运算符</strong></th>
+          <th style="text-align: left"><strong>描述</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>=</code></td>
+          <td style="text-align: left">赋值运算符</td>
+          <td style="text-align: left">将 <code>=</code> 右边的结果赋给左边的变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>+=</code></td>
+          <td style="text-align: left">加法赋值运算符</td>
+          <td style="text-align: left"><code>c += a</code> 等效于 <code>c = c + a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>-=</code></td>
+          <td style="text-align: left">减法赋值运算符</td>
+          <td style="text-align: left"><code>c -= a</code> 等效于 <code>c = c - a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>*=</code></td>
+          <td style="text-align: left">乘法赋值运算符</td>
+          <td style="text-align: left"><code>c *= a</code> 等效于 <code>c = c * a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/=</code></td>
+          <td style="text-align: left">除法赋值运算符</td>
+          <td style="text-align: left"><code>c /= a</code> 等效于 <code>c = c / a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%=</code></td>
+          <td style="text-align: left">取模赋值运算符</td>
+          <td style="text-align: left"><code>c %= a</code> 等效于 <code>c = c % a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>**=</code></td>
+          <td style="text-align: left">幂赋值运算符</td>
+          <td style="text-align: left"><code>c **= a</code> 等效于 <code>c = c ** a</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>//=</code></td>
+          <td style="text-align: left">取整除赋值运算符</td>
+          <td style="text-align: left"><code>c //= a</code> 等效于 <code>c = c // a</code></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="三字符串">(三)字符串</h3>
+<h4 id="1字符串定义形式">1、字符串定义形式</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>定义方式</strong></th>
+          <th style="text-align: left"><strong>语法</strong></th>
+          <th style="text-align: left"><strong>特点</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">单引号定义法</td>
+          <td style="text-align: left"><code>'字符串内容'</code></td>
+          <td style="text-align: left">适合定义单行字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">双引号定义法</td>
+          <td style="text-align: left"><code>&quot;字符串内容&quot;</code></td>
+          <td style="text-align: left">适合定义单行字符串，内容中可包含单引号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">三引号定义法</td>
+          <td style="text-align: left"><code>'''字符串内容'''</code> 或 <code>&quot;&quot;&quot;字符串内容&quot;&quot;&quot;</code></td>
+          <td style="text-align: left">支持多行字符串，也可作为多行注释使用</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="2字符串格式化">2、字符串格式化</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>格式符号</strong></th>
+          <th style="text-align: left"><strong>转化</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>%s</code></td>
+          <td style="text-align: left">将内容转换成字符串，放入占位位置</td>
+          <td style="text-align: left">适用于字符串、数字等类型，自动转换为字符串</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%d</code></td>
+          <td style="text-align: left">将内容转换成整数，放入占位位置</td>
+          <td style="text-align: left">适用于整数类型，浮点数会被截断为整数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>%f</code></td>
+          <td style="text-align: left">将内容转换成浮点型，放入占位位置</td>
+          <td style="text-align: left">适用于浮点数类型，默认保留 6 位小数，可通过 <code>%.nf</code> 指定小数位数（n 为数字）</td>
+      </tr>
+  </tbody>
+</table>
+<ol>
+<li>
+<p><strong><code>%s</code> 示例</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -510,7 +829,7 @@ AOP通过切面将横切关注点（如日志、事务、安全等）与核心�
                     <span class="page-link" aria-hidden="true">&hellip;</span>
                 </li><li class="page-item ">
                     <span class="page-link">
-                        <a href="/Jinxiwei.github.io/page/9/">9</a>
+                        <a href="/Jinxiwei.github.io/page/10/">10</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

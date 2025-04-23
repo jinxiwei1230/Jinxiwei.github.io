@@ -1,0 +1,150 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Redis - Tag - Jinxiwei</title>
+        <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/redis/</link>
+        <description>Redis - Tag - Jinxiwei</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/redis/" rel="self" type="application/rss+xml" /><item>
+    <title>Redis</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</link>
+    <pubDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</guid>
+    <description><![CDATA[<h3 id="1-键值数据库概述">1 键值数据库概述</h3>
+<h4 id="1-键值数据库技术特点"><strong>1. 键值数据库技术特点</strong></h4>
+<h5 id="核心优势"><strong>核心优势</strong></h5>
+<ul>
+<li><strong>高性能</strong>：
+<ul>
+<li>哈希算法关联Key-Value，时间复杂度O(1)的查询效率。</li>
+</ul>
+</li>
+<li><strong>操作简单</strong>：
+<ul>
+<li>提供丰富API，支持增删改查、范围查询、集合运算（并集/交集/差集）。</li>
+</ul>
+</li>
+<li><strong>多数据结构支持</strong>：
+<ul>
+<li>字符串、双向链表、Hash表、集合、有序集合等。</li>
+<li>值可为二进制、文本、JSON等格式。</li>
+</ul>
+</li>
+</ul>
+<h5 id="高级特性"><strong>高级特性</strong></h5>
+<ul>
+<li><strong>Key过期管理</strong>：支持TTL（Time to Live）。</li>
+<li><strong>持久化</strong>：内存数据可持久化到磁盘，防止数据丢失。</li>
+<li><strong>事务</strong>：
+<ul>
+<li>单命令原子性执行，支持批量操作的事务管理。</li>
+</ul>
+</li>
+<li><strong>扩展性</strong>：
+<ul>
+<li>分片技术实现水平扩展。</li>
+</ul>
+</li>
+<li><strong>高可用</strong>：
+<ul>
+<li>主从复制、读写分离、哨兵机制保障容错性。</li>
+</ul>
+</li>
+<li><strong>多语言API</strong>：支持多种编程语言接口。</li>
+</ul>
+<hr>
+<h4 id="2-redis高可用架构"><strong>2. Redis高可用架构</strong></h4>
+<ul>
+<li><strong>机制</strong>：
+<ul>
+<li>主从集群、读写分离、哨兵监控、增量复制。</li>
+</ul>
+</li>
+<li><strong>节点角色</strong>：
+<ul>
+<li>主节点（Master）与从节点（Replica）。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：
+<ul>
+<li>通过副本节点提升读性能，主从切换保障故障恢复。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="3-对比amazon-dynamodb">3. 对比：Amazon DynamoDB</h4>
+<ul>
+<li><strong>核心能力</strong>：
+<ul>
+<li>完全托管，毫秒级延迟（&lt;10ms）。</li>
+<li>内置安全、备份、恢复机制。</li>
+</ul>
+</li>
+<li><strong>数据模型</strong>：
+<ul>
+<li><strong>项目</strong>：主键/复合键 + 不限数量的属性（总大小≤400KB）。</li>
+<li><strong>表</strong>：无限制的数据项集合（类似关系型数据库的表）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-键值数据存储逻辑架构">2 键值数据存储逻辑架构</h3>
+<h4 id="1-键值存储核心逻辑"><strong>1. 键值存储核心逻辑</strong></h4>
+<ul>
+<li><strong>数据模型</strong>：
+<ul>
+<li>基于<strong>关联数组</strong>（键值对集合），每条记录可包含不同属性，体现NoSQL模式灵活性。</li>
+<li><strong>键（Key）</strong>：唯一标识记录，支持快速读写单行数据。</li>
+</ul>
+</li>
+<li><strong>基本操作</strong>：
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">操作</th>
+          <th style="text-align: left">命令示例</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>set</strong></td>
+          <td style="text-align: left"><code>set(key, value)</code></td>
+          <td style="text-align: left">存储/覆盖键值数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>get</strong></td>
+          <td style="text-align: left"><code>get(key)</code></td>
+          <td style="text-align: left">读取键值数据（键不存在时报错）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>del</strong></td>
+          <td style="text-align: left"><code>del(key)</code></td>
+          <td style="text-align: left">删除键值数据</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><em>注：不同数据库的命令名称可能差异（如Redis用<code>SET/GET/DEL</code>）</em></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-redis键值存储实现"><strong>2. Redis键值存储实现</strong></h4>
+<h5 id="内存结构分层"><strong>内存结构分层</strong></h5>
+<ol>
+<li>
+<p><strong>dictEntry</strong></p>
+<ul>
+<li>包含：
+<ul>
+<li>指向<strong>Key</strong>的指针（SDS字符串对象）</li>
+<li>指向<strong>Value</strong>的指针（RedisObject形式）</li>
+<li>指向下一个dictEntry的指针（哈希冲突时链式存储）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>RedisObject</strong>（值对象的元数据）</p>]]></description>
+</item>
+</channel>
+</rss>

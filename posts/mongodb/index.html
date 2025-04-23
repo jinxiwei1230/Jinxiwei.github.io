@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>MongoDB - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="MongoDB">
+  <meta property="og:description" content="(一) 文档数据库概述 1. 文档数据库核心特点 灵活的数据模型： 文档是基本存储单位，采用JSON/BSON格式 支持嵌套结构和树形数据存储 文档结构可自描述，无需严格模式定义 强大的功能支持： 支持多种索引类型（单字段、复合、全文、地理空间等） 提供丰富的查询语言和聚合框架 支持ACID事务管理机制 扩展性与高可用： 分布式集群架构（分片&#43;复制集） 易于水平扩展，支持高并发访问 自动故障转移，保障数据高可用性 完善的生态系统： 支持多种编程语言驱动 提供管理监控工具（如MongoDB Atlas、Compass） 具备完善的安全机制（认证、加密、审计） 2. 文档数据模型优势 自包含性：文档同时包含数据及其结构信息 灵活性：同一集合中的文档可具有不同结构 高效性：相关数据存储在单一文档中，减少join操作 3. XML与JSON比较 特性 XML JSON 格式 标记语言，语法严格 轻量级键值对结构 扩展性 通过DTD/XSD定义模式 无严格模式定义 可读性 相对冗长 简洁易读 处理效率 解析复杂 解析高效 数据类型支持 有限 基本类型&#43;嵌套 典型应用场景 企业级数据交换、文档标记 Web API、NoSQL数据库存储 4. JSON与BSON深入对比 JSON特点：
+人类可读的文本格式 基本结构：对象（无序键值对）和数组（有序值列表） 支持数据类型：字符串、数字、布尔值、null、对象、数组 BSON增强特性：
+二进制编码： 存储空间更紧凑 包含长度前缀，支持快速跳转 例：{&#34;hello&#34;: &#34;world&#34;} → \x16\x00\x00\x00\x02hello\x00\x06\x00\x00\x00world\x00\x00 扩展数据类型： 日期（Date） 二进制数据（BinData） 对象ID（ObjectId） 正则表达式 JavaScript代码 时间戳（Timestamp） 小数128（Decimal128） 每种类型都有一个数字代号和一个英文别称 $type 运算可以返回field的类型 $isNumber运算可以返回是否是数值类型 查询优势： 支持类型操作符：$type, $isNumber 示例查询：db.collection.find({&#34;field&#34;: {$type: &#34;date&#34;}}) (二) MongoDB数据存储模型逻辑架构 1. 关键概念 MongoDB数据存储模型中的核心概念包括：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-26T00:00:00+00:00">
+    <meta property="article:tag" content="MongoDB">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MongoDB">
+  <meta name="twitter:description" content="(一) 文档数据库概述 1. 文档数据库核心特点 灵活的数据模型： 文档是基本存储单位，采用JSON/BSON格式 支持嵌套结构和树形数据存储 文档结构可自描述，无需严格模式定义 强大的功能支持： 支持多种索引类型（单字段、复合、全文、地理空间等） 提供丰富的查询语言和聚合框架 支持ACID事务管理机制 扩展性与高可用： 分布式集群架构（分片&#43;复制集） 易于水平扩展，支持高并发访问 自动故障转移，保障数据高可用性 完善的生态系统： 支持多种编程语言驱动 提供管理监控工具（如MongoDB Atlas、Compass） 具备完善的安全机制（认证、加密、审计） 2. 文档数据模型优势 自包含性：文档同时包含数据及其结构信息 灵活性：同一集合中的文档可具有不同结构 高效性：相关数据存储在单一文档中，减少join操作 3. XML与JSON比较 特性 XML JSON 格式 标记语言，语法严格 轻量级键值对结构 扩展性 通过DTD/XSD定义模式 无严格模式定义 可读性 相对冗长 简洁易读 处理效率 解析复杂 解析高效 数据类型支持 有限 基本类型&#43;嵌套 典型应用场景 企业级数据交换、文档标记 Web API、NoSQL数据库存储 4. JSON与BSON深入对比 JSON特点：
+人类可读的文本格式 基本结构：对象（无序键值对）和数组（有序值列表） 支持数据类型：字符串、数字、布尔值、null、对象、数组 BSON增强特性：
+二进制编码： 存储空间更紧凑 包含长度前缀，支持快速跳转 例：{&#34;hello&#34;: &#34;world&#34;} → \x16\x00\x00\x00\x02hello\x00\x06\x00\x00\x00world\x00\x00 扩展数据类型： 日期（Date） 二进制数据（BinData） 对象ID（ObjectId） 正则表达式 JavaScript代码 时间戳（Timestamp） 小数128（Decimal128） 每种类型都有一个数字代号和一个英文别称 $type 运算可以返回field的类型 $isNumber运算可以返回是否是数值类型 查询优势： 支持类型操作符：$type, $isNumber 示例查询：db.collection.find({&#34;field&#34;: {$type: &#34;date&#34;}}) (二) MongoDB数据存储模型逻辑架构 1. 关键概念 MongoDB数据存储模型中的核心概念包括：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mongodb\/"
+        },"genre": "posts","keywords": "MongoDB","wordcount":  1059 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/mongodb\/","datePublished": "2025-03-26T00:00:00+00:00","dateModified": "2025-03-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">MongoDB</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/db/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DB</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-26">2025-03-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1059 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一-文档数据库概述">(一) 文档数据库概述</a>
+      <ul>
+        <li><a href="#1-文档数据库核心特点">1. 文档数据库核心特点</a></li>
+        <li><a href="#2-文档数据模型优势">2. 文档数据模型优势</a></li>
+        <li><a href="#3-xml与json比较">3. XML与JSON比较</a></li>
+        <li><a href="#4-json与bson深入对比">4. JSON与BSON深入对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#二-mongodb数据存储模型逻辑架构">(二) MongoDB数据存储模型逻辑架构</a>
+      <ul>
+        <li><a href="#1-关键概念">1. 关键概念</a></li>
+        <li><a href="#2-数据库databases">2. 数据库（Databases）</a></li>
+        <li><a href="#3-集合collection">3. 集合（Collection）</a></li>
+        <li><a href="#4-文档document">4. 文档（Document）</a></li>
+        <li><a href="#5-objectid-机制">5. ObjectId 机制</a></li>
+        <li><a href="#三-mongodb-数据存储与文档模型设计"><strong>(三) MongoDB 数据存储与文档模型设计</strong></a></li>
+        <li><a href="#31-设计原则"><strong>3.1 设计原则</strong></a></li>
+        <li><a href="#32-文档关系建模"><strong>3.2 文档关系建模</strong></a></li>
+        <li><a href="#33-大文档分解"><strong>3.3 大文档分解</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#四mongodb-文档数据之间的引用关系"><strong>（四）MongoDB 文档数据之间的引用关系</strong></a>
+      <ul>
+        <li><a href="#1文档引用"><strong>1、文档引用</strong></a></li>
+        <li><a href="#2lookup-关联查询"><strong>2、<code>$lookup</code> 关联查询</strong></a></li>
+        <li><a href="#3-使用-dbref-进行跨库引用"><strong>3、 使用 DBRef 进行跨库引用</strong></a></li>
+        <li><a href="#4mongodb-时序数据存储优化"><strong>4、MongoDB 时序数据存储优化</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#五mongodb数据存储引擎类型">（五）MongoDB数据存储引擎类型</a>
+      <ul>
+        <li><a href="#1-wiredtiger默认存储引擎">1. <strong>WiredTiger（默认存储引擎）</strong></a></li>
+        <li><a href="#2-in-memory-存储引擎">2. <strong>In-Memory 存储引擎</strong></a></li>
+        <li><a href="#3-mmapv1早期存储引擎">3. <strong>MMAPv1（早期存储引擎）</strong></a></li>
+        <li><a href="#存储引擎选择建议"><strong>存储引擎选择建议</strong></a></li>
+        <li><a href="#多存储引擎并存"><strong>多存储引擎并存</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#六mongodb-基础操作"><strong>(六)MongoDB 基础操作</strong></a>
+      <ul>
+        <li><a href="#1-数据库操作"><strong>1. 数据库操作</strong></a></li>
+        <li><a href="#2-数据库管理常用命令"><strong>2. 数据库管理常用命令</strong></a></li>
+        <li><a href="#3-集合操作"><strong>3. 集合操作</strong></a></li>
+        <li><a href="#4-文档数据操作"><strong>4. 文档（数据）操作</strong></a></li>
+        <li><a href="#5-javascript-语法在-mongodb-中的应用"><strong>5. JavaScript 语法在 MongoDB 中的应用</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#mongodb集群架构要点">MongoDB集群架构要点</a>
+      <ul>
+        <li><a href="#核心组件">核心组件</a></li>
+        <li><a href="#典型生产部署架构">典型生产部署架构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="一-文档数据库概述">(一) 文档数据库概述</h2>
+<h3 id="1-文档数据库核心特点">1. 文档数据库核心特点</h3>
+<ol>
+<li><strong>灵活的数据模型</strong>：
+<ul>
+<li>文档是基本存储单位，采用<strong>JSON/BSON</strong>格式</li>
+<li>支持嵌套结构和树形数据存储</li>
+<li>文档结构可<strong>自描述</strong>，无需严格模式定义</li>
+</ul>
+</li>
+<li><strong>强大的功能支持</strong>：
+<ul>
+<li>支持多种索引类型（单字段、复合、全文、地理空间等）</li>
+<li>提供丰富的查询语言和聚合框架</li>
+<li>支持ACID事务管理机制</li>
+</ul>
+</li>
+<li><strong>扩展性与高可用</strong>：
+<ul>
+<li>分布式集群架构（分片+复制集）</li>
+<li>易于水平扩展，支持高并发访问</li>
+<li>自动故障转移，保障数据高可用性</li>
+</ul>
+</li>
+<li><strong>完善的生态系统</strong>：
+<ul>
+<li>支持多种编程语言驱动</li>
+<li>提供管理监控工具（如MongoDB Atlas、Compass）</li>
+<li>具备完善的安全机制（认证、加密、审计）</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-文档数据模型优势">2. 文档数据模型优势</h3>
+<ul>
+<li><strong>自包含性</strong>：文档同时包含数据及其结构信息</li>
+<li><strong>灵活性</strong>：同一集合中的文档可具有不同结构</li>
+<li><strong>高效性</strong>：相关数据存储在单一文档中，减少join操作</li>
+</ul>
+<h3 id="3-xml与json比较">3. XML与JSON比较</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">XML</th>
+          <th style="text-align: left">JSON</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">格式</td>
+          <td style="text-align: left">标记语言，语法严格</td>
+          <td style="text-align: left">轻量级键值对结构</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">扩展性</td>
+          <td style="text-align: left">通过DTD/XSD定义模式</td>
+          <td style="text-align: left">无严格模式定义</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">可读性</td>
+          <td style="text-align: left">相对冗长</td>
+          <td style="text-align: left">简洁易读</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">处理效率</td>
+          <td style="text-align: left">解析复杂</td>
+          <td style="text-align: left">解析高效</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据类型支持</td>
+          <td style="text-align: left">有限</td>
+          <td style="text-align: left">基本类型+嵌套</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">典型应用场景</td>
+          <td style="text-align: left">企业级数据交换、文档标记</td>
+          <td style="text-align: left">Web API、NoSQL数据库存储</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="4-json与bson深入对比">4. JSON与BSON深入对比</h3>
+<p><strong>JSON特点</strong>：</p>
+<ul>
+<li>人类可读的文本格式</li>
+<li>基本结构：对象（无序键值对）和数组（有序值列表）</li>
+<li>支持数据类型：字符串、数字、布尔值、null、对象、数组</li>
+</ul>
+<p><strong>BSON增强特性</strong>：</p>
+<ol>
+<li><strong>二进制编码</strong>：
+<ul>
+<li>存储空间更紧凑</li>
+<li>包含长度前缀，支持快速跳转</li>
+<li>例：<code>{&quot;hello&quot;: &quot;world&quot;}</code> → <code>\x16\x00\x00\x00\x02hello\x00\x06\x00\x00\x00world\x00\x00</code></li>
+</ul>
+</li>
+<li><strong>扩展数据类型</strong>：
+<ul>
+<li>日期（Date）</li>
+<li>二进制数据（BinData）</li>
+<li>对象ID（ObjectId）</li>
+<li>正则表达式</li>
+<li>JavaScript代码</li>
+<li>时间戳（Timestamp）</li>
+<li>小数128（Decimal128）</li>
+</ul>
+</li>
+<li>每种类型都有一个<strong>数字代号</strong>和一个<strong>英文别称</strong>
+<ul>
+<li>$type 运算可以返回field的类型</li>
+<li>$isNumber运算可以返回是否是数值类型</li>
+</ul>
+</li>
+<li><strong>查询优势</strong>：
+<ul>
+<li>支持类型操作符：<code>$type</code>, <code>$isNumber</code> 示例查询：<code>db.collection.find({&quot;field&quot;: {$type: &quot;date&quot;}})</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="二-mongodb数据存储模型逻辑架构">(二) MongoDB数据存储模型逻辑架构</h2>
+<h3 id="1-关键概念">1. 关键概念</h3>
+<p>MongoDB数据存储模型中的核心概念包括：</p>
+<ul>
+<li><strong>文档（Document）</strong></li>
+<li><strong>集合（Collection）</strong></li>
+<li><strong>数据库（Database）</strong></li>
+</ul>
+<p>它们与关系型数据库<strong>MySQL</strong>的对应关系如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">MongoDB</th>
+          <th style="text-align: left">MySQL</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>_id</code></td>
+          <td style="text-align: left">主键（Primary Key)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">字段（Field）</td>
+          <td style="text-align: left">列（Column）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">文档（Document）</td>
+          <td style="text-align: left">行（Row）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">集合（Collection）</td>
+          <td style="text-align: left">表（Table）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据库（Database）</td>
+          <td style="text-align: left">数据库（Database）</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="2-数据库databases">2. 数据库（Databases）</h3>
+<ul>
+<li>在将文档加入集合之前，MongoDB需要将集合加到数据库中。</li>
+<li>一个MongoDB主机上通常会有多个数据库。</li>
+<li>数据库名称需使用UTF-8字符，长度不能超过64个字符，且不得包含空格、<code>'.'</code>、<code>'$'</code>、<code>'/'</code>、<code>'\\'</code>、<code>'\0'</code>等特殊字符。</li>
+<li>MongoDB默认创建以下4个数据库：
+<ul>
+<li><code>admin</code>：根级数据库，供系统管理员使用。</li>
+<li><code>local</code>：不会被复制，仅限本地服务器访问。</li>
+<li><code>config</code>：用于存储分片集群的配置信息。</li>
+<li><code>test</code>：默认连接的数据库。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-集合collection">3. 集合（Collection）</h3>
+<ul>
+<li>集合相当于一个没有固定模式的表。</li>
+<li><strong>一个集合由多个文档组成</strong>，集合中的文档结构可以不同。</li>
+<li>集合名称由UTF-8字符组成。</li>
+<li>不能以<code>system.</code>作为集合名称前缀，例如<code>system.users</code>存储用户信息。</li>
+<li>不能使用<code>&quot;$&quot;</code>作为保留字。</li>
+</ul>
+<h3 id="4-文档document">4. 文档（Document）</h3>
+<ul>
+<li>每个文档都有唯一的<code>_id</code>字段，类似于主键。</li>
+<li>文档结构可变，<strong>键/值对是有序的</strong>。</li>
+<li>命名规范：
+<ul>
+<li>区分大小写</li>
+<li>不能包含<code>'\0'</code></li>
+<li>避免使用<code>'.'</code>和<code>'$'</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="5-objectid-机制">5. ObjectId 机制</h3>
+<p>MongoDB 使用 <code>ObjectId</code> 作为默认主键，具有以下特点：</p>
+<ul>
+<li>由 <code>new ObjectId()</code> 生成，占用 12 个字节。</li>
+<li>每个文档标识中包含<strong>标识产生时间</strong>、<strong>机器标识</strong>、<strong>进程</strong>和<strong>自增序列</strong>四方面内容，组合起来保障唯一性。</li>
+<li>组成结构：
+<ol>
+<li><strong>时间戳（4字节）</strong>：按创建时间排序。</li>
+<li><strong>机器标识（3字节）</strong>：不同机器生成不同 ObjectId。</li>
+<li><strong>进程标识（2字节）</strong>：确保同一台机器上的多个进程生成唯一ID。</li>
+<li><strong>计数器（3字节）</strong>：在同一秒内提供 16,777,216 个不同的 ObjectId。</li>
+</ol>
+</li>
+<li>也可以使用整数或其他类型作为 <code>_id</code>。</li>
+<li>使用 <code>ObjectId</code> 可以确保唯一性，无需手动管理。</li>
+</ul>
+<h3 id="三-mongodb-数据存储与文档模型设计"><strong>(三) MongoDB 数据存储与文档模型设计</strong></h3>
+<h3 id="31-设计原则"><strong>3.1 设计原则</strong></h3>
+<ul>
+<li><strong>抽象关键业务实体</strong>：
+<ul>
+<li>业务需求决定 MongoDB 中的集合，如：
+<ul>
+<li><strong>客户集合（customers）</strong></li>
+<li><strong>产品集合（products）</strong></li>
+<li><strong>订单集合（orders）</strong></li>
+<li><strong>供应商集合（suppliers）</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>文档字段设计</strong>：
+<ul>
+<li><strong>经常一起访问的字段</strong> 应该存储在同一个文档中，提高查询效率。</li>
+<li><strong>较少访问的字段</strong> 可拆分为子文档或存储在其他集合中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="32-文档关系建模"><strong>3.2 文档关系建模</strong></h3>
+<p>MongoDB 提供两种常见的文档建模方式：</p>
+<ol>
+<li>
+<p><strong>内嵌文档（嵌套）</strong>：</p>
+<ul>
+<li>
+<p>适用于<strong>一对一</strong>或<strong>一对多</strong>且数据紧密相关的情况。</p>
+</li>
+<li>
+<p>适合需要一起读取的字段，减少查询次数。</p>
+</li>
+<li>
+<p>示例（嵌套地址信息）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;joe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Joe Bookreader&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;address&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;street&#34;</span>: <span style="color:#e6db74">&#34;123 Fake Street&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;Faketon&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;MA&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;zip&#34;</span>: <span style="color:#e6db74">&#34;12345&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>引用关系（外键方式）</strong>：</p>
+<ul>
+<li>
+<p>适用于<strong>一对多</strong>或<strong>多对多</strong>且数据独立性较高的情况。</p>
+</li>
+<li>
+<p>适合需要独立查询的实体，避免数据冗余。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// patron（用户）集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;joe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Joe Bookreader&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// address（地址）集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;patron_id&#34;</span>: <span style="color:#e6db74">&#34;joe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;street&#34;</span>: <span style="color:#e6db74">&#34;123 Fake Street&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;Faketon&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;MA&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;zip&#34;</span>: <span style="color:#e6db74">&#34;12345&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ol>
+<h3 id="33-大文档分解"><strong>3.3 大文档分解</strong></h3>
+<p><strong>1、思路 1：按访问频率分解</strong></p>
+<ul>
+<li>
+<p><strong>经常访问的字段</strong>：存入主文档。</p>
+</li>
+<li>
+<p><strong>不经常访问的字段</strong>：拆分为子集合。</p>
+</li>
+</ul>
+<p><strong>电影数据拆分示例</strong></p>
+<ul>
+<li>
+<p><strong>movie collection（主要存储高频访问字段）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;The Arrival of a Train&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;year&#34;</span>: <span style="color:#ae81ff">1896</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;runtime&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;released&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;1896-01-25&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;movie&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;directors&#34;</span>: [<span style="color:#e6db74">&#34;Auguste Lumière&#34;</span>, <span style="color:#e6db74">&#34;Louis Lumière&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;countries&#34;</span>: [<span style="color:#e6db74">&#34;France&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;genres&#34;</span>: [<span style="color:#e6db74">&#34;Documentary&#34;</span>, <span style="color:#e6db74">&#34;Short&#34;</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>movie_details collection（存储低频访问字段，如海报、剧情、评分等）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">156</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;movie_id&#34;</span>: <span style="color:#ae81ff">1</span>,  <span style="color:#75715e">// 关联 movie collection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">&#34;poster&#34;</span>: <span style="color:#e6db74">&#34;http://example.com/movie.jpg&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;plot&#34;</span>: <span style="color:#e6db74">&#34;A group of people are waiting for a train...&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;fullplot&#34;</span>: <span style="color:#e6db74">&#34;Detailed movie description...&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;imdb&#34;</span>: { <span style="color:#f92672">&#34;rating&#34;</span>: <span style="color:#ae81ff">7.3</span>, <span style="color:#f92672">&#34;votes&#34;</span>: <span style="color:#ae81ff">5043</span>, <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">12</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;tomatoes&#34;</span>: { <span style="color:#f92672">&#34;viewer&#34;</span>: { <span style="color:#f92672">&#34;rating&#34;</span>: <span style="color:#ae81ff">3.7</span>, <span style="color:#f92672">&#34;numReviews&#34;</span>: <span style="color:#ae81ff">59</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;lastUpdated&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2024-01-29T00:02:53&#34;</span><span style="color:#960050;background-color:#1e0010">)</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>减少查询时的数据传输量</strong>，提升查询效率</p>
+</li>
+<li>
+<p><strong>优化存储</strong>，避免每次查询都加载完整数据</p>
+</li>
+<li>
+<p><strong>支持索引优化</strong>，提高查询性能</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>产品评价数据拆分</strong></p>
+</li>
+<li>
+<p><strong>方式1：最近 Top-K 评论嵌套存储</strong> 适用于希望在查询产品详情时同时获取最新评论的情况：</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Super Widget&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;This is the most useful item in your toolbox.&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;price&#34;</span>: { <span style="color:#f92672">&#34;value&#34;</span>: <span style="color:#960050;background-color:#1e0010">NumberDecimal(</span><span style="color:#e6db74">&#34;119.99&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;currency&#34;</span>: <span style="color:#e6db74">&#34;USD&#34;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;reviews&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_id&#34;</span>: <span style="color:#ae81ff">786</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_author&#34;</span>: <span style="color:#e6db74">&#34;Kristina&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_text&#34;</span>: <span style="color:#e6db74">&#34;This is indeed an amazing widget.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;published_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2019-02-18&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_id&#34;</span>: <span style="color:#ae81ff">785</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_author&#34;</span>: <span style="color:#e6db74">&#34;Trina&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;review_text&#34;</span>: <span style="color:#e6db74">&#34;Nice product. Slow shipping.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;published_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2019-02-17&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>方式2：将所有评论存储在单独的 review collection</strong> 适用于评论数据量较大的情况：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;review_id&#34;</span>: <span style="color:#ae81ff">786</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;product_id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;review_author&#34;</span>: <span style="color:#e6db74">&#34;Kristina&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;review_text&#34;</span>: <span style="color:#e6db74">&#34;This is indeed an amazing widget.&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;published_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2019-02-18&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>避免单个文档过大</strong>，影响查询性能</li>
+<li><strong>灵活查询评论数据</strong>，支持分页加载</li>
+<li><strong>便于扩展</strong>，可以增加评论分析功能</li>
+</ul>
+<h2 id="四mongodb-文档数据之间的引用关系"><strong>（四）MongoDB 文档数据之间的引用关系</strong></h2>
+<h3 id="1文档引用"><strong>1、文档引用</strong></h3>
+<p>在 MongoDB 中，可以通过 <strong>引用方式</strong> 关联多个文档，以减少数据冗余，提高查询效率。</p>
+<h4 id="方法-1在-publisher-文档中引用-book-文档"><strong>方法 1：在 publisher 文档中引用 book 文档</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;O&#39;Reilly Media&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;founded&#34;</span>: <span style="color:#ae81ff">1980</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;location&#34;</span>: <span style="color:#e6db74">&#34;CA&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;books&#34;</span>: [<span style="color:#ae81ff">123456789</span>, <span style="color:#ae81ff">234567890</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">123456789</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;MongoDB: The Definitive Guide&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;author&#34;</span>: [<span style="color:#e6db74">&#34;Kristina Chodorow&#34;</span>, <span style="color:#e6db74">&#34;Mike Dirolf&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;published_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2010-09-24&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pages&#34;</span>: <span style="color:#ae81ff">216</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;language&#34;</span>: <span style="color:#e6db74">&#34;English&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>优点</strong>：可以方便查询某个出版社的所有书籍
+<strong>缺点</strong>：如果书籍数量过多，数组 <code>books</code> 可能会变得很长，影响性能。</p>
+<hr>
+<h4 id="方法-2在-book-文档中引用-publisher-文档"><strong>方法 2：在 book 文档中引用 publisher 文档</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;oreilly&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;O&#39;Reilly Media&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;founded&#34;</span>: <span style="color:#ae81ff">1980</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;location&#34;</span>: <span style="color:#e6db74">&#34;CA&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">123456789</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;MongoDB: The Definitive Guide&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;author&#34;</span>: [<span style="color:#e6db74">&#34;Kristina Chodorow&#34;</span>, <span style="color:#e6db74">&#34;Mike Dirolf&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;published_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2010-09-24&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pages&#34;</span>: <span style="color:#ae81ff">216</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;language&#34;</span>: <span style="color:#e6db74">&#34;English&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;publisher_id&#34;</span>: <span style="color:#e6db74">&#34;oreilly&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>优点</strong>：避免了 publisher 文档中 <code>books</code> 数组无限增长的问题。
+<strong>缺点</strong>：查询某个出版社的所有书籍时，需要 <code>publisher_id</code> 进行 <strong>关联查询</strong>（可以使用 <code>$lookup</code>）。</p>
+<h3 id="2lookup-关联查询"><strong>2、<code>$lookup</code> 关联查询</strong></h3>
+<p>MongoDB 3.2+ 版本后支持 <code>$lookup</code> 操作，可以在查询时将不同集合的数据进行关联。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;$lookup&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;publishers&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;localField&#34;</span>: <span style="color:#e6db74">&#34;publisher_id&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;foreignField&#34;</span>: <span style="color:#e6db74">&#34;_id&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;as&#34;</span>: <span style="color:#e6db74">&#34;publisher_info&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>作用</strong>：相当于 SQL 里的 <code>JOIN</code>，可以在查询 book 文档时自动获取 publisher 的详细信息。</p>
+<h3 id="3-使用-dbref-进行跨库引用"><strong>3、 使用 DBRef 进行跨库引用</strong></h3>
+<p>DBRef 提供了 <strong>类似外键</strong> 的引用方式，但相比 <code>_id</code> 直接引用，DBRef 更加通用，可用于<strong>跨数据库</strong>的文档关联。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 在dep集合中插入一个部门文档
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;CS&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;num&#34;</span>: <span style="color:#ae81ff">15</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;people&#34;</span>: [
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;$ref&#34;</span>: <span style="color:#e6db74">&#34;people&#34;</span>, <span style="color:#f92672">&#34;$id&#34;</span>: <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#e6db74">&#34;5d81dd075abbb6081b3e1efa&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;$db&#34;</span>: <span style="color:#e6db74">&#34;myTest&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;$ref&#34;</span>: <span style="color:#e6db74">&#34;people&#34;</span>, <span style="color:#f92672">&#34;$id&#34;</span>: <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#e6db74">&#34;5d81dd315abbb6081b3e1efb&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;$db&#34;</span>: <span style="color:#e6db74">&#34;myTest&#34;</span> }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&gt;</span> <span style="color:#960050;background-color:#1e0010">db.dep.insertOne(</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">name:</span> <span style="color:#f92672">&#34;CS&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">num:</span> <span style="color:#960050;background-color:#1e0010">15,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">people:</span> <span style="color:#960050;background-color:#1e0010">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">DBRef(</span><span style="color:#f92672">&#34;people&#34;</span>, <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#f92672">&#34;5d81dd075abbb6081b3e1efa&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;myTest&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">DBRef(</span><span style="color:#f92672">&#34;people&#34;</span>, <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#f92672">&#34;5d81dd315abbb6081b3e1efb&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;myTest&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">DBRef(</span><span style="color:#f92672">&#34;people&#34;</span>, <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#f92672">&#34;5d81df1d5abbb6081b3e1efd&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;myTest&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">]</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#960050;background-color:#1e0010">)</span>
+</span></span></code></pre></div><p><strong>优点</strong>：可以跨数据库引用数据。
+<strong>缺点</strong>：查询时需要 <strong>额外的解引用（fetch）</strong> 操作，性能比 <code>$lookup</code> 低。</p>
+<h3 id="4mongodb-时序数据存储优化"><strong>4、MongoDB 时序数据存储优化</strong></h3>
+<h4 id="1-传统存储方式"><strong>1. 传统存储方式</strong></h4>
+<p>假设有一个 <code>temperatures</code> 集合，每个文档存储单个时间点的温度：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sensor_id&#34;</span>: <span style="color:#ae81ff">12345</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:00:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>问题</strong>：当数据量很大时，单个点查询效率低，批量查询变得昂贵。</p>
+<hr>
+<h4 id="2-分桶bucket-pattern优化"><strong>2. 分桶（Bucket Pattern）优化</strong></h4>
+<p>使用分桶模式，每个文档存储一个时间段的数据：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sensor_id&#34;</span>: <span style="color:#ae81ff">12345</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;start_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:00:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;end_date&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:59:59.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;measurements&#34;</span>: [
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:00:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">23</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:01:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">26</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2025-01-31T10:32:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>, <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">22</span> }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;transaction_count&#34;</span>: <span style="color:#ae81ff">32</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sum_temperature&#34;</span>: <span style="color:#ae81ff">883</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>优点</strong>：</p>
+<ul>
+<li>适合批量查询，可以快速计算统计值（如平均温度）。</li>
+<li>查询特定时间段的数据更快，减少了查询文档的数量。</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">方法</th>
+          <th style="text-align: left">适用场景</th>
+          <th style="text-align: left">优势</th>
+          <th style="text-align: left">劣势</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>文档引用（方法 1）</strong></td>
+          <td style="text-align: left">适用于一对多的关系，如出版社-书籍</td>
+          <td style="text-align: left">便于查询所有相关子文档</td>
+          <td style="text-align: left">数组字段可能变长，影响性能</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>文档引用（方法 2）</strong></td>
+          <td style="text-align: left">适用于一对多的关系，如书籍-出版社</td>
+          <td style="text-align: left">解决数组字段变长问题</td>
+          <td style="text-align: left">查询时需要 <code>$lookup</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>DBRef</strong></td>
+          <td style="text-align: left">适用于跨库关联</td>
+          <td style="text-align: left">可实现跨数据库关联</td>
+          <td style="text-align: left">需要额外 <code>fetch()</code> 操作，查询较慢</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>时序数据存储（普通模式）</strong></td>
+          <td style="text-align: left">适用于传感器等高频数据</td>
+          <td style="text-align: left">结构清晰</td>
+          <td style="text-align: left">查询大批量数据时较慢</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>时序数据存储（分桶模式）</strong></td>
+          <td style="text-align: left">适用于大规模时序数据</td>
+          <td style="text-align: left">提高批量查询效率，减少存储占用</td>
+          <td style="text-align: left">需要额外的批量更新逻辑</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="五mongodb数据存储引擎类型">（五）MongoDB数据存储引擎类型</h2>
+<h3 id="1-wiredtiger默认存储引擎">1. <strong>WiredTiger（默认存储引擎）</strong></h3>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>支持 <strong>文档级别的并发控制</strong>，提高多线程并发性能</li>
+<li><strong>数据持久化存储</strong>，保证数据可靠性</li>
+<li><strong>支持数据压缩</strong>（减少存储空间）</li>
+<li><strong>提供事务支持</strong>（多文档事务，从 MongoDB 4.0 开始支持）</li>
+<li><strong>支持加密</strong>（企业版功能）</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>需要高并发读写的应用，如电商、社交平台</li>
+<li>需要高效存储和数据压缩的系统</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-in-memory-存储引擎">2. <strong>In-Memory 存储引擎</strong></h3>
+<ul>
+<li><strong>版本支持</strong>：MongoDB 企业版</li>
+<li><strong>特点</strong>：
+<ul>
+<li><strong>数据仅存储在内存中</strong>，不写入磁盘（极低延迟）</li>
+<li><strong>重启后数据丢失</strong></li>
+<li><strong>适用于高吞吐量应用</strong></li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>需要极低延迟的应用，如 <strong>实时分析、缓存</strong></li>
+<li><strong>临时数据处理</strong>，如中间计算数据存储</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-mmapv1早期存储引擎">3. <strong>MMAPv1（早期存储引擎）</strong></h3>
+<ul>
+<li><strong>特点</strong>：
+<ul>
+<li>采用 <strong>内存映射文件（Memory-Mapped Files）</strong> 存储数据</li>
+<li><strong>基于页级锁（Page-Level Locking）</strong>，并发性能较低</li>
+<li><strong>不支持事务</strong></li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>仅用于 <strong>MongoDB 旧版本迁移</strong></li>
+<li>低并发的应用</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="存储引擎选择建议"><strong>存储引擎选择建议</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">存储引擎</th>
+          <th style="text-align: left">适用场景</th>
+          <th style="text-align: left">主要优势</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>WiredTiger</strong></td>
+          <td style="text-align: left">读写并发高，数据持久化</td>
+          <td style="text-align: left">高并发、数据压缩、事务支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>In-Memory</strong></td>
+          <td style="text-align: left">低延迟、高速读写</td>
+          <td style="text-align: left">内存存储，适合缓存/实时分析</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>MMAPv1（已淘汰）</strong></td>
+          <td style="text-align: left">旧版本兼容</td>
+          <td style="text-align: left">适用于低并发应用</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="多存储引擎并存"><strong>多存储引擎并存</strong></h3>
+<p>MongoDB 允许在同一实例中使用不同存储引擎，例如：</p>
+<ul>
+<li><strong>WiredTiger + In-Memory</strong>：持久化存储 + 高速缓存</li>
+<li><strong>WiredTiger + 第三方存储引擎</strong>（如 RocksDB）：灵活适应不同负载需求</li>
+</ul>
+<p><strong>结论</strong>：</p>
+<ul>
+<li><strong>新项目推荐使用 WiredTiger</strong></li>
+<li><strong>高性能应用可以选择 In-Memory</strong></li>
+<li><strong>旧版本迁移时可以考虑 MMAPv1，但需升级</strong></li>
+</ul>
+<h2 id="六mongodb-基础操作"><strong>(六)MongoDB 基础操作</strong></h2>
+<hr>
+<h3 id="1-数据库操作"><strong>1. 数据库操作</strong></h3>
+<h4 id="11-创建与切换数据库"><strong>1.1 创建与切换数据库</strong></h4>
+<ul>
+<li>
+<p>MongoDB <strong>没有</strong> 显式的数据库创建命令，而是<strong>通过使用数据库名的方式创建</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>use myTest  <span style="color:#75715e"># 切换到 myTest 数据库（如果不存在，将在插入数据时自动创建）</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>创建集合（显式创建数据库）</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.createCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;user&#39;</span><span style="color:#f92672">)</span>  <span style="color:#75715e"># 创建 user 集合，此时 myTest 数据库才真正创建</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>查看数据库</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>show dbs  <span style="color:#75715e"># 查询所有数据库（空数据库不会显示）</span>
+</span></span><span style="display:flex;"><span>db.getName<span style="color:#f92672">()</span>  <span style="color:#75715e"># 获取当前数据库名称</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>删除数据库</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.dropDatabase<span style="color:#f92672">()</span>;  <span style="color:#75715e"># 删除当前数据库</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="2-数据库管理常用命令"><strong>2. 数据库管理常用命令</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>命令</strong></th>
+          <th style="text-align: left"><strong>功能</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>show dbs</code></td>
+          <td style="text-align: left">显示所有数据库（仅包含数据的数据库）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>show users</code></td>
+          <td style="text-align: left">显示当前数据库的所有用户</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>show collections</code></td>
+          <td style="text-align: left">显示当前数据库的所有集合</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.help()</code></td>
+          <td style="text-align: left">显示数据库操作的帮助信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.stats()</code></td>
+          <td style="text-align: left">显示数据库状态（集合数、空间占用情况等）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.version()</code></td>
+          <td style="text-align: left">显示 MongoDB 版本</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.getMongo()</code></td>
+          <td style="text-align: left">查看数据库连接的服务器地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.createUser(userDocument)</code></td>
+          <td style="text-align: left">创建用户</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.auth(username, password)</code></td>
+          <td style="text-align: left">进行数据库认证</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>db.dropUser(username)</code></td>
+          <td style="text-align: left">删除用户</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="3-集合操作"><strong>3. 集合操作</strong></h3>
+<h4 id="31-集合管理"><strong>3.1 集合管理</strong></h4>
+<ul>
+<li>
+<p><strong>创建集合</strong>（可选参数设定集合属性）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.createCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;log&#34;</span>, <span style="color:#f92672">{</span> capped: true, size: 6142800, max: <span style="color:#ae81ff">10000</span> <span style="color:#f92672">})</span>
+</span></span></code></pre></div><ul>
+<li><code>capped: true</code>：固定大小集合</li>
+<li><code>size</code>：集合最大存储大小（字节）</li>
+<li><code>max</code>：集合最多存储的文档数（FIFO 机制）</li>
+</ul>
+</li>
+<li>
+<p><strong>查询集合</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.getCollectionNames<span style="color:#f92672">()</span>;  <span style="color:#75715e"># 获取当前数据库所有集合名称</span>
+</span></span><span style="display:flex;"><span>db.getCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;user&#34;</span><span style="color:#f92672">)</span>;  <span style="color:#75715e"># 获取 user 集合</span>
+</span></span><span style="display:flex;"><span>db.printCollectionStats<span style="color:#f92672">()</span>;  <span style="color:#75715e"># 获取集合统计信息</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>删除集合</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.user.drop<span style="color:#f92672">()</span>;  <span style="color:#75715e"># 删除 user 集合</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-文档数据操作"><strong>4. 文档（数据）操作</strong></h3>
+<h4 id="41-插入数据"><strong>4.1 插入数据</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.user.insert<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Alice&#34;</span>, age: 25, city: <span style="color:#e6db74">&#34;Beijing&#34;</span><span style="color:#f92672">})</span>  <span style="color:#75715e"># 插入单个文档</span>
+</span></span><span style="display:flex;"><span>db.user.insertMany<span style="color:#f92672">([{</span>name: <span style="color:#e6db74">&#34;Bob&#34;</span><span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>name: <span style="color:#e6db74">&#34;Charlie&#34;</span><span style="color:#f92672">}])</span>  <span style="color:#75715e"># 插入多个文档</span>
+</span></span><span style="display:flex;"><span>db.user.insertOne<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;David&#34;</span><span style="color:#f92672">})</span>  <span style="color:#75715e"># 插入一个文档</span>
+</span></span></code></pre></div><h4 id="42-查询数据"><strong>4.2 查询数据</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.user.find<span style="color:#f92672">()</span>  <span style="color:#75715e"># 查询所有文档</span>
+</span></span><span style="display:flex;"><span>db.user.find<span style="color:#f92672">()</span>.pretty<span style="color:#f92672">()</span>  <span style="color:#75715e"># 美化显示查询结果</span>
+</span></span><span style="display:flex;"><span>db.user.find<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Alice&#34;</span><span style="color:#f92672">})</span>  <span style="color:#75715e"># 查询 name 为 Alice 的文档</span>
+</span></span><span style="display:flex;"><span>db.user.findOne<span style="color:#f92672">()</span>  <span style="color:#75715e"># 查询一条文档</span>
+</span></span><span style="display:flex;"><span>db.user.count<span style="color:#f92672">()</span>  <span style="color:#75715e"># 统计集合中文档数量</span>
+</span></span></code></pre></div><h4 id="43-更新数据"><strong>4.3 更新数据</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.user.update<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Alice&#34;</span><span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>$set: <span style="color:#f92672">{</span>age: 26<span style="color:#f92672">}})</span>  <span style="color:#75715e"># 更新 Alice 的年龄</span>
+</span></span><span style="display:flex;"><span>db.user.updateOne<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Bob&#34;</span><span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>$set: <span style="color:#f92672">{</span>city: <span style="color:#e6db74">&#34;Shanghai&#34;</span><span style="color:#f92672">}})</span>  <span style="color:#75715e"># 仅更新一条</span>
+</span></span><span style="display:flex;"><span>db.user.updateMany<span style="color:#f92672">({}</span>, <span style="color:#f92672">{</span>$set: <span style="color:#f92672">{</span>status: <span style="color:#e6db74">&#34;active&#34;</span><span style="color:#f92672">}})</span>  <span style="color:#75715e"># 批量更新所有文档</span>
+</span></span><span style="display:flex;"><span>db.user.replaceOne<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Charlie&#34;</span><span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>name: <span style="color:#e6db74">&#34;Charlie&#34;</span>, age: 30<span style="color:#f92672">})</span>  <span style="color:#75715e"># 替换 Charlie 文档</span>
+</span></span></code></pre></div><h4 id="44-删除数据"><strong>4.4 删除数据</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>db.user.deleteOne<span style="color:#f92672">({</span>name: <span style="color:#e6db74">&#34;Alice&#34;</span><span style="color:#f92672">})</span>  <span style="color:#75715e"># 删除一个文档</span>
+</span></span><span style="display:flex;"><span>db.user.deleteMany<span style="color:#f92672">({</span>status: <span style="color:#e6db74">&#34;inactive&#34;</span><span style="color:#f92672">})</span>  <span style="color:#75715e"># 删除多个文档</span>
+</span></span><span style="display:flex;"><span>db.user.remove<span style="color:#f92672">({</span>city: <span style="color:#e6db74">&#34;Beijing&#34;</span><span style="color:#f92672">}</span>, false<span style="color:#f92672">)</span>  <span style="color:#75715e"># 仅删除第一个匹配项</span>
+</span></span><span style="display:flex;"><span>db.user.drop<span style="color:#f92672">()</span>  <span style="color:#75715e"># 删除 user 集合（所有数据）</span>
+</span></span></code></pre></div><hr>
+<h3 id="5-javascript-语法在-mongodb-中的应用"><strong>5. JavaScript 语法在 MongoDB 中的应用</strong></h3>
+<p>MongoDB <strong>Shell 支持 JavaScript 语法</strong>，可以编写脚本执行批量操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">x</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="51-javascript-语法"><strong>5.1 JavaScript 语法</strong></h4>
+<ul>
+<li>
+<p>变量声明：<code>var x = 99;</code></p>
+</li>
+<li>
+<p>控制语句：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">x</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>) { <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>; }
+</span></span></code></pre></div></li>
+<li>
+<p><strong>对象操作</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">people</span> <span style="color:#f92672">=</span> {<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Mary&#34;</span>, <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">major</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Computer Science&#34;</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">msg</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">people</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">msg</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">people</span>[<span style="color:#a6e22e">key</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">msg</span>);
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="mongodb集群架构要点">MongoDB集群架构要点</h2>
+<h3 id="核心组件">核心组件</h3>
+<ol>
+<li>
+<p><strong>分片(Sharding)</strong>：</p>
+<ul>
+<li>水平分割数据到多个分片</li>
+<li>通过分片键(shard key)路由请求</li>
+<li>支持自动平衡数据分布</li>
+</ul>
+</li>
+<li>
+<p><strong>复制集(Replica Set)</strong>：</p>
+<ul>
+<li>每个分片由一组复制集构成</li>
+<li>包含1个主节点(Primary)和多个从节点(Secondary)</li>
+<li>自动故障转移（通常60秒内完成）</li>
+</ul>
+</li>
+<li>
+<p><strong>配置服务器(Config Server)</strong>：</p>
+<ul>
+<li>存储集群元数据和分片信息</li>
+<li>采用特殊复制集架构</li>
+</ul>
+</li>
+<li>
+<p><strong>查询路由器(Mongos)</strong>：</p>
+<ul>
+<li>应用程序的访问入口</li>
+<li>聚合来自各分片的结果</li>
+</ul>
+</li>
+</ol>
+<h3 id="典型生产部署架构">典型生产部署架构</h3>
+<pre tabindex="0"><code>应用程序 → Mongos路由层
+            ↓
+    配置服务器集群(3节点)
+            ↓
+   分片1(3节点复制集)
+   分片2(3节点复制集)
+   ...
+   分片N(3节点复制集)
+</code></pre><p>这种架构同时保证了数据的可扩展性（通过分片）和高可用性（通过复制集），能够支持PB级数据管理和每秒数百万次操作。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" data-title="MongoDB" data-hashtags="MongoDB"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" data-hashtag="MongoDB"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" data-title="MongoDB"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" data-title="MongoDB"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/mongodb/" data-title="MongoDB"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/" class="prev" rel="prev" title="Neo4j实验"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Neo4j实验</a>
+            <a href="/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" class="next" rel="next" title="集成学习">集成学习<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

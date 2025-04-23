@@ -3,7 +3,74 @@
         <title>机器学习 - Category - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
         <description>机器学习 - Category - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 30 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+    <title>集成学习</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/</link>
+    <pubDate>Sun, 30 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/</guid>
+    <description><![CDATA[<ul>
+<li>输出标签：硬投票</li>
+<li>输出概率：软投票</li>
+</ul>
+<h2 id="序列化方法个体学习器之间有强依赖关系必须串行生成">序列化方法：个体学习器之间有强依赖关系，必须串行生成</h2>
+<h2 id="boosting算法族adaboostgbdtxgboot">Boosting算法族：Adaboost、GBDT、Xgboot</h2>
+<ul>
+<li><strong>工作机制：<strong>对基学习器的表现对训练样本分布进行调整，使</strong>错误的样本得到更多的关注</strong>，然后基于调整后的样本分布训练下一个基学习器，重复，最后对所有基学习器<strong>加权结合</strong></li>
+<li>**建模过程：**初始权重相同，迭代的、线性的，难分类的样本获得更高的权重，<strong>权重越高，被采样的几率越大</strong></li>
+</ul>
+<h2 id="adaboost-自适应增强">Adaboost 自适应增强</h2>
+<ul>
+<li>将<strong>弱学习算法</strong>提升为<strong>强学习算法</strong>的过程</li>
+</ul>
+<h4 id="1加法模型">1、加法模型</h4>
+<p>最终强分类器是若干个<strong>弱分类器加权平均</strong>得到的</p>
+<h4 id="2前向分布算法">2、前向分布算法</h4>
+<ul>
+<li>
+<p>训练过程中，下一轮迭代产生的分类器是在上一轮分类器的基础上训练得到的</p>
+</li>
+<li>
+<p>通过一轮轮的弱学习器学习，利用前一个弱学习器的结果和当前弱学习器的结果来更新当前的强学习器模型</p>
+<p>第 $k - 1$ 轮的强学习器为：</p>
+<p>$$ f_{k-1}(x) = \sum_{i=1}^{k-1} \alpha_i G_i(x) $$</p>
+<p>而第 $k$ 轮的强学习器为：</p>
+<p>$$ f_k(x) = \sum_{i=1}^{k} \alpha_i G_i(x) $$</p>
+<p>上两式一比较可以得到：</p>
+<p>$$ f_k(x) = f_{k-1}(x) + \alpha_k G_k(x) $$</p>
+</li>
+<li>
+<p>强学习器是通过前向分步算法一步步得到的，后一个模型的训练永远是在前一个模型的基础上完成！</p>
+</li>
+</ul>
+<p></p>
+<ul>
+<li>
+<p>初始化训练样本的权值分布，每个样本具有相同权重；</p>
+</li>
+<li>
+<p>训练弱分类器，如果样本分类正确，则在构造下一个训练集中，它的权值就会被降低；反之提高。用更新过的样本集去训练下一个分类器；</p>
+</li>
+<li>
+<p>将所有弱分类组合成强分类器，各个弱分类器的训练过程结束后，加大分类误差率小的弱分类器的权重，降低分类误差率大的弱分类器的权重。</p>
+</li>
+</ul>
+<h3 id="优点">优点</h3>
+<ul>
+<li>Adaboost作为分类器，精度很高</li>
+<li>可以使用各种回归分类模型来构建弱学习器，很灵活</li>
+<li>不容易发生过拟合</li>
+</ul>
+<h3 id="缺点">缺点</h3>
+<ul>
+<li>对异常值敏感，异常值会获得较高的权重，影响最终的强学习器的正确性</li>
+<li>训练时间长，每次一个分类器都要用到全部样本，弱分类器还好，强分类器学习时间较长</li>
+</ul>
+<hr>
+<h2 id="并行化方法个体学习器之间不存在强依赖关系可同时并行生成">并行化方法：个体学习器之间不存在强依赖关系，可同时并行生成</h2>
+<h2 id="baggingrandom-forest">Bagging、Random Forest</h2>]]></description>
+</item>
+<item>
     <title>模型的评估和选择</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/</link>
     <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>

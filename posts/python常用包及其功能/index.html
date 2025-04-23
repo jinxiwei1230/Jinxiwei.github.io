@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Python常用包及其功能 - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Python常用包及其功能">
+  <meta property="og:description" content="numpy 多维数据、矩阵运算 1、数组操作：
+创建数组 np.array([[1, 2], [3, 4]]) np.zeros((3, 3)) # 3x3全0数组 np.ones((2, 4), dtype=np.int32) # 2x4全1整型数组 np.linspace(0, 10, 5) # [0., 2.5, 5., 7.5, 10.] # 生成等间隔数值的一维数组 。 np.arange()：类似Python的range，但返回数组（如np.arange(0, 10, 2)）。 np.random.rand()：生成[0,1)均匀分布的随机数组。 np.eye()：生成单位矩阵。 数组运算：加减乘除、广播（Broadcasting）、向量化操作。
+2、数学函数：
+线性代数np.linalg() 矩阵乘法 np.dot() 矩阵分解 矩阵求逆np.linalg.inv() 特征值和特征向量np.linalg.eig() 奇异值分解np.linalg.svd() 解线性方程组np.linalg.solve(A,b)(解Ax=b) 统计计算 基本统计量 np.sum(a), np.mean(a), np.std(a)（标准差）, np.max(a) 轴方向统计 指定axis参数沿特定轴计算（如np.sum(a, axis=0)对列求和） 随机数生成**（np.random）** 分布类型
+均匀分布：np.random.rand() 正态分布：np.random.randn() 整数随机：np.random.randint(0, 10, size=5) 随机种子 np.random.seed(42) 保证结果可复现。
+3、索引与切片：
+基础索引、布尔索引、花式索引（Fancy Indexing）。 pandas 高性能、易用的数据结构和工具 1. 数据结构 (1) Series 定义：一维带标签数组，由**数据值（values）和索引（index）**组成。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-31T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-31T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python常用包及其功能">
+  <meta name="twitter:description" content="numpy 多维数据、矩阵运算 1、数组操作：
+创建数组 np.array([[1, 2], [3, 4]]) np.zeros((3, 3)) # 3x3全0数组 np.ones((2, 4), dtype=np.int32) # 2x4全1整型数组 np.linspace(0, 10, 5) # [0., 2.5, 5., 7.5, 10.] # 生成等间隔数值的一维数组 。 np.arange()：类似Python的range，但返回数组（如np.arange(0, 10, 2)）。 np.random.rand()：生成[0,1)均匀分布的随机数组。 np.eye()：生成单位矩阵。 数组运算：加减乘除、广播（Broadcasting）、向量化操作。
+2、数学函数：
+线性代数np.linalg() 矩阵乘法 np.dot() 矩阵分解 矩阵求逆np.linalg.inv() 特征值和特征向量np.linalg.eig() 奇异值分解np.linalg.svd() 解线性方程组np.linalg.solve(A,b)(解Ax=b) 统计计算 基本统计量 np.sum(a), np.mean(a), np.std(a)（标准差）, np.max(a) 轴方向统计 指定axis参数沿特定轴计算（如np.sum(a, axis=0)对列求和） 随机数生成**（np.random）** 分布类型
+均匀分布：np.random.rand() 正态分布：np.random.randn() 整数随机：np.random.randint(0, 10, size=5) 随机种子 np.random.seed(42) 保证结果可复现。
+3、索引与切片：
+基础索引、布尔索引、花式索引（Fancy Indexing）。 pandas 高性能、易用的数据结构和工具 1. 数据结构 (1) Series 定义：一维带标签数组，由**数据值（values）和索引（index）**组成。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Python常用包及其功能",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD\/"
+        },"genre": "posts","keywords": "python","wordcount":  899 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD\/","datePublished": "2025-03-31T00:00:00+00:00","dateModified": "2025-03-31T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Python常用包及其功能</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-03-31">2025-03-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;899 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#numpy--多维数据矩阵运算">numpy  多维数据、矩阵运算</a></li>
+        <li><a href="#pandas--高性能易用的数据结构和工具">pandas  高性能、易用的数据结构和工具</a></li>
+        <li><a href="#1-数据结构"><strong>1. 数据结构</strong></a></li>
+        <li><a href="#2-数据操作"><strong>2. 数据操作</strong></a></li>
+        <li><a href="#3-io工具数据读写"><strong>3. IO工具（数据读写）</strong></a></li>
+        <li><a href="#4-时间序列处理"><strong>4. 时间序列处理</strong></a></li>
+        <li><a href="#5-其他实用功能"><strong>5. 其他实用功能</strong></a></li>
+        <li><a href="#scipy--高级统计分析">scipy  高级统计分析</a></li>
+        <li><a href="#典型应用"><strong>典型应用</strong></a></li>
+        <li><a href="#核心优势"><strong>核心优势</strong></a></li>
+        <li><a href="#scikit-learn-sklearn--机器学习库提供分类回归聚类等算法"><strong>scikit-learn (sklearn)</strong>  机器学习库，提供分类、回归、聚类等算法</a></li>
+        <li><a href="#经典三行代码"><strong>经典三行代码</strong></a></li>
+        <li><a href="#特点"><strong>特点</strong></a></li>
+        <li><a href="#matplotlib-基础绘图库支持高度定制化图表"><strong>Matplotlib 基础绘图库，支持高度定制化图表</strong></a></li>
+        <li><a href="#核心优势-1"><strong>核心优势</strong></a></li>
+        <li><a href="#seaborn">seaborn</a></li>
+        <li><a href="#核心优势-2"><strong>核心优势</strong></a></li>
+        <li><a href="#heading"></a></li>
+        <li><a href="#pyecharts-交互式html"><strong>Pyecharts 交互式html</strong></a></li>
+        <li><a href="#核心优势-3"><strong>核心优势</strong></a></li>
+        <li><a href="#1-基础定位对比"><strong>1. 基础定位对比</strong></a></li>
+        <li><a href="#2-核心功能对比"><strong>2. 核心功能对比</strong></a></li>
+        <li><a href="#3-性能与扩展性"><strong>3. 性能与扩展性</strong></a></li>
+        <li><a href="#4-典型应用场景"><strong>4. 典型应用场景</strong></a></li>
+        <li><a href="#5-代码风格对比"><strong>5. 代码风格对比</strong></a></li>
+        <li><a href="#6-总结决策指南"><strong>6. 总结决策指南</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="numpy--多维数据矩阵运算">numpy  多维数据、矩阵运算</h3>
+<p><strong>1、数组操作</strong>：</p>
+<ul>
+<li>
+<h5 id="创建数组">创建数组</h5>
+<ul>
+<li><code>np.array([[1, 2], [3, 4]])</code></li>
+<li><code>np.zeros((3, 3))    # 3x3全0数组</code></li>
+<li><code>np.ones((2, 4), dtype=np.int32)  # 2x4全1整型数组</code></li>
+<li><code>np.linspace(0, 10, 5)  # [0., 2.5, 5., 7.5, 10.] # 生成等间隔数值的一维数组 </code>。</li>
+<li><code>np.arange()</code>：类似Python的<code>range</code>，但返回数组（如<code>np.arange(0, 10, 2)</code>）。</li>
+<li><code>np.random.rand()</code>：生成[0,1)均匀分布的随机数组。</li>
+<li><code>np.eye()</code>：生成单位矩阵。</li>
+</ul>
+</li>
+<li>
+<p>数组运算：加减乘除、广播（Broadcasting）、向量化操作。</p>
+</li>
+</ul>
+<p><strong>2、数学函数</strong>：</p>
+<ul>
+<li>
+<h5 id="线性代数nplinalg">线性代数<code>np.linalg()</code></h5>
+<ul>
+<li>矩阵乘法 <code>np.dot()</code></li>
+<li>矩阵分解
+<ul>
+<li>矩阵求逆<code>np.linalg.inv()</code></li>
+<li>特征值和特征向量<code>np.linalg.eig()</code></li>
+<li>奇异值分解<code>np.linalg.svd()</code></li>
+</ul>
+</li>
+<li>解线性方程组<code>np.linalg.solve(A,b)</code>(解Ax=b)</li>
+</ul>
+</li>
+<li>
+<h5 id="统计计算">统计计算</h5>
+<ul>
+<li><strong>基本统计量</strong>
+<code>np.sum(a)</code>, <code>np.mean(a)</code>, <code>np.std(a)</code>（标准差）, <code>np.max(a)</code></li>
+<li><strong>轴方向统计</strong>
+指定<code>axis</code>参数沿特定轴计算（如<code>np.sum(a, axis=0)</code>对列求和）</li>
+</ul>
+</li>
+<li>
+<h5 id="随机数生成nprandom">随机数生成**（<code>np.random</code>）**</h5>
+<ul>
+<li>
+<p><strong>分布类型</strong></p>
+<ul>
+<li>均匀分布：<code>np.random.rand()</code></li>
+<li>正态分布：<code>np.random.randn()</code></li>
+<li>整数随机：<code>np.random.randint(0, 10, size=5)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>随机种子</strong>
+<code>np.random.seed(42)</code> 保证结果可复现。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、索引与切片</strong>：</p>
+<ul>
+<li>基础索引、布尔索引、花式索引（Fancy Indexing）。</li>
+</ul>
+<h3 id="pandas--高性能易用的数据结构和工具">pandas  高性能、易用的数据结构和工具</h3>
+<h3 id="1-数据结构"><strong>1. 数据结构</strong></h3>
+<h4 id="1-series"><strong>(1) <code>Series</code></strong></h4>
+<ul>
+<li>
+<p><strong>定义</strong>：一维<strong>带标签数组</strong>，由**数据值（values）<strong>和</strong>索引（index）**组成。</p>
+</li>
+<li>
+<p><strong>特点</strong>：</p>
+<ul>
+<li><strong>索引可自定义</strong>（默认从0开始）。</li>
+<li>支持异构数据类型（但推荐同类型以提升性能）。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>], index<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>])
+</span></span><span style="display:flex;"><span>print(s[<span style="color:#e6db74">&#39;b&#39;</span>])  <span style="color:#75715e"># 输出: 20</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2-dataframe"><strong>(2) <code>DataFrame</code></strong></h4>
+<ul>
+<li>
+<p><strong>定义</strong>：<strong>二维表格型</strong>数据结构，类似Excel或SQL表，由多个<code>Series</code>组成（每列是一个<code>Series</code>）。</p>
+</li>
+<li>
+<p><strong>核心属性</strong>：</p>
+<ul>
+<li><code>df.columns</code>：列名列表。</li>
+<li><code>df.index</code>：行索引。</li>
+<li><code>df.dtypes</code>：每列数据类型。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;Name&#39;</span>: [<span style="color:#e6db74">&#39;Alice&#39;</span>, <span style="color:#e6db74">&#39;Bob&#39;</span>], <span style="color:#e6db74">&#39;Age&#39;</span>: [<span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">30</span>]}
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(data)
+</span></span><span style="display:flex;"><span>print(df<span style="color:#f92672">.</span>loc[<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;Name&#39;</span>])  <span style="color:#75715e"># 输出: Alice</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="2-数据操作"><strong>2. 数据操作</strong></h3>
+<h4 id="1-数据清洗"><strong>(1) 数据清洗</strong></h4>
+<ul>
+<li><strong>处理缺失值</strong>：
+<ul>
+<li><code>df.dropna()</code>：删除含缺失值的行/列。</li>
+<li><code>df.fillna(value)</code>：填充缺失值（如<code>df.fillna(0)</code>或向前填充<code>df.fillna(method='ffill')</code>）。</li>
+</ul>
+</li>
+<li><strong>去重</strong>：
+<ul>
+<li><code>df.drop_duplicates()</code>：删除重复行。</li>
+<li>保留特定列的唯一组合：<code>df.drop_duplicates(subset=['列名'])</code>。</li>
+</ul>
+</li>
+<li><strong>类型转换</strong>：
+<ul>
+<li><code>df['列名'].astype(int)</code>：修改列数据类型。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-数据合并"><strong>(2) 数据合并</strong></h4>
+<ul>
+<li><strong>垂直拼接</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>concat([df1, df2], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># 沿行方向拼接</span>
+</span></span></code></pre></div></li>
+<li><strong>横向拼接</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>concat([df1, df2], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 沿列方向拼接</span>
+</span></span></code></pre></div></li>
+<li><strong>数据库风格合并</strong>：
+<ul>
+<li><code>pd.merge(df1, df2, on='键列')</code>：类似SQL的<code>JOIN</code>。</li>
+<li>参数控制：<code>how='inner'</code>（内连接）、<code>how='left'</code>（左连接）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-分组聚合"><strong>(3) 分组聚合</strong></h4>
+<ul>
+<li><strong><code>groupby()</code></strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;类别列&#39;</span>)[<span style="color:#e6db74">&#39;数值列&#39;</span>]<span style="color:#f92672">.</span>mean()  <span style="color:#75715e"># 按类别分组求均值</span>
+</span></span></code></pre></div></li>
+<li><strong><code>pivot_table()</code></strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>pivot_table(df, values<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;销售额&#39;</span>, index<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;地区&#39;</span>, columns<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;月份&#39;</span>, aggfunc<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>sum)
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="3-io工具数据读写"><strong>3. IO工具（数据读写）</strong></h3>
+<h4 id="1-读取数据"><strong>(1) 读取数据</strong></h4>
+<ul>
+<li><strong>CSV文件</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;data.csv&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span>)
+</span></span></code></pre></div></li>
+<li><strong>Excel文件</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_excel(<span style="color:#e6db74">&#39;data.xlsx&#39;</span>, sheet_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Sheet1&#39;</span>)
+</span></span></code></pre></div></li>
+<li><strong>SQL数据库</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sqlite3
+</span></span><span style="display:flex;"><span>conn <span style="color:#f92672">=</span> sqlite3<span style="color:#f92672">.</span>connect(<span style="color:#e6db74">&#39;database.db&#39;</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_sql(<span style="color:#e6db74">&#39;SELECT * FROM table&#39;</span>, conn)
+</span></span></code></pre></div></li>
+<li><strong>JSON数据</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_json(<span style="color:#e6db74">&#39;data.json&#39;</span>, orient<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;records&#39;</span>)
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2-写入数据"><strong>(2) 写入数据</strong></h4>
+<ul>
+<li>保存为CSV：<code>df.to_csv('output.csv', index=False)</code></li>
+<li>保存为Excel：<code>df.to_excel('output.xlsx')</code></li>
+</ul>
+<hr>
+<h3 id="4-时间序列处理"><strong>4. 时间序列处理</strong></h3>
+<h4 id="1-日期范围生成"><strong>(1) 日期范围生成</strong></h4>
+<ul>
+<li><strong><code>pd.date_range()</code></strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dates <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;2023-01-01&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;D&#39;</span>)  <span style="color:#75715e"># 生成5天的日期序列</span>
+</span></span></code></pre></div></li>
+<li><strong>频率参数<code>freq</code></strong>：
+<ul>
+<li><code>'D'</code>：天，<code>'M'</code>：月末，<code>'H'</code>：小时，<code>'5min'</code>：5分钟。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-重采样resampling"><strong>(2) 重采样（Resampling）</strong></h4>
+<ul>
+<li><strong>降采样</strong>（如日数据→月数据）：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;M&#39;</span>)<span style="color:#f92672">.</span>mean()  <span style="color:#75715e"># 按月求均值</span>
+</span></span></code></pre></div></li>
+<li><strong>升采样</strong>（如日数据→小时数据）：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>ffill()  <span style="color:#75715e"># 向前填充缺失值</span>
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3-时区处理"><strong>(3) 时区处理</strong></h4>
+<ul>
+<li>转换时区：<code>df.tz_localize('UTC').tz_convert('Asia/Shanghai')</code></li>
+</ul>
+<hr>
+<h3 id="5-其他实用功能"><strong>5. 其他实用功能</strong></h3>
+<h4 id="1-条件筛选"><strong>(1) 条件筛选</strong></h4>
+<ul>
+<li><strong>布尔索引</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[df[<span style="color:#e6db74">&#39;Age&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">25</span>]  <span style="color:#75715e"># 筛选年龄大于25的行</span>
+</span></span></code></pre></div></li>
+<li><strong>多条件组合</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[(df[<span style="color:#e6db74">&#39;Age&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">25</span>) <span style="color:#f92672">&amp;</span> (df[<span style="color:#e6db74">&#39;Gender&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;F&#39;</span>)]
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2-排序"><strong>(2) 排序</strong></h4>
+<ul>
+<li>按列排序：<code>df.sort_values('Age', ascending=False)</code></li>
+</ul>
+<h4 id="3-应用函数"><strong>(3) 应用函数</strong></h4>
+<ul>
+<li>
+<p><strong><code>apply()</code></strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;Name&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: x<span style="color:#f92672">.</span>upper())  <span style="color:#75715e"># 将姓名转为大写</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>数据对齐</strong>：自动按索引/列名对齐数据（避免手动循环）。</p>
+</li>
+<li>
+<p><strong>高性能</strong>：底层基于NumPy，优化了大规模数据操作。</p>
+</li>
+<li>
+<p><strong>易用性</strong>：提供类似SQL的语法，简化数据操作流程。</p>
+</li>
+</ul>
+<h3 id="scipy--高级统计分析">scipy  高级统计分析</h3>
+<h4 id="1-优化算法-optimize"><strong>1. 优化算法 (<code>optimize</code>)</strong></h4>
+<ul>
+<li><code>minimize()</code>: 函数最小化（支持BFGS/Nelder-Mead）</li>
+<li><code>curve_fit()</code>: 最小二乘曲线拟合</li>
+<li><code>root()</code>: 方程求根</li>
+</ul>
+<h4 id="2-线性代数-linalg"><strong>2. 线性代数 (<code>linalg</code>)</strong></h4>
+<ul>
+<li><code>solve()</code>: 解线性方程组</li>
+<li><code>eig()</code>/<code>svd()</code>: 矩阵分解</li>
+<li><code>inv()</code>/<code>pinv()</code>: 矩阵求逆</li>
+</ul>
+<h4 id="3-统计分布-stats"><strong>3. 统计分布 (<code>stats</code>)</strong></h4>
+<ul>
+<li>概率分布：<code>norm</code>, <code>t</code>, <code>binom</code>等</li>
+<li>假设检验：<code>ttest_ind</code>, <code>chisquare</code></li>
+<li>描述统计：<code>mode</code>, <code>skew</code>, <code>kurtosis</code></li>
+</ul>
+<h4 id="4-插值-interpolate"><strong>4. 插值 (<code>interpolate</code>)</strong></h4>
+<ul>
+<li><code>interp1d</code>: 一维插值</li>
+<li><code>griddata</code>: 散点数据网格化</li>
+</ul>
+<h4 id="5-稀疏矩阵-sparse"><strong>5. 稀疏矩阵 (<code>sparse</code>)</strong></h4>
+<ul>
+<li><code>csr_matrix</code>: 压缩稀疏行格式</li>
+<li><code>spsolve</code>: 稀疏矩阵求解</li>
+</ul>
+<h4 id="6-信号处理-signal"><strong>6. 信号处理 (<code>signal</code>)</strong></h4>
+<ul>
+<li><code>firwin</code>: 滤波器设计</li>
+<li><code>spectrogram</code>: 频谱分析</li>
+</ul>
+<h4 id="7-其他实用工具"><strong>7. 其他实用工具</strong></h4>
+<ul>
+<li>积分：<code>quad</code> (一维积分)</li>
+<li>图像处理：<code>gaussian_filter</code></li>
+<li>空间算法：<code>KDTree</code> (最近邻搜索)</li>
+</ul>
+<hr>
+<h3 id="典型应用"><strong>典型应用</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 曲线拟合</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.optimize <span style="color:#f92672">import</span> curve_fit
+</span></span><span style="display:flex;"><span>popt, _ <span style="color:#f92672">=</span> curve_fit(<span style="color:#66d9ef">lambda</span> x, a, b: a<span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> b, xdata, ydata)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设检验</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> ttest_ind
+</span></span><span style="display:flex;"><span>t, p <span style="color:#f92672">=</span> ttest_ind(group1, group2)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 稀疏矩阵运算</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.sparse <span style="color:#f92672">import</span> csr_matrix
+</span></span><span style="display:flex;"><span>A <span style="color:#f92672">=</span> csr_matrix((data, (row, col)))
+</span></span></code></pre></div><hr>
+<h3 id="核心优势"><strong>核心优势</strong></h3>
+<ul>
+<li>科学计算全功能覆盖</li>
+<li>高性能数值运算</li>
+<li>完美兼容NumPy</li>
+<li>工业级算法实现</li>
+</ul>
+<h3 id="scikit-learn-sklearn--机器学习库提供分类回归聚类等算法"><strong>scikit-learn (sklearn)</strong>  机器学习库，提供分类、回归、聚类等算法</h3>
+<hr>
+<h4 id="1-监督学习"><strong>1. 监督学习</strong></h4>
+<ul>
+<li><strong>分类</strong>
+<ul>
+<li><code>LogisticRegression()</code>: 二分类/多分类</li>
+<li><code>SVC()</code>: 支持向量机（可选<code>kernel</code>）</li>
+<li><code>RandomForestClassifier()</code>: 随机森林（抗过拟合）</li>
+</ul>
+</li>
+<li><strong>回归</strong>
+<ul>
+<li><code>LinearRegression()</code>: 线性回归</li>
+<li><code>Ridge()</code>/<code>Lasso()</code>: L2/L1正则化</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-无监督学习"><strong>2. 无监督学习</strong></h4>
+<ul>
+<li><strong>聚类</strong>
+<ul>
+<li><code>KMeans()</code>: K均值（需指定簇数）</li>
+<li><code>DBSCAN()</code>: 基于密度（自动找簇）</li>
+</ul>
+</li>
+<li><strong>降维</strong>
+<ul>
+<li><code>PCA()</code>: 主成分分析（线性降维）</li>
+<li><code>TSNE()</code>: 非线性可视化（慢但直观）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据预处理"><strong>3. 数据预处理</strong></h4>
+<ul>
+<li><strong>标准化</strong>
+<ul>
+<li><code>StandardScaler()</code>: 均值0方差1</li>
+<li><code>MinMaxScaler()</code>: 缩放到[0,1]</li>
+</ul>
+</li>
+<li><strong>编码</strong>
+<ul>
+<li><code>OneHotEncoder()</code>: 类别→独热编码</li>
+<li><code>LabelEncoder()</code>: 标签→数值</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-模型评估"><strong>4. 模型评估</strong></h4>
+<ul>
+<li><strong>交叉验证</strong>
+<ul>
+<li><code>cross_val_score()</code>: K折验证得分</li>
+</ul>
+</li>
+<li><strong>指标</strong>
+<ul>
+<li>分类：<code>accuracy_score()</code>, <code>confusion_matrix()</code></li>
+<li>回归：<code>mean_squared_error()</code>, <code>r2_score()</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="5-工具"><strong>5. 工具</strong></h4>
+<ul>
+<li><strong>管道</strong>
+<ul>
+<li><code>Pipeline()</code>: 串联预处理+模型</li>
+</ul>
+</li>
+<li><strong>调参</strong>
+<ul>
+<li><code>GridSearchCV()</code>: 网格搜索最优参数</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="经典三行代码"><strong>经典三行代码</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestClassifier
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> RandomForestClassifier(n_estimators<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)  <span style="color:#75715e"># 1. 选模型</span>
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>fit(X_train, y_train)                       <span style="color:#75715e"># 2. 训练</span>
+</span></span><span style="display:flex;"><span>score <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>score(X_test, y_test)               <span style="color:#75715e"># 3. 评估</span>
+</span></span></code></pre></div><hr>
+<h3 id="特点"><strong>特点</strong></h3>
+<ul>
+<li><strong>统一API</strong>：所有模型用<code>fit()</code>/<code>predict()</code></li>
+<li><strong>开箱即用</strong>：默认参数适合大部分场景</li>
+<li><strong>高效</strong>：底层C++优化，支持并行</li>
+</ul>
+<p>适合：结构化数据快速建模 | 不适合：深度学习/超大数据</p>
+<h3 id="matplotlib-基础绘图库支持高度定制化图表"><strong>Matplotlib 基础绘图库，支持高度定制化图表</strong></h3>
+<h4 id="1-基础绘图"><strong>1. 基础绘图</strong></h4>
+<ul>
+<li><code>plt.plot()</code>: 折线图</li>
+<li><code>plt.scatter()</code>: 散点图</li>
+<li><code>plt.bar()</code>: 柱状图</li>
+<li><code>plt.hist()</code>: 直方图</li>
+<li><code>plt.pie()</code>: 饼图</li>
+</ul>
+<h4 id="2-图表定制"><strong>2. 图表定制</strong></h4>
+<ul>
+<li><code>plt.title()</code>: 添加标题</li>
+<li><code>plt.xlabel()</code>/<code>plt.ylabel()</code>: 坐标轴标签</li>
+<li><code>plt.legend()</code>: 添加图例</li>
+<li><code>plt.grid()</code>: 显示网格</li>
+<li><code>plt.xlim()</code>/<code>plt.ylim()</code>: 坐标轴范围</li>
+</ul>
+<h4 id="3-多图布局"><strong>3. 多图布局</strong></h4>
+<ul>
+<li><code>plt.subplots()</code>: 创建多个子图</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># 2x2子图</span>
+</span></span><span style="display:flex;"><span>ax[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>plot(x, y)  <span style="color:#75715e"># 在第一个子图绘制</span>
+</span></span></code></pre></div><h4 id="4-高级功能"><strong>4. 高级功能</strong></h4>
+<ul>
+<li><code>plt.style.use()</code>: 使用预设样式</li>
+<li><code>plt.savefig()</code>: 保存图像（PNG/PDF等）</li>
+<li>3D绘图：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> mpl_toolkits <span style="color:#f92672">import</span> mplot3d
+</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>axes(projection<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;3d&#39;</span>)
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>plot3D(x, y, z)
+</span></span></code></pre></div><h4 id="5-典型工作流"><strong>5. 典型工作流</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">4</span>))       <span style="color:#75715e"># 1. 创建画布</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(x, y, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;data&#39;</span>)    <span style="color:#75715e"># 2. 绘制图形</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;Demo&#39;</span>)               <span style="color:#75715e"># 3. 添加标注</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend()                   
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;plot.png&#39;</span>)         <span style="color:#75715e"># 4. 保存结果</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()                      <span style="color:#75715e"># 5. 显示图像</span>
+</span></span></code></pre></div><h3 id="核心优势-1"><strong>核心优势</strong></h3>
+<ul>
+<li>全功能2D/3D绘图</li>
+<li>高度可定制化</li>
+<li>完美兼容NumPy数组</li>
+<li>出版级图形输出</li>
+</ul>
+<h3 id="seaborn">seaborn</h3>
+<h4 id="1-基础统计图表"><strong>1. 基础统计图表</strong></h4>
+<ul>
+<li><code>sns.histplot()</code>: 直方分布图</li>
+<li><code>sns.kdeplot()</code>: 核密度估计图</li>
+<li><code>sns.ecdfplot()</code>: 经验累积分布图</li>
+</ul>
+<h4 id="2-关系型图表"><strong>2. 关系型图表</strong></h4>
+<ul>
+<li><code>sns.scatterplot()</code>: 散点图</li>
+<li><code>sns.lineplot()</code>: 折线图</li>
+<li><code>sns.relplot()</code>: 关系图(可切换scatter/line)</li>
+</ul>
+<h4 id="3-分类数据可视化"><strong>3. 分类数据可视化</strong></h4>
+<ul>
+<li><code>sns.barplot()</code>: 柱状图</li>
+<li><code>sns.boxplot()</code>: 箱线图</li>
+<li><code>sns.violinplot()</code>: 小提琴图</li>
+<li><code>sns.swarmplot()</code>: 蜂群图</li>
+</ul>
+<h4 id="4-高级功能-1"><strong>4. 高级功能</strong></h4>
+<ul>
+<li><code>sns.heatmap()</code>: 热力图</li>
+<li><code>sns.clustermap()</code>: 聚类热力图</li>
+<li><code>sns.pairplot()</code>: 变量关系矩阵图</li>
+</ul>
+<h4 id="5-分面绘图"><strong>5. 分面绘图</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>g <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>FacetGrid(data, col<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;time&#34;</span>, row<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sex&#34;</span>)
+</span></span><span style="display:flex;"><span>g<span style="color:#f92672">.</span>map(sns<span style="color:#f92672">.</span>scatterplot, <span style="color:#e6db74">&#34;total_bill&#34;</span>, <span style="color:#e6db74">&#34;tip&#34;</span>)
+</span></span></code></pre></div><h4 id="6-回归分析"><strong>6. 回归分析</strong></h4>
+<ul>
+<li><code>sns.regplot()</code>: 单图回归</li>
+<li><code>sns.lmplot()</code>: 分面回归</li>
+</ul>
+<h4 id="7-主题风格"><strong>7. 主题风格</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set_style(<span style="color:#e6db74">&#34;whitegrid&#34;</span>)  <span style="color:#75715e"># 5种内置风格</span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set_palette(<span style="color:#e6db74">&#34;husl&#34;</span>)     <span style="color:#75715e"># 调色板设置</span>
+</span></span></code></pre></div><h4 id="8-典型工作流"><strong>8. 典型工作流</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span>tips <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>load_dataset(<span style="color:#e6db74">&#34;tips&#34;</span>)  <span style="color:#75715e"># 1. 载入示例数据</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set_style(<span style="color:#e6db74">&#34;darkgrid&#34;</span>)       <span style="color:#75715e"># 2. 设置样式</span>
+</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;day&#34;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;total_bill&#34;</span>, data<span style="color:#f92672">=</span>tips)  <span style="color:#75715e"># 3. 绘图</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#34;Daily Bills&#34;</span>)     <span style="color:#75715e"># 4. 自定义标题</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()                     <span style="color:#75715e"># 5. 显示图表</span>
+</span></span></code></pre></div><h3 id="核心优势-2"><strong>核心优势</strong></h3>
+<ul>
+<li>统计可视化专精</li>
+<li>默认美观的图表样式</li>
+<li>与pandas完美集成</li>
+<li>复杂图表简单化</li>
+<li>内置示例数据集</li>
+</ul>
+<h3 id="heading"></h3>
+<h3 id="pyecharts-交互式html"><strong>Pyecharts 交互式html</strong></h3>
+<h4 id="1-基础图表"><strong>1. 基础图表</strong></h4>
+<ul>
+<li><code>Bar()</code>: 柱状图/条形图</li>
+<li><code>Line()</code>: 折线图/面积图</li>
+<li><code>Pie()</code>: 饼图/环形图</li>
+<li><code>Scatter()</code>: 散点图/气泡图</li>
+</ul>
+<h4 id="2-地理图表"><strong>2. 地理图表</strong></h4>
+<ul>
+<li><code>Geo()</code>: 地理坐标图</li>
+<li><code>Map()</code>: 区域地图（支持省/市/县三级）</li>
+<li><code>BMap()</code>: 百度地图集成</li>
+</ul>
+<h4 id="3-高级图表"><strong>3. 高级图表</strong></h4>
+<ul>
+<li><code>HeatMap()</code>: 热力图</li>
+<li><code>Graph()</code>: 关系图（节点链接图）</li>
+<li><code>Tree()</code>: 树形图</li>
+<li><code>TreeMap()</code>: 矩形树图</li>
+<li><code>Sankey()</code>: 桑基图</li>
+</ul>
+<h4 id="4-交互功能"><strong>4. 交互功能</strong></h4>
+<ul>
+<li>通用交互：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>set_global_opts(
+</span></span><span style="display:flex;"><span>    toolbox_opts<span style="color:#f92672">=</span>opts<span style="color:#f92672">.</span>ToolboxOpts(),  <span style="color:#75715e"># 显示工具箱</span>
+</span></span><span style="display:flex;"><span>    datazoom_opts<span style="color:#f92672">=</span>opts<span style="color:#f92672">.</span>DataZoomOpts()  <span style="color:#75715e"># 区域缩放</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div></li>
+<li>特殊交互：
+<ul>
+<li><code>Timeline()</code>: 时间轴动画</li>
+<li><code>Page()</code>: 多图联动</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-数据配置"><strong>5. 数据配置</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>add_xaxis([<span style="color:#e6db74">&#34;A&#34;</span>, <span style="color:#e6db74">&#34;B&#34;</span>, <span style="color:#e6db74">&#34;C&#34;</span>])  <span style="color:#75715e"># X轴数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>add_yaxis(<span style="color:#e6db74">&#34;系列1&#34;</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>])  <span style="color:#75715e"># Y轴数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>set_series_opts(label_opts<span style="color:#f92672">=</span>opts<span style="color:#f92672">.</span>LabelOpts(is_show<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))  <span style="color:#75715e"># 系列配置</span>
+</span></span></code></pre></div><h4 id="6-输出与主题"><strong>6. 输出与主题</strong></h4>
+<ul>
+<li>输出方式：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>render(<span style="color:#e6db74">&#34;chart.html&#34;</span>)  <span style="color:#75715e"># 生成HTML文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span>render_notebook()  <span style="color:#75715e"># 在Jupyter中直接显示</span>
+</span></span></code></pre></div></li>
+<li>主题切换：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pyecharts.globals <span style="color:#f92672">import</span> ThemeType
+</span></span><span style="display:flex;"><span>Bar(init_opts<span style="color:#f92672">=</span>opts<span style="color:#f92672">.</span>InitOpts(theme<span style="color:#f92672">=</span>ThemeType<span style="color:#f92672">.</span>DARK))
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="7-典型工作流"><strong>7. 典型工作流</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pyecharts.charts <span style="color:#f92672">import</span> Bar
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyecharts <span style="color:#f92672">import</span> options <span style="color:#66d9ef">as</span> opts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bar <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    Bar()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span>add_xaxis([<span style="color:#e6db74">&#34;A&#34;</span>, <span style="color:#e6db74">&#34;B&#34;</span>, <span style="color:#e6db74">&#34;C&#34;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span>add_yaxis(<span style="color:#e6db74">&#34;销量&#34;</span>, [<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">45</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span>set_global_opts(title_opts<span style="color:#f92672">=</span>opts<span style="color:#f92672">.</span>TitleOpts(title<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;销售数据&#34;</span>))
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>bar<span style="color:#f92672">.</span>render(<span style="color:#e6db74">&#34;bar_chart.html&#34;</span>)
+</span></span></code></pre></div><h3 id="核心优势-3"><strong>核心优势</strong></h3>
+<ul>
+<li>专业级交互可视化</li>
+<li>支持中国地图详细到县级</li>
+<li>60+种图表类型</li>
+<li>响应式设计</li>
+<li>与Web前端无缝集成</li>
+</ul>
+<p>以下是 <strong>Matplotlib</strong>、<strong>Seaborn</strong> 和 <strong>Pyecharts</strong> 三个Python可视化库的详细对比分析，从多个维度说明它们的核心区别和适用场景：</p>
+<hr>
+<h3 id="1-基础定位对比"><strong>1. 基础定位对比</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">Matplotlib</th>
+          <th style="text-align: left">Seaborn</th>
+          <th style="text-align: left">Pyecharts</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>底层依赖</strong></td>
+          <td style="text-align: left">独立实现</td>
+          <td style="text-align: left">基于Matplotlib</td>
+          <td style="text-align: left">基于ECharts (JS)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>主要优势</strong></td>
+          <td style="text-align: left">高度定制化</td>
+          <td style="text-align: left">统计可视化</td>
+          <td style="text-align: left">交互式动态图表</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>输出类型</strong></td>
+          <td style="text-align: left">静态图片</td>
+          <td style="text-align: left">静态图片</td>
+          <td style="text-align: left">动态HTML网页</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>学习曲线</strong></td>
+          <td style="text-align: left">陡峭</td>
+          <td style="text-align: left">中等</td>
+          <td style="text-align: left">中等</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="2-核心功能对比"><strong>2. 核心功能对比</strong></h3>
+<h4 id="matplotlib"><strong>Matplotlib</strong></h4>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>完全自由的图表定制（每个像素可控）</li>
+<li>支持复杂的科学图表（如误差棒、矢量图）</li>
+<li>成熟的3D绘图支持</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>默认样式不够美观</li>
+<li>多图组合代码冗长</li>
+<li>无内置交互功能</li>
+</ul>
+</li>
+</ul>
+<h4 id="seaborn-1"><strong>Seaborn</strong></h4>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>一键生成统计图表（箱线图、小提琴图等）</li>
+<li>自动计算统计量（如置信区间）</li>
+<li>美观的默认样式和调色板</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>底层依赖Matplotlib，高级定制仍需调用Matplotlib API</li>
+<li>不适合非统计类图表（如流程图）</li>
+</ul>
+</li>
+</ul>
+<h4 id="pyecharts"><strong>Pyecharts</strong></h4>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>丰富的交互功能（缩放、拖拽、数据筛选）</li>
+<li>开箱即用的中国地图支持（到县级）</li>
+<li>动态时间轴和图表联动</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>依赖浏览器环境（无法直接保存为静态图片）</li>
+<li>学术论文兼容性较差（需截图使用）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-性能与扩展性"><strong>3. 性能与扩展性</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">维度</th>
+          <th style="text-align: left">Matplotlib</th>
+          <th style="text-align: left">Seaborn</th>
+          <th style="text-align: left">Pyecharts</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>大数据量支持</strong></td>
+          <td style="text-align: left">★★★★☆ (优化后支持百万级数据)</td>
+          <td style="text-align: left">★★☆☆☆ (适合中小数据集)</td>
+          <td style="text-align: left">★★☆☆☆ (万级数据开始卡顿)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>多图组合效率</strong></td>
+          <td style="text-align: left">★★☆☆☆ (需手动布局)</td>
+          <td style="text-align: left">★★★☆☆ (FacetGrid简化)</td>
+          <td style="text-align: left">★★★★☆ (Page()自动排版)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>跨平台兼容性</strong></td>
+          <td style="text-align: left">全平台支持</td>
+          <td style="text-align: left">全平台支持</td>
+          <td style="text-align: left">依赖浏览器内核</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="4-典型应用场景"><strong>4. 典型应用场景</strong></h3>
+<h4 id="选择matplotlib当"><strong>选择Matplotlib当：</strong></h4>
+<ul>
+<li>需要出版级学术图表</li>
+<li>绘制复杂组合图形（如插图+子图）</li>
+<li>开发自定义图表类型</li>
+</ul>
+<h4 id="选择seaborn当"><strong>选择Seaborn当：</strong></h4>
+<ul>
+<li>快速探索数据集分布</li>
+<li>生成统计报告图表</li>
+<li>需要美观的默认样式</li>
+</ul>
+<h4 id="选择pyecharts当"><strong>选择Pyecharts当：</strong></h4>
+<ul>
+<li>制作网页交互式报表</li>
+<li>展示地理空间数据</li>
+<li>需要时间轴动画演示</li>
+</ul>
+<hr>
+<h3 id="5-代码风格对比"><strong>5. 代码风格对比</strong></h3>
+<h4 id="matplotlib-命令式"><strong>Matplotlib (命令式)</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots()
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>plot(x, y, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>)
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#34;Demo&#34;</span>)
+</span></span></code></pre></div><h4 id="seaborn-声明式"><strong>Seaborn (声明式)</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>lineplot(x<span style="color:#f92672">=</span>x, y<span style="color:#f92672">=</span>y, hue<span style="color:#f92672">=</span>group, style<span style="color:#f92672">=</span>group)
+</span></span></code></pre></div><h4 id="pyecharts-链式调用"><strong>Pyecharts (链式调用)</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pyecharts.charts <span style="color:#f92672">import</span> Line
+</span></span><span style="display:flex;"><span>Line()<span style="color:#f92672">.</span>add_xaxis(x)<span style="color:#f92672">.</span>add_yaxis(<span style="color:#e6db74">&#34;系列&#34;</span>, y)<span style="color:#f92672">.</span>set_global_opts()
+</span></span></code></pre></div><hr>
+<h3 id="6-总结决策指南"><strong>6. 总结决策指南</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">需求特征</th>
+          <th style="text-align: left">推荐库</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;我需要发论文图表&rdquo;</td>
+          <td style="text-align: left">Matplotlib</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;我要快速分析数据分布&rdquo;</td>
+          <td style="text-align: left">Seaborn</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;老板要看动态大屏&rdquo;</td>
+          <td style="text-align: left">Pyecharts</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;既要交互又要印刷质量&rdquo;</td>
+          <td style="text-align: left">Matplotlib+Pyecharts组合使用</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>组合使用建议</strong>：</p>
+<ul>
+<li>用Seaborn快速探索数据 → Matplotlib精细调整 → Pyecharts制作最终演示版本</li>
+<li>避免在同一个项目中混用多种库（样式冲突风险）</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-03-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" data-title="Python常用包及其功能" data-hashtags="python"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" data-hashtag="python"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" data-title="Python常用包及其功能"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" data-title="Python常用包及其功能"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/" data-title="Python常用包及其功能"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" class="prev" rel="prev" title="集成学习"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>集成学习</a>
+            <a href="/Jinxiwei.github.io/posts/redis/" class="next" rel="next" title="Redis">Redis<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

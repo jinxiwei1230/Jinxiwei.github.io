@@ -58,475 +58,473 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/jdbc/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="jdbc">JDBC</h2>
-<p><strong>今日目标</strong></p>
-<blockquote>
+        <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Linux：正则表达式</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-30">2024-09-30</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第四章-正则表达式">第四章 正则表达式</h2>
+<h3 id="元字符和集合">元字符和集合</h3>
+<p>1、<strong>正则表达式的概念</strong>
+应用范围：字符串匹配操作和替换操作</p>
+<p>正则表达式的功能：描述一个字符串模式</p>
+<p><strong>注意:</strong>
+正则表达式规则与文件名通配符规则不同
+正则表达式规则用于文本处理的场合
+文件名匹配规则用于文件处理的场合</p>
+<p>不同软件对正则表达式的定义会有差异</p>
+<p>2、<strong>正则表达式中的特殊字符</strong>
+6个元字符 :<strong><code>. * [ \ ^ $</code></strong></p>
+<p>转义:用反斜线可以取消特殊字符的特殊含义
+如：正则表达end.只与字符串end.匹配</p>
+<p>3、<strong>单字符正则表达式</strong>
+转义字符后除以上六种之外的不该出现其他字符，例如:不该出现\u，这样的组合被视为undefined（未定义的），后出的软件有可能会有特殊的解释</p>
+<p><em>圆点（<code>·</code>）：匹配任意单字符</em></p>
+<p>4、<strong>单字符正则表达式:定义集合</strong>
+<strong>在[]之间的字符为集合的内容</strong>
+如：单字符正则表达式<code>[abcd]</code>与a或b,c,d匹配</p>
+<p><strong>圆点,星号，反斜线在方括号内时，代表它们自己</strong>
+如:<code>[\*.]</code>可匹配3个单字符</p>
+<p><strong>用减号-定义一个区间</strong></p>
 <ul>
-<li>掌握JDBC的的CRUD</li>
-<li>理解JDBC中各个对象的作用</li>
-<li>掌握Druid的使用</li>
+<li><code>[a-d]</code>、 <code>[A-Z]</code>、 <code>[a-zA-Z0-9]</code></li>
+<li><code>[][]</code> 集合含左右中括号两个字符</li>
+<li>减号在最后，则失去表示区间的意义，<code>[ad-]</code>只与3个字符匹配</li>
 </ul>
-</blockquote>
-<h2 id="1jdbc概述">1，JDBC概述</h2>
-<p>在开发中我们使用的是java语言，那么势必要通过java语言操作数据库中的数据。这就是接下来要学习的JDBC。</p>
-<h3 id="11--jdbc概念">1.1  JDBC概念</h3>
-<blockquote>
-<p>JDBC   就是使用Java语言操作关系型数据库的一套API</p>
-<p>全称：( Java DataBase Connectivity ) Java 数据库连接</p>
-</blockquote>
-<!-- raw HTML omitted -->
-<p>我们开发的同一套Java代码是无法操作不同的关系型数据库，因为每一个关系型数据库的底层实现细节都不一样。如果这样，问题就很大了，在公司中可以在开发阶段使用的是MySQL数据库，而上线时公司最终选用oracle数据库，我们就需要对代码进行大批量修改，这显然并不是我们想看到的。我们要做到的是同一套Java代码操作不同的关系型数据库，而此时sun公司就指定了一套标准接口（JDBC），JDBC中定义了所有操作关系型数据库的规则。众所周知接口是无法直接使用的，我们需要使用接口的实现类，而这套实现类（称之为：驱动）就由各自的数据库厂商给出。</p>
-<h3 id="12--jdbc本质">1.2  JDBC本质</h3>
+<p><strong>用^表示补集</strong>
+^在开头,则表示与集合内字符之外的任意字符匹配.
+<code>[^a-z]</code>匹配任一非小写字母.
+-<code>[^][]</code>匹配任一非中括号字符.</p>
+<p>^不在开头,则失去其表示补集的意义
+<code>[a-z^]</code>能匹配27个单字符</p>
+<h3 id="组合与锚点">组合与锚点</h3>
+<p><strong>1、单字符正则表达式的组合</strong>
+<strong>串结</strong>
+如abc， <code>[A-Z].[0-9]</code></p>
+<p><strong>星号（*）</strong>：单字符正则表达式后跟*，匹配此单字符正则表达式的0次或任意多次出现</p>
 <ul>
-<li>官方（sun公司）定义的一套操作所有关系型数据库的规则，即接口</li>
-<li>各个数据库厂商去实现这套接口，提供数据库驱动jar包</li>
-<li>我们可以使用这套接口（JDBC）编程，真正执行的代码是驱动jar包中的实现类</li>
+<li>正则表达式<code>12*4 </code>
+与字符串1234不匹配，与1224，12224，14匹配</li>
+<li>正则表达式<code>[A-Z][0-9]* </code>与<code>A</code>,<code>A1</code>,<code>C45</code>,<code>D768</code>匹配，与<code>b64512</code>,<code>T56t</code>不匹配</li>
+<li><code>[Cc]hapter *[1-4] </code>在*号前有一个空格，允许数字1-4之前有多个或者0个空格,可匹配Chapter2, chapter 3等等</li>
 </ul>
-<h3 id="13--jdbc好处">1.3  JDBC好处</h3>
+<p><strong>2、锚点:$和^</strong>
+<strong><code>$</code> 在尾部时有特殊意义，否则与其自身匹配</strong></p>
 <ul>
-<li>各数据库厂商使用相同的接口，Java代码不需要针对不同数据库分别开发</li>
-<li>可随时替换底层数据库，访问数据库的Java代码基本不变</li>
+<li><code>123$</code> 匹配文件中行尾的123，不在行尾的123字符不匹配</li>
+<li><code>$123</code>与字符串<code>$123</code>匹配</li>
+<li><code>.$</code>匹配行尾的任意字符</li>
 </ul>
-<p>以后编写操作数据库的代码只需要面向JDBC（接口），操作哪儿个关系型数据库就需要导入该数据库的驱动包，如需要操作MySQL数据库，就需要再项目中导入MySQL数据库的驱动包。如下图就是MySQL驱动包</p>
-<!-- raw HTML omitted -->
-<h2 id="2jdbc快速入门">2，JDBC快速入门</h2>
-<p>先来看看通过Java操作数据库的流程</p>
-<!-- raw HTML omitted -->
-<p>第一步：编写Java代码</p>
-<p>第二步：Java代码将SQL发送到MySQL服务端</p>
-<p>第三步：MySQL服务端接收到SQL语句并执行该SQL语句</p>
-<p>第四步：将SQL语句执行的结果返回给Java代码</p>
-<h3 id="21--编写代码步骤">2.1  编写代码步骤</h3>
+<p><strong><code>^</code> 在首部时有特殊意义，否则与其自身匹配</strong></p>
 <ul>
-<li>
-<p>创建工程，导入驱动jar包</p>
-<!-- raw HTML omitted -->
-</li>
-<li>
-<p>注册驱动</p>
-</li>
+<li><code>^printf</code>匹配行首的printf字符串，不在行首的printf串不匹配</li>
+<li><code>Hel^lo</code>与字符串<code>Hel^lo</code>匹配</li>
+<li>在vi中使用:<code>10,50s/^ //g</code>,删除10-50行的每行行首的4个空格,<code>s/匹配内容/替换内容/</code>、<code>g</code>： global（全局替换）</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Class</span>.forName(<span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>);
-</span></span></code></pre></div><ul>
-<li>
-<p>获取连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">Connection</span> conn <span style="color:#f92672">=</span> DriverManager.getConnection(url, username, password);
-</span></span></code></pre></div><p>Java代码需要发送SQL给MySQL服务端，就需要先建立连接</p>
-</li>
-<li>
-<p>定义SQL语句</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>String <span style="color:#66d9ef">sql</span> <span style="color:#f92672">=</span>  <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#66d9ef">update</span><span style="color:#960050;background-color:#1e0010">…”</span> ;
-</span></span></code></pre></div></li>
-<li>
-<p>获取执行SQL对象</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/jdbc/">Read More</a></div>
+<p><strong>3、正则表达式扩展</strong>
+<strong>基本正则表达式（BRE）</strong></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python2/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="python可视化-折线图">Python可视化-折线图</h1></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python2/">Read More</a></div>
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">Linux：命令和工具、文本文件处理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-linux入门">第一章 Linux入门</h2>
+<h3 id="linux的历史">Linux的历史</h3>
+<p>1、 <strong>操作系统的演变</strong></p>
+<ul>
+<li>手工操作</li>
+<li>单道批处理操作系统</li>
+<li>多道批处理系统</li>
+<li>分时系统</li>
+</ul>
+<p>2、 <strong>Unix发展史</strong></p>
+<ul>
+<li>UNiplexed Information and Computing System</li>
+<li>Unix早期的两大流派：贝尔实验室、加州大学伯克利分校</li>
+</ul>
+<h3 id="linux字符终端">Linux字符终端</h3>
+<p>1、 <strong>Unix/Linux是多用户系统：</strong></p>
+<ul>
+<li>主机连接多台字符终端</li>
+<li>字符终端作为交互式输入输出设备</li>
+</ul>
+<p>2、 <strong>终端和主机</strong></p>
+<ul>
+<li>
+<p>终端: 主机的输入和输出设备
+终端通过电缆把用户的按键信息送到主机，把主机发来的信息在屏幕上显示</p>
+</li>
+<li>
+<p>主机: 程序和数据的存储及处理
+数据及程序存放在主机的硬盘上，程序的运行也都由主机内的CPU占用主机内存来完成</p>
+</li>
+</ul>
+<p>3、 <strong>行律与驱动程序</strong></p>
+<ul>
+<li>
+<p>驱动程序：
+不同的硬件需要不同的驱动程序
+与行律模块的接口：上行和下行字符流</p>
+</li>
+<li>
+<p>行律的作用
+一行内字符的缓冲、回显与编辑，直到按下回车键
+数据加工，如：将\n转化为\r\n
+将Ctrl-C字符转化为中止进程运行的信号(signal)</p>
+</li>
+</ul>
+<p>4、 <strong>主机与终端间的通信过程</strong></p>
+<p>5、 <strong>终端转义序列</strong></p>
+<ul>
+<li>
+<p>转义字符
+Esc：ASCII码1B（十进制27，八进制033）</p>
+</li>
+<li>
+<p>主机发往终端方向数据中的转义序列的功能
+控制光标位置、字符颜色、字符大小等等
+选择终端的字符集
+控制终端上的打印机、刷卡机、磁条器、密码键盘</p>
+</li>
+</ul>
+<p><em>Esc[2J 由主机发送到终端的四字节序列：1B 5B 32 4A 功能：清除屏幕
+Esc[8A 四字节序列，光标上移8行
+Esc[16;8H 七字节序列，光标移到16行8列
+Esc[1;31m 七字节序列，红色字符</em></p>
+<p>6、 <strong>终端类型</strong></p>
+<ul>
+<li>
+<p>定义:定义一组转移序列以及相对应的操作</p>
+</li>
+<li>
+<p>主机和终端之间的类型匹配
+主机根据终端类型，实现相应功能时发送对应的控制码
+当终端类型不对时，可能全屏幕操作失败</p>
+</li>
+</ul>
+<p>7、 <strong>主机和终端之间的流量控制</strong></p>
+<ul>
+<li>
+<p>必要性
+终端的显示速度跟不上主机的发送速度
+主机送来数据终端需要打印出来，但打印速度慢
+主机送来的显示内容，需暂停显示，仔细分析
+需要一种机制控制主机方向来的数据流量</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="python面向对象">Python面向对象</h1>
-<h3 id="1-类的组成">1. 类的组成</h3>
-<p>类由两部分组成：</p>
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Linux补充知识</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-29">2024-09-29</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><p>1、<code>echo -e &quot;\033[1;33mHello&quot;</code>
+解析：输出黄色的Hello
+<strong>在终端中使用 ANSI 转义序列 <code>\033[1;XXm</code> 来设置文本颜色时，<code>XX</code> 表示颜色代码</strong></p>
 <ul>
-<li><strong>成员变量（属性）</strong>：描述类的特征或状态。</li>
-<li><strong>成员方法（行为）</strong>：描述类的行为或功能。</li>
+<li><code>echo</code> 是一个用于在终端打印输出字符串的命令。它可以输出文本、变量或包含转义字符的字符串</li>
+<li><code>-e</code> 是 echo 的一个选项参数，用于启用转义字符的处理。如果不加 -e 选项，像 <code>\033</code> 这样的转义序列会被当成普通字符串，而不会被解析为实际的控制字符</li>
+<li><code>\033</code> 是一个转义字符，ESC 键的十进制值。用于引入 ANSI 转义序列，以改变文本的颜色、样式或光标位置</li>
+<li><code>[1;33m</code>:这是一个 ANSI 转义序列，用来设置文本的格式和颜色。它的格式通常是 <code>\033[属性;颜色码m</code>，具体说明如下：
+<ul>
+<li><code>[1</code>：前面的 1 表示加粗。它属于文本属性控制码。常见的属性码有：<code>0</code>：重置所有属性、<code>1</code>：加粗、<code>4</code>：下划线、<code>7</code>：反显（文字和背景颜色交换）</li>
+<li><code>;33</code>：表示前景色代码。在 ANSI 转义序列中，颜色代码分为前景色（字体颜色）和背景色。常用的颜色代码：<code>30：黑色、31：红色、32：绿色、33：黄色、34：蓝色、35：紫色、36：青色、37：白色</code></li>
+<li><code>m</code>：表示 设置文本属性结束标志。该标志告诉终端接下来的内容需要应用前面指定的格式</li>
 </ul>
+</li>
+</ul>
+<p>恢复终端的默认颜色：<code>echo -e &quot;\033[0m&quot;</code></p>
+<p>2、<strong>Linux 服务器适合开启数据压缩的理由：</strong>
+<strong>带宽限制</strong>：1M 带宽相对较低，开启数据压缩可以在传输文本数据（如 SSH 会话中的命令输出）时减少数据量，从而提高传输速度。
+<strong>CPU 性能</strong>：CPU 负载不高，不影响其他操作的前提下，可以考虑启用数据压缩。
+<strong>数据类型</strong>：对于大量文本数据（如代码、日志）的传输，压缩效果明显；但对于已经压缩过的文件（如视频、图片），开启压缩效果不大，甚至可能降低效率。</p>
+<p>3、终端仅仅是 Linux 主机的一个外部设备，不分担存储和计算工作</p>
+<p>4、传统的终端与 Linux 主机之间传输的是字节流。</p>
+<p>5、在 Linux 和其他类 Unix 操作系统中，物理终端和虚拟终端都被视为设备文件。设备文件是指向硬件设备的特殊文件，通过这些文件可以与硬件进行交互。</p>
+<p>6、tr 命令是一个用于字符转换和删除的命令，可以处理字符流。
+字节值的范围：一个字节可以有 256 种可能的值（从 0 到 255），tr 不限制处理的字节值，所有 256 种字节值（包括 0）都可以被翻译或删除。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/linux%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/linux/">Linux</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="2024-09-28">2024-09-28</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/basic-course/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Basic Course</a></span></div><div class="content"><h2 id="第一章-概述">第一章 概述</h2>
+<h4 id="人工智能的三个层次">人工智能的三个层次</h4>
+<ul>
+<li>计算智能（能存会算）：快速计算、记忆和储存能力（超级计算机）</li>
+<li>感知智能（能听会说、能看会认）：视觉、听觉、触觉等感知能力，人脸识别、语音识别等</li>
+<li>认知智能（能理解会思考）：分析、思考、理解、判断的能力</li>
+</ul>
+<h4 id="人工智能研究方法">人工智能研究方法</h4>
+<p><strong>1、结构派</strong>：（神经计算、生理学派、连接主义）网络连接为主的联结主义;
+主要观点：</p>
+<ul>
+<li>智能活动的基元是神经细胞；</li>
+<li>智能活动过程是神经网络的状态演化过程</li>
+<li>智能活动的基础是神经细胞的突触联结机制</li>
+<li>智能系统的工作模式是模仿人脑模式</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>通过神经元之间的并行协同作用实现信息
+处理，具有并行性、动态性、全局性。</li>
+<li>通过神经元间分布式的物理联接存储信息。
+联想记忆、容错性。</li>
+<li>通过神经元间连接强度的动态调整实现自
+学习和自适应功能。</li>
+<li>善于模拟人类的形象思维过程。</li>
+</ul>
+<p><strong>2、功能派</strong>：（符号主义、心理学派、逻辑学派）符号处理为核心的方法;
+主要观点：</p>
+<ul>
+<li>思维的基元是符号；</li>
+<li>思维的过程是符号运算；</li>
+<li>智能的核心是知识，利用知识推理进行问题求解；</li>
+<li>智能活动的基础是物理符号系统，人脑电脑都是物理符号系统；</li>
+<li>知识可用符号表示，可建立基于符号逻辑的智能理论体系。</li>
+</ul>
+<p>主要特征：</p>
+<ul>
+<li>立足于逻辑运算和符号操作，适合于模拟人的逻辑思维过程。</li>
+<li>知识用显式的符号表示，容易表达人的心理模型。</li>
+<li>现有的数字计算机可以方便地实现高速的符号处理。</li>
+<li>能与传统的符号数据库进行链接，易于模块化。</li>
+<li>以知识为基础。</li>
+</ul>
+<p><strong>3、行为模拟派</strong>：（行为主义、进化主义、控制论学派）基于感知-行为模型的研究途径和方法。
+主要观点：</p>
+<ul>
+<li>智能行为的基础是感知－行动的反应机制；</li>
+<li>智能系统的智能行为需要在真实世界的复杂境遇中进行学习和训练，在与周围环境的信息交互与适应过程中不断进化和体现；</li>
+<li>强调智能系统与环境的交互，认为智能取决于感知和行动；</li>
+<li>智能行为可以不要知识。</li>
+</ul>
+<h4 id="人工智能研究基础内容">人工智能研究基础内容</h4>
+<p><strong>1、研究角度分：</strong></p>
+<ul>
+<li>符号智能：运用知识解决问题；</li>
+<li>计算智能：神经计算、模糊系统、遗传算法、进化程序设计；</li>
+<li>人工生命：生成或构造表现自然生命系统行为特点的仿真系统或模型系统</li>
+</ul>
+<p><strong>2、功能分：</strong></p>
+<ul>
+<li>机器感知/知识获取：机器听觉、视觉</li>
+<li>机器思维/知识处理：知识推理、问题求解、学习、理解</li>
+<li>机器行为/知识运用：智能机器系统</li>
+</ul>
+<h2 id="第二章-知识表示">第二章 知识表示</h2>
+<h3 id="21知识及其特性">2.1知识及其特性</h3>
+<p>1、数据、信息和知识</p>
+<ul>
+<li><strong>数据</strong>：包括事实和数字，未经加工的事实和符号</li>
+<li><strong>信息</strong>：从数据中提炼出来的有关信息，经过分析处理的数据形成信息。数据是信息的载体和表示，信息是数据在特定场合下的具体含义。</li>
+<li><strong>知识</strong>：对客观事物及其规律的认识，包括利用客观
+规律解决问题的方法和策略</li>
+<li><strong>规律</strong>：事物的现象、本质、属性、状态、关系、联系、运动等的认识</li>
+</ul>
+<p>2、噪声-数据-（组织分析）-信息-（解释评价）-知识-（理解归纳）-智慧</p>
+<p>3、知识的特性</p>
+<ul>
+<li>客观性</li>
+<li>相对正确性：一定条件、时间、环境</li>
+<li>进化性</li>
+<li>依附性：离开载体的知识是没有的</li>
+<li>不确定性：信息和关联的随机性、模糊性、不完全性</li>
+<li>经验性</li>
+<li>可表示性</li>
+<li>可利用性</li>
+<li>可重用性</li>
+<li>共享性</li>
+</ul>
+<p>4、知识的层次</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/ai/">AI</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/htmlcss/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="htmlcss">HTML&amp;CSS</h2>
+<p><strong>今日目标：</strong></p>
 <blockquote>
-<p><strong>注意</strong>：函数写在类外，而定义在类内部的函数称为方法。</p>
+<ul>
+<li>能够掌握课程中讲解的标签的使用</li>
+<li>了解css的使用</li>
+</ul>
 </blockquote>
-<hr>
-<h3 id="2-类和成员方法的定义语法">2. 类和成员方法的定义语法</h3>
-<h4 id="类的定义语法">类的定义语法：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">类名</span>:
-</span></span><span style="display:flex;"><span>    成员变量
-</span></span><span style="display:flex;"><span>    成员方法
-</span></span></code></pre></div><h4 id="成员方法的定义语法">成员方法的定义语法：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">方法名</span>(self, 参数1, 参数2, <span style="color:#f92672">...</span>):
-</span></span><span style="display:flex;"><span>    方法体
-</span></span></code></pre></div><hr>
-<h3 id="3-self-的作用">3. <code>self</code> 的作用</h3>
+<h2 id="1html">1，HTML</h2>
+<h3 id="11--介绍">1.1  介绍</h3>
+<p>HTML 是一门语言，所有的网页都是用HTML 这门语言编写出来的，也就是HTML是用来写网页的，像京东，12306等网站有很多网页。</p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/image-20210811151737929.png"
+        data-srcset="assets/image-20210811151737929.png, assets/image-20210811151737929.png 1.5x, assets/image-20210811151737929.png 2x"
+        data-sizes="auto"
+        alt="assets/image-20210811151737929.png"
+        title="image-20210811151737929" /></p>
+<!-- raw HTML omitted -->
+<p>这些都是网页展示出来的效果。而HTML也有专业的解释</p>
+<p>==HTML(HyperText Markup Language)：超文本标记语言：==</p>
 <ul>
-<li><code>self</code> 表示类对象本身。</li>
-<li>只有通过 <code>self</code>，成员方法才能访问类的成员变量。</li>
-<li><code>self</code> 出现在形参列表中，但不占用参数位置，调用时无需传递。</li>
+<li>
+<p>超文本：超越了文本的限制，比普通文本更强大。除了文字信息，还可以定义图片、音频、视频等内容</p>
+<p>如上图看到的页面，我们除了能看到一些文字，同时也有大量的图片展示；有些网页也有视频，音频等。这种展示效果超越了文本展示的限制。</p>
+</li>
+<li>
+<p>标记语言：由标签构成的语言</p>
+<p>之前学习的XML就是标记语言，由一个一个的标签组成，HTML 也是由标签组成 。我们在浏览器页面右键可以查看页面的源代码，如下</p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="assets/image-20210811152519471.png"
+        data-srcset="assets/image-20210811152519471.png, assets/image-20210811152519471.png 1.5x, assets/image-20210811152519471.png 2x"
+        data-sizes="auto"
+        alt="assets/image-20210811152519471.png"
+        title="image-20210811152519471" /></p>
+<p>可以看到如下内容，就是由一个一个的标签组成的</p>
+<!-- raw HTML omitted -->
+</li>
 </ul>
-<hr>
-<h3 id="4-构造方法">4. 构造方法</h3>
-<h4 id="构造方法的名称">构造方法的名称：</h4>
-<p><code>__init__</code>，注意 <code>init</code> 前后有两个下划线。</p>
-<h4 id="构造方法的作用">构造方法的作用：</h4>
+<p>这些标签不像XML那样可以自定义，==HTML中的标签都是预定义好的，运行在浏览器上并由浏览器解析，==然后展示出对应的效果。例如我们想在浏览器上展示出图片就需要使用预定义的 <code>img</code> 标签；想展示可以点击的链接的效果就可以使用预定义的 <code>a</code> 标签等。</p>
+<p>HTML 预定义了很多标签，由于我们是Java工程师、是做后端开发，所以不会每个都学习，页面开发是有专门的前端工程来开发。那为什么我们还要学习呢？在公司中或多或少大家也会涉及到前端开发。</p>
+<p>简单的给大家聊一下开发流程：</p>
+<p>以后我们是通过Java程序从数据库中查询出来数据，然后交给页面进行展示，这样用户就能通过在浏览器通过页面看到数据。</p>
+<p>==W3C标准：==</p>
+<p>W3C是万维网联盟，这个组成是用来定义标准的。他们规定了一个网页是由三部分组成，分别是：</p>
 <ul>
-<li>在创建类对象时自动运行。</li>
-<li>构造方法的参数会传递给类对象，借此可以初始化成员变量。</li>
+<li>结构：对应的是 HTML 语言</li>
+<li>表现：对应的是 CSS 语言</li>
+<li>行为：对应的是 JavaScript 语言</li>
 </ul>
-<h4 id="注意事项">注意事项：</h4>
-<ul>
-<li>构造方法中不要忘记 <code>self</code> 关键字。</li>
-<li>在方法内使用成员变量时需要使用 <code>self</code>。</li>
-</ul>
-<hr>
-<h3 id="8-常用特殊方法">8. 常用特殊方法</h3>
+<p>HTML定义页面的整体结构；CSS是用来美化页面，让页面看起来更加美观；JavaScript可以使网页动起来，比如轮播图也就是多张图片自动的进行切换等效果。</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/htmlcss/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/html/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="快速入门">快速入门</h2>
+<p>1.新建文本文件，后缀名改为 .html/.htm</p>
+<p>2.编写 HTML结构标签</p>
+<p>3.在<!-- raw HTML omitted -->中使用<!-- raw HTML omitted -->定义标题字体</p>
+<p>4.使用<!-- raw HTML omitted -->标签定义图片</p>
+<p>5.保存后，使用浏览器打开该文件</p>
+<p>| 标签           | 描述                                        |
+| &mdash;&mdash;&mdash;&mdash;&ndash; | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- |                                 |
+| &lt;HTML&gt;   | 定义 HTML 文档                              |
+| &lt;head&gt;   | 定义关于文档的信息                          |
+| &lt;title&gt;  | 定义文档的标题                              |
+| &lt;body&gt;   | 定义文档的主体                              |</p>
+<h2 id="基础标签">基础标签</h2>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">方法</th>
-          <th style="text-align: left">功能</th>
+          <th style="text-align: left">标签</th>
+          <th style="text-align: left">描述</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><code>__init__</code></td>
-          <td style="text-align: left">构造方法，用于创建类对象时设置初始化行为。</td>
+          <td style="text-align: left">&lt;h1&gt;  ~  &lt;h6&gt;</td>
+          <td style="text-align: left">定义标题，h1最大，h6最小</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>__str__</code></td>
-          <td style="text-align: left">用于实现类对象转字符串的行为，通常用于打印对象信息。</td>
+          <td style="text-align: left">&lt;font&gt;</td>
+          <td style="text-align: left">定义文本的字体、字体尺寸、字体颜色</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>__lt__</code></td>
-          <td style="text-align: left">用于两个类对象进行小于或大于比较。</td>
+          <td style="text-align: left">&lt;b&gt;</td>
+          <td style="text-align: left">定义粗体文本</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>__le__</code></td>
-          <td style="text-align: left">用于两个类对象进行小于等于或大于等于比较。</td>
+          <td style="text-align: left">&lt;i&gt;</td>
+          <td style="text-align: left">定义斜体文本</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>__eq__</code></td>
-          <td style="text-align: left">用于两个类对象进行相等比较。</td>
+          <td style="text-align: left">&lt;u&gt;</td>
+          <td style="text-align: left">定义文本下划线</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;center&gt;</td>
+          <td style="text-align: left">定义文本居中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;p&gt;</td>
+          <td style="text-align: left">定义段落</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;br&gt;</td>
+          <td style="text-align: left">定义折行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;hr&gt;</td>
+          <td style="text-align: left">定义水平线</td>
       </tr>
   </tbody>
 </table>
-<hr>
-<h3 id="示例代码">示例代码</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 构造方法</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, name, age):
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name  <span style="color:#75715e"># 成员变量</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> age
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 成员方法</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say_hello</span>(self):
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Hello, my name is </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> and I am </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>age<span style="color:#e6db74">}</span><span style="color:#e6db74"> years old.&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># __str__ 方法</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Person(name=</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">, age=</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>age<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># __eq__ 方法</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __eq__(self, other):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name <span style="color:#f92672">==</span> other<span style="color:#f92672">.</span>name <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>age <span style="color:#f92672">==</span> other<span style="color:#f92672">.</span>age
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建对象</span>
-</span></span><span style="display:flex;"><span>person1 <span style="color:#f92672">=</span> Person(<span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#ae81ff">25</span>)
-</span></span><span style="display:flex;"><span>person2 <span style="color:#f92672">=</span> Person(<span style="color:#e6db74">&#34;Bob&#34;</span>, <span style="color:#ae81ff">30</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 调用方法</span>
-</span></span><span style="display:flex;"><span>person1<span style="color:#f92672">.</span>say_hello()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 打印对象信息</span>
-</span></span><span style="display:flex;"><span>print(person1)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 比较对象</span>
-</span></span><span style="display:flex;"><span>print(person1 <span style="color:#f92672">==</span> person2)  <span style="color:#75715e"># False</span>
-</span></span></code></pre></div><h3 id="面向对象编程的三大特性封装继承多态">面向对象编程的三大特性：封装、继承、多态</h3>
-<hr>
-<h3 id="1-封装">1. 封装</h3>
-<p>将现实世界事物的 <strong>属性</strong> 和 <strong>行为</strong> 封装到类中，描述为 <strong>成员变量</strong> 和 <strong>成员方法</strong>，从而完成程序对现实世界事物的描述。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1机器学习基础">1.机器学习基础</h5>
-<h3 id="11-概念">1.1 概念</h3>
-<ol>
-<li>
-<p>机器学习定义：通过数据以及以往经验，优化计算机程序性能。</p>
-</li>
-<li>
-<p>机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)</p>
-</li>
-</ol>
-<ul>
-<li><strong>利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型”</strong></li>
-</ul>
-<ol start="3">
-<li>
-<p>机器学习的目的：机器学习的目的是分<strong>类</strong>和<strong>预测</strong>。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个<em>向量</em>，也称为<em>特征</em>(Feature)，输出则是一个<em>分类</em>或者一个<em>数值</em>。</p>
-</li>
-<li>
-<p>机器学习的基本过程：机器学习的基本过程是用<strong>训练数据</strong>(包含输入数据和预期输出的分类或者数值)训练一个<em>模型</em>
-(Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。</p>
-</li>
-<li>
-<p>机器学习应用；</p>
-</li>
-</ol>
-<ul>
-<li>
-<p><strong>数据挖掘</strong>：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。</p>
-</li>
-<li>
-<p><strong>计算机视觉</strong>：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。</p>
-</li>
-<li>
-<p><strong>自然语言处理</strong>：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。</p>
-</li>
-<li>
-<p><strong>生物特征识别</strong>：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。</p>
-</li>
-</ul>
-<h3 id="12-机器学习基本术语">1.2 机器学习基本术语</h3>
-<ol>
-<li><strong>机器学习</strong></li>
-</ol>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">HTML 原代码</th>
+          <th style="text-align: left">显示结果</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&amp;lt;</td>
+          <td style="text-align: left">&lt;</td>
+          <td style="text-align: left">小于号或显示标记</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;gt ;</td>
+          <td style="text-align: left">&gt;</td>
+          <td style="text-align: left">大于号或显示标记</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;amp;</td>
+          <td style="text-align: left">&amp;</td>
+          <td style="text-align: left">可用于显示其它特殊字符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;quot;</td>
+          <td style="text-align: left">“</td>
+          <td style="text-align: left">引号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;reg;</td>
+          <td style="text-align: left">®</td>
+          <td style="text-align: left">已注册</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;copy;</td>
+          <td style="text-align: left">©</td>
+          <td style="text-align: left">版权</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;trade;</td>
+          <td style="text-align: left">™</td>
+          <td style="text-align: left">商标</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&amp;nbsp;</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">不断行的空白</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="图片音频视频标签">图片、音频、视频标签</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">标签</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&lt;img&gt;</td>
+          <td style="text-align: left">定义图片</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;audio&gt;</td>
+          <td style="text-align: left">定义音频</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&lt;video&gt;</td>
+          <td style="text-align: left">定义视频</td>
+      </tr>
+  </tbody>
+</table>
 <ul>
 <li>
-<p>一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。</p>
-</li>
-<li>
-<p>要进行机器学习，必须要获取<strong>经验E</strong>，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。</p>
-</li>
-<li>
-<p>机器学习中我们经验通常从<strong>数据集</strong>中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。</p>
-</li>
-</ul>
-<ol start="2">
-<li><strong>数据集(data set)</strong></li>
-</ol>
-<ul>
-<li>
-<p>一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。</p>
-</li>
-<li>
-<p>样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。</p>
-</li>
-<li>
-<p>属性张成的空间称为<em>属性空间</em>(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。</p>
-</li>
-</ul>
-<ol start="3">
-<li><strong>训练(training)</strong></li>
-</ol>
-<ul>
-<li>
-<p>从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。</p>
-</li>
-<li>
-<p>训练模型的目的是<strong>预测</strong>(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为<em>标记</em>(label)。</p>
-</li>
-</ul>
-<ol start="4">
-<li><strong>预测(prediction)</strong></li>
-</ol>
-<ul>
-<li>
-<p>预测<em>离散值</em>，则此类任务称为<em>分类</em>(classification)</p>
-</li>
-<li>
-<p>预测<em>连续值</em>，则将此类任务称之为<em>回归</em>(regression)。</p>
-</li>
-<li>
-<p>学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。</p>
-</li>
-<li>
-<p>学得模型适用于新样本的能力称为<strong>泛化</strong>(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。
-（预测能力好-泛化能力强）</p>
-</li>
-<li>
-<p>聚类(clustering)将训练集的样本分为若干组，每个组称为一个<strong>簇</strong>(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。</p>
-</li>
-<li>
-<p>回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。</p>
-</li>
-<li>
-<p>按照训练数据有无标记信息可以将学习任务分为两大类：<strong>监督学习</strong>(supervised learning)和<strong>无监督学习</strong>(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。</p>
-</li>
-</ul>
-<ol start="5">
-<li>回归：(有标记信息)</li>
-</ol>
-<ul>
-<li>回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。</li>
-<li>通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。</li>
-</ul>
-<ol start="6">
-<li>
-<p>分类(有标记信息)</p>
-</li>
-<li>
-<p>聚类(无标记信息)</p>
-</li>
-<li>
-<p><strong>模型评估方法</strong>:</p>
-</li>
-</ol>
-<ul>
-<li>模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有<strong>留出法</strong>、交<strong>叉验证法</strong>和<strong>自助法</strong>。</li>
-</ul>
-<ol start="9">
-<li><strong>留出法（hold-out）</strong>（适用大数据集）</li>
-</ol>
-<ul>
-<li>将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。</li>
-</ul>
-<ol start="10">
-<li><strong>交叉验证法（cross validation）</strong>（适用大数据集）</li>
-</ol>
-<ul>
-<li>
-<p>先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数
-据集D的比例相同）。</p>
-</li>
-<li>
-<p>然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。</p>
-</li>
-<li>
-<p>从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。</p>
-</li>
-<li>
-<p>若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。
-优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。
-缺点:数据集较大时，训练m个模型计算开销太大。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1-数据预处理概述">1 数据预处理概述</h5>
-<ol>
-<li>
-<p>数据质量的多维测度
-¢ 准确性（Accuracy）
-¢ 完整性 （Completeness）
-¢ 一致性 （Consistency）
-¢ 时效性 （Timeliness）
-¢ 相关性 （Relevance）
-¢ 可信性（Believability）
-¢ 可解释性（Interpretability）</p>
-</li>
-<li>
-<p>数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。</p>
-</li>
-<li>
-<p>属性是一个数据字段，表示数据对象的特征。
-在文献中，属性、维度（dimension）、特征（feature）、变量
-（variance）可以互换的使用。
-p
-“维”，一般用在数据仓库中。
-p
-“特征”，一般用在机器学习中。
-p
-“变量”，一般用在统计学中。</p>
-</li>
-<li>
-<p>标称属性：标称属性的值是一些符号或事物的名称。</p>
-</li>
-<li>
-<p>二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。</p>
-</li>
-<li>
-<p>序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。</p>
-</li>
-<li>
-<p>数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。</p>
-</li>
-<li>
-<p>离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。</p>
-</li>
-</ol>
-<ul>
-<li>有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。</li>
-<li>无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。</li>
-</ul>
-<ol start="9">
-<li>性：如果属性不是离散的，则它是连续的。</li>
-</ol>
-<ul>
-<li>文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。</li>
-</ul>
-<ol start="10">
-<li>数据的基本统计᧿述的图形显示：</li>
-</ol>
-<ul>
-<li>
-<p>分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。</p>
-</li>
-<li>
-<p>分位数-分位数图：分位数-分位数图（quantile-quantile plot）
-或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工
-具，使得用户可以观察从一个分布到另一个分布是否有偏移。</p>
-</li>
-<li>
-<p>直方图：直方图或频率直方图是一种被广泛使用的统计方法。
-它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin），
-是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对
-象的计数</p>
-</li>
-<li>
-<p>散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。</p>
-</li>
-</ul>
-<ol start="11">
-<li>用DataFrame对象.to_csv()方法来保存数据成csv文件。</li>
-</ol>
-<p>DataFrame 数据的保存和读取：
-df.to_csv 写入到 csv 文件
-pd.read_csv 读取 csv 文件
-df.to_json 写入到 json 文件
-pd.read_json 读取 json 文件
-df.to_html 写入到 html 文件
-pd.read_html 读取 html 文件
-df.to_excel 写入到 excel 文件
-pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">模型的评估和选择</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><h3 id="测试集和训练集">测试集和训练集</h3>
-<h3 id="经验误差与泛化误差">经验误差与泛化误差</h3>
-<p>1、就<strong>分类</strong>问题而言，通常把分类错误的样本数占样本总数的比例称为<strong>错误率</strong>.</p>
-<p>2、对于<strong>回归</strong>问题，把学习器的<strong>实际预测输出</strong>与样本的<strong>真实标值</strong>之间的差异称为<strong>误差</strong>.</p>
-<p>3、如果以<strong>训练集</strong>样本数据为测量参考，模型在训练集上的误差称为“<strong>训练误差</strong>”（training error）或者“<strong>经验误差</strong>”（empirical error）.</p>
-<p>4、在<strong>测试集</strong>上的误差称为“测试误差”（testing error），在<strong>新样本</strong>上的误差称为“<strong>泛化误差</strong>”（generalization error）</p>
-<h3 id="过拟合和欠拟合">过拟合和欠拟合</h3>
-<p>1、在机器学习中太多反映训练样本个性化属性而导致<strong>普遍规律受重视不够</strong> 引起的，使模型<strong>泛化误差大于测试误差</strong>的现象称为“过拟合”（overfitting）。
-（1）有噪声的数据导致过拟合
-（2）训练数据量过少（有限的训练数据）导致过拟合
-（3）过于复杂的模型导致过拟合</p>
-<p><strong>常用的处理过拟合的一些方法</strong></p>
-<ul>
-<li>early stopping：当训练精度不再增加的时候停止迭代。</li>
-<li>数据集扩增：通过扩充数据集，让训练集中的噪音数据占比越来越小。</li>
-<li>正则化：限制模型的复杂度</li>
-<li>Dropout：
-<ul>
-<li>每个训练的batch,随机（依概率p）让一些隐层的节点不工作， 来进行训练（进行参数调整）</li>
-<li>测试的时候使用全部网络， 但是权值上乘以概率p（否则预测值会有所扩张）</li>
-</ul>
-</li>
-<li>挑选合适的模型</li>
-</ul>
-<p>2、欠拟合是由于模型不能全面反映样本“普遍规律”造成的。训练误差和<strong>测试误差、泛化误差都很大</strong>。
-欠拟合的主要原因是模型不能很好的捕捉数据特征
-<strong>常用的处理欠拟合的一些方法</strong></p>
-<ul>
-<li>添加其他特征项，特征组合、多项式特征等</li>
-<li>减少正则化参数</li>
-<li>增加模型复杂性</li>
-</ul>
-<h3 id="测试样本数据获取方法">测试样本数据获取方法</h3>
-<h3 id="方法1留出法-hold-out">方法1：留出法 (Hold-out)</h3>
-<ol>
-<li>
-<p><strong>数据划分</strong>：</p>
-<ul>
-<li>将数据集 ( D ) 划分为两个互斥的集合：训练集 ( S ) 和测试集 ( T )，即 ( D = S \cup T ) 且 ( S \cap T = \emptyset )。</li>
-<li>( S ) 用于训练模型，( T ) 用于评估模型的测试误差。</li>
-</ul>
-</li>
-<li>
-<p><strong>保持数据分布一致性</strong>：</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
+<p>img：定义图片</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/html/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -548,6 +546,10 @@ pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/9/">9</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/10/">10</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

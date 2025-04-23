@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="面型对象需求分析方法 UML概述 一、UML的定义与本质 定义
+UML（Unified Modeling Language，统一建模语言）是一种标准化的图形化建模语言，用于面向对象分析与设计的可视化表示。 本质 不是编程语言：不是一种可视化的程序设计语言，而是一种可视化的建模语言。 不是方法或过程：它不是过程，也不是方法，但允许任何一种过程和方法使用它。 不是工具规格：不是工具或知识库的规格说明，而是一种建模语言规格说明，是一种表示的标准。 综合多种方法：融合了Booch、OMT（对象建模技术）、OOSE（面向对象软件工程）等方法的优点。 二、UML的目标 核心目标 提供表达能力强大且易用的建模语言。 支持跨平台与语言，与实现无关。 促进架构、模式、构件和框架的重用。 集成最佳软件工程实践（如模块化、分层设计）。 扩展性 通过构造型（Stereotypes）、**标记值（Tagged Values）和约束（Constraints）**扩展核心概念。 三、UML的视图与图 UML通过五类视图和九种图从不同角度描述系统：
+1. 用例视图（Use Case View） 作用：描述系统功能需求，从用户角度展示系统行为。 组成图： 用例图（Use Case Diagram）：功能与参与者（Actor）的交互。 活动图（Activity Diagram）（可选）：细化用例的工作流程。 2. 逻辑视图（Logical View） 作用：展示系统的静态结构与动态行为。 组成图： 类图（Class Diagram）：类、接口、关系（继承、关联等）。 对象图（Object Diagram）：某一时刻的对象实例及其链接。 状态图（State Diagram）：对象的状态变化（如订单状态流转）。 活动图（Activity Diagram）：业务逻辑或算法的流程（类似流程图）。 3. 进程视图（Process View） 作用：描述系统并发、同步和通信机制（多线程、分布式场景）。 组成图： 顺序图（Sequence Diagram）：按时间顺序的交互（强调时序）。 协作图（Collaboration Diagram，UML 2.0后称通信图）：对象间的协作关系（强调结构）。 4. 构件视图（Component View） 作用：展示代码构件的物理组织（如库、可执行文件）。 组成图： 构件图（Component Diagram）：构件间的依赖关系（如.dll、.jar文件）。 5. 部署视图（Deployment View） 作用：描述硬件部署及软件到硬件的映射（如服务器、网络拓扑）。 组成图： 部署图（Deployment Diagram）：节点（Node）与构件的部署关系。 四、UML 1.4的九种图详解 图类型 关键用途 适用阶段 用例图 功能需求分析，用户与系统交互 需求分析 类图 静态结构设计（类、接口、关系） 系统设计 对象图 类图的实例化（调试或快照） 详细设计/测试 顺序图 交互时序（如API调用顺序） 动态行为设计 协作图（通信图） 对象协作关系（空间结构） 动态行为设计 状态图 对象生命周期（如订单状态机） 复杂对象建模 活动图 业务流程或算法流程（并行、分支） 需求分析/详细设计 构件图 代码模块化与依赖管理 架构设计/实现 部署图 硬件配置与软件部署 系统部署 五、UML的特点 可视化：通过图形化符号降低沟通成本。 通用性：适用于任何编程语言（Java、C&#43;&#43;等）和开发过程。 分层抽象：支持从需求到代码的多层次建模（用例→类→构件→部署）。 标准化：由OMG（对象管理组）维护，确保工具兼容性。 六、常见应用场景 需求分析：用例图、活动图。 系统设计：类图、顺序图、状态图。 架构设计：构件图、部署图。 调试与维护：对象图、协作图。 UML中的图 ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="面型对象需求分析方法 UML概述 一、UML的定义与本质 定义
+UML（Unified Modeling Language，统一建模语言）是一种标准化的图形化建模语言，用于面向对象分析与设计的可视化表示。 本质 不是编程语言：不是一种可视化的程序设计语言，而是一种可视化的建模语言。 不是方法或过程：它不是过程，也不是方法，但允许任何一种过程和方法使用它。 不是工具规格：不是工具或知识库的规格说明，而是一种建模语言规格说明，是一种表示的标准。 综合多种方法：融合了Booch、OMT（对象建模技术）、OOSE（面向对象软件工程）等方法的优点。 二、UML的目标 核心目标 提供表达能力强大且易用的建模语言。 支持跨平台与语言，与实现无关。 促进架构、模式、构件和框架的重用。 集成最佳软件工程实践（如模块化、分层设计）。 扩展性 通过构造型（Stereotypes）、**标记值（Tagged Values）和约束（Constraints）**扩展核心概念。 三、UML的视图与图 UML通过五类视图和九种图从不同角度描述系统：
+1. 用例视图（Use Case View） 作用：描述系统功能需求，从用户角度展示系统行为。 组成图： 用例图（Use Case Diagram）：功能与参与者（Actor）的交互。 活动图（Activity Diagram）（可选）：细化用例的工作流程。 2. 逻辑视图（Logical View） 作用：展示系统的静态结构与动态行为。 组成图： 类图（Class Diagram）：类、接口、关系（继承、关联等）。 对象图（Object Diagram）：某一时刻的对象实例及其链接。 状态图（State Diagram）：对象的状态变化（如订单状态流转）。 活动图（Activity Diagram）：业务逻辑或算法的流程（类似流程图）。 3. 进程视图（Process View） 作用：描述系统并发、同步和通信机制（多线程、分布式场景）。 组成图： 顺序图（Sequence Diagram）：按时间顺序的交互（强调时序）。 协作图（Collaboration Diagram，UML 2.0后称通信图）：对象间的协作关系（强调结构）。 4. 构件视图（Component View） 作用：展示代码构件的物理组织（如库、可执行文件）。 组成图： 构件图（Component Diagram）：构件间的依赖关系（如.dll、.jar文件）。 5. 部署视图（Deployment View） 作用：描述硬件部署及软件到硬件的映射（如服务器、网络拓扑）。 组成图： 部署图（Deployment Diagram）：节点（Node）与构件的部署关系。 四、UML 1.4的九种图详解 图类型 关键用途 适用阶段 用例图 功能需求分析，用户与系统交互 需求分析 类图 静态结构设计（类、接口、关系） 系统设计 对象图 类图的实例化（调试或快照） 详细设计/测试 顺序图 交互时序（如API调用顺序） 动态行为设计 协作图（通信图） 对象协作关系（空间结构） 动态行为设计 状态图 对象生命周期（如订单状态机） 复杂对象建模 活动图 业务流程或算法流程（并行、分支） 需求分析/详细设计 构件图 代码模块化与依赖管理 架构设计/实现 部署图 硬件配置与软件部署 系统部署 五、UML的特点 可视化：通过图形化符号降低沟通成本。 通用性：适用于任何编程语言（Java、C&#43;&#43;等）和开发过程。 分层抽象：支持从需求到代码的多层次建模（用例→类→构件→部署）。 标准化：由OMG（对象管理组）维护，确保工具兼容性。 六、常见应用场景 需求分析：用例图、活动图。 系统设计：类图、顺序图、状态图。 架构设计：构件图、部署图。 调试与维护：对象图、协作图。 UML中的图 ">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95\/"
+        },"genre": "posts","wordcount":  669 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;669 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#面型对象需求分析方法">面型对象需求分析方法</a>
+      <ul>
+        <li><a href="#uml概述">UML概述</a></li>
+        <li><a href="#uml中的图">UML中的图</a></li>
+        <li><a href="#面向对象分析概述">面向对象分析概述</a></li>
+        <li><a href="#1-什么是-ooa">1. 什么是 OOA</a></li>
+        <li><a href="#2-ooa-与-ood-的职责划分">2. OOA 与 OOD 的职责划分</a></li>
+        <li><a href="#3-ooa-过程">3. OOA 过程</a></li>
+        <li><a href="#用例建模">用例建模</a></li>
+        <li><a href="#创建领域模型">创建领域模型</a></li>
+        <li><a href="#image-20250421163139191cusersxiweiappdataroamingtyporatypora-user-imagesimage-20250421163139191png"><img src="C:%5CUsers%5Cxiwei%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20250421163139191.png" alt="image-20250421163139191"></a></li>
+        <li><a href="#绘制系统顺序图">绘制系统顺序图</a></li>
+        <li><a href="#创建系统操作契约">创建系统操作契约</a></li>
+        <li><a href="#1-操作契约的核心概念"><strong>1. 操作契约的核心概念</strong></a></li>
+        <li><a href="#2-操作契约四要素"><strong>2. 操作契约四要素</strong></a></li>
+        <li><a href="#3-后置条件的三种类型"><strong>3. 后置条件的三种类型</strong></a></li>
+        <li><a href="#4-创建操作契约的步骤"><strong>4. 创建操作契约的步骤</strong></a></li>
+        <li><a href="#5-完整示例atm取款"><strong>5. 完整示例（ATM取款）</strong></a></li>
+        <li><a href="#6-操作契约与领域模型的关系"><strong>6. 操作契约与领域模型的关系</strong></a></li>
+        <li><a href="#7-何时需要操作契约"><strong>7. 何时需要操作契约？</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="面型对象需求分析方法">面型对象需求分析方法</h2>
+<h3 id="uml概述">UML概述</h3>
+<h4 id="一uml的定义与本质"><strong>一、UML的定义与本质</strong></h4>
+<ol>
+<li><strong>定义</strong><br>
+UML（Unified Modeling Language，统一建模语言）是一种<strong>标准化的图形化建模语言</strong>，用于面向对象分析与设计的可视化表示。</li>
+<li><strong>本质</strong>
+<ul>
+<li><strong>不是编程语言</strong>：不是一种可视化的程序设计语言，而是一种可视化的建模语言。</li>
+<li><strong>不是方法或过程</strong>：它不是过程，也不是方法，但允许任何一种过程和方法使用它。</li>
+<li><strong>不是工具规格</strong>：不是工具或知识库的规格说明，而是一种建模语言规格说明，是一种表示的标准。</li>
+<li><strong>综合多种方法</strong>：融合了Booch、OMT（对象建模技术）、OOSE（面向对象软件工程）等方法的优点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="二uml的目标"><strong>二、UML的目标</strong></h4>
+<ol>
+<li><strong>核心目标</strong>
+<ul>
+<li>提供<strong>表达能力强大</strong>且<strong>易用</strong>的建模语言。</li>
+<li>支持<strong>跨平台与语言</strong>，与实现无关。</li>
+<li>促进<strong>架构、模式、构件和框架</strong>的重用。</li>
+<li>集成<strong>最佳软件工程实践</strong>（如模块化、分层设计）。</li>
+</ul>
+</li>
+<li><strong>扩展性</strong>
+<ul>
+<li>通过<strong>构造型（Stereotypes）</strong>、**标记值（Tagged Values）<strong>和</strong>约束（Constraints）**扩展核心概念。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="三uml的视图与图"><strong>三、UML的视图与图</strong></h4>
+<p>UML通过<strong>五类视图</strong>和<strong>九种图</strong>从不同角度描述系统：</p>
+<h4 id="1-用例视图use-case-view"><strong>1. 用例视图（Use Case View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述系统功能需求，从用户角度展示系统行为。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>用例图（Use Case Diagram）</strong>：功能与参与者（Actor）的交互。</li>
+<li><strong>活动图（Activity Diagram）</strong>（可选）：细化用例的工作流程。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-逻辑视图logical-view"><strong>2. 逻辑视图（Logical View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：展示系统的静态结构与动态行为。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>类图（Class Diagram）</strong>：类、接口、关系（继承、关联等）。</li>
+<li><strong>对象图（Object Diagram）</strong>：某一时刻的对象实例及其链接。</li>
+<li><strong>状态图（State Diagram）</strong>：对象的状态变化（如订单状态流转）。</li>
+<li><strong>活动图（Activity Diagram）</strong>：业务逻辑或算法的流程（类似流程图）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-进程视图process-view"><strong>3. 进程视图（Process View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述系统并发、同步和通信机制（多线程、分布式场景）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>顺序图（Sequence Diagram）</strong>：按时间顺序的交互（强调时序）。</li>
+<li><strong>协作图（Collaboration Diagram，UML 2.0后称通信图）</strong>：对象间的协作关系（强调结构）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-构件视图component-view"><strong>4. 构件视图（Component View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：展示代码构件的物理组织（如库、可执行文件）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>构件图（Component Diagram）</strong>：构件间的依赖关系（如.dll、.jar文件）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-部署视图deployment-view"><strong>5. 部署视图（Deployment View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述硬件部署及软件到硬件的映射（如服务器、网络拓扑）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>部署图（Deployment Diagram）</strong>：节点（Node）与构件的部署关系。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="四uml-14的九种图详解"><strong>四、UML 1.4的九种图详解</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>图类型</strong></th>
+          <th style="text-align: left"><strong>关键用途</strong></th>
+          <th style="text-align: left"><strong>适用阶段</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">用例图</td>
+          <td style="text-align: left">功能需求分析，用户与系统交互</td>
+          <td style="text-align: left">需求分析</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">类图</td>
+          <td style="text-align: left">静态结构设计（类、接口、关系）</td>
+          <td style="text-align: left">系统设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">对象图</td>
+          <td style="text-align: left">类图的实例化（调试或快照）</td>
+          <td style="text-align: left">详细设计/测试</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">顺序图</td>
+          <td style="text-align: left">交互时序（如API调用顺序）</td>
+          <td style="text-align: left">动态行为设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">协作图（通信图）</td>
+          <td style="text-align: left">对象协作关系（空间结构）</td>
+          <td style="text-align: left">动态行为设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">状态图</td>
+          <td style="text-align: left">对象生命周期（如订单状态机）</td>
+          <td style="text-align: left">复杂对象建模</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">活动图</td>
+          <td style="text-align: left">业务流程或算法流程（并行、分支）</td>
+          <td style="text-align: left">需求分析/详细设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">构件图</td>
+          <td style="text-align: left">代码模块化与依赖管理</td>
+          <td style="text-align: left">架构设计/实现</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">部署图</td>
+          <td style="text-align: left">硬件配置与软件部署</td>
+          <td style="text-align: left">系统部署</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="五uml的特点"><strong>五、UML的特点</strong></h4>
+<ol>
+<li><strong>可视化</strong>：通过图形化符号降低沟通成本。</li>
+<li><strong>通用性</strong>：适用于任何编程语言（Java、C++等）和开发过程。</li>
+<li><strong>分层抽象</strong>：支持从需求到代码的多层次建模（用例→类→构件→部署）。</li>
+<li><strong>标准化</strong>：由OMG（对象管理组）维护，确保工具兼容性。</li>
+</ol>
+<hr>
+<h4 id="六常见应用场景"><strong>六、常见应用场景</strong></h4>
+<ul>
+<li><strong>需求分析</strong>：用例图、活动图。</li>
+<li><strong>系统设计</strong>：类图、顺序图、状态图。</li>
+<li><strong>架构设计</strong>：构件图、部署图。</li>
+<li><strong>调试与维护</strong>：对象图、协作图。</li>
+</ul>
+<h3 id="uml中的图">UML中的图</h3>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421153345762.png"
+        title="image-20250421153345762" /></p>
+<h4 id="一用例图">一、用例图</h4>
+<h5 id="一参与者actor">（一）参与者（Actor）</h5>
+<ol>
+<li>
+<p><strong>定义</strong>：参与者是具有行为能力的事物，其范围广泛，包括但不限于一个人（以所扮演的角色进行识别）、计算机系统、硬件设备或组织。</p>
+</li>
+<li>
+<p><strong>表示方法</strong>：</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>当参与者为人时，一般采用人型符号表示，并将参与者的名字标注在图符下方。</p>
+</li>
+<li>
+<p>若参与者非人，可使用矩形表示，并添加《actor》版型以明确其参与者属性。</p>
+</li>
+</ul>
+<h5 id="二场景scenario">（二）场景（Scenario）</h5>
+<ol>
+<li>
+<p><strong>定义</strong>：场景是参与者和被讨论系统之间一系列特定的活动和交互，通常被称为 “用例的实例” 。它是使用系统的一个特定情节，也是用例的一条执行路径。</p>
+</li>
+<li>
+<p><strong>特性</strong>：场景聚焦于具体的交互过程，展现了在特定条件下，参与者与系统如何进行互动以实现某些目标，每个场景都是用例在实际应用中的一种具体体现。</p>
+</li>
+</ol>
+<h5 id="三用例use-case">（三）用例（Use Case）</h5>
+<ol>
+<li>
+<p><strong>定义</strong>：用例是描述参与者如何使用系统来达到目标的一组成功场景和失败场景的集合。通过用户和系统的交互，用例向用户提供有价值的结果值。</p>
+</li>
+<li>
+<p><strong>表示方法</strong>：用例通常表示为一个包含用例名字的椭圆，简洁直观地呈现其核心内容。</p>
+</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153645288.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153645288.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153645288.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153645288.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421153645288.png"
+        title="image-20250421153645288" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153657255.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153657255.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153657255.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153657255.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421153657255.png"
+        title="image-20250421153657255" /></p>
+<ol>
+<li>
+<p><strong>以用户目标为出发点</strong>：用例方法强调从用户希望系统能为其带来哪些有价值的结果这一角度出发，去全面考虑系统的功能和特性，并使用用例对这些功能和特性进行详细描述。此过程中，重点关注系统如何为用户创造价值、助力用户实现目标。</p>
+</li>
+<li>
+<p><strong>面向用户目标语境</strong>：用例将系统的特性和功能放置在面向用户目标的语境中进行深入考量，确保所识别出来的功能能够真正为用户提供价值，避免功能与用户实际需求脱节，使系统开发更贴合用户使用场景和期望。</p>
+</li>
+</ol>
+<h5 id="用例图绘制要求">用例图绘制要求</h5>
+<ol>
+<li>
+<p><strong>画出三种模型元素</strong>：在绘制用例图时，必须完整呈现参与者、场景、用例这三种核心模型元素，并严格按照各自的标准表示方法进行绘制，保证图示规范、清晰。</p>
+</li>
+<li>
+<p><strong>画出元素之间的关系</strong>：除了绘制出三种模型元素外，还需要明确画出元素之间的各种关系，如参与者与用例之间的交互关系，以及用例之间可能存在的包含、扩展等关系，以此全面展示系统的功能交互逻辑和业务流程。</p>
+</li>
+</ol>
+<h4 id="二类图">二、类图</h4>
+<p>描述<strong>属性</strong>的语法格式为：<strong>可见性   属性名：类型名= 初始值 {性质串}</strong></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153917349.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153917349.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153917349.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153917349.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421153917349.png"
+        title="image-20250421153917349" /></p>
+<p>描述<strong>操作</strong>的语法格式为：<strong>可见性   操作名（参数表）：返回值类型 {性质串}</strong></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154101700.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154101700.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154101700.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154101700.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154101700.png"
+        title="image-20250421154101700" /></p>
+<p>UML中类之间的关系可分为：<strong>依赖、关联、聚合、组合、继承</strong></p>
+<h5 id="1-依赖dependency">1. 依赖（Dependency）</h5>
+<ul>
+<li><strong>概念</strong>：一个类的实现需要另一个类的协助，是一种使用关系，通常为单向。</li>
+<li><strong>UML 表示</strong>：带箭头的虚线。</li>
+<li><strong>代码表现</strong>：方法参数、局部变量、静态方法的调用。</li>
+<li><strong>特点</strong>：具有偶然性、临时性，是较弱的关系。类 A 使用完类 B 后，关系即解除。</li>
+</ul>
+<h5 id="2-关联association">2. 关联（Association）</h5>
+<ul>
+<li><strong>概念</strong>：一个类知道另一个类的属性和方法，是一种拥有关系，具有长期性、相对平等。</li>
+<li><strong>UML 表示</strong>：可以是双向（实线）或导航（单向箭头），两端可标注重数表示数量对比关系。</li>
+<li><strong>代码表现</strong>：成员变量。</li>
+<li><strong>特点</strong>：体现类之间较为稳定的联系。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154541628.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154541628.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154541628.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154541628.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154541628.png"
+        title="image-20250421154541628" /></p>
+<h5 id="3-关联类association-class">3. 关联类（Association Class）</h5>
+<ul>
+<li><strong>概念</strong>：关联也能有自身的属性和操作，此时该关联就是关联类。</li>
+<li><strong>UML 表示</strong>：在关联关系基础上，关联类以类的形式呈现，与关联线相连。</li>
+<li><strong>代码表现</strong>：通常有对应的类定义，且与关联的类有交互代码。</li>
+<li><strong>特点</strong>：在关联基础上增加了更多属性和行为描述。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154558918.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154558918.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154558918.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154558918.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154558918.png"
+        title="image-20250421154558918" /></p>
+<h5 id="4-聚合aggregation">4. 聚合（Aggregation）</h5>
+<ul>
+<li><strong>概念</strong>：表示整体的类和表示部分的类之间的 “整体 - 部分” 关系，是强类型的关联。“整体” 类称为聚集，“部分” 类称为成分。</li>
+<li><strong>UML 表示</strong>：带空心菱形箭头的连线，箭头指向整体。</li>
+<li><strong>代码表现</strong>：整体类包含部分类的成员变量。</li>
+<li><strong>特点</strong>：部分可以独立于整体存在，整体和部分的生命周期不一定一致。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154631890.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154631890.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154631890.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154631890.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154631890.png"
+        title="image-20250421154631890" /></p>
+<h5 id="5-组合composition">5. 组合（Composition）</h5>
+<ul>
+<li><strong>概念</strong>：更强类型的聚合，部分的生存周期取决于整体的生存周期，部分不能脱离整体单独存在，每个部分只能属于一个整体。</li>
+<li><strong>UML 表示</strong>：除菱形是实心外，与聚合表示法相同。</li>
+<li><strong>代码表现</strong>：整体类包含部分类的成员变量，且部分类通常在整体类的构造函数中初始化。</li>
+<li><strong>特点</strong>：整体和部分的生命周期紧密绑定。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154647974.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154647974.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154647974.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154647974.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154647974.png"
+        title="image-20250421154647974" /></p>
+<h5 id="6-继承inheritance">6. 继承（Inheritance）</h5>
+<ul>
+<li><strong>概念</strong>：也称泛化，是面向对象描述类之间相似性的重要机制。</li>
+<li><strong>UML 表示</strong>：带空心三角形的直线，空心三角形紧挨着父类。</li>
+<li><strong>代码表现</strong>：子类使用关键字（如 Java 中的 <code>extends</code>）继承父类。</li>
+<li><strong>特点</strong>：子类继承父类的属性和方法，可对其进行扩展或重写，体现了类之间的层次结构。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154700945.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154700945.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154700945.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154700945.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154700945.png"
+        title="image-20250421154700945" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154737643.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154737643.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154737643.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154737643.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154737643.png"
+        title="image-20250421154737643" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154750420.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154750420.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154750420.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154750420.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154750420.png"
+        title="image-20250421154750420" /></p>
+<h4 id="三对象图">三、对象图</h4>
+<p>类图表示类以及类之间的关系，对象图表示在某一时刻类的<strong>具体实例和这些实例之间的具体连接关系</strong>。</p>
+<p>对象的名字下面要加下划线，对象名有下列三种表示格式</p>
+<ul>
+<li><strong>对象名：类名</strong></li>
+<li><strong>：类名</strong></li>
+<li><strong>对象名</strong></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154927182.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154927182.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154927182.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421154927182.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421154927182.png"
+        title="image-20250421154927182" /></p>
+<h4 id="四顺序图">四、顺序图</h4>
+<p>由一组协作的<strong>对象</strong>（或参与者）以及他们之间可发送的<strong>消息</strong>组成，强调<strong>消息之间的顺序</strong>。</p>
+<p>顺序图是二维的，其中，<strong>垂直方向表示时间</strong>，水平方向表示不同的对象或参与者。</p>
+<ul>
+<li><strong>对象生命线</strong>：对象生命线表示对象在一段时间内的存在，表示成<strong>垂直虚线</strong>，并位于对象符号之下</li>
+<li><strong>控制焦点</strong>：对象的一个操作执行的持续时间，也表示了对象和它的调用者之间的控制关系，<strong>用一个窄长的矩形表示控制焦点</strong></li>
+<li>在一个对象的操作递归地调用自己或调用本对象的其他操作的情况下，第二个控制焦点符号画在第一个符号稍微靠右的位置</li>
+<li>消息：从一条生命线到另一条生命线的一条带有箭头的水平实线（简称为箭线），从源对象指向目标对象。在箭线上书写消息的名称及其参数或者参数表达式。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155402807.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155402807.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155402807.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155402807.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421155402807.png"
+        title="image-20250421155402807" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155411513.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155411513.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155411513.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155411513.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421155411513.png"
+        title="image-20250421155411513" /></p>
+<h4 id="五协作图">五、协作图</h4>
+<ul>
+<li>协作图是一种<strong>强调发送和接收消息的对象结构组织</strong>的交互图，显示围绕对象以及它们之间的链而组织的交互。</li>
+<li>协作图由对象、链以及链上的消息构成，其中也可以有参与者。</li>
+<li>协作图有两点不同于顺序图：<strong>协作图有链和消息序号</strong>。</li>
+<li>顺序图和协作图可以相互转换，而不丢失语义信息，因为这两种图都共享相同的基本模型。它们统称为类和对象的“交互图”。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155558806.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155558806.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155558806.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155558806.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421155558806.png"
+        title="image-20250421155558806" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155608391.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155608391.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155608391.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155608391.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421155608391.png"
+        title="image-20250421155608391" /></p>
+<h3 id="面向对象分析概述">面向对象分析概述</h3>
+<h3 id="1-什么是-ooa">1. 什么是 OOA</h3>
+<p>面向对象分析（Object-Oriented Analysis，OOA）是运用面向对象方法开展系统分析的过程，属于软件生命周期的重要阶段。它与一般分析方法具有相同的内容、目标及策略，核心在于通过面向对象的视角，深入剖析问题域与系统职责。具体而言，OOA 需要找出用于描述问题域和系统职责的对象，明确对象的属性以及对象间的关系，最终构建出契合问题域、满足用户需求的 OOA 模型。</p>
+<h3 id="2-ooa-与-ood-的职责划分">2. OOA 与 OOD 的职责划分</h3>
+<ul>
+<li><strong>OOA 的职责</strong>：专注于现实世界中的问题域与系统职责，运用面向对象方法构建对应模型，作为分析成果。该模型不涉及系统具体实现相关因素，独立于具体实现环境 ，旨在清晰定义需求层面的对象及其关系。</li>
+<li><strong>OOD 的职责</strong>：针对系统具体实现开展面向对象的系统设计。一方面，需依据实现条件对 OOA 模型进行必要调整与修改，使其转化为 OOD 模型的组成部分；另一方面，还要基于具体实现条件，构建人机界面、数据存储和控制驱动等模型，将抽象的分析模型落实为可实现的设计方案。</li>
+</ul>
+<h3 id="3-ooa-过程">3. OOA 过程</h3>
+<p>OOA 过程主要包含以下核心活动：</p>
+<ul>
+<li><strong>用例建模</strong>：借助用例及用例图捕获、描述用户需求，构建系统的功能需求模型，明确系统应该 “做什么”，是后续分析与设计的基础。</li>
+<li><strong>创建领域模型</strong>：从业务需求描述和用例描述中提炼 “关键概念”，形成领域模型，用于表达问题域中的核心业务对象及其关系，帮助理解业务本质。</li>
+<li><strong>绘制系统顺序图</strong>：以用例为出发点，将系统视为一个黑盒子，绘制系统顺序图，展现外部参与者与系统之间的交互顺序，直观呈现系统的动态行为。</li>
+<li><strong>创建系统操作契约</strong>：结合系统顺序图和领域模型，建立系统操作契约，详细定义系统操作的前置条件、后置条件以及相关约束，确保系统功能实现的准确性和一致性。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155744896.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155744896.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155744896.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421155744896.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421155744896.png"
+        title="image-20250421155744896" /></p>
+<h3 id="用例建模">用例建模</h3>
+<h4 id="用例建模三步骤"><strong>用例建模三步骤</strong></h4>
+<h4 id="1-确定系统边界"><strong>1. 确定系统边界</strong></h4>
+<ul>
+<li><strong>定义</strong>：系统边界是系统内部成分与外部事物的分界线，通过有限接口与外部交互。</li>
+<li><strong>关键点</strong>：
+<ul>
+<li>边界内：系统功能、数据、规则。</li>
+<li>边界外：参与者（人、设备、外部系统等）。</li>
+</ul>
+</li>
+<li><strong>影响</strong>：边界选择不同会导致参与者与用例的差异。</li>
+</ul>
+<h4 id="2-识别主要参与者"><strong>2. 识别主要参与者</strong></h4>
+<ul>
+<li>
+<p><strong>参与者（Actor）</strong>：具有行为能力的事物，分为三类：</p>
+<ul>
+<li><strong>主要参与者</strong>：直接使用系统实现自身目标（如储户、银行柜员）。</li>
+<li><strong>次要参与者</strong>：为系统提供服务（如银行数据库系统）。</li>
+<li><strong>后台参与者</strong>：对用例结果感兴趣（如审计系统）。</li>
+</ul>
+</li>
+<li>
+<p><strong>参与者类型</strong>：</p>
+<ul>
+<li><strong>人员</strong>（用户角色）、<strong>外部系统</strong>（协作系统）、<strong>设备</strong>（传感器）、<strong>时钟</strong>（定时触发）。</li>
+</ul>
+</li>
+<li>
+<p><strong>识别方法</strong>（提问引导）：</p>
+<ul>
+<li>谁使用系统主要功能？</li>
+<li>系统需与哪些外部系统/设备交互？</li>
+<li>是否有定时触发事件？</li>
+</ul>
+</li>
+<li>
+<p><strong>继承关系</strong>：</p>
+<ul>
+<li>抽象共性（如&quot;银行客户&quot;派生出&quot;储户&quot;&ldquo;贷款人&rdquo;）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-识别与定义用例"><strong>3. 识别与定义用例</strong></h4>
+<ul>
+<li>
+<p><strong>用例（Use Case）</strong>：描述参与者通过系统实现目标的一组成功/失败场景。</p>
+</li>
+<li>
+<p><strong>用例级别</strong>：</p>
+<ul>
+<li><strong>用户级</strong>：完整业务价值（如&quot;取款&quot;）。</li>
+<li><strong>子功能级</strong>：步骤性目标（如&quot;验证密码&quot;）。</li>
+</ul>
+</li>
+<li>
+<p><strong>识别步骤</strong>：</p>
+<ol>
+<li>分析业务场景中的动作（动词短语）。</li>
+<li>提取能带来完整价值的动作作为用户级用例。</li>
+<li>分离重复/条件性操作为子用例。</li>
+</ol>
+</li>
+<li>
+<p><strong>用例关系</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">关系类型</th>
+          <th style="text-align: left">符号</th>
+          <th style="text-align: left">方向</th>
+          <th style="text-align: left">适用场景</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>包含</strong>（include）</td>
+          <td style="text-align: left"><code>&lt;&lt;include&gt;&gt;</code>虚线箭头</td>
+          <td style="text-align: left">基用例 → 子用例</td>
+          <td style="text-align: left">多个用例共享的必要步骤</td>
+          <td style="text-align: left">取款、查询余额均需<code>验证身份</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>扩展</strong>（extend）</td>
+          <td style="text-align: left"><code>&lt;&lt;extend&gt;&gt;</code>虚线箭头</td>
+          <td style="text-align: left">扩展用例 → 基用例</td>
+          <td style="text-align: left">有条件触发的可选行为</td>
+          <td style="text-align: left">取款后<code>打印凭据</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">继承</td>
+          <td style="text-align: left">三角箭头</td>
+          <td style="text-align: left">子用例 → 父用例</td>
+          <td style="text-align: left">泛化共性行为</td>
+          <td style="text-align: left">-</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<ol>
+<li><strong>避免过度分解</strong>：优先捕获用户级目标，而非系统内部步骤。</li>
+<li><strong>扩展 vs 包含</strong>：
+<ul>
+<li>包含是<strong>必须执行</strong>的（如身份验证）。</li>
+<li>扩展是<strong>条件触发</strong>的（如打印凭据）。</li>
+</ul>
+</li>
+<li><strong>参与者抽象</strong>：多个角色共享行为时使用继承（如&quot;VIP储户&quot;继承自&quot;储户&quot;）。</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162140702.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162140702.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162140702.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162140702.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162140702.png"
+        title="image-20250421162140702" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162158249.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162158249.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162158249.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162158249.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162158249.png"
+        title="image-20250421162158249" /></p>
+<h4 id="用例描述">用例描述</h4>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162249488.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162249488.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162249488.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162249488.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162249488.png"
+        title="image-20250421162249488" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162309809.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162309809.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162309809.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162309809.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162309809.png"
+        title="image-20250421162309809" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162319644.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162319644.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162319644.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162319644.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162319644.png"
+        title="image-20250421162319644" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162326236.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162326236.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162326236.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162326236.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162326236.png"
+        title="image-20250421162326236" /><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162335738.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162335738.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162335738.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421162335738.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421162335738.png"
+        title="image-20250421162335738" /></p>
+<h3 id="创建领域模型">创建领域模型</h3>
+<p>**领域模型：**针对某一特定领域内概念类或者对象的抽象可视化表示。</p>
+<p><strong>业务背景：<strong>可由需求定义或者用例说明中具有代表业务概念或者业务对象的词汇获得，这些词汇可统称为“概念类”；并通过能够代表关系的词汇建立概念类之间的关系，表示成能够代表业务知识结构的</strong>类图</strong>；</p>
+<p><strong>业务流程：<strong>用于辅助解释类图,一般由角色及其执行的活动（活动及任务节点）构成，活动的输出一般有数据对象和传给另一个活动的消息组成，建议使用UML的</strong>活动图</strong>进行描述。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">1．</th>
+          <th style="text-align: left">学生在系统主窗口中选择参加考试。</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">2．</td>
+          <td style="text-align: left">系统列出该学生该时段能参加的所有考试课程名称。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3．</td>
+          <td style="text-align: left">学生选择其中的一门课程，要求考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4．</td>
+          <td style="text-align: left">系统弹出登陆框，要求学生输入考试密码。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">学生输入从监考老师处获取的考试密码，登陆。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6．</td>
+          <td style="text-align: left">系统显示欢迎界面，展示考试课程名称和考试时长，询问学生是否开始考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7．</td>
+          <td style="text-align: left">学生选择开始考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8．</td>
+          <td style="text-align: left">系统按照预先设计好的考卷生成规则自动生成一套考卷。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">9．</td>
+          <td style="text-align: left">系统显示考题。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10．</td>
+          <td style="text-align: left">学生答题，并提交该题答案。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11．</td>
+          <td style="text-align: left">系统记录答案，并使上一题或下一题按钮生效。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12．</td>
+          <td style="text-align: left">学生选择上一题或者下一题。系统重复步骤9～12，直到学生选择结束考试或者考试时间到。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13.</td>
+          <td style="text-align: left">系统显示学生的选择题得分。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14．</td>
+          <td style="text-align: left">系统询问学生是否退出考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">15．</td>
+          <td style="text-align: left">学生选择退出。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">16．</td>
+          <td style="text-align: left">系统回到系统主窗口。</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="领域模型创建三步骤"><strong>领域模型创建三步骤</strong></h4>
+<h4 id="1-识别概念类"><strong>1. 识别概念类</strong></h4>
+<ul>
+<li>
+<p><strong>目标</strong>：抽象出问题域中的核心概念或对象。</p>
+</li>
+<li>
+<p><strong>方法</strong>：</p>
+<ul>
+<li>
+<p><strong>分类列表法</strong>：参考通用领域分类（如人员、物品、交易等）。</p>
+</li>
+<li>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>概念类分类</strong></th>
+          <th style="text-align: left"><strong>示例</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>物理或者具体对象</strong></td>
+          <td style="text-align: left"><strong>商品</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>事物的设计、描述和规范</strong></td>
+          <td style="text-align: left"><strong>商品规格说明，考题规格说明</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>位置</strong></td>
+          <td style="text-align: left"><strong>商店</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>交易</strong></td>
+          <td style="text-align: left"><strong>销售，考卷</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>交易项目</strong></td>
+          <td style="text-align: left"><strong>销售项，考题</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>人的角色</strong></td>
+          <td style="text-align: left"><strong>收银员，考生</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>其他事物的容器</strong></td>
+          <td style="text-align: left"><strong>商店，考卷</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>容器包含的元素</strong></td>
+          <td style="text-align: left"><strong>商品，考题</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>在该系统之外的系统</strong></td>
+          <td style="text-align: left"><strong>信用卡支付授权系统</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>抽象名词的概念</strong></td>
+          <td style="text-align: left">** **</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>组织</strong></td>
+          <td style="text-align: left"><strong>销售部门</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>事件</strong></td>
+          <td style="text-align: left"><strong>销售，考卷</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>过程（通常不表示成一个概念，但也可以表示成概念）</strong></td>
+          <td style="text-align: left"><strong>销售一件商品</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>规则和政策</strong></td>
+          <td style="text-align: left"><strong>考卷生成规则</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>分类</strong></td>
+          <td style="text-align: left"><strong>产品目录</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>有关工作、契约、财务和法律事物的记录</strong></td>
+          <td style="text-align: left"><strong>收据、维护日志</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>财务设施及服务</strong></td>
+          <td style="text-align: left">** **</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>名词短语法</strong>：从需求文本中提取名词/名词短语，筛选候选概念类。</p>
+<ul>
+<li><strong>判断标准</strong>：
+<ul>
+<li>若名词是<strong>可赋值的基本数据类型</strong>（如颜色、金额）→ <strong>属性</strong>。</li>
+<li>若名词需要<strong>独立的行为或复杂结构</strong>（如账户、订单）→ <strong>概念类</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>示例</strong>（ATM系统）：</p>
+<ul>
+<li>名词短语：<code>银行卡</code>、<code>密码</code>、<code>取款金额</code>、<code>交易记录</code>。</li>
+<li>筛选结果：
+<ul>
+<li>概念类：<code>银行卡</code>、<code>交易</code>。</li>
+<li>属性：<code>密码</code>（属于<code>银行卡</code>）、<code>取款金额</code>（属于<code>交易</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-建立关联"><strong>2. 建立关联</strong></h4>
+<ul>
+<li>
+<p><strong>定义</strong>：描述概念类之间的<strong>语义关系</strong>（动词或动词短语）。</p>
+</li>
+<li>
+<p><strong>关联类型</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">类型</th>
+          <th style="text-align: left">说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>需要知道型</strong></td>
+          <td style="text-align: left">需持久化记录的关系</td>
+          <td style="text-align: left"><code>银行卡</code>-<code>账户</code>（绑定）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>只需理解型</strong></td>
+          <td style="text-align: left">辅助理解领域的关系</td>
+          <td style="text-align: left"><code>储户</code>-<code>ATM</code>（使用）</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>指导原则</strong>：</p>
+<ul>
+<li>优先关注<strong>需要知道型</strong>关联。</li>
+<li>避免冗余（如可通过其他关联推导的关系）。</li>
+<li>常见关系：依赖、关联、聚合、组合、继承。</li>
+</ul>
+</li>
+<li>
+<p><strong>识别方法</strong>：</p>
+<ul>
+<li>
+<p>从需求中提取动词短语（如<code>插入</code>、<code>验证</code>）。</p>
+</li>
+<li>
+<p>参考通用关联列表（如<code>属于</code>、<code>包含</code>）。</p>
+</li>
+<li>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">分类</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">A在物理上是B的一部分</td>
+          <td style="text-align: left">树木－森林</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A在逻辑上是B的一部分</td>
+          <td style="text-align: left">销售项－销售 考题－考卷</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A在物理上包含在B中或者依赖于B</td>
+          <td style="text-align: left">商品－货架</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A在逻辑上包含在B中</td>
+          <td style="text-align: left">考卷生成规则项－考卷生成规则</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是对B的描述</td>
+          <td style="text-align: left">考题规格说明－考题</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是交易或者报表B中的一项</td>
+          <td style="text-align: left">销售项－销售 考题－考卷</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A为B所知/为B所记录/录入B中/为B所捕获</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是B的一个成员</td>
+          <td style="text-align: left">收银员－商店</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是B的一个组织子单元</td>
+          <td style="text-align: left">销售部－商店</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A使用或管理B</td>
+          <td style="text-align: left">收银员－POS机</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A与B通信</td>
+          <td style="text-align: left">顾客－收银员</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A与一个交易B有关</td>
+          <td style="text-align: left">学生－考试 顾客－销售</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是一个与另一个交易B有关的事务</td>
+          <td style="text-align: left">支付－销售</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A与B相邻</td>
+          <td style="text-align: left">商品－商品</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A为B所拥有</td>
+          <td style="text-align: left">POS机－商店</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">A是一个与B有关的事件</td>
+          <td style="text-align: left">考试－学生 销售－顾客</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-设置属性"><strong>3. 设置属性</strong></h4>
+<ul>
+<li>
+<p><strong>定义</strong>：描述概念类的<strong>数据特性</strong>（需记忆的信息）。</p>
+</li>
+<li>
+<p><strong>来源</strong>：</p>
+<ul>
+<li>
+<p>需求隐含的属性（如<code>交易</code>需记录<code>时间</code>、<code>金额</code>）。</p>
+</li>
+<li>
+<p>领域知识补充（如<code>账户</code>需<code>余额</code>属性）。</p>
+</li>
+<li>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">概念</th>
+          <th style="text-align: left">属性</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">课程</td>
+          <td style="text-align: left">开课时间……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">课程规格说明</td>
+          <td style="text-align: left">课程编号，课程名称，学分，课程简要介绍……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">学生</td>
+          <td style="text-align: left">学号，班级，姓名，联系Email……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">选课</td>
+          <td style="text-align: left">选课年份，课程总评成绩……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">老师</td>
+          <td style="text-align: left">工作证号，姓名，职称，所在院系名称，联系电话，联系Email……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">授课</td>
+          <td style="text-align: left">授课时间，授课教室……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">监考</td>
+          <td style="text-align: left">应到人数，实到人数，考场情况简述……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考试</td>
+          <td style="text-align: left">考试时间，考试时长，考试地点……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考卷</td>
+          <td style="text-align: left">总分……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考卷生成规则</td>
+          <td style="text-align: left">测试对象，测试目的，内容范围综述，考卷难度，规则创建人，规则创建时间，规则生效标志……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考卷生成规则项</td>
+          <td style="text-align: left">题目类型、题目难度、内容分类、题目数量……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考题</td>
+          <td style="text-align: left">解答，得分……</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">考题规格说明</td>
+          <td style="text-align: left">题目类型、题目难度、内容分类、分数、创建时间、创建人、生效标志……</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>初始阶段仅定义<strong>名称/类型</strong>，不涉及可见性。</li>
+<li>关联属性：若属性属于关系而非单一类（如<code>订单</code>-<code>商品</code>的<code>数量</code>），需标注在关联线上。</li>
+</ul>
+</li>
+<li>
+<p><strong>关键注意事项</strong></p>
+</li>
+</ul>
+<ol>
+<li><strong>迭代开发</strong>：领域模型需随需求迭代逐步完善（每次迭代聚焦当前场景）。</li>
+<li><strong>避免过度设计</strong>：
+<ul>
+<li>领域模型仅描述<strong>问题域</strong>，不涉及技术实现（如数据库表）。</li>
+<li>属性初期无需完整，后续细化。</li>
+</ul>
+</li>
+<li><strong>关联类</strong>：若关联本身需独立属性（如<code>学生</code>-<code>课程</code>的<code>成绩</code>），可建模为关联类。</li>
+</ol>
+<h3 id="image-20250421163139191cusersxiweiappdataroamingtyporatypora-user-imagesimage-20250421163139191png"><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163139191.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163139191.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163139191.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163139191.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421163139191.png"
+        title="image-20250421163139191" /></h3>
+<h3 id="绘制系统顺序图">绘制系统顺序图</h3>
+<p>系统事件通常是参与者主动向系统发出的。为了识别系统事件，需要从用例的主要成功场景以及频繁或复杂的替代场景中寻找系统事件，建立系统顺序图</p>
+<p><strong>“考试”用例成功场景中的系统事件：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">主要成功场景:</th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1．</td>
+          <td style="text-align: left">学生在系统主窗口中选择参加考试。 【对应系统事件1：getAvailableTestPapers（stuId），其中参数stuId是学生的ID。】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2．</td>
+          <td style="text-align: left">系统列出该学生该时段能参加的所有考试课程名称。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3．</td>
+          <td style="text-align: left">学生选择其中的一门课程，要求考试。【对应系统事件2：selectTestPaper (courseName)，其中参数courseName是课程名称】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4．</td>
+          <td style="text-align: left">系统弹出登陆框，要求学生输入考试密码。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">学生输入老师处获取的考试密码，登陆。【对应系统事件3：logonTestPaper(pwd)，其中参数pwd是该份考卷的密码】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6．</td>
+          <td style="text-align: left">系统显示欢迎界面，展示考试课程名称和考试时长，询问学生是否开始考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7．</td>
+          <td style="text-align: left">学生选择开始考试。【对应系统事件4：startTest()】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8．</td>
+          <td style="text-align: left">系统按照预先设计好的考卷生成规则自动生成一套考卷。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6.</td>
+          <td style="text-align: left">系统显示考题。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10．</td>
+          <td style="text-align: left">学生答题，并提交该题答案。【对应系统事件5：submitAnswer(questionID,answer)。其中参数questionID是考题的标识，answer是提交的答案】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11．</td>
+          <td style="text-align: left">系统记录答案，并使上一题或下一题按钮生效。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12．</td>
+          <td style="text-align: left">学生选择上一题或者下一题。【对应系统事件6：getNextQuestion()】 系统重复9～12步骤，直到学生选择结束考试或者考试时间到。【对应系统事件7：endTest()】</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13.</td>
+          <td style="text-align: left">系统显示学生的选择题得分。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14．</td>
+          <td style="text-align: left">系统询问学生是否退出考试。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">15．</td>
+          <td style="text-align: left">学生选择退出。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">16．</td>
+          <td style="text-align: left">系统回到系统主窗口。</td>
+      </tr>
+  </tbody>
+</table>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163545648.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163545648.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163545648.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421163545648.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421163545648.png"
+        title="image-20250421163545648" /></p>
+<h3 id="创建系统操作契约">创建系统操作契约</h3>
+<h3 id="1-操作契约的核心概念"><strong>1. 操作契约的核心概念</strong></h3>
+<ul>
+<li><strong>定义</strong>：描述系统操作执行后对领域模型对象状态的<strong>声明性变化</strong>（非具体行为步骤）。</li>
+<li><strong>作用</strong>：
+<ul>
+<li>补充用例细节，明确系统“做什么”。</li>
+<li>聚焦状态变化（对象创建/删除、属性修改、关联建立/解除）。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：
+<ul>
+<li><strong>声明性</strong>：用过去时态描述结果（如“考试实例被创建”）。</li>
+<li><strong>非行为性</strong>：不描述“如何实现”，仅说明“状态变化”。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-操作契约四要素"><strong>2. 操作契约四要素</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">要素</th>
+          <th style="text-align: left">说明</th>
+          <th style="text-align: left">示例（ATM取款）</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>操作</strong></td>
+          <td style="text-align: left">系统事件触发的操作名及参数</td>
+          <td style="text-align: left"><code>withdraw(amount: Double)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>交叉引用</strong></td>
+          <td style="text-align: left">关联的用例（可选）</td>
+          <td style="text-align: left">用例：<code>取款</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>前置条件</strong></td>
+          <td style="text-align: left">操作执行前必须满足的状态</td>
+          <td style="text-align: left"><code>银行卡已验证且账户余额≥amount</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>后置条件</strong></td>
+          <td style="text-align: left">操作完成后领域模型的状态变化（三类）</td>
+          <td style="text-align: left">见下方详细示例</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="3-后置条件的三种类型"><strong>3. 后置条件的三种类型</strong></h3>
+<h4 id="1-对象创建删除"><strong>(1) 对象创建/删除</strong></h4>
+<ul>
+<li><strong>模板</strong>：<code>一个[类名]实例被创建/删除</code></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>1. 一个交易实例被创建。
+</span></span><span style="display:flex;"><span>2. 交易实例与账户实例关联。
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="2-属性修改"><strong>(2) 属性修改</strong></h4>
+<ul>
+<li><strong>模板</strong>：<code>[对象]的[属性]被修改为[值]</code></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>3. 账户实例的余额属性被减少amount。
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="3-关联建立解除"><strong>(3) 关联建立/解除</strong></h4>
+<ul>
+<li><strong>模板</strong>：<code>[对象A]实例和[对象B]实例的关联被建立/解除</code></li>
+<li><strong>示例</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>4. 交易实例与银行卡实例的关联被建立。
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="4-创建操作契约的步骤"><strong>4. 创建操作契约的步骤</strong></h3>
+<ol>
+<li><strong>识别系统操作</strong>
+<ul>
+<li>从系统顺序图（SSD）中提取系统事件（如<code>insertCard()</code>、<code>enterPassword()</code>）。</li>
+</ul>
+</li>
+<li><strong>筛选关键操作</strong>
+<ul>
+<li>优先为<strong>复杂、易误解</strong>的操作创建契约（如<code>withdraw()</code>）。</li>
+</ul>
+</li>
+<li><strong>定义前置条件</strong>
+<ul>
+<li>确保操作执行的合法性（如“用户已登录”）。</li>
+</ul>
+</li>
+<li><strong>声明后置条件</strong>
+<ul>
+<li>按三类变化逐条列出，使用被动语态。</li>
+</ul>
+</li>
+<li><strong>同步更新领域模型</strong>
+<ul>
+<li>若契约中发现新类/属性/关联，需反馈至领域模型。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="5-完整示例atm取款"><strong>5. 完整示例（ATM取款）</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>操作：         withdraw(amount: Double)
+</span></span><span style="display:flex;"><span>交叉引用：     用例《取款》
+</span></span><span style="display:flex;"><span>前置条件：     
+</span></span><span style="display:flex;"><span>  1. 银行卡已验证且账户余额≥amount。
+</span></span><span style="display:flex;"><span>  2. 账户实例已存在。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>后置条件：     
+</span></span><span style="display:flex;"><span>  1. 一个交易实例被创建。
+</span></span><span style="display:flex;"><span>  2. 交易实例的金额属性被设置为amount。
+</span></span><span style="display:flex;"><span>  3. 交易实例的类型属性被设置为“取款”。
+</span></span><span style="display:flex;"><span>  4. 账户实例的余额属性被减少amount。
+</span></span><span style="display:flex;"><span>  5. 交易实例与账户实例的关联被建立。
+</span></span><span style="display:flex;"><span>  6. 交易实例与ATM实例的关联被建立。
+</span></span></code></pre></div><hr>
+<h3 id="6-操作契约与领域模型的关系"><strong>6. 操作契约与领域模型的关系</strong></h3>
+<ul>
+<li><strong>输入依赖</strong>：
+<ul>
+<li>操作契约基于<strong>领域模型</strong>中的类、属性和关联定义状态变化。</li>
+</ul>
+</li>
+<li><strong>反馈更新</strong>：
+<ul>
+<li>编写契约时可能发现领域模型缺失的类（如<code>交易记录</code>），需反向补充。</li>
+</ul>
+</li>
+<li><strong>协同作用</strong>：
+<ul>
+<li>领域模型描述<strong>静态结构</strong>，操作契约描述<strong>动态状态变化</strong>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="7-何时需要操作契约"><strong>7. 何时需要操作契约？</strong></h3>
+<ul>
+<li><strong>推荐场景</strong>：
+<ul>
+<li>用例描述模糊或存在多重结果（如“支付失败”需明确状态回滚）。</li>
+<li>系统操作涉及复杂对象交互（如考试系统生成试卷）。</li>
+</ul>
+</li>
+<li><strong>无需场景</strong>：
+<ul>
+<li>用例已清晰描述所有状态变化（如简单查询操作）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421173630245.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421173630245.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421173630245.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421173630245.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421173630245.png"
+        title="image-20250421173630245" /></p>
+<p>面向对象分析</p>
+<p><strong>四个活动(用例建模、创建领域模型、创建系统顺序图、创建操作契约)</strong></p>
+<p><strong>两大模型(用例模型、领域模型)</strong></p>
+<p>用例模型由以下四个部分构成：</p>
+<ul>
+<li>用例图，UML use-case diagram</li>
+<li>用例说明</li>
+<li>系统顺序图，UML sequence diagram</li>
+<li>操作契约</li>
+</ul>
+<p>领域模型由以下两个部分构成：</p>
+<ul>
+<li>业务背景：概念类及概念类之间关系构成的类图，UML class diagram</li>
+<li>业务流程：由UML活动图表示的业务对象之间为了完成某个活动所执行的一系列子活动和动作序列。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/" class="prev" rel="prev" title="模型的评估和选择"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>模型的评估和选择</a>
+            <a href="/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

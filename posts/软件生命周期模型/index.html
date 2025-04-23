@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="软件生命周期模型 戴明环 P (Plan) 计划 D(Do)执行 C(Check)检查 A(Action)处理 软件工程过程的6个基本活动 P 制定计划 D 需求分析 D 设计 D 程序编码 C 测试 A 运行维护 9个软件生命周期模型 1、瀑布模型 定义阶段 2
+开发阶段 3
+维护阶段 1
+瀑布模型中的每一个开发活动具有下列特征
+本活动的工作对象来自于上一项活动的输出（上一阶段输出作为这一阶段输入） 根据本阶段的活动规程执行相应的任务（每个阶段根据活动规程执行） 产生本阶段活动相关产出—软件工件，作为下一活动的输入（输出作为下一个活动输入） 对本阶段活动执行情况进行评审（每个阶段评审） 优点 阶段划分降低软件开发复杂度，提高软件开发过程透明度，便于将软件工程过程和软件管理过程融合在一起，从而提高软件开发过程的可管理性 推迟软件实现，强调软件实现之前必须进行分析和设计工作 以阶段评审和文档控制对开发过程进行指导，保证阶段之间的正确衔接，及时发现并纠正开发过程中存在的缺陷 缺点 缺乏灵活性，无法解决需求不明确或不准确的项目，只适合于需求明确的项目 风险控制能力较弱，成品时间长。风险和错误只有在测试阶段才能发现，返工导致延期 文档驱动，增大工作量 2、V模型和W模型 V重视测试，将测试分等级 W增加了确认和验证内容，并贯穿整个软件生命周期 ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="软件生命周期模型 戴明环 P (Plan) 计划 D(Do)执行 C(Check)检查 A(Action)处理 软件工程过程的6个基本活动 P 制定计划 D 需求分析 D 设计 D 程序编码 C 测试 A 运行维护 9个软件生命周期模型 1、瀑布模型 定义阶段 2
+开发阶段 3
+维护阶段 1
+瀑布模型中的每一个开发活动具有下列特征
+本活动的工作对象来自于上一项活动的输出（上一阶段输出作为这一阶段输入） 根据本阶段的活动规程执行相应的任务（每个阶段根据活动规程执行） 产生本阶段活动相关产出—软件工件，作为下一活动的输入（输出作为下一个活动输入） 对本阶段活动执行情况进行评审（每个阶段评审） 优点 阶段划分降低软件开发复杂度，提高软件开发过程透明度，便于将软件工程过程和软件管理过程融合在一起，从而提高软件开发过程的可管理性 推迟软件实现，强调软件实现之前必须进行分析和设计工作 以阶段评审和文档控制对开发过程进行指导，保证阶段之间的正确衔接，及时发现并纠正开发过程中存在的缺陷 缺点 缺乏灵活性，无法解决需求不明确或不准确的项目，只适合于需求明确的项目 风险控制能力较弱，成品时间长。风险和错误只有在测试阶段才能发现，返工导致延期 文档驱动，增大工作量 2、V模型和W模型 V重视测试，将测试分等级 W增加了确认和验证内容，并贯穿整个软件生命周期 ">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%BF%B0/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B\/"
+        },"genre": "posts","wordcount":  235 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;235 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#软件生命周期模型">软件生命周期模型</a>
+      <ul>
+        <li><a href="#戴明环">戴明环</a></li>
+        <li><a href="#软件工程过程的6个基本活动">软件工程过程的6个基本活动</a></li>
+        <li><a href="#9个软件生命周期模型">9个软件生命周期模型</a></li>
+        <li><a href="#新型软件生命周期模型">新型软件生命周期模型</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="软件生命周期模型">软件生命周期模型</h2>
+<h3 id="戴明环">戴明环</h3>
+<ul>
+<li><strong>P (Plan) 计划</strong></li>
+<li><strong>D(Do)执行</strong></li>
+<li><strong>C(Check)检查</strong></li>
+<li><strong>A(Action)处理</strong></li>
+</ul>
+<h3 id="软件工程过程的6个基本活动">软件工程过程的6个基本活动</h3>
+<ul>
+<li><strong>P 制定计划</strong></li>
+<li><strong>D 需求分析</strong></li>
+<li><strong>D 设计</strong></li>
+<li><strong>D 程序编码</strong></li>
+<li><strong>C 测试</strong></li>
+<li><strong>A 运行维护</strong></li>
+</ul>
+<h3 id="9个软件生命周期模型">9个软件生命周期模型</h3>
+<h4 id="1瀑布模型">1、瀑布模型</h4>
+<ul>
+<li>
+<p>定义阶段 2</p>
+</li>
+<li>
+<p>开发阶段 3</p>
+</li>
+<li>
+<p>维护阶段 1</p>
+</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420190117600.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420190117600.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420190117600.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420190117600.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420190117600.png"
+        title="image-20250420190117600" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191150761.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191150761.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191150761.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191150761.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420191150761.png"
+        title="image-20250420191150761" />瀑布模型中的每一个开发活动具有下列特征</p>
+<ol>
+<li>本活动的工作对象来自于上一项活动的输出（上一阶段输出作为这一阶段输入）</li>
+<li>根据本阶段的活动规程执行相应的任务（每个阶段根据活动规程执行）</li>
+<li>产生本阶段活动相关产出—软件工件，作为下一活动的输入（输出作为下一个活动输入）</li>
+<li>对本阶段活动执行情况进行评审（每个阶段评审）</li>
+</ol>
+<h5 id="优点">优点</h5>
+<ul>
+<li>阶段划分<strong>降低软件开发复杂度</strong>，提高软件开发过程<strong>透明度</strong>，便于将软件工程过程和软件管理过程融合在一起，从而提高软件开发过程的<strong>可管理性</strong></li>
+<li>推迟软件实现，强调软件实现之前必须进行<strong>分析和设计</strong>工作</li>
+<li>以<strong>阶段评审</strong>和<strong>文档控制</strong>对开发过程进行指导，保证阶段之间的正确衔接，<strong>及时发现并纠正</strong>开发过程中存在的缺陷</li>
+</ul>
+<h5 id="缺点">缺点</h5>
+<ul>
+<li>缺乏灵活性，无法解决需求不明确或不准确的项目，只适合于需求明确的项目</li>
+<li>风险控制能力较弱，成品时间长。风险和错误只有在测试阶段才能发现，返工导致延期</li>
+<li>文档驱动，增大工作量</li>
+</ul>
+<h4 id="2v模型和w模型">2、V模型和W模型</h4>
+<ul>
+<li><strong>V</strong>重视<strong>测试</strong>，将测试分等级</li>
+<li><strong>W</strong>增加了<strong>确认</strong>和<strong>验证</strong>内容，并贯穿整个软件生命周期</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191934160.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191934160.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191934160.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420191934160.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420191934160.png"
+        title="image-20250420191934160" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192002598.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192002598.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192002598.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192002598.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420192002598.png"
+        title="image-20250420192002598" /></p>
+<h4 id="3原型方法">3、原型方法</h4>
+<p><strong>不断试错，不断改进</strong></p>
+<p><strong>原型</strong>：产品原始模型，软件原型是一个<strong>可运行的早期版本</strong>，反映最终系统的<strong>部分重要特性</strong></p>
+<ol>
+<li>获得一组基本的需求说明，快速分析构造出一个小型的软件系统，满足用户的基本要求；</li>
+<li>用户试用原型系统，对其进行反应和评价；</li>
+<li>开发者根据用户意见对原型进行改进，获得新的原型版本；</li>
+<li>周而复始，直到产品满足用户的要求。</li>
+</ol>
+<p><strong>原型的种类（目的）</strong></p>
+<ol>
+<li><strong>探索型</strong>：弄清对目标系统的要求</li>
+<li>**实验型：**系统实现前考察系统的可行性</li>
+<li>**进化型：**将原型扩展到开发过程，通过原型开发逐步实现所有系统功能。</li>
+</ol>
+<p><strong>原型的使用策略</strong></p>
+<ul>
+<li><strong>废弃策略：探索型和实验型</strong></li>
+<li><strong>追加策略：进化型</strong></li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li>有助于增进软件人员和用户对<strong>系统服务需求</strong>的理解</li>
+<li>提供了一种有力的<strong>学习手段</strong></li>
+<li>容易确定<strong>系统的性能</strong>，<strong>服务的可用性</strong>，<strong>设计的可行性</strong>和<strong>产品的结果</strong></li>
+<li>原型的最终版本可作为最终产品的一部分</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>文档容易本忽略</li>
+<li>建立原型的许多工作会被浪费掉</li>
+<li>项目难以规划和管理</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192924734.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192924734.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192924734.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420192924734.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420192924734.png"
+        title="image-20250420192924734" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193017995.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193017995.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193017995.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193017995.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420193017995.png"
+        title="image-20250420193017995" /></p>
+<h4 id="演化模型原型方法的实践">演化模型（原型方法的实践）</h4>
+<p><strong>第一次</strong>：<strong>试验</strong>开发，目的是<strong>探索可行性</strong>，弄清楚项目的需求。第一次得到的试验性产品称为“<strong>原型</strong>”。</p>
+<p><strong>第二次</strong>：在第一次的<strong>原型基础上</strong>进行开发，从而获得较为满意的软件产品。</p>
+<p><strong>针对需求不明确的软件项目</strong></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193156979.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193156979.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193156979.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193156979.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420193156979.png"
+        title="image-20250420193156979" /></p>
+<p><strong>缺点</strong></p>
+<ul>
+<li>抛弃瀑布模型文档控制的优点，软件<strong>开发过程不透明</strong></li>
+<li>探索式演化模型可能会导致最后的<strong>系统结构较差</strong></li>
+<li>可能会用到一些不成熟、不符合主流、不符合要求的工具和技术</li>
+</ul>
+<h4 id="增量模型">增量模型</h4>
+<p>结合了瀑布模型和演化模型的优点</p>
+<ol>
+<li><strong>渐进式开发</strong>：系统被分解为多个增量(increment)，每个增量都是一个可交付的产品部分</li>
+<li><strong>需求逐步提出</strong>：允许客户的需求分阶段提出，而不是在项目开始时就完全确定</li>
+<li><strong>体系结构稳定性</strong>：所有增量的开发都基于一个稳定的系统架构</li>
+</ol>
+<h5 id="工作流程">工作流程</h5>
+<ol>
+<li><strong>需求框架定义</strong>：客户首先定义整体需求框架</li>
+<li><strong>优先级确定</strong>：客户和开发团队共同确定需求的实现优先级</li>
+<li><strong>体系结构设计</strong>：基于核心需求和性能要求设计稳定的系统架构</li>
+<li><strong>增量实现</strong>：按优先级逐步实现各个增量，每个增量都是可工作的产品部分</li>
+<li><strong>增量集成</strong>：将新完成的增量集成到现有系统中，确保不影响整体架构</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193633923.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193633923.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193633923.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420193633923.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420193633923.png"
+        title="image-20250420193633923" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>增强客户使用系统的信心，逐步提出对后续增量的需求</li>
+<li>项目<strong>总体失败的风险较低</strong></li>
+<li>增量<strong>从高到低的优先级确定</strong>保证了<strong>系统重要功能部分的可靠性</strong></li>
+<li><strong>同一体系结构</strong>提高了系统的<strong>稳定性和可维护性</strong></li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>增量的粒度选择问题</li>
+<li>确定所有的基本业务比较困难</li>
+</ul>
+<h4 id="螺旋模型">螺旋模型</h4>
+<ol>
+<li><strong>风险驱动</strong>：将风险分析作为核心环节，贯穿整个开发过程</li>
+<li><strong>迭代演进</strong>：通过多次循环迭代逐步完善系统</li>
+<li><strong>多原型开发</strong>：需要开发内容逐步丰富的多个原型，而非单一原型</li>
+<li><strong>综合方法</strong>：结合了瀑布模型的系统性和演化模型的灵活性</li>
+</ol>
+<h5 id="四个象限活动">四个象限活动</h5>
+<ol>
+<li>
+<p><strong>制定计划</strong></p>
+<p>确定软件目标与约束条件、评估备选技术方案，确定资源、进度等限制条件</p>
+</li>
+<li>
+<p><strong>风险分析</strong></p>
+<p>识别潜在风险因素、评估风险发生的概率和影响、制定风险缓解或规避策略、必要时终止高风险项目</p>
+</li>
+<li>
+<p><strong>实施工程</strong></p>
+<p>根据当前迭代目标进行开发，可能包括需求分析、设计、编码、测试等活动，产生可验证的工作产品</p>
+</li>
+<li>
+<p><strong>客户评估</strong></p>
+<p>客户对当前迭代成果进行评价、提出修改建议和新需求，为下一轮迭代提供输入</p>
+</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194247543.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194247543.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194247543.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194247543.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420194247543.png"
+        title="image-20250420194247543" /></p>
+<p><strong>最适合</strong>：</p>
+<ul>
+<li>需求不明确的大型复杂系统</li>
+<li>高风险项目</li>
+<li>技术方案不确定的创新项目</li>
+<li>长期演进的关键任务系统</li>
+</ul>
+<h4 id="喷泉模型">喷泉模型</h4>
+<ol>
+<li><strong>迭代性</strong>：
+<ul>
+<li>开发过程是<strong>多次重复、逐步演进</strong>的过程</li>
+<li>各阶段可以<strong>反复进行，而非线性</strong>顺序</li>
+<li>允许不断精化和完善系统</li>
+</ul>
+</li>
+<li><strong>无间隙性</strong>：
+<ul>
+<li>各开发阶段之间没有严格的界限</li>
+<li>分析和设计结果可以自然复用</li>
+<li>活动之间可以流畅过渡和回溯</li>
+</ul>
+</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194704571.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194704571.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194704571.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194704571.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420194704571.png"
+        title="image-20250420194704571" /></p>
+<h4 id="构件组装模型">构件组装模型</h4>
+<p>构件组装模型本质上是<strong>演化的</strong>，开发过程是<strong>迭代的</strong>。</p>
+<p>由五个阶段组成：</p>
+<ul>
+<li>需求定义和分析</li>
+<li>软件体系结构设计</li>
+<li>构件开发</li>
+<li>应用软件构造</li>
+<li>测试和发布</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194931190.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194931190.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194931190.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420194931190.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420194931190.png"
+        title="image-20250420194931190" /></p>
+<p>软件的开发过程步骤如下：</p>
+<ul>
+<li>(1)定义和分析需求；</li>
+<li>(2)标识本项目需要什么构件；</li>
+<li>(3)从库中查找构件或相似的构件；</li>
+<li>(4)如果可用转(5)，否则自行开发或修改，确认后入库；</li>
+<li>(5)构造为新系统作第m次迭代；</li>
+<li>(6)测试、确认。</li>
+</ul>
+<h4 id="快速应用开发rad模型">快速应用开发（RAD）模型</h4>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420195124437.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420195124437.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420195124437.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420195124437.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420195124437.png"
+        title="image-20250420195124437" /></p>
+<h4 id="5个阶段"><strong>5个阶段</strong></h4>
+<ol>
+<li><strong>业务建模</strong>：分析业务流程（数据流图DFD）</li>
+<li><strong>数据建模</strong>：设计数据结构（E-R图）</li>
+<li><strong>过程建模</strong>：定义业务逻辑（细化处理流程）</li>
+<li><strong>应用生成</strong>：用4GL/组件快速构建（80%重用+20%开发）</li>
+<li><strong>测试迭代</strong>：重点测新组件，持续优化</li>
+</ol>
+<h3 id="新型软件生命周期模型">新型软件生命周期模型</h3>
+<h4 id="统一软件开发过程rup">统一软件开发过程（RUP）</h4>
+<p>RUP既是一种软件生命周期模型，又是一种支持面向对象软件开发的工具</p>
+<p><strong>方法，工具，过程</strong></p>
+<h5 id="rup的基本结构二维软件开发模型"><strong>RUP的基本结构</strong>：二维软件开发模型</h5>
+<p><strong>横轴：时间轴（阶段+迭代）</strong> 将整个生命周期过程分为4个阶段，每个阶段特有的里程碑是该阶段结束的标志，每个阶段内又划分为不同的迭代（动态结构）</p>
+<p>**纵轴：内容轴（活动+工件）**包括活动、活动产出的工件、活动的执行角色以及活动执行的工作流（静态结构）</p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420200051502.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420200051502.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420200051502.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420200051502.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420200051502.png"
+        title="image-20250420200051502" /></p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420201125489.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420201125489.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420201125489.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250420201125489.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250420201125489.png"
+        title="image-20250420201125489" /></p>
+<h5 id="四个开发阶段"><strong>四个开发阶段</strong></h5>
+<p>每个阶段以 <strong>里程碑（Milestone）</strong> 结束，包含多次迭代：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>阶段</strong></th>
+          <th style="text-align: left"><strong>目标</strong></th>
+          <th style="text-align: left"><strong>里程碑交付物</strong></th>
+          <th style="text-align: left"><strong>关键评审点</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>初始阶段</strong> (Inception)</td>
+          <td style="text-align: left">确定项目范围、验收规范、风险、资源估计、阶段计划</td>
+          <td style="text-align: left">文档、原始用例模型、业务风险评估、原型</td>
+          <td style="text-align: left">正确理解用例需求、项目风险评估合理、阶段计划可行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>细化阶段</strong> (Elaboration)</td>
+          <td style="text-align: left">建立适合需求的软件体系结构基础，编制项目计划，解决高风险需求</td>
+          <td style="text-align: left">风险分析文档、体系结构基线、可执行原型、修订计划</td>
+          <td style="text-align: left">软件体系结构的稳定性、确认高风险的业务需求和技术机制已经解决</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>构造阶段</strong> (Construction)</td>
+          <td style="text-align: left">开发剩余功能，集成为产品测试</td>
+          <td style="text-align: left">可运行软件产品、用户手册</td>
+          <td style="text-align: left">确定软件、环境、用户是否可以开始系统的运行</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>移交阶段</strong> (Transition)</td>
+          <td style="text-align: left">产品交付与用户反馈调整</td>
+          <td style="text-align: left">最终版本、维护手册</td>
+          <td style="text-align: left">是否达到发布标准？</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>RUP的迭代增量开发思想</strong></p>
+<p>RUP是<strong>以用例为驱动</strong>，<strong>软件体系结构为核心</strong>，应用<strong>迭代</strong>及<strong>增量</strong>的新型软件生命周期模型</p>
+<p>RUP是融合了<strong>喷泉模型</strong>和<strong>增量模型</strong>的一种综合生命周期模型</p>
+<p><strong>6个过程工作流</strong>（贯穿各阶段）：<strong>商业建模 → 需求 → 分析设计 → 实现 → 测试 → 部署</strong></p>
+<p><strong>3个支持工作流</strong>：<strong>配置管理 、 项目管理 、 环境搭建</strong></p>
+<h5 id="rup-最佳实践"><strong>RUP 最佳实践</strong></h5>
+<ul>
+<li><strong>早期解决高风险问题</strong>：在细化阶段确定核心架构</li>
+<li><strong>持续验证质量</strong>：频繁测试（单元测试、集成测试）</li>
+<li><strong>用户参与评估</strong>：每个迭代收集反馈</li>
+<li><strong>用例驱动开发</strong>：需求→设计→代码的全程追踪</li>
+<li><strong>可视化建模</strong>：使用 <strong>UML</strong> 统一表达（如用例图、类图）</li>
+<li><strong>严格变更管理</strong>：控制需求变更影响</li>
+</ul>
+<h4 id="敏捷开发">敏捷开发</h4>
+<h5 id="敏捷宣言思想不是软件生命周期模型">敏捷宣言（思想，不是软件生命周期模型）</h5>
+<ul>
+<li><strong>个体和交互胜过过程和工具</strong></li>
+<li><strong>可以工作的软件胜过面面俱到的文档</strong></li>
+<li><strong>客户合作胜过合同谈判</strong></li>
+<li><strong>相应变化胜过遵循计划</strong></li>
+</ul>
+<p>敏捷方法的主要特点就是具有<strong>快速以及灵活的响应变更能力</strong></p>
+<ul>
+<li><strong>以人为本</strong>：强调团队协作与客户参与</li>
+<li><strong>迭代渐进</strong>：项目拆分为可独立运行的子项目，持续交付可运行版本</li>
+<li><strong>拥抱变化</strong>：通过短周期迭代适应需求变更</li>
+</ul>
+<h5 id="极限编程xp">极限编程（XP）</h5>
+<ul>
+<li><strong>快速的反馈，大量而迅速的交流</strong>，经过保证的测试来最大限度的满足用户的需求</li>
+<li><strong>强调用户满意</strong>，开发人员可以对需求的变化做出<strong>快速的反应</strong></li>
+<li>工作环境：所有人都<strong>在同一个开放的环境</strong>中工作</li>
+<li>配对编程，严格遵守编程规范，任何人都可以修改其他人写的程序，修改后要确定新程序能通过单元测试</li>
+</ul>
+<h5 id="xp需求分析user-story驱动">XP<strong>需求分析：User Story驱动</strong></h5>
+<ul>
+<li><strong>协作拆分需求</strong>：开发人员与客户共同将需求分解为小模块（User Story），记录在Story Card上</li>
+<li><strong>动态调整</strong>：根据实际组合或拆分模块，确保灵活性</li>
+<li><strong>优先级排序</strong>：客户按<strong>商业价值</strong>排序，开发团队评估<strong>技术风险</strong></li>
+<li><strong>验收测试前置</strong>：客户为每个模块定义验收标准（测试用例）</li>
+</ul>
+<p>​	<strong>核心目标</strong>：快速响应变更，确保需求价值最大化</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%BF%B0/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

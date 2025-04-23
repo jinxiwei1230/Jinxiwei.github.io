@@ -3,7 +3,86 @@
         <title>Python - Tag - Jinxiwei</title>
         <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/python/</link>
         <description>Python - Tag - Jinxiwei</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 31 Mar 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/python/" rel="self" type="application/rss+xml" /><item>
+    <title>Python常用包及其功能</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/</link>
+    <pubDate>Mon, 31 Mar 2025 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%B8%B8%E7%94%A8%E5%8C%85%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/</guid>
+    <description><![CDATA[<h3 id="numpy--多维数据矩阵运算">numpy  多维数据、矩阵运算</h3>
+<p><strong>1、数组操作</strong>：</p>
+<ul>
+<li>
+<h5 id="创建数组">创建数组</h5>
+<ul>
+<li><code>np.array([[1, 2], [3, 4]])</code></li>
+<li><code>np.zeros((3, 3))    # 3x3全0数组</code></li>
+<li><code>np.ones((2, 4), dtype=np.int32)  # 2x4全1整型数组</code></li>
+<li><code>np.linspace(0, 10, 5)  # [0., 2.5, 5., 7.5, 10.] # 生成等间隔数值的一维数组 </code>。</li>
+<li><code>np.arange()</code>：类似Python的<code>range</code>，但返回数组（如<code>np.arange(0, 10, 2)</code>）。</li>
+<li><code>np.random.rand()</code>：生成[0,1)均匀分布的随机数组。</li>
+<li><code>np.eye()</code>：生成单位矩阵。</li>
+</ul>
+</li>
+<li>
+<p>数组运算：加减乘除、广播（Broadcasting）、向量化操作。</p>
+</li>
+</ul>
+<p><strong>2、数学函数</strong>：</p>
+<ul>
+<li>
+<h5 id="线性代数nplinalg">线性代数<code>np.linalg()</code></h5>
+<ul>
+<li>矩阵乘法 <code>np.dot()</code></li>
+<li>矩阵分解
+<ul>
+<li>矩阵求逆<code>np.linalg.inv()</code></li>
+<li>特征值和特征向量<code>np.linalg.eig()</code></li>
+<li>奇异值分解<code>np.linalg.svd()</code></li>
+</ul>
+</li>
+<li>解线性方程组<code>np.linalg.solve(A,b)</code>(解Ax=b)</li>
+</ul>
+</li>
+<li>
+<h5 id="统计计算">统计计算</h5>
+<ul>
+<li><strong>基本统计量</strong>
+<code>np.sum(a)</code>, <code>np.mean(a)</code>, <code>np.std(a)</code>（标准差）, <code>np.max(a)</code></li>
+<li><strong>轴方向统计</strong>
+指定<code>axis</code>参数沿特定轴计算（如<code>np.sum(a, axis=0)</code>对列求和）</li>
+</ul>
+</li>
+<li>
+<h5 id="随机数生成nprandom">随机数生成**（<code>np.random</code>）**</h5>
+<ul>
+<li>
+<p><strong>分布类型</strong></p>
+<ul>
+<li>均匀分布：<code>np.random.rand()</code></li>
+<li>正态分布：<code>np.random.randn()</code></li>
+<li>整数随机：<code>np.random.randint(0, 10, size=5)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>随机种子</strong>
+<code>np.random.seed(42)</code> 保证结果可复现。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、索引与切片</strong>：</p>
+<ul>
+<li>基础索引、布尔索引、花式索引（Fancy Indexing）。</li>
+</ul>
+<h3 id="pandas--高性能易用的数据结构和工具">pandas  高性能、易用的数据结构和工具</h3>
+<h3 id="1-数据结构"><strong>1. 数据结构</strong></h3>
+<h4 id="1-series"><strong>(1) <code>Series</code></strong></h4>
+<ul>
+<li>
+<p><strong>定义</strong>：一维<strong>带标签数组</strong>，由**数据值（values）<strong>和</strong>索引（index）**组成。</p>]]></description>
+</item>
+<item>
     <title>Python可视化-折线图</title>
     <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E5%8F%AF%E8%A7%86%E5%8C%96-%E6%8A%98%E7%BA%BF%E5%9B%BE/</link>
     <pubDate>Sun, 16 Mar 2025 00:00:00 &#43;0000</pubDate>
@@ -687,6 +766,254 @@
 </span></span></code></pre></div><ol>
 <li>
 <p><strong>GIL（全局解释器锁）</strong>：Python 的 GIL 确保同一时间只有一个线程执行 Python 字节码。这意味着即使在多核 CPU 上，Python 的多线程也不能真正并行执行 CPU 密集型任务。GIL 的存在是为了保护 Python 解释器的内部数据结构不被多个线程同时修改。</p>]]></description>
+</item>
+<item>
+    <title>sklearn</title>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/</link>
+    <pubDate>Thu, 10 Oct 2024 00:00:00 &#43;0000</pubDate>
+    <author>Jinxiwei</author>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/</guid>
+    <description><![CDATA[<h3 id="1-sklearnpreprocessing">1. <strong><code>sklearn.preprocessing</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>StandardScaler</code>：标准化特征（均值为 0，方差为 1）。</li>
+<li><code>MinMaxScaler</code>：将特征缩放到指定范围（如 [0, 1]）。</li>
+<li><code>LabelEncoder</code>：将分类标签编码为整数。</li>
+<li><code>OneHotEncoder</code>：将分类变量转换为独热编码。</li>
+<li><code>OrdinalEncoder</code>：将分类变量编码为有序整数。</li>
+<li><code>RobustScaler</code>：基于分位数的鲁棒缩放。</li>
+<li><code>PolynomialFeatures</code>：生成多项式特征。</li>
+<li><code>Normalizer</code>：对每个样本进行归一化（如 L2 范数）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-sklearnfeature_extraction">2. <strong><code>sklearn.feature_extraction</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>（主要子模块）：
+<ul>
+<li><strong><code>feature_extraction.text</code></strong>：
+<ul>
+<li><code>CountVectorizer</code>：将文本转换为词频矩阵。</li>
+<li><code>TfidfVectorizer</code>：将文本转换为 TF-IDF 矩阵。</li>
+<li><code>TfidfTransformer</code>：从词频矩阵计算 TF-IDF。</li>
+</ul>
+</li>
+<li><strong><code>feature_extraction.image</code></strong>：
+<ul>
+<li><code>extract_patches_2d</code>：从图像中提取二维补丁。</li>
+<li><code>PatchExtractor</code>：图像补丁提取器。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-sklearnmodel_selection">3. <strong><code>sklearn.model_selection</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>train_test_split</code>：拆分数据集为训练集和测试集。</li>
+<li><code>KFold</code>：K 折交叉验证。</li>
+<li><code>StratifiedKFold</code>：分层 K 折交叉验证。</li>
+<li><code>cross_val_score</code>：交叉验证评分。</li>
+<li><code>GridSearchCV</code>：网格搜索超参数调优。</li>
+<li><code>RandomizedSearchCV</code>：随机搜索超参数调优。</li>
+<li><code>learning_curve</code>：生成学习曲线。</li>
+<li><code>validation_curve</code>：生成验证曲线。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-sklearnlinear_model">4. <strong><code>sklearn.linear_model</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>LinearRegression</code>：普通线性回归。</li>
+<li><code>LogisticRegression</code>：逻辑回归分类器。</li>
+<li><code>Ridge</code>：岭回归（L2 正则化）。</li>
+<li><code>Lasso</code>：Lasso 回归（L1 正则化）。</li>
+<li><code>ElasticNet</code>：弹性网回归（L1 + L2 正则化）。</li>
+<li><code>SGDClassifier</code>：随机梯度下降分类器。</li>
+<li><code>SGDRegressor</code>：随机梯度下降回归器。</li>
+<li><code>Perceptron</code>：感知机模型。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="5-sklearntree">5. <strong><code>sklearn.tree</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>DecisionTreeClassifier</code>：决策树分类器。</li>
+<li><code>DecisionTreeRegressor</code>：决策树回归器。</li>
+<li><code>export_graphviz</code>：导出决策树为 Graphviz 格式。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-sklearnensemble">6. <strong><code>sklearn.ensemble</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>RandomForestClassifier</code>：随机森林分类器。</li>
+<li><code>RandomForestRegressor</code>：随机森林回归器。</li>
+<li><code>GradientBoostingClassifier</code>：梯度提升分类器。</li>
+<li><code>GradientBoostingRegressor</code>：梯度提升回归器。</li>
+<li><code>AdaBoostClassifier</code>：AdaBoost 分类器。</li>
+<li><code>AdaBoostRegressor</code>：AdaBoost 回归器。</li>
+<li><code>BaggingClassifier</code>：Bagging 分类器。</li>
+<li><code>VotingClassifier</code>：投票分类器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="7-sklearncluster">7. <strong><code>sklearn.cluster</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>KMeans</code>：K 均值聚类。</li>
+<li><code>DBSCAN</code>：基于密度的空间聚类。</li>
+<li><code>AgglomerativeClustering</code>：层次聚类。</li>
+<li><code>MeanShift</code>：均值漂移聚类。</li>
+<li><code>SpectralClustering</code>：谱聚类。</li>
+<li><code>AffinityPropagation</code>：亲和传播聚类。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="8-sklearndecomposition">8. <strong><code>sklearn.decomposition</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>PCA</code>：主成分分析。</li>
+<li><code>TruncatedSVD</code>：截断奇异值分解。</li>
+<li><code>NMF</code>：非负矩阵分解。</li>
+<li><code>FactorAnalysis</code>：因子分析。</li>
+<li><code>FastICA</code>：独立成分分析。</li>
+<li><code>LatentDirichletAllocation</code>：潜在狄利克雷分配（LDA）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="9-sklearnmetrics">9. <strong><code>sklearn.metrics</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>accuracy_score</code>：准确率。</li>
+<li><code>precision_score</code>：精确率。</li>
+<li><code>recall_score</code>：召回率。</li>
+<li><code>f1_score</code>：F1 分数。</li>
+<li><code>confusion_matrix</code>：混淆矩阵。</li>
+<li><code>classification_report</code>：分类报告。</li>
+<li><code>roc_curve</code>：ROC 曲线。</li>
+<li><code>auc</code>：计算 AUC 分数。</li>
+<li><code>mean_squared_error</code>：均方误差。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="10-sklearnnaive_bayes">10. <strong><code>sklearn.naive_bayes</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>GaussianNB</code>：高斯朴素贝叶斯。</li>
+<li><code>MultinomialNB</code>：多项式朴素贝叶斯。</li>
+<li><code>BernoulliNB</code>：伯努利朴素贝叶斯。</li>
+<li><code>ComplementNB</code>：补集朴素贝叶斯。</li>
+<li><code>CategoricalNB</code>：分类朴素贝叶斯。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="11-sklearnsvm">11. <strong><code>sklearn.svm</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>SVC</code>：支持向量分类器。</li>
+<li><code>SVR</code>：支持向量回归器。</li>
+<li><code>LinearSVC</code>：线性支持向量分类器。</li>
+<li><code>LinearSVR</code>：线性支持向量回归器。</li>
+<li><code>NuSVC</code>：Nu 支持向量分类器。</li>
+<li><code>NuSVR</code>：Nu 支持向量回归器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="12-sklearnneighbors">12. <strong><code>sklearn.neighbors</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>KNeighborsClassifier</code>：K 近邻分类器。</li>
+<li><code>KNeighborsRegressor</code>：K 近邻回归器。</li>
+<li><code>NearestNeighbors</code>：最近邻搜索。</li>
+<li><code>RadiusNeighborsClassifier</code>：半径邻居分类器。</li>
+<li><code>NearestCentroid</code>：最近质心分类器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="13-sklearnpipeline">13. <strong><code>sklearn.pipeline</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>Pipeline</code>：构建机器学习管道。</li>
+<li><code>make_pipeline</code>：简便创建管道。</li>
+<li><code>FeatureUnion</code>：特征联合。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="14-sklearndatasets">14. <strong><code>sklearn.datasets</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>load_iris</code>：加载鸢尾花数据集。</li>
+<li><code>load_digits</code>：加载手写数字数据集。</li>
+<li><code>load_breast_cancer</code>：加载乳腺癌数据集。</li>
+<li><code>make_classification</code>：生成分类数据集。</li>
+<li><code>make_regression</code>：生成回归数据集。</li>
+<li><code>fetch_openml</code>：从 OpenML 获取数据集。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="15-sklearnutils">15. <strong><code>sklearn.utils</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>shuffle</code>：打乱数据集。</li>
+<li><code>resample</code>：重采样数据。</li>
+<li><code>check_random_state</code>：检查或生成随机状态。</li>
+<li><code>Bunch</code>：类似字典的数据容器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="次要模块视版本可能独立">次要模块（视版本可能独立）</h3>
+<h4 id="sklearnimpute"><strong><code>sklearn.impute</code></strong></h4>
+<ul>
+<li><code>SimpleImputer</code>：简单缺失值填补。</li>
+<li><code>KNNImputer</code>：KNN 缺失值填补。</li>
+</ul>
+<h4 id="sklearncompose"><strong><code>sklearn.compose</code></strong></h4>
+<ul>
+<li><code>ColumnTransformer</code>：列转换器。</li>
+<li><code>TransformedTargetRegressor</code>：目标变量转换回归器。</li>
+</ul>
+<h4 id="sklearnfeature_selection"><strong><code>sklearn.feature_selection</code></strong></h4>
+<ul>
+<li><code>SelectKBest</code>：选择 K 个最佳特征。</li>
+<li><code>RFE</code>：递归特征消除。</li>
+<li><code>VarianceThreshold</code>：移除低方差特征。</li>
+</ul>
+<h4 id="sklearnmanifold"><strong><code>sklearn.manifold</code></strong></h4>
+<ul>
+<li><code>TSNE</code>：t-SNE 降维。</li>
+<li><code>Isomap</code>：等距映射。</li>
+<li><code>MDS</code>：多维缩放。</li>
+</ul>]]></description>
 </item>
 </channel>
 </rss>

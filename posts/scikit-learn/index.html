@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>sklearn - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="sklearn">
+  <meta property="og:description" content="1. sklearn.preprocessing 主要方法： StandardScaler：标准化特征（均值为 0，方差为 1）。 MinMaxScaler：将特征缩放到指定范围（如 [0, 1]）。 LabelEncoder：将分类标签编码为整数。 OneHotEncoder：将分类变量转换为独热编码。 OrdinalEncoder：将分类变量编码为有序整数。 RobustScaler：基于分位数的鲁棒缩放。 PolynomialFeatures：生成多项式特征。 Normalizer：对每个样本进行归一化（如 L2 范数）。 2. sklearn.feature_extraction 主要方法（主要子模块）： feature_extraction.text： CountVectorizer：将文本转换为词频矩阵。 TfidfVectorizer：将文本转换为 TF-IDF 矩阵。 TfidfTransformer：从词频矩阵计算 TF-IDF。 feature_extraction.image： extract_patches_2d：从图像中提取二维补丁。 PatchExtractor：图像补丁提取器。 3. sklearn.model_selection 主要方法： train_test_split：拆分数据集为训练集和测试集。 KFold：K 折交叉验证。 StratifiedKFold：分层 K 折交叉验证。 cross_val_score：交叉验证评分。 GridSearchCV：网格搜索超参数调优。 RandomizedSearchCV：随机搜索超参数调优。 learning_curve：生成学习曲线。 validation_curve：生成验证曲线。 4. sklearn.linear_model 主要方法： LinearRegression：普通线性回归。 LogisticRegression：逻辑回归分类器。 Ridge：岭回归（L2 正则化）。 Lasso：Lasso 回归（L1 正则化）。 ElasticNet：弹性网回归（L1 &#43; L2 正则化）。 SGDClassifier：随机梯度下降分类器。 SGDRegressor：随机梯度下降回归器。 Perceptron：感知机模型。 5. sklearn.tree 主要方法： DecisionTreeClassifier：决策树分类器。 DecisionTreeRegressor：决策树回归器。 export_graphviz：导出决策树为 Graphviz 格式。 6. sklearn.ensemble 主要方法： RandomForestClassifier：随机森林分类器。 RandomForestRegressor：随机森林回归器。 GradientBoostingClassifier：梯度提升分类器。 GradientBoostingRegressor：梯度提升回归器。 AdaBoostClassifier：AdaBoost 分类器。 AdaBoostRegressor：AdaBoost 回归器。 BaggingClassifier：Bagging 分类器。 VotingClassifier：投票分类器。 7. sklearn.cluster 主要方法： KMeans：K 均值聚类。 DBSCAN：基于密度的空间聚类。 AgglomerativeClustering：层次聚类。 MeanShift：均值漂移聚类。 SpectralClustering：谱聚类。 AffinityPropagation：亲和传播聚类。 8. sklearn.decomposition 主要方法： PCA：主成分分析。 TruncatedSVD：截断奇异值分解。 NMF：非负矩阵分解。 FactorAnalysis：因子分析。 FastICA：独立成分分析。 LatentDirichletAllocation：潜在狄利克雷分配（LDA）。 9. sklearn.metrics 主要方法： accuracy_score：准确率。 precision_score：精确率。 recall_score：召回率。 f1_score：F1 分数。 confusion_matrix：混淆矩阵。 classification_report：分类报告。 roc_curve：ROC 曲线。 auc：计算 AUC 分数。 mean_squared_error：均方误差。 10. sklearn.naive_bayes 主要方法： GaussianNB：高斯朴素贝叶斯。 MultinomialNB：多项式朴素贝叶斯。 BernoulliNB：伯努利朴素贝叶斯。 ComplementNB：补集朴素贝叶斯。 CategoricalNB：分类朴素贝叶斯。 11. sklearn.svm 主要方法： SVC：支持向量分类器。 SVR：支持向量回归器。 LinearSVC：线性支持向量分类器。 LinearSVR：线性支持向量回归器。 NuSVC：Nu 支持向量分类器。 NuSVR：Nu 支持向量回归器。 12. sklearn.neighbors 主要方法： KNeighborsClassifier：K 近邻分类器。 KNeighborsRegressor：K 近邻回归器。 NearestNeighbors：最近邻搜索。 RadiusNeighborsClassifier：半径邻居分类器。 NearestCentroid：最近质心分类器。 13. sklearn.pipeline 主要方法： Pipeline：构建机器学习管道。 make_pipeline：简便创建管道。 FeatureUnion：特征联合。 14. sklearn.datasets 主要方法： load_iris：加载鸢尾花数据集。 load_digits：加载手写数字数据集。 load_breast_cancer：加载乳腺癌数据集。 make_classification：生成分类数据集。 make_regression：生成回归数据集。 fetch_openml：从 OpenML 获取数据集。 15. sklearn.utils 主要方法： shuffle：打乱数据集。 resample：重采样数据。 check_random_state：检查或生成随机状态。 Bunch：类似字典的数据容器。 次要模块（视版本可能独立） sklearn.impute SimpleImputer：简单缺失值填补。 KNNImputer：KNN 缺失值填补。 sklearn.compose ColumnTransformer：列转换器。 TransformedTargetRegressor：目标变量转换回归器。 sklearn.feature_selection SelectKBest：选择 K 个最佳特征。 RFE：递归特征消除。 VarianceThreshold：移除低方差特征。 sklearn.manifold TSNE：t-SNE 降维。 Isomap：等距映射。 MDS：多维缩放。 ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="sklearn">
+  <meta name="twitter:description" content="1. sklearn.preprocessing 主要方法： StandardScaler：标准化特征（均值为 0，方差为 1）。 MinMaxScaler：将特征缩放到指定范围（如 [0, 1]）。 LabelEncoder：将分类标签编码为整数。 OneHotEncoder：将分类变量转换为独热编码。 OrdinalEncoder：将分类变量编码为有序整数。 RobustScaler：基于分位数的鲁棒缩放。 PolynomialFeatures：生成多项式特征。 Normalizer：对每个样本进行归一化（如 L2 范数）。 2. sklearn.feature_extraction 主要方法（主要子模块）： feature_extraction.text： CountVectorizer：将文本转换为词频矩阵。 TfidfVectorizer：将文本转换为 TF-IDF 矩阵。 TfidfTransformer：从词频矩阵计算 TF-IDF。 feature_extraction.image： extract_patches_2d：从图像中提取二维补丁。 PatchExtractor：图像补丁提取器。 3. sklearn.model_selection 主要方法： train_test_split：拆分数据集为训练集和测试集。 KFold：K 折交叉验证。 StratifiedKFold：分层 K 折交叉验证。 cross_val_score：交叉验证评分。 GridSearchCV：网格搜索超参数调优。 RandomizedSearchCV：随机搜索超参数调优。 learning_curve：生成学习曲线。 validation_curve：生成验证曲线。 4. sklearn.linear_model 主要方法： LinearRegression：普通线性回归。 LogisticRegression：逻辑回归分类器。 Ridge：岭回归（L2 正则化）。 Lasso：Lasso 回归（L1 正则化）。 ElasticNet：弹性网回归（L1 &#43; L2 正则化）。 SGDClassifier：随机梯度下降分类器。 SGDRegressor：随机梯度下降回归器。 Perceptron：感知机模型。 5. sklearn.tree 主要方法： DecisionTreeClassifier：决策树分类器。 DecisionTreeRegressor：决策树回归器。 export_graphviz：导出决策树为 Graphviz 格式。 6. sklearn.ensemble 主要方法： RandomForestClassifier：随机森林分类器。 RandomForestRegressor：随机森林回归器。 GradientBoostingClassifier：梯度提升分类器。 GradientBoostingRegressor：梯度提升回归器。 AdaBoostClassifier：AdaBoost 分类器。 AdaBoostRegressor：AdaBoost 回归器。 BaggingClassifier：Bagging 分类器。 VotingClassifier：投票分类器。 7. sklearn.cluster 主要方法： KMeans：K 均值聚类。 DBSCAN：基于密度的空间聚类。 AgglomerativeClustering：层次聚类。 MeanShift：均值漂移聚类。 SpectralClustering：谱聚类。 AffinityPropagation：亲和传播聚类。 8. sklearn.decomposition 主要方法： PCA：主成分分析。 TruncatedSVD：截断奇异值分解。 NMF：非负矩阵分解。 FactorAnalysis：因子分析。 FastICA：独立成分分析。 LatentDirichletAllocation：潜在狄利克雷分配（LDA）。 9. sklearn.metrics 主要方法： accuracy_score：准确率。 precision_score：精确率。 recall_score：召回率。 f1_score：F1 分数。 confusion_matrix：混淆矩阵。 classification_report：分类报告。 roc_curve：ROC 曲线。 auc：计算 AUC 分数。 mean_squared_error：均方误差。 10. sklearn.naive_bayes 主要方法： GaussianNB：高斯朴素贝叶斯。 MultinomialNB：多项式朴素贝叶斯。 BernoulliNB：伯努利朴素贝叶斯。 ComplementNB：补集朴素贝叶斯。 CategoricalNB：分类朴素贝叶斯。 11. sklearn.svm 主要方法： SVC：支持向量分类器。 SVR：支持向量回归器。 LinearSVC：线性支持向量分类器。 LinearSVR：线性支持向量回归器。 NuSVC：Nu 支持向量分类器。 NuSVR：Nu 支持向量回归器。 12. sklearn.neighbors 主要方法： KNeighborsClassifier：K 近邻分类器。 KNeighborsRegressor：K 近邻回归器。 NearestNeighbors：最近邻搜索。 RadiusNeighborsClassifier：半径邻居分类器。 NearestCentroid：最近质心分类器。 13. sklearn.pipeline 主要方法： Pipeline：构建机器学习管道。 make_pipeline：简便创建管道。 FeatureUnion：特征联合。 14. sklearn.datasets 主要方法： load_iris：加载鸢尾花数据集。 load_digits：加载手写数字数据集。 load_breast_cancer：加载乳腺癌数据集。 make_classification：生成分类数据集。 make_regression：生成回归数据集。 fetch_openml：从 OpenML 获取数据集。 15. sklearn.utils 主要方法： shuffle：打乱数据集。 resample：重采样数据。 check_random_state：检查或生成随机状态。 Bunch：类似字典的数据容器。 次要模块（视版本可能独立） sklearn.impute SimpleImputer：简单缺失值填补。 KNNImputer：KNN 缺失值填补。 sklearn.compose ColumnTransformer：列转换器。 TransformedTargetRegressor：目标变量转换回归器。 sklearn.feature_selection SelectKBest：选择 K 个最佳特征。 RFE：递归特征消除。 VarianceThreshold：移除低方差特征。 sklearn.manifold TSNE：t-SNE 降维。 Isomap：等距映射。 MDS：多维缩放。 ">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "sklearn",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/scikit-learn\/"
+        },"genre": "posts","keywords": "python","wordcount":  190 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/scikit-learn\/","datePublished": "2024-10-10T00:00:00+00:00","dateModified": "2024-10-10T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Jinxiwei"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">sklearn</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/python/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Python</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-10">2024-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;190 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-sklearnpreprocessing">1. <strong><code>sklearn.preprocessing</code></strong></a></li>
+        <li><a href="#2-sklearnfeature_extraction">2. <strong><code>sklearn.feature_extraction</code></strong></a></li>
+        <li><a href="#3-sklearnmodel_selection">3. <strong><code>sklearn.model_selection</code></strong></a></li>
+        <li><a href="#4-sklearnlinear_model">4. <strong><code>sklearn.linear_model</code></strong></a></li>
+        <li><a href="#5-sklearntree">5. <strong><code>sklearn.tree</code></strong></a></li>
+        <li><a href="#6-sklearnensemble">6. <strong><code>sklearn.ensemble</code></strong></a></li>
+        <li><a href="#7-sklearncluster">7. <strong><code>sklearn.cluster</code></strong></a></li>
+        <li><a href="#8-sklearndecomposition">8. <strong><code>sklearn.decomposition</code></strong></a></li>
+        <li><a href="#9-sklearnmetrics">9. <strong><code>sklearn.metrics</code></strong></a></li>
+        <li><a href="#10-sklearnnaive_bayes">10. <strong><code>sklearn.naive_bayes</code></strong></a></li>
+        <li><a href="#11-sklearnsvm">11. <strong><code>sklearn.svm</code></strong></a></li>
+        <li><a href="#12-sklearnneighbors">12. <strong><code>sklearn.neighbors</code></strong></a></li>
+        <li><a href="#13-sklearnpipeline">13. <strong><code>sklearn.pipeline</code></strong></a></li>
+        <li><a href="#14-sklearndatasets">14. <strong><code>sklearn.datasets</code></strong></a></li>
+        <li><a href="#15-sklearnutils">15. <strong><code>sklearn.utils</code></strong></a></li>
+        <li><a href="#次要模块视版本可能独立">次要模块（视版本可能独立）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="1-sklearnpreprocessing">1. <strong><code>sklearn.preprocessing</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>StandardScaler</code>：标准化特征（均值为 0，方差为 1）。</li>
+<li><code>MinMaxScaler</code>：将特征缩放到指定范围（如 [0, 1]）。</li>
+<li><code>LabelEncoder</code>：将分类标签编码为整数。</li>
+<li><code>OneHotEncoder</code>：将分类变量转换为独热编码。</li>
+<li><code>OrdinalEncoder</code>：将分类变量编码为有序整数。</li>
+<li><code>RobustScaler</code>：基于分位数的鲁棒缩放。</li>
+<li><code>PolynomialFeatures</code>：生成多项式特征。</li>
+<li><code>Normalizer</code>：对每个样本进行归一化（如 L2 范数）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-sklearnfeature_extraction">2. <strong><code>sklearn.feature_extraction</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>（主要子模块）：
+<ul>
+<li><strong><code>feature_extraction.text</code></strong>：
+<ul>
+<li><code>CountVectorizer</code>：将文本转换为词频矩阵。</li>
+<li><code>TfidfVectorizer</code>：将文本转换为 TF-IDF 矩阵。</li>
+<li><code>TfidfTransformer</code>：从词频矩阵计算 TF-IDF。</li>
+</ul>
+</li>
+<li><strong><code>feature_extraction.image</code></strong>：
+<ul>
+<li><code>extract_patches_2d</code>：从图像中提取二维补丁。</li>
+<li><code>PatchExtractor</code>：图像补丁提取器。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-sklearnmodel_selection">3. <strong><code>sklearn.model_selection</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>train_test_split</code>：拆分数据集为训练集和测试集。</li>
+<li><code>KFold</code>：K 折交叉验证。</li>
+<li><code>StratifiedKFold</code>：分层 K 折交叉验证。</li>
+<li><code>cross_val_score</code>：交叉验证评分。</li>
+<li><code>GridSearchCV</code>：网格搜索超参数调优。</li>
+<li><code>RandomizedSearchCV</code>：随机搜索超参数调优。</li>
+<li><code>learning_curve</code>：生成学习曲线。</li>
+<li><code>validation_curve</code>：生成验证曲线。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-sklearnlinear_model">4. <strong><code>sklearn.linear_model</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>LinearRegression</code>：普通线性回归。</li>
+<li><code>LogisticRegression</code>：逻辑回归分类器。</li>
+<li><code>Ridge</code>：岭回归（L2 正则化）。</li>
+<li><code>Lasso</code>：Lasso 回归（L1 正则化）。</li>
+<li><code>ElasticNet</code>：弹性网回归（L1 + L2 正则化）。</li>
+<li><code>SGDClassifier</code>：随机梯度下降分类器。</li>
+<li><code>SGDRegressor</code>：随机梯度下降回归器。</li>
+<li><code>Perceptron</code>：感知机模型。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="5-sklearntree">5. <strong><code>sklearn.tree</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>DecisionTreeClassifier</code>：决策树分类器。</li>
+<li><code>DecisionTreeRegressor</code>：决策树回归器。</li>
+<li><code>export_graphviz</code>：导出决策树为 Graphviz 格式。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-sklearnensemble">6. <strong><code>sklearn.ensemble</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>RandomForestClassifier</code>：随机森林分类器。</li>
+<li><code>RandomForestRegressor</code>：随机森林回归器。</li>
+<li><code>GradientBoostingClassifier</code>：梯度提升分类器。</li>
+<li><code>GradientBoostingRegressor</code>：梯度提升回归器。</li>
+<li><code>AdaBoostClassifier</code>：AdaBoost 分类器。</li>
+<li><code>AdaBoostRegressor</code>：AdaBoost 回归器。</li>
+<li><code>BaggingClassifier</code>：Bagging 分类器。</li>
+<li><code>VotingClassifier</code>：投票分类器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="7-sklearncluster">7. <strong><code>sklearn.cluster</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>KMeans</code>：K 均值聚类。</li>
+<li><code>DBSCAN</code>：基于密度的空间聚类。</li>
+<li><code>AgglomerativeClustering</code>：层次聚类。</li>
+<li><code>MeanShift</code>：均值漂移聚类。</li>
+<li><code>SpectralClustering</code>：谱聚类。</li>
+<li><code>AffinityPropagation</code>：亲和传播聚类。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="8-sklearndecomposition">8. <strong><code>sklearn.decomposition</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>PCA</code>：主成分分析。</li>
+<li><code>TruncatedSVD</code>：截断奇异值分解。</li>
+<li><code>NMF</code>：非负矩阵分解。</li>
+<li><code>FactorAnalysis</code>：因子分析。</li>
+<li><code>FastICA</code>：独立成分分析。</li>
+<li><code>LatentDirichletAllocation</code>：潜在狄利克雷分配（LDA）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="9-sklearnmetrics">9. <strong><code>sklearn.metrics</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>accuracy_score</code>：准确率。</li>
+<li><code>precision_score</code>：精确率。</li>
+<li><code>recall_score</code>：召回率。</li>
+<li><code>f1_score</code>：F1 分数。</li>
+<li><code>confusion_matrix</code>：混淆矩阵。</li>
+<li><code>classification_report</code>：分类报告。</li>
+<li><code>roc_curve</code>：ROC 曲线。</li>
+<li><code>auc</code>：计算 AUC 分数。</li>
+<li><code>mean_squared_error</code>：均方误差。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="10-sklearnnaive_bayes">10. <strong><code>sklearn.naive_bayes</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>GaussianNB</code>：高斯朴素贝叶斯。</li>
+<li><code>MultinomialNB</code>：多项式朴素贝叶斯。</li>
+<li><code>BernoulliNB</code>：伯努利朴素贝叶斯。</li>
+<li><code>ComplementNB</code>：补集朴素贝叶斯。</li>
+<li><code>CategoricalNB</code>：分类朴素贝叶斯。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="11-sklearnsvm">11. <strong><code>sklearn.svm</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>SVC</code>：支持向量分类器。</li>
+<li><code>SVR</code>：支持向量回归器。</li>
+<li><code>LinearSVC</code>：线性支持向量分类器。</li>
+<li><code>LinearSVR</code>：线性支持向量回归器。</li>
+<li><code>NuSVC</code>：Nu 支持向量分类器。</li>
+<li><code>NuSVR</code>：Nu 支持向量回归器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="12-sklearnneighbors">12. <strong><code>sklearn.neighbors</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>KNeighborsClassifier</code>：K 近邻分类器。</li>
+<li><code>KNeighborsRegressor</code>：K 近邻回归器。</li>
+<li><code>NearestNeighbors</code>：最近邻搜索。</li>
+<li><code>RadiusNeighborsClassifier</code>：半径邻居分类器。</li>
+<li><code>NearestCentroid</code>：最近质心分类器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="13-sklearnpipeline">13. <strong><code>sklearn.pipeline</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>Pipeline</code>：构建机器学习管道。</li>
+<li><code>make_pipeline</code>：简便创建管道。</li>
+<li><code>FeatureUnion</code>：特征联合。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="14-sklearndatasets">14. <strong><code>sklearn.datasets</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>load_iris</code>：加载鸢尾花数据集。</li>
+<li><code>load_digits</code>：加载手写数字数据集。</li>
+<li><code>load_breast_cancer</code>：加载乳腺癌数据集。</li>
+<li><code>make_classification</code>：生成分类数据集。</li>
+<li><code>make_regression</code>：生成回归数据集。</li>
+<li><code>fetch_openml</code>：从 OpenML 获取数据集。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="15-sklearnutils">15. <strong><code>sklearn.utils</code></strong></h3>
+<ul>
+<li><strong>主要方法</strong>：
+<ul>
+<li><code>shuffle</code>：打乱数据集。</li>
+<li><code>resample</code>：重采样数据。</li>
+<li><code>check_random_state</code>：检查或生成随机状态。</li>
+<li><code>Bunch</code>：类似字典的数据容器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="次要模块视版本可能独立">次要模块（视版本可能独立）</h3>
+<h4 id="sklearnimpute"><strong><code>sklearn.impute</code></strong></h4>
+<ul>
+<li><code>SimpleImputer</code>：简单缺失值填补。</li>
+<li><code>KNNImputer</code>：KNN 缺失值填补。</li>
+</ul>
+<h4 id="sklearncompose"><strong><code>sklearn.compose</code></strong></h4>
+<ul>
+<li><code>ColumnTransformer</code>：列转换器。</li>
+<li><code>TransformedTargetRegressor</code>：目标变量转换回归器。</li>
+</ul>
+<h4 id="sklearnfeature_selection"><strong><code>sklearn.feature_selection</code></strong></h4>
+<ul>
+<li><code>SelectKBest</code>：选择 K 个最佳特征。</li>
+<li><code>RFE</code>：递归特征消除。</li>
+<li><code>VarianceThreshold</code>：移除低方差特征。</li>
+</ul>
+<h4 id="sklearnmanifold"><strong><code>sklearn.manifold</code></strong></h4>
+<ul>
+<li><code>TSNE</code>：t-SNE 降维。</li>
+<li><code>Isomap</code>：等距映射。</li>
+<li><code>MDS</code>：多维缩放。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2024-10-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" data-title="sklearn" data-hashtags="python"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" data-hashtag="python"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" data-title="sklearn"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" data-title="sklearn"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/scikit-learn/" data-title="sklearn"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/python/">Python</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97-/" class="prev" rel="prev" title="分布式队列"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>分布式队列</a>
+            <a href="/Jinxiwei.github.io/posts/linux%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83vi%E6%96%87%E4%BB%B6%E9%80%9A%E9%85%8D%E7%AC%A6/" class="next" rel="next" title="Linux文件比较、vi、文件通配符">Linux文件比较、vi、文件通配符<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
