@@ -5,10 +5,10 @@
         <description>Redis - Tag - Jinxiwei</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/tags/redis/" rel="self" type="application/rss+xml" /><item>
     <title>Redis</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</link>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-1/</link>
     <pubDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</guid>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-1/</guid>
     <description><![CDATA[<h3 id="1-键值数据库概述">1 键值数据库概述</h3>
 <h4 id="1-键值数据库技术特点"><strong>1. 键值数据库技术特点</strong></h4>
 <h5 id="核心优势"><strong>核心优势</strong></h5>

@@ -58,6 +58,95 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1-数据预处理概述">1 数据预处理概述</h5>
+<ol>
+<li>
+<p>数据质量的多维测度
+¢ 准确性（Accuracy）
+¢ 完整性 （Completeness）
+¢ 一致性 （Consistency）
+¢ 时效性 （Timeliness）
+¢ 相关性 （Relevance）
+¢ 可信性（Believability）
+¢ 可解释性（Interpretability）</p>
+</li>
+<li>
+<p>数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。</p>
+</li>
+<li>
+<p>属性是一个数据字段，表示数据对象的特征。
+在文献中，属性、维度（dimension）、特征（feature）、变量
+（variance）可以互换的使用。
+p
+“维”，一般用在数据仓库中。
+p
+“特征”，一般用在机器学习中。
+p
+“变量”，一般用在统计学中。</p>
+</li>
+<li>
+<p>标称属性：标称属性的值是一些符号或事物的名称。</p>
+</li>
+<li>
+<p>二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。</p>
+</li>
+<li>
+<p>序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。</p>
+</li>
+<li>
+<p>数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。</p>
+</li>
+<li>
+<p>离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。</p>
+</li>
+</ol>
+<ul>
+<li>有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。</li>
+<li>无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。</li>
+</ul>
+<ol start="9">
+<li>性：如果属性不是离散的，则它是连续的。</li>
+</ol>
+<ul>
+<li>文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。</li>
+</ul>
+<ol start="10">
+<li>数据的基本统计᧿述的图形显示：</li>
+</ol>
+<ul>
+<li>
+<p>分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。</p>
+</li>
+<li>
+<p>分位数-分位数图：分位数-分位数图（quantile-quantile plot）
+或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工
+具，使得用户可以观察从一个分布到另一个分布是否有偏移。</p>
+</li>
+<li>
+<p>直方图：直方图或频率直方图是一种被广泛使用的统计方法。
+它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin），
+是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对
+象的计数</p>
+</li>
+<li>
+<p>散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。</p>
+</li>
+</ul>
+<ol start="11">
+<li>用DataFrame对象.to_csv()方法来保存数据成csv文件。</li>
+</ol>
+<p>DataFrame 数据的保存和读取：
+df.to_csv 写入到 csv 文件
+pd.read_csv 读取 csv 文件
+df.to_json 写入到 json 文件
+pd.read_json 读取 json 文件
+df.to_html 写入到 html 文件
+pd.read_html 读取 html 文件
+df.to_excel 写入到 excel 文件
+pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%BF%B0/"></a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="软件工程概述">软件工程概述</h2>
 <h3 id="计算机软件">计算机软件</h3>
@@ -542,74 +631,6 @@ UML（Unified Modeling Language，统一建模语言）是一种<strong>标准�
 <p><strong>保持数据分布一致性</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">计算学习理论</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><p><strong>计算学习理论</strong>（Computational Learning Theory）致力于研究学习的本质和条件，具体回答以下几个问题：</p>
-<ol>
-<li>
-<p><strong>什么是成功的学习？</strong></p>
-<ul>
-<li><strong>成功的学习</strong>指的是通过经验或数据，学习算法能够有效地从输入中提取规律，从而做出准确的预测或决策。这意味着，学习算法在面对未知的测试数据时，能够做出与实际情况高度一致的输出。</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么样的条件下，成功的学习是可能的？</strong></p>
-<ul>
-<li>成功的学习通常在以下条件下更可能实现：
-<ul>
-<li><strong>充分的数据量</strong>：学习算法需要足够多的训练数据来捕捉数据中的规律。</li>
-<li><strong>合适的模型</strong>：模型的表达能力必须能够捕捉到数据中的重要特征。</li>
-<li><strong>可分性与假设空间</strong>：数据是否能被算法有效地分离或拟合，以及算法的假设空间是否能覆盖真实的规律。</li>
-<li><strong>噪声与偏差控制</strong>：数据中噪声水平较低，且偏差和方差适中。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>在什么条件下，某个特定的学习算法可保证成功运行？</strong></p>
-<ul>
-<li>对于一个特定的学习算法，成功运行通常依赖于以下条件：
-<ul>
-<li><strong>理论保证</strong>：学习算法的设计必须能够在给定条件下保证在大多数情况下能够正确预测，如VC维（Vapnik-Chervonenkis dimension）理论提供的学习能力的上限。</li>
-<li><strong>假设空间与数据分布的匹配</strong>：如果算法的假设空间与数据的真实分布非常匹配，且假设空间复杂度适当（不太复杂也不太简单），则该算法可以保证成功。</li>
-<li><strong>有效的正则化</strong>：避免过拟合和欠拟合，能够使算法在不同的训练集和测试集上表现稳定。</li>
-<li><strong>充足的训练集</strong>：在训练集上，学习算法必须能够找到一个合适的规律，并且能够推广到未知的测试集上。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="pac可学习性-probably-approximately-correct可能近似正确">PAC可学习性 –（probably approximately correct）可能近似正确</h2>
-<h3 id="标准机器学习基本框架">标准机器学习基本框架</h3>
-<ol>
-<li>
-<p><strong>未知的目标函数 ( c: X \rightarrow Y )</strong></p>
-<ul>
-<li>机器学习的目标是学习一个未知的目标函数 ( c )，它表示输入 ( X ) 和输出 ( Y ) 之间的关系。</li>
-</ul>
-</li>
-<li>
-<p><strong>训练集</strong></p>
-<ul>
-<li>我们通过训练集来进行学习，训练集由一组输入输出对 ((x^{(1)}, y^{(1)}), \dots, (x^{(n)}, y^{(n)})) 组成。</li>
-</ul>
-</li>
-<li>
-<p><strong>假设函数集合 ( H )</strong></p>
-<ul>
-<li>假设函数集合 ( H ) 包含了多个候选函数 ( h_1, h_2, \dots, h_n )，这些函数是模型用来拟合数据的潜在选项。</li>
-</ul>
-</li>
-<li>
-<p><strong>机器学习算法 ( A )</strong></p>
-<ul>
-<li>机器学习算法 ( A ) 从假设函数集合 ( H ) 中选择一个最优假设函数 ( g \approx c )，即尽可能接近未知的目标函数 ( c )。</li>
-</ul>
-</li>
-<li>
-<p><strong>问题（困惑）</strong></p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/Jinxiwei.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -627,6 +648,10 @@ UML（Unified Modeling Language，统一建模语言）是一种<strong>标准�
                 </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/10/">10</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/11/">11</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

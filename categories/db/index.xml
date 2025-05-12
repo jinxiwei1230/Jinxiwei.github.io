@@ -5,10 +5,10 @@
         <description>DB - Category - Jinxiwei</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jinxiwei1230.github.io/Jinxiwei.github.io/categories/db/" rel="self" type="application/rss+xml" /><item>
     <title>Redis</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</link>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-1/</link>
     <pubDate>Sun, 20 Apr 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis/</guid>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-1/</guid>
     <description><![CDATA[<h3 id="1-键值数据库概述">1 键值数据库概述</h3>
 <h4 id="1-键值数据库技术特点"><strong>1. 键值数据库技术特点</strong></h4>
 <h5 id="核心优势"><strong>核心优势</strong></h5>
@@ -277,10 +277,10 @@
 </item>
 <item>
     <title>Neo4j实验</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</link>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-2/</link>
     <pubDate>Wed, 26 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-%E5%AE%9E%E9%AA%8C/</guid>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-2/</guid>
     <description><![CDATA[<h1 id="一相关知识回顾">（一）相关知识回顾</h1>
 <h2 id="1-关于create子句的问题">1. 关于CREATE子句的问题</h2>
 <ol>
@@ -364,10 +364,10 @@ delete a,b;
 </item>
 <item>
     <title>Neo4j</title>
-    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</link>
+    <link>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-1/</link>
     <pubDate>Wed, 19 Mar 2025 00:00:00 &#43;0000</pubDate>
     <author>Jinxiwei</author>
-    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j/</guid>
+    <guid>https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/neo4j-1/</guid>
     <description><![CDATA[<h3 id="一-neo4j-db">(一) Neo4j DB</h3>
 <h4 id="1-neo4j-特点">1. <strong>Neo4j 特点</strong></h4>
 <ul>

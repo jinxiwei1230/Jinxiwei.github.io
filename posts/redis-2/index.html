@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="1 Redis操作命令分类（概括） 序号 命令类型 描述 1 Keys 用于管理 Redis 的键。如创建、查询、删除等 2 Strings 用于管理字符串结构键值操作 3 Lists 用于管理双向列表结构键值操作 4 Sets 用于管理集合结构键值操作 5 Hashes 用于管理散列结构键值操作 6 Sorted Sets 用于管理有序集合结构键值操作 7 Pub/Sub 用于发布/订阅键值操作管理相关操作 8 Streams 用于流结构键值操作管理相关操作 9 Geospatial 用于地理空间相关键值操作 10 Cluster 用于集群管理相关操作 11 HyperLogLog 用于做键值数据基数统计的操作命令集 12 Bitmap 通过一个bit位来表示某个元素对应的值或者状态（0/1） 13 Connection 用于数据库链接管理相关操作 14 Transactions 用于事务管理相关操作 15 Server 用于服务器管理操作，如查看当前状态信息等 16 Scripting 使用 Lua 解释器来执行脚本，执行脚本的常用命令 1.1 Geospatial 描述：支持基于地理位置的操作，存储经纬度坐标并计算距离、范围等。
+关键命令：
+命令 功能说明 示例 GEOADD 添加地理坐标（经度、纬度、成员名称） GEOADD Sicily 13.361389 38.115556 &#34;Palermo&#34; GEOPOS 查询成员坐标 GEOPOS Sicily &#34;Palermo&#34; ZREM 删除成员（实际存储为有序集合） ZREM Sicily &#34;Palermo&#34; GEODIST 计算两地距离（单位：m/km/mi/ft） GEODIST Sicily &#34;Palermo&#34; &#34;Catania&#34; km GEOHASH 返回坐标的 Geohash 值（52位字符串） GEOHASH Sicily &#34;Palermo&#34; GEOSEARCH 返回某半径或矩形范围内的成员（Redis 6.2&#43;） GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC 注意：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="1 Redis操作命令分类（概括） 序号 命令类型 描述 1 Keys 用于管理 Redis 的键。如创建、查询、删除等 2 Strings 用于管理字符串结构键值操作 3 Lists 用于管理双向列表结构键值操作 4 Sets 用于管理集合结构键值操作 5 Hashes 用于管理散列结构键值操作 6 Sorted Sets 用于管理有序集合结构键值操作 7 Pub/Sub 用于发布/订阅键值操作管理相关操作 8 Streams 用于流结构键值操作管理相关操作 9 Geospatial 用于地理空间相关键值操作 10 Cluster 用于集群管理相关操作 11 HyperLogLog 用于做键值数据基数统计的操作命令集 12 Bitmap 通过一个bit位来表示某个元素对应的值或者状态（0/1） 13 Connection 用于数据库链接管理相关操作 14 Transactions 用于事务管理相关操作 15 Server 用于服务器管理操作，如查看当前状态信息等 16 Scripting 使用 Lua 解释器来执行脚本，执行脚本的常用命令 1.1 Geospatial 描述：支持基于地理位置的操作，存储经纬度坐标并计算距离、范围等。
+关键命令：
+命令 功能说明 示例 GEOADD 添加地理坐标（经度、纬度、成员名称） GEOADD Sicily 13.361389 38.115556 &#34;Palermo&#34; GEOPOS 查询成员坐标 GEOPOS Sicily &#34;Palermo&#34; ZREM 删除成员（实际存储为有序集合） ZREM Sicily &#34;Palermo&#34; GEODIST 计算两地距离（单位：m/km/mi/ft） GEODIST Sicily &#34;Palermo&#34; &#34;Catania&#34; km GEOHASH 返回坐标的 Geohash 值（52位字符串） GEOHASH Sicily &#34;Palermo&#34; GEOSEARCH 返回某半径或矩形范围内的成员（Redis 6.2&#43;） GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC 注意：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/redis-2\/"
+        },"genre": "posts","wordcount":  2338 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/redis-2\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2338 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;11 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#11--geospatial"><strong>1.1  Geospatial</strong></a></li>
+        <li><a href="#12-hyperloglog"><strong>1.2 HyperLogLog</strong></a></li>
+        <li><a href="#13-connection"><strong>1.3 Connection</strong></a></li>
+        <li><a href="#14-transactions"><strong>1.4 Transactions</strong></a></li>
+        <li><a href="#15--server"><strong>1.5  Server</strong></a></li>
+        <li><a href="#16-scripting">1.6 Scripting</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#21-key-操作">2.1 Key 操作</a></li>
+        <li><a href="#22--string字符串">2.2  String字符串</a></li>
+        <li><a href="#23-列表">2.3 列表</a></li>
+        <li><a href="#24-集合set">2.4 集合(Set)</a></li>
+        <li><a href="#25-redis-hashes--散列">2.5 Redis Hashes  散列</a></li>
+        <li><a href="#26-sorted-sets-有序集合"><strong>2.6 Sorted Sets （有序集合）</strong></a></li>
+        <li><a href="#27-redis-发布订阅pubsub">2.7 <strong>Redis 发布订阅（Pub/Sub）</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#31-redis-cluster-核心架构"><strong>3.1 Redis Cluster 核心架构</strong></a></li>
+        <li><a href="#32-redis-cluster-核心特性">3.2 Redis Cluster 核心特性</a></li>
+        <li><a href="#33-集群管理命令">3.3 集群管理命令</a></li>
+        <li><a href="#34-副本漂移replica-migration">3.4 副本漂移（Replica Migration）</a></li>
+        <li><a href="#35-多-key-操作的限制">3.5 多 Key 操作的限制</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#41配置文件">4.1<strong>配置文件</strong></a></li>
+        <li><a href="#42-关键配置项">4.2 <strong>关键配置项</strong></a></li>
+        <li><a href="#43-数据备份与恢复"><strong>4.3 数据备份与恢复</strong></a></li>
+        <li><a href="#44-命令批量执行"><strong>4.4 命令批量执行</strong></a></li>
+        <li><a href="#关键区别"><strong>关键区别</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="1-redis操作命令分类概括">1 Redis操作命令分类（概括）</h1>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">序号</th>
+          <th style="text-align: left">命令类型</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">Keys</td>
+          <td style="text-align: left">用于管理 Redis 的键。如创建、查询、删除等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Strings</td>
+          <td style="text-align: left">用于管理字符串结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Lists</td>
+          <td style="text-align: left">用于管理双向列表结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">Sets</td>
+          <td style="text-align: left">用于管理集合结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">Hashes</td>
+          <td style="text-align: left">用于管理散列结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">Sorted Sets</td>
+          <td style="text-align: left">用于管理有序集合结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">Pub/Sub</td>
+          <td style="text-align: left">用于发布/订阅键值操作管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">Streams</td>
+          <td style="text-align: left">用于流结构键值操作管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">Geospatial</td>
+          <td style="text-align: left">用于地理空间相关键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">Cluster</td>
+          <td style="text-align: left">用于集群管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">HyperLogLog</td>
+          <td style="text-align: left">用于做键值数据基数统计的操作命令集</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">Bitmap</td>
+          <td style="text-align: left">通过一个bit位来表示某个元素对应的值或者状态（0/1）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">Connection</td>
+          <td style="text-align: left">用于数据库链接管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">Transactions</td>
+          <td style="text-align: left">用于事务管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">Server</td>
+          <td style="text-align: left">用于服务器管理操作，如查看当前状态信息等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">16</td>
+          <td style="text-align: left">Scripting</td>
+          <td style="text-align: left">使用 Lua 解释器来执行脚本，执行脚本的常用命令</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="11--geospatial"><strong>1.1  Geospatial</strong></h3>
+<p><strong>描述</strong>：支持基于地理位置的操作，存储经纬度坐标并计算距离、范围等。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>GEOADD</code></td>
+          <td style="text-align: left">添加地理坐标（经度、纬度、成员名称）</td>
+          <td style="text-align: left"><code>GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOPOS</code></td>
+          <td style="text-align: left">查询成员坐标</td>
+          <td style="text-align: left"><code>GEOPOS Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>ZREM</code></td>
+          <td style="text-align: left">删除成员（实际存储为有序集合）</td>
+          <td style="text-align: left"><code>ZREM Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEODIST</code></td>
+          <td style="text-align: left">计算两地距离（单位：m/km/mi/ft）</td>
+          <td style="text-align: left"><code>GEODIST Sicily &quot;Palermo&quot; &quot;Catania&quot; km</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOHASH</code></td>
+          <td style="text-align: left">返回坐标的 Geohash 值（52位字符串）</td>
+          <td style="text-align: left"><code>GEOHASH Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOSEARCH</code></td>
+          <td style="text-align: left">返回某半径或矩形范围内的成员（Redis 6.2+）</td>
+          <td style="text-align: left"><code>GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>GEOSEARCH执行效果</strong>
+<ol>
+<li><strong>搜索范围</strong>：以 <code>(15, 37)</code> 为圆心，200 公里为半径的圆形区域。</li>
+<li><strong>返回结果</strong>：键 <code>Sicily</code> 中所有位于该区域内的成员名称（如 <code>&quot;Catania&quot;</code>、<code>&quot;Palermo&quot;</code>），并按距离由近到远排列</li>
+</ol>
+</li>
+<li>删除操作需使用 <code>ZREM</code>（底层为有序集合）。</li>
+</ul>
+<hr>
+<h3 id="12-hyperloglog"><strong>1.2 HyperLogLog</strong></h3>
+<p><strong>描述</strong>：用于基数统计（不重复元素个数），固定占用 12KB 内存，允许误差。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>PFADD</code></td>
+          <td style="text-align: left">添加元素到 HyperLogLog</td>
+          <td style="text-align: left"><code>PFADD hll1 foo bar zap</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>PFCOUNT</code></td>
+          <td style="text-align: left">计算基数</td>
+          <td style="text-align: left"><code>PFCOUNT hll1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>PFMERGE</code></td>
+          <td style="text-align: left">合并多个 HyperLogLog</td>
+          <td style="text-align: left"><code>PFMERGE hll3 hll1 hll2</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>特性</strong>：</p>
+<ul>
+<li>不存储元素本身，仅统计基数。</li>
+<li>示例结果：<code>PFCOUNT hll3</code> 返回合并后的基数（如 <code>6</code>）。</li>
+</ul>
+<hr>
+<h3 id="13-connection"><strong>1.3 Connection</strong></h3>
+<p><strong>描述</strong>：管理客户端连接与数据库切换。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>PING</code></td>
+          <td style="text-align: left">检测服务是否运行</td>
+          <td style="text-align: left"><code>PING</code> → <code>&quot;PONG&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>QUIT</code></td>
+          <td style="text-align: left">关闭当前连接</td>
+          <td style="text-align: left"><code>QUIT</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SELECT</code></td>
+          <td style="text-align: left">切换数据库（0-15）</td>
+          <td style="text-align: left"><code>SELECT 10</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>默认连接数据库 0。</li>
+</ul>
+<hr>
+<h3 id="14-transactions"><strong>1.4 Transactions</strong></h3>
+<p><strong>描述</strong>：批量操作打包执行，无原子性回滚机制。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>MULTI</code></td>
+          <td style="text-align: left">开启事务</td>
+          <td style="text-align: left"><code>MULTI</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>EXEC</code></td>
+          <td style="text-align: left">执行事务</td>
+          <td style="text-align: left"><code>EXEC</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>DISCARD</code></td>
+          <td style="text-align: left">取消事务</td>
+          <td style="text-align: left"><code>DISCARD</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>WATCH</code></td>
+          <td style="text-align: left">监视键（乐观锁）</td>
+          <td style="text-align: left"><code>WATCH key1</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>特性</strong>：</p>
+<ul>
+<li>某条命令失败不影响其他命令执行。</li>
+</ul>
+<hr>
+<h3 id="15--server"><strong>1.5  Server</strong></h3>
+<p><strong>描述</strong>：管理服务器状态和客户端连接。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>CLIENT KILL</code></td>
+          <td style="text-align: left">关闭指定客户端连接</td>
+          <td style="text-align: left"><code>CLIENT KILL ip:port</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>DBSIZE</code></td>
+          <td style="text-align: left">返回当前数据库 key 数量</td>
+          <td style="text-align: left"><code>DBSIZE</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>INFO</code></td>
+          <td style="text-align: left">获取服务器统计信息</td>
+          <td style="text-align: left"><code>INFO memory</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="16-scripting">1.6 Scripting</h3>
+<p><strong>描述</strong>：执行 Lua 脚本。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>EVAL</code></td>
+          <td style="text-align: left">执行脚本</td>
+          <td style="text-align: left"><code>EVAL &quot;return ARGV[1]&quot; 0 hello</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>EVALSHA</code></td>
+          <td style="text-align: left">通过 SHA1 执行缓存脚本</td>
+          <td style="text-align: left"><code>EVALSHA sha1_value 0</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SCRIPT LOAD</code></td>
+          <td style="text-align: left">缓存脚本并返回 SHA1</td>
+          <td style="text-align: left"><code>SCRIPT LOAD &quot;return 1&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SCRIPT EXISTS</code></td>
+          <td style="text-align: left">检查脚本是否缓存</td>
+          <td style="text-align: left"><code>SCRIPT EXISTS sha1_value</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SCRIPT KILL</code></td>
+          <td style="text-align: left">终止正在运行的脚本</td>
+          <td style="text-align: left"><code>SCRIPT KILL</code></td>
+      </tr>
+  </tbody>
+</table>
+<h1 id="2-redis键值管理操作">2 Redis键值管理操作</h1>
+<h3 id="21-key-操作">2.1 Key 操作</h3>
+<p><strong>描述</strong>：Key 是访问 Redis 值的唯一入口，提供对键的增删改查、过期时间管理等操作。</p>
+<h4 id="211-常用命令分类"><strong>2.1.1 常用命令分类</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>操作类型</strong></th>
+          <th style="text-align: left"><strong>命令示例</strong></th>
+          <th style="text-align: left"><strong>功能说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>匹配键</strong></td>
+          <td style="text-align: left"><code>KEYS pattern</code></td>
+          <td style="text-align: left">列出匹配模式的键（如 <code>KEYS *</code> 查询所有键）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>删除键</strong></td>
+          <td style="text-align: left"><code>DEL key [key...]</code></td>
+          <td style="text-align: left">删除一个或多个键（如 <code>DEL list1</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>存在性检查</strong></td>
+          <td style="text-align: left"><code>EXISTS key</code></td>
+          <td style="text-align: left">检查键是否存在（返回 <code>1</code>/<code>0</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>迁移键</strong></td>
+          <td style="text-align: left"><code>MOVE key db</code></td>
+          <td style="text-align: left">将键移动到指定数据库（如 <code>MOVE k1 2</code> 移到数据库 2）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>数据类型</strong></td>
+          <td style="text-align: left"><code>TYPE key</code></td>
+          <td style="text-align: left">返回键存储的数据类型（如 <code>string</code>、<code>list</code>，不存在返回 <code>none</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>设置超时</strong></td>
+          <td style="text-align: left"><code>EXPIRE key seconds</code></td>
+          <td style="text-align: left">设置键的过期时间（秒）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><code>EXPIREAT key timestamp</code></td>
+          <td style="text-align: left">设置过期时间为 UNIX 时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>取消超时</strong></td>
+          <td style="text-align: left"><code>PERSIST key</code></td>
+          <td style="text-align: left">移除键的过期时间，使其永久有效</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="212-危险命令慎用"><strong>2.1.2 危险命令（慎用！）</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">风险说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>FLUSHALL</code></td>
+          <td style="text-align: left"><strong>清空所有数据库</strong>的键（生产环境禁用）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>FLUSHDB</code></td>
+          <td style="text-align: left"><strong>清空当前数据库</strong>的键</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="213-redis-key-操作命令全集"><strong>2.1.3 Redis Key 操作命令全集</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">序号</th>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"><code>DEL key</code></td>
+          <td style="text-align: left">删除指定 key（存在时生效）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"><code>KEYS pattern</code></td>
+          <td style="text-align: left">匹配符合模式的 key（如 <code>KEYS user*</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"><code>EXISTS key</code></td>
+          <td style="text-align: left">检查 key 是否存在（返回 <code>1</code>/<code>0</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"><code>EXPIRE key seconds</code></td>
+          <td style="text-align: left">设置 key 过期时间（秒）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left"><code>EXPIREAT key timestamp</code></td>
+          <td style="text-align: left">设置 key 过期时间为 UNIX 时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left"><code>PEXPIRE key milliseconds</code></td>
+          <td style="text-align: left">设置 key 过期时间（毫秒）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left"><code>PEXPIREAT key milliseconds-timestamp</code></td>
+          <td style="text-align: left">设置 key 过期时间为毫秒级 UNIX 时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left"><code>MOVE key db</code></td>
+          <td style="text-align: left">将 key 移动到指定数据库（如 <code>MOVE k1 3</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left"><code>PERSIST key</code></td>
+          <td style="text-align: left">移除 key 的过期时间，使其永久有效</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left"><code>PTTL key</code></td>
+          <td style="text-align: left">返回 key 剩余生存时间（毫秒，-1 表示永久，-2 表示已过期）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left"><code>TTL key</code></td>
+          <td style="text-align: left">返回 key 剩余生存时间（秒）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left"><code>RANDOMKEY</code></td>
+          <td style="text-align: left">随机返回当前数据库中的一个 key</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left"><code>RENAME key newkey</code></td>
+          <td style="text-align: left">重命名 key（若 <code>newkey</code> 已存在则覆盖）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left"><code>RENAMENX key newkey</code></td>
+          <td style="text-align: left">仅当 <code>newkey</code> 不存在时重命名 key（返回 <code>1</code> 表示成功）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left"><code>TYPE key</code></td>
+          <td style="text-align: left">返回 key 存储的数据类型（如 <code>string</code>、<code>hash</code>）</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="214-操作示例"><strong>2.1.4 操作示例</strong></h4>
+<ol>
+<li>
+<p><strong>添加键并查询</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis&gt; SET pnum <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>OK
+</span></span><span style="display:flex;"><span>redis&gt; KEYS *
+</span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;pnum&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>查看数据类型</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis&gt; TYPE pnum
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;string&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>设置过期时间</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis&gt; EXPIRE pnum <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># 5秒后过期</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>redis&gt; TTL pnum       <span style="color:#75715e"># 查看剩余时间</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> -2          <span style="color:#75715e"># -2 表示已过期</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>设置键值及过期时间（原子操作）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 方法1：SET + EX 选项</span>
+</span></span><span style="display:flex;"><span>redis&gt; SET pnum <span style="color:#ae81ff">200</span> EX <span style="color:#ae81ff">50</span>
+</span></span><span style="display:flex;"><span>OK
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 方法2：SETEX 命令</span>
+</span></span><span style="display:flex;"><span>redis&gt; SETEX pnum <span style="color:#ae81ff">50</span> <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>OK
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h4 id="215-关键注意事项"><strong>2.1.5 关键注意事项</strong></h4>
+<ol>
+<li>
+<p><strong>性能警告</strong>：</p>
+<ul>
+<li><code>KEYS *</code> 会阻塞 Redis 服务，生产环境建议使用 <code>SCAN</code> 替代。</li>
+<li><code>FLUSHALL/FLUSHDB</code> 会立即清空数据，无确认提示。</li>
+</ul>
+</li>
+<li>
+<p><strong>过期时间精度</strong>：</p>
+<ul>
+<li>秒级命令（<code>EXPIRE</code>/<code>TTL</code>）适用于一般场景，毫秒级（<code>PEXPIRE</code>/<code>PTTL</code>）需高精度时使用。</li>
+</ul>
+</li>
+<li>
+<p><strong>重命名冲突</strong>：</p>
+<ul>
+<li><code>RENAME</code> 会强制覆盖已存在的 <code>newkey</code>，而 <code>RENAMENX</code> 会安全检查。</li>
+</ul>
+</li>
+</ol>
+<h3 id="22--string字符串">2.2  String字符串</h3>
+<h4 id="221-概述">2.2.1 概述</h4>
+<p>Redis 的 String 是最基本的数据类型，可以存储：</p>
+<ul>
+<li>普通字符串</li>
+<li>数值类字符串</li>
+<li>序列化对象(如图片、视频等)</li>
+<li>最大容量：512MB</li>
+</ul>
+<h4 id="222-基本操作命令">2.2.2 基本操作命令</h4>
+<h5 id="赋值操作">赋值操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>SET key value [EX seconds|PX milliseconds] [NX|XX]</code></td>
+          <td style="text-align: left">设置键值</td>
+          <td style="text-align: left"><code>SET name &quot;John&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>MSET key1 value1 [key2 value2...]</code></td>
+          <td style="text-align: left">批量设置键值</td>
+          <td style="text-align: left"><code>MSET k1 v1 k2 v2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SETBIT key offset value</code></td>
+          <td style="text-align: left">设置字符串的位值(0/1)</td>
+          <td style="text-align: left"><code>SETBIT flags 10 1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SETEX key seconds value</code></td>
+          <td style="text-align: left">设置键值并指定过期时间(秒)</td>
+          <td style="text-align: left"><code>SETEX token 3600 &quot;abc123&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SETNX key value</code></td>
+          <td style="text-align: left">仅当键不存在时设置值</td>
+          <td style="text-align: left"><code>SETNX newkey &quot;value&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>PSETEX key milliseconds value</code></td>
+          <td style="text-align: left">设置键值并指定过期时间(毫秒)</td>
+          <td style="text-align: left"><code>PSETEX tempkey 5000 &quot;temp&quot;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="取值操作">取值操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>GET key</code></td>
+          <td style="text-align: left">获取键值</td>
+          <td style="text-align: left"><code>GET name</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>MGET key1 [key2...]</code></td>
+          <td style="text-align: left">批量获取键值</td>
+          <td style="text-align: left"><code>MGET k1 k2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GETBIT key offset</code></td>
+          <td style="text-align: left">获取字符串的位值</td>
+          <td style="text-align: left"><code>GETBIT flags 10</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GETRANGE key start end</code></td>
+          <td style="text-align: left">获取子字符串</td>
+          <td style="text-align: left"><code>GETRANGE name 0 3</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GETSET key value</code></td>
+          <td style="text-align: left">设置新值并返回旧值</td>
+          <td style="text-align: left"><code>GETSET counter 100</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="字符串操作">字符串操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>STRLEN key</code></td>
+          <td style="text-align: left">获取字符串长度</td>
+          <td style="text-align: left"><code>STRLEN name</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SETRANGE key offset value</code></td>
+          <td style="text-align: left">从偏移量覆写字符串</td>
+          <td style="text-align: left"><code>SETRANGE greet 6 &quot;Redis&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>APPEND key value</code></td>
+          <td style="text-align: left">追加字符串</td>
+          <td style="text-align: left"><code>APPEND greet &quot; World&quot;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="数值操作">数值操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>INCR key</code></td>
+          <td style="text-align: left">值增1</td>
+          <td style="text-align: left"><code>INCR views</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>DECR key</code></td>
+          <td style="text-align: left">值减1</td>
+          <td style="text-align: left"><code>DECR stock</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>INCRBY key increment</code></td>
+          <td style="text-align: left">值增加指定数值</td>
+          <td style="text-align: left"><code>INCRBY score 5</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>DECRBY key decrement</code></td>
+          <td style="text-align: left">值减少指定数值</td>
+          <td style="text-align: left"><code>DECRBY stock 10</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>INCRBYFLOAT key increment</code></td>
+          <td style="text-align: left">值增加指定浮点数</td>
+          <td style="text-align: left"><code>INCRBYFLOAT price 1.5</code></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="223-示例操作序列">2.2.3 示例操作序列</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; SET ticketNum <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>OK
+</span></span><span style="display:flex;"><span>&gt; GET ticketNum
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;1000&#34;</span>
+</span></span><span style="display:flex;"><span>&gt; INCR ticketNum
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1001</span>
+</span></span><span style="display:flex;"><span>&gt; DECRBY ticketNum <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">991</span>
+</span></span><span style="display:flex;"><span>&gt; DEL ticketNum
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h4 id="224-特性说明">2.2.4 特性说明</h4>
+<ol>
+<li>
+<p><strong>NX/XX选项</strong>：</p>
+<ul>
+<li>NX：仅当键不存在时设置值</li>
+<li>XX：仅当键存在时设置值</li>
+</ul>
+</li>
+<li>
+<p><strong>位操作</strong>：</p>
+<ul>
+<li>可以对字符串值进行位级别的操作(SETBIT/GETBIT)</li>
+</ul>
+</li>
+<li>
+<p><strong>原子性操作</strong>：</p>
+<ul>
+<li>所有数值操作(INCR/DECR等)都是原子性的</li>
+</ul>
+</li>
+<li>
+<p><strong>批量操作</strong>：</p>
+<ul>
+<li>MSET/MGET支持批量设置/获取多个键值对</li>
+</ul>
+</li>
+</ol>
+<h3 id="23-列表">2.3 列表</h3>
+<h4 id="231-概述">2.3.1 概述</h4>
+<p>Redis List 是一个双向链表数据结构，特点包括：</p>
+<ul>
+<li>按照插入顺序排序</li>
+<li>可以在头部(左)和尾部(右)添加元素</li>
+<li>如果键不存在，Redis 会自动创建新链表</li>
+<li>索引从0开始，-1表示最后一个元素</li>
+</ul>
+<h4 id="232-基本操作命令">2.3.2 基本操作命令</h4>
+<h5 id="赋值操作-1">赋值操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>LPUSH key value [value...]</code></td>
+          <td style="text-align: left">从列表头部插入一个或多个值</td>
+          <td style="text-align: left"><code>LPUSH fruits apple banana</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>RPUSH key value [value...]</code></td>
+          <td style="text-align: left">从列表尾部插入一个或多个值</td>
+          <td style="text-align: left"><code>RPUSH fruits orange</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LPUSHX key value</code></td>
+          <td style="text-align: left">仅当列表存在时从头部插入值</td>
+          <td style="text-align: left"><code>LPUSHX existing_list item</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>RPUSHX key value</code></td>
+          <td style="text-align: left">仅当列表存在时从尾部插入值</td>
+          <td style="text-align: left"><code>RPUSHX existing_list item</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="取值操作-1">取值操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>LPOP key</code></td>
+          <td style="text-align: left">移除并返回列表头部元素</td>
+          <td style="text-align: left"><code>LPOP fruits</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>RPOP key</code></td>
+          <td style="text-align: left">移除并返回列表尾部元素</td>
+          <td style="text-align: left"><code>RPOP fruits</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LRANGE key start stop</code></td>
+          <td style="text-align: left">获取指定范围内的元素</td>
+          <td style="text-align: left"><code>LRANGE fruits 0 -1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LINDEX key index</code></td>
+          <td style="text-align: left">通过索引获取元素</td>
+          <td style="text-align: left"><code>LINDEX fruits 1</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="索引操作">索引操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>LSET key index value</code></td>
+          <td style="text-align: left">通过索引设置元素值</td>
+          <td style="text-align: left"><code>LSET fruits 0 &quot;pear&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LINSERT key BEFORE|AFTER pivot value</code></td>
+          <td style="text-align: left">在指定元素前后插入新元素</td>
+          <td style="text-align: left"><code>LINSERT fruits BEFORE &quot;apple&quot; &quot;peach&quot;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="列表管理">列表管理</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>LLEN key</code></td>
+          <td style="text-align: left">获取列表长度</td>
+          <td style="text-align: left"><code>LLEN fruits</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LTRIM key start stop</code></td>
+          <td style="text-align: left">修剪列表，只保留指定范围</td>
+          <td style="text-align: left"><code>LTRIM fruits 0 2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>LREM key count value</code></td>
+          <td style="text-align: left">移除指定数量的元素</td>
+          <td style="text-align: left"><code>LREM fruits 2 &quot;apple&quot;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="阻塞操作">阻塞操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>BLPOP key [key...] timeout</code></td>
+          <td style="text-align: left">阻塞式弹出列表头部元素</td>
+          <td style="text-align: left"><code>BLPOP tasks 5</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>BRPOP key [key...] timeout</code></td>
+          <td style="text-align: left">阻塞式弹出列表尾部元素</td>
+          <td style="text-align: left"><code>BRPOP tasks 5</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>RPOPLPUSH source destination</code></td>
+          <td style="text-align: left">原子性地转移元素</td>
+          <td style="text-align: left"><code>RPOPLPUSH src dest</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>BRPOPLPUSH source destination timeout</code></td>
+          <td style="text-align: left">阻塞式转移元素</td>
+          <td style="text-align: left"><code>BRPOPLPUSH src dest 5</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="lrem-命令详解">LREM 命令详解</h5>
+<p><code>LREM key count value</code> 根据count值删除元素：</p>
+<ul>
+<li><code>count &gt; 0</code>：从左往右删除count个匹配元素</li>
+<li><code>count &lt; 0</code>：从右往左删除count个匹配元素</li>
+<li><code>count = 0</code>：删除所有匹配元素</li>
+</ul>
+<h4 id="233-典型应用场景">2.3.3 典型应用场景</h4>
+<ol>
+<li>
+<p><strong>消息队列</strong>：</p>
+<ul>
+<li>生产者使用 <code>LPUSH</code> 插入消息</li>
+<li>消费者使用 <code>RPOP</code> 获取消息</li>
+<li>阻塞版本 <code>BLPOP/BRPOP</code> 可实现实时等待</li>
+</ul>
+</li>
+<li>
+<p><strong>最新消息列表</strong>：</p>
+<ul>
+<li>使用 <code>LPUSH</code> 添加最新消息</li>
+<li>使用 <code>LTRIM</code> 保持固定长度</li>
+</ul>
+</li>
+<li>
+<p><strong>任务调度</strong>：</p>
+<ul>
+<li>使用 <code>RPOPLPUSH</code> 实现安全的任务转移</li>
+</ul>
+</li>
+</ol>
+<h4 id="234-示例操作序列">2.3.4 示例操作序列</h4>
+<h5 id="基本操作示例">基本操作示例</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">&gt; LPUSH userlist u100 u101 u103 u104 u105 u106 u107 u108
+(integer) 8
+&gt; RPOP userlist
+&#34;u100&#34;
+&gt; LLEN userlist
+(integer) 7
+&gt; LINDEX userlist 6
+&#34;u101&#34;
+&gt; LINDEX userlist 5
+&#34;u103&#34;
+&gt; LINDEX userlist 0
+&#34;u108&#34;
+&gt; LRANGE userlist 1 3
+1) &#34;u107&#34;
+2) &#34;u106&#34;
+3) &#34;u105&#34;
+</code></pre><h5 id="元素删除示例">元素删除示例</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">&gt; RPUSH mylist &#34;hello&#34;
+(integer) 1
+&gt; RPUSH mylist &#34;hello&#34;
+(integer) 2
+&gt; RPUSH mylist &#34;foo&#34;
+(integer) 3
+&gt; RPUSH mylist &#34;hello&#34;
+(integer) 4
+&gt; LREM mylist -2 &#34;hello&#34;
+(integer) 2
+&gt; LRANGE mylist 0 -1
+1) &#34;hello&#34;
+2) &#34;foo&#34;
+</code></pre><h3 id="24-集合set">2.4 集合(Set)</h3>
+<h4 id="241-概述">2.4.1 概述</h4>
+<p>Redis Set 是无序的字符串集合，主要特点包括：</p>
+<ul>
+<li><strong>无序性</strong>：元素没有特定顺序</li>
+<li><strong>唯一性</strong>：不允许重复元素</li>
+<li><strong>集合运算</strong>：支持交、并、差等集合操作</li>
+<li><strong>高效查询</strong>：判断元素是否存在的时间复杂度为O(1)</li>
+</ul>
+<h4 id="242-基本操作命令">2.4.2 基本操作命令</h4>
+<h5 id="元素操作">元素操作</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">时间复杂度</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>SADD key member [member...]</code></td>
+          <td style="text-align: left">添加元素</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SADD myset &quot;a&quot; &quot;b&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SREM key member [member...]</code></td>
+          <td style="text-align: left">删除元素</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SREM myset &quot;a&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SMEMBERS key</code></td>
+          <td style="text-align: left">获取所有元素</td>
+          <td style="text-align: left">O(N)</td>
+          <td style="text-align: left"><code>SMEMBERS myset</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SCARD key</code></td>
+          <td style="text-align: left">获取元素数量</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SCARD myset</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SISMEMBER key member</code></td>
+          <td style="text-align: left">判断元素是否存在</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SISMEMBER myset &quot;a&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SPOP key [count]</code></td>
+          <td style="text-align: left">随机移除并返回元素</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SPOP myset 2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SRANDMEMBER key [count]</code></td>
+          <td style="text-align: left">随机返回元素(不删除)</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SRANDMEMBER myset</code></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="集合运算">集合运算</h5>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">时间复杂度</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>SDIFF key [key...]</code></td>
+          <td style="text-align: left">差集</td>
+          <td style="text-align: left">O(N)</td>
+          <td style="text-align: left"><code>SDIFF set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SINTER key [key...]</code></td>
+          <td style="text-align: left">交集</td>
+          <td style="text-align: left">O(N*M)</td>
+          <td style="text-align: left"><code>SINTER set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SUNION key [key...]</code></td>
+          <td style="text-align: left">并集</td>
+          <td style="text-align: left">O(N)</td>
+          <td style="text-align: left"><code>SUNION set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SDIFFSTORE dest key [key...]</code></td>
+          <td style="text-align: left">差集存储到新集合</td>
+          <td style="text-align: left">O(N)</td>
+          <td style="text-align: left"><code>SDIFFSTORE res set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SINTERSTORE dest key [key...]</code></td>
+          <td style="text-align: left">交集存储到新集合</td>
+          <td style="text-align: left">O(N*M)</td>
+          <td style="text-align: left"><code>SINTERSTORE res set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SUNIONSTORE dest key [key...]</code></td>
+          <td style="text-align: left">并集存储到新集合</td>
+          <td style="text-align: left">O(N)</td>
+          <td style="text-align: left"><code>SUNIONSTORE res set1 set2</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SMOVE source dest member</code></td>
+          <td style="text-align: left">移动元素到另一集合</td>
+          <td style="text-align: left">O(1)</td>
+          <td style="text-align: left"><code>SMOVE set1 set2 &quot;a&quot;</code></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="243-示例分析">2.4.3 示例分析</h4>
+<h5 id="基础操作示例">基础操作示例</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">&gt; SADD myfans f1 f2 f3 f4 f6 f8 f12
+(integer) 7  # 成功添加7个元素
+&gt; SADD yourfans f5 f6 f8 f10 f11 f12 f18 f21
+(integer) 8  # 成功添加8个元素
+
+&gt; SREM myfans f6
+(integer) 1  # 成功删除1个元素
+
+&gt; SMEMBERS myfans
+1) &#34;f3&#34;      # 注意：输出顺序与添加顺序无关
+2) &#34;f1&#34;
+3) &#34;f12&#34;
+4) &#34;f8&#34;
+5) &#34;f2&#34;
+6) &#34;f4&#34;
+
+&gt; SISMEMBER myfans f5
+(integer) 0  # 0表示不存在
+</code></pre><h5 id="集合运算示例">集合运算示例</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 并集
+&gt; SUNION yourfans myfans
+1) &#34;f1&#34;     # 所有不重复的粉丝
+2) &#34;f2&#34;
+3) &#34;f3&#34;
+4) &#34;f4&#34;
+5) &#34;f5&#34;
+6) &#34;f6&#34;
+7) &#34;f8&#34;
+8) &#34;f10&#34;
+9) &#34;f11&#34;
+10) &#34;f12&#34;
+11) &#34;f18&#34;
+12) &#34;f21&#34;
+
+# 差集 (myfans有而yourfans没有的)
+&gt; SDIFF myfans yourfans
+1) &#34;f3&#34;
+2) &#34;f4&#34;
+3) &#34;f2&#34;
+4) &#34;f1&#34;
+
+# 差集 (yourfans有而myfans没有的)
+&gt; SDIFF yourfans myfans
+1) &#34;f5&#34;
+2) &#34;f6&#34;
+3) &#34;f18&#34;
+4) &#34;f21&#34;
+5) &#34;f11&#34;
+6) &#34;f10&#34;
+
+# 交集 (共同粉丝)
+&gt; SINTER yourfans myfans
+1) &#34;f12&#34;
+2) &#34;f8&#34;
+</code></pre><h4 id="244-实际应用场景">2.4.4 实际应用场景</h4>
+<ol>
+<li>
+<p><strong>标签系统</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 给用户添加标签
+SADD user:1:tags tech programming redis
+SADD user:2:tags tech design
+
+# 查找有共同兴趣的用户
+SINTER user:1:tags user:2:tags  # 返回 &#34;tech&#34;
+</code></pre></li>
+<li>
+<p><strong>社交关系</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 共同好友
+SINTERSTORE common_friends user:100:friends user:200:friends
+
+# 可能认识的人(好友的好友)
+SDIFFSTORE suggestions user:200:friends user:100:friends
+SREM suggestions 100  # 排除自己
+</code></pre></li>
+<li>
+<p><strong>抽奖系统</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 添加参与者
+SADD lottery_users user1 user2 user3
+
+# 随机抽奖
+SRANDMEMBER lottery_users 3  # 随机返回3个用户(不删除)
+SPOP lottery_users 1        # 随机抽1个用户并移除
+</code></pre></li>
+<li>
+<p><strong>数据去重</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 记录已处理ID
+SADD processed_items 1001 1002
+
+# 检查是否已处理
+SISMEMBER processed_items 1003  # 返回0表示未处理
+</code></pre></li>
+</ol>
+<h3 id="25-redis-hashes--散列">2.5 Redis Hashes  散列</h3>
+<h4 id="251-常用操作命令"><strong>2.5.1 常用操作命令</strong></h4>
+<h5 id="1-赋值操作">1. 赋值操作</h5>
+<ul>
+<li><strong>HSET</strong>：设置单个字段值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HSET user:1:phone home 13800138000
+</code></pre></li>
+<li><strong>HMSET</strong>（已弃用，推荐用HSET替代）：设置多个字段值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HSET user:1:phone home 13800138000 work 13900139000
+</code></pre></li>
+<li><strong>HSETNX</strong>：仅当字段不存在时设置值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HSETNX user:1:phone mobile 13700137000
+</code></pre></li>
+</ul>
+<h5 id="2-取值操作">2. 取值操作</h5>
+<ul>
+<li><strong>HGET</strong>：获取单个字段值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HGET user:1:phone home
+</code></pre></li>
+<li><strong>HMGET</strong>：获取多个字段值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HMGET user:1:phone home work
+</code></pre></li>
+<li><strong>HGETALL</strong>：获取所有字段和值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HGETALL user:1:phone
+</code></pre></li>
+<li><strong>HKEYS</strong>：获取所有字段名
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HKEYS user:1:phone
+</code></pre></li>
+<li><strong>HVALS</strong>：获取所有字段值
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HVALS user:1:phone
+</code></pre></li>
+</ul>
+<h5 id="3-删除操作">3. 删除操作</h5>
+<ul>
+<li><strong>HDEL</strong>：删除一个或多个字段
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HDEL user:1:phone work
+</code></pre></li>
+</ul>
+<h5 id="4-其他操作">4. 其他操作</h5>
+<ul>
+<li><strong>HLEN</strong>：获取字段数量
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HLEN user:1:phone
+</code></pre></li>
+<li><strong>HEXISTS</strong>：判断字段是否存在
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HEXISTS user:1:phone home
+</code></pre></li>
+<li><strong>HINCRBY</strong>：字段值整数递增
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HINCRBY user:1:stats logins 1
+</code></pre></li>
+<li><strong>HINCRBYFLOAT</strong>：字段值浮点数递增
+<pre tabindex="0"><code class="language-redis" data-lang="redis">HINCRBYFLOAT user:1:stats balance 50.5
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="252-应用场景示例"><strong>2.5.2 应用场景示例</strong></h4>
+<h5 id="存储用户标签信息">存储用户标签信息</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 设置用户1的电话标签
+HSET user:1:phone home &#34;13800138000&#34; work &#34;13900139000&#34;
+
+# 获取家庭电话
+HGET user:1:phone home
+
+# 获取所有标签
+HGETALL user:1:phone
+</code></pre><h5 id="订单信息存储">订单信息存储</h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 设置订单信息
+HSET order:1001 telnum &#34;13301122123&#34; address &#34;海淀区西土城路10号&#34; amount 3
+
+# 查询所有字段
+HKEYS order:1001
+
+# 值递增
+HINCRBY order:1001 amount 2  # amount从3变为5
+</code></pre><hr>
+<h4 id="253-注意事项"><strong>2.5.3 注意事项</strong></h4>
+<ol>
+<li>
+<p><strong>中文显示问题</strong><br>
+在Redis CLI中，中文可能显示为Unicode编码。使用 <code>--raw</code> 参数可正常显示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis-cli --raw
+</span></span></code></pre></div></li>
+<li>
+<p><strong>HMSET替代方案</strong><br>
+Redis 4.0+ 推荐用 <code>HSET</code> 替代 <code>HMSET</code>，两者功能相同。</p>
+</li>
+<li>
+<p><strong>性能特性</strong></p>
+<ul>
+<li>每个Hash可存储多达 $2^{32}-1$ 个字段-值对。</li>
+<li><code>HGETALL</code> 对大数据量可能阻塞服务，建议用 <code>HSCAN</code> 迭代。</li>
+</ul>
+</li>
+<li>
+<p><strong>适用场景</strong></p>
+<ul>
+<li>对象存储（用户属性、商品信息）</li>
+<li>频繁修改部分字段的场景（如计数器）</li>
+</ul>
+</li>
+</ol>
+<h3 id="26-sorted-sets-有序集合"><strong>2.6 Sorted Sets （有序集合）</strong></h3>
+<h4 id="只有-sorted-set有序集合即-zset有-score-的概念"><strong>只有 <code>Sorted Set</code>（有序集合，即 <code>ZSET</code>）有 <code>score</code> 的概念！</strong></h4>
+<ol>
+<li><strong>不重复元素</strong>：成员（<code>member</code>）唯一，但分数（<code>score</code>）可重复。</li>
+<li><strong>自动排序</strong>：根据 <code>score</code> 从小到大排序，支持范围查询和排名操作。</li>
+<li><strong>高性能</strong>：所有操作时间复杂度为 <strong>O(log(N))</strong>，适合排行榜、优先级队列等场景。</li>
+</ol>
+<hr>
+<h4 id="261-常用操作命令"><strong>2.6.1 常用操作命令</strong></h4>
+<h5 id="1-增加更新成员">1. <strong>增加/更新成员</strong></h5>
+<ul>
+<li><strong>ZADD</strong>：添加或更新成员分数
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZADD pranklist 100 p1 20 p2 33 p3
+</code></pre><ul>
+<li>返回成功添加的成员数量（如更新分数不计入）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-删除成员">2. <strong>删除成员</strong></h5>
+<ul>
+<li><strong>ZREM</strong>：删除指定成员
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZREM pranklist p1
+</code></pre></li>
+<li><strong>ZREMRANGEBYSCORE</strong>：删除分数区间内的成员
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZREMRANGEBYSCORE pranklist 10 30  # 删除score在[10,30]的成员
+</code></pre></li>
+<li><strong>ZPOPMIN/ZPOPMAX</strong>（Redis 5.0+）：弹出最低/最高分成员
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZPOPMIN pranklist 2  # 弹出2个最低分成员
+</code></pre></li>
+</ul>
+<h5 id="3-查询操作">3. <strong>查询操作</strong></h5>
+<ul>
+<li><strong>ZRANGE</strong>：按score升序返回区间成员
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZRANGE pranklist 0 -1 WITHSCORES  # 返回所有成员及分数
+</code></pre></li>
+<li><strong>ZREVRANGE</strong>：按score降序返回区间成员
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZREVRANGE pranklist 0 2  # 返回前3名（高分到低分）
+</code></pre></li>
+<li><strong>ZSCORE</strong>：获取成员分数
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZSCORE pranklist p2
+</code></pre></li>
+<li><strong>ZRANK/ZREVRANK</strong>：获取成员升序/降序排名（从0开始）
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZRANK pranklist p3  # 返回p3的升序排名
+</code></pre></li>
+</ul>
+<h5 id="4-统计操作">4. <strong>统计操作</strong></h5>
+<ul>
+<li>
+<p><strong>ZCARD</strong>：获取成员总数</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZCARD pranklist
+</code></pre></li>
+<li>
+<p><strong>ZCOUNT</strong>：统计分数区间内的成员数</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZCOUNT pranklist 50 100  # score在[50,100]的成员数
+</code></pre></li>
+</ul>
+<h5 id="5-分数操作">5. <strong>分数操作</strong></h5>
+<ul>
+<li><strong>ZINCRBY</strong>：增减成员分数
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZINCRBY pranklist 15 p2  # p2的score增加15
+</code></pre></li>
+</ul>
+<hr>
+<h4 id="262-应用场景示例">2.6.2 <strong>应用场景示例</strong></h4>
+<h5 id="1-销售排行榜">1. <strong>销售排行榜</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 添加商品销量
+ZADD sales_rank 1500 &#34;iPhone&#34; 3000 &#34;iPad&#34; 800 &#34;MacBook&#34;
+
+# 获取Top2商品
+ZREVRANGE sales_rank 0 1 WITHSCORES
+1) &#34;iPad&#34;
+2) &#34;3000&#34;
+3) &#34;iPhone&#34;
+4) &#34;1500&#34;
+
+# 增加iPhone销量
+ZINCRBY sales_rank 200 &#34;iPhone&#34;  # iPhone分数变为1700
+</code></pre><h5 id="2-学生成绩管理">2. <strong>学生成绩管理</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 添加成绩
+ZADD exam_scores 98 &#34;Alice&#34; 85 &#34;Bob&#34; 92 &#34;Charlie&#34;
+
+# 查询及格人数（score&gt;=60）
+ZCOUNT exam_scores 60 +inf
+
+# 删除不及格学生
+ZREMRANGEBYSCORE exam_scores 0 59
+</code></pre><h5 id="3-优先级任务队列">3. <strong>优先级任务队列</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 添加任务（优先级=score）
+ZADD tasks 1 &#34;Backup DB&#34; 3 &#34;Send Email&#34; 2 &#34;Generate Report&#34;
+
+# 处理最高优先级任务
+ZPOPMAX tasks 1
+1) &#34;Send Email&#34;
+2) &#34;3&#34;
+</code></pre><hr>
+<h4 id="263-注意事项">2.6.3 注意事项</h4>
+<ol>
+<li>
+<p><strong>分数范围</strong></p>
+<ul>
+<li>支持 <code>-inf</code>（负无穷）和 <code>+inf</code>（正无穷）表示区间，如：
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZRANGEBYSCORE pranklist 50 +inf  # 查询score≥50的成员
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>相同分数排序</strong></p>
+<ul>
+<li>若多个成员 <code>score</code> 相同，默认按字典序排序。</li>
+</ul>
+</li>
+<li>
+<p><strong>性能建议</strong></p>
+<ul>
+<li>避免对大集合频繁使用 <code>ZRANGE 0 -1</code>，推荐分页查询：
+<pre tabindex="0"><code class="language-redis" data-lang="redis">ZRANGE pranklist 0 9  # 获取前10条
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>集群限制</strong></p>
+<ul>
+<li>在Redis集群中，所有Sorted Set的key必须位于同一slot（可通过hash tag确保）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="27-redis-发布订阅pubsub">2.7 <strong>Redis 发布订阅（Pub/Sub）</strong></h3>
+<p>Redis 的 <strong>发布订阅（Pub/Sub）</strong> 是一种 <strong>消息通信模式</strong>，允许 <strong>发布者（Publisher）</strong> 向 <strong>订阅者（Subscriber）</strong> 发送消息。它采用 <strong>&ldquo;频道（Channel）&rdquo;</strong> 作为消息传递的媒介，实现 <strong>松耦合</strong> 的通信方式。</p>
+<hr>
+<h4 id="1-核心概念"><strong>1. 核心概念</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">角色</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Publisher（发布者）</strong></td>
+          <td style="text-align: left">向指定 <strong>频道（Channel）</strong> 发送消息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Subscriber（订阅者）</strong></td>
+          <td style="text-align: left">订阅一个或多个 <strong>频道（Channel）</strong>，接收消息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Channel（频道）</strong></td>
+          <td style="text-align: left">消息传递的媒介，订阅者可以监听多个频道</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="2-基本命令"><strong>2. 基本命令</strong></h4>
+<h5 id="1-订阅频道"><strong>(1) 订阅频道</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">SUBSCRIBE channel1 channel2 ...
+</code></pre><ul>
+<li>订阅一个或多个频道，客户端进入 <strong>订阅模式</strong>，持续接收消息。</li>
+<li><strong>返回值示例</strong>：
+<pre tabindex="0"><code class="language-redis" data-lang="redis">1) &#34;subscribe&#34;  # 表示订阅成功
+2) &#34;PSTest&#34;     # 订阅的频道名
+3) (integer) 1  # 当前订阅的频道数量
+</code></pre></li>
+</ul>
+<h5 id="2-发布消息"><strong>(2) 发布消息</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PUBLISH channel &#34;message&#34;
+</code></pre><ul>
+<li>向指定频道发送消息。</li>
+<li><strong>返回值</strong>：收到消息的订阅者数量（<code>integer</code>）。</li>
+</ul>
+<h5 id="3-取消订阅"><strong>(3) 取消订阅</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">UNSUBSCRIBE [channel1 channel2 ...]
+</code></pre><ul>
+<li>取消订阅指定的频道，如果不指定频道，则取消所有订阅。</li>
+</ul>
+<hr>
+<h4 id="3-示例演示"><strong>3. 示例演示</strong></h4>
+<h5 id="步骤-1订阅者订阅频道-pstest"><strong>步骤 1：订阅者订阅频道 <code>PSTest</code></strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">SUBSCRIBE PSTest
+</code></pre><p><strong>输出（订阅成功）</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">1) &#34;subscribe&#34;
+2) &#34;PSTest&#34;
+3) (integer) 1
+</code></pre><p>此时，该客户端会 <strong>阻塞等待消息</strong>。</p>
+<hr>
+<h5 id="步骤-2发布者向-pstest-发送消息"><strong>步骤 2：发布者向 <code>PSTest</code> 发送消息</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PUBLISH PSTest &#34;Hello!&#34;
+</code></pre><p><strong>返回</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">(integer) 1  # 表示有 1 个订阅者收到了消息
+</code></pre><hr>
+<h5 id="步骤-3订阅者接收消息"><strong>步骤 3：订阅者接收消息</strong></h5>
+<p>订阅者客户端会 <strong>自动显示收到的消息</strong>，格式如下：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">1) &#34;message&#34;   # 表示这是一条消息
+2) &#34;PSTest&#34;    # 消息来源的频道
+3) &#34;Hello!&#34;    # 消息内容
+</code></pre><p>如果发布者再发送一条消息：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PUBLISH PSTest &#34;Have a good time!&#34;
+</code></pre><p>订阅者会收到：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">1) &#34;message&#34;
+2) &#34;PSTest&#34;
+3) &#34;Have a good time!&#34;
+</code></pre><hr>
+<h4 id="4-进阶用法"><strong>4. 进阶用法</strong></h4>
+<h5 id="1-模式匹配订阅psubscribe"><strong>(1) 模式匹配订阅（<code>PSUBSCRIBE</code>）</strong></h5>
+<p>可以使用 <strong>通配符</strong> 订阅多个频道：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PSUBSCRIBE news.*   # 订阅所有以 &#34;news.&#34; 开头的频道
+</code></pre><p><strong>发布消息</strong>：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PUBLISH news.sports &#34;Match started!&#34;
+</code></pre><p>订阅者会收到：</p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">1) &#34;pmessage&#34;       # 表示模式匹配的消息
+2) &#34;news.*&#34;         # 订阅的模式
+3) &#34;news.sports&#34;    # 实际频道
+4) &#34;Match started!&#34; # 消息内容
+</code></pre><h5 id="2-取消模式订阅punsubscribe"><strong>(2) 取消模式订阅（<code>PUNSUBSCRIBE</code>）</strong></h5>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">PUNSUBSCRIBE news.*
+</code></pre><hr>
+<h4 id="5-与其他消息队列的区别"><strong>5. 与其他消息队列的区别</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">Redis Pub/Sub</th>
+          <th style="text-align: left">Kafka / RabbitMQ</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>持久化</strong></td>
+          <td style="text-align: left">❌ 不存储</td>
+          <td style="text-align: left">✅ 支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>消息堆积</strong></td>
+          <td style="text-align: left">❌ 订阅者离线会丢失</td>
+          <td style="text-align: left">✅ 可存储未消费消息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>性能</strong></td>
+          <td style="text-align: left">⚡ 极高（内存操作）</td>
+          <td style="text-align: left">🏎️ 高（但依赖磁盘）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left">实时通知、轻量级消息</td>
+          <td style="text-align: left">可靠消息队列、大数据流</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="3-redis集群架构及管理">3 Redis集群架构及管理</h1>
+<p>Redis Cluster 是 Redis 官方提供的分布式解决方案，采用 <strong>无中心化架构</strong>，通过 <strong>分片（Sharding）</strong> 和 <strong>高可用（HA）</strong> 机制实现数据的分布式存储和故障自动恢复。</p>
+<hr>
+<h3 id="31-redis-cluster-核心架构"><strong>3.1 Redis Cluster 核心架构</strong></h3>
+<p><strong>(1) 基本组成</strong></p>
+<ul>
+<li><strong>主节点（Master）</strong>：负责数据存储和读写请求。</li>
+<li><strong>从节点（Replica）</strong>：作为主节点的备份，提供 <strong>故障转移（Failover）</strong> 能力。</li>
+<li><strong>Slot（槽）</strong>：Redis Cluster 将整个数据空间划分为 <strong>16384 个 Slot</strong>，每个主节点负责一部分 Slot。</li>
+</ul>
+<p><strong>(2) 数据分片（Sharding）</strong></p>
+<ul>
+<li><strong>键（Key）映射到 Slot</strong>：
+<ul>
+<li>计算方式：<code>CRC16(key) % 16384</code></li>
+<li>例如：<code>user:100</code> 的 Slot = <code>CRC16(&quot;user:100&quot;) % 16384</code></li>
+</ul>
+</li>
+<li><strong>Slot 分配到节点</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>节点A：0 - 5460
+</span></span><span style="display:flex;"><span>节点B：5461 - 10922
+</span></span><span style="display:flex;"><span>节点C：10923 - 16383
+</span></span></code></pre></div></li>
+<li><strong>客户端访问</strong>：
+<ul>
+<li>客户端可以连接任意节点，如果 Key 不在当前节点，Redis 会返回 <strong>MOVED 重定向</strong>，客户端自动跳转到正确的节点。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="32-redis-cluster-核心特性">3.2 Redis Cluster 核心特性</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>无中心化</strong></td>
+          <td style="text-align: left">所有节点互联，客户端可连接任意节点</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>自动分片</strong></td>
+          <td style="text-align: left">数据按 Slot 分配到不同节点</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>高可用（HA）</strong></td>
+          <td style="text-align: left">主节点故障时，从节点自动提升为新主节点</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>可扩展性</strong></td>
+          <td style="text-align: left">动态增删节点，Slot 自动重新分配</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>数据强一致性</strong></td>
+          <td style="text-align: left">采用 <strong>异步复制</strong>，但提供 <strong>WAIT 命令</strong> 实现同步复制</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="33-集群管理命令">3.3 集群管理命令</h3>
+<p><strong>(1) 查看集群状态</strong></p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">CLUSTER INFO       # 查看集群整体状态
+CLUSTER NODES      # 列出所有节点信息
+CLUSTER KEYSLOT key  # 计算 Key 对应的 Slot
+</code></pre><p><strong>(2) 节点管理</strong></p>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">CLUSTER MEET &lt;ip&gt; &lt;port&gt;   # 添加新节点到集群
+CLUSTER FORGET &lt;node_id&gt;   # 从集群移除节点
+</code></pre><h4 id="3-slot-管理"><strong>(3) Slot 管理</strong></h4>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">CLUSTER ADDSLOTS &lt;slot1&gt; &lt;slot2&gt; ...  # 分配 Slot 给当前节点
+CLUSTER DELSLOTS &lt;slot1&gt; &lt;slot2&gt; ...  # 移除当前节点的 Slot
+CLUSTER FLUSHSLOTS                    # 清空当前节点的所有 Slot
+</code></pre><h4 id="4-数据迁移"><strong>(4) 数据迁移</strong></h4>
+<pre tabindex="0"><code class="language-redis" data-lang="redis">CLUSTER COUNTKEYSINSLOT &lt;slot&gt;      # 统计 Slot 中的 Key 数量
+CLUSTER GETKEYSINSLOT &lt;slot&gt; &lt;count&gt;  # 获取 Slot 中的 Key 列表
+</code></pre><hr>
+<h3 id="34-副本漂移replica-migration">3.4 副本漂移（Replica Migration）</h3>
+<h4 id="1-触发条件"><strong>(1) 触发条件</strong></h4>
+<p>Redis 定期检查：</p>
+<ol>
+<li><strong>是否存在主节点没有从节点</strong>（单点风险）。</li>
+<li><strong>是否存在主节点有多个从节点</strong>（可迁移）。</li>
+</ol>
+<h4 id="2-迁移流程"><strong>(2) 迁移流程</strong></h4>
+<p>假设：</p>
+<ul>
+<li>主节点 <code>A</code> 有 2 个从节点 <code>A1</code> 和 <code>A2</code>。</li>
+<li>主节点 <code>B</code> 没有从节点。</li>
+</ul>
+<p><strong>Redis 会自动执行：</strong></p>
+<ol>
+<li>从 <code>A</code> 的从节点中选择一个（如 <code>A1</code>）。</li>
+<li>将 <code>A1</code> 的主节点改为 <code>B</code>。</li>
+<li><code>A1</code> 开始从 <code>B</code> 同步数据。</li>
+<li>集群更新拓扑信息，通知所有节点。</li>
+</ol>
+<hr>
+<h3 id="35-多-key-操作的限制">3.5 多 Key 操作的限制</h3>
+<p>由于数据分布在不同的节点，<strong>跨 Slot 的多 Key 操作（如事务、Lua 脚本）可能失败</strong>。<br>
+<strong>解决方案</strong>：使用 <strong>Hash Tag</strong> 强制 Key 映射到同一个 Slot。</p>
+<h4 id="示例"><strong>示例</strong></h4>
+<pre tabindex="0"><code class="language-redis" data-lang="redis"># 这两个 Key 会被分配到同一个 Slot（仅计算 {} 内的内容）
+SET user:{100}:name &#34;Alice&#34;
+SET user:{100}:age 30
+
+# 可以执行事务
+MULTI
+GET user:{100}:name
+GET user:{100}:age
+EXEC
+</code></pre><h1 id="4-redis配置管理"><strong>4 Redis配置管理</strong></h1>
+<h3 id="41配置文件">4.1<strong>配置文件</strong></h3>
+<ul>
+<li><strong>路径</strong>：
+<ul>
+<li>Linux: <code>redis.conf</code></li>
+<li>Windows: <code>redis.windows.conf</code></li>
+</ul>
+</li>
+<li><strong>查询配置</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CONFIG GET parameter    <span style="color:#75715e"># 查询单个参数（如 `CONFIG GET loglevel`）</span>
+</span></span><span style="display:flex;"><span>CONFIG GET *           <span style="color:#75715e"># 查询所有参数</span>
+</span></span></code></pre></div></li>
+<li><strong>修改配置</strong>：
+<ol>
+<li><strong>直接编辑配置文件</strong>：修改后需重启Redis生效。</li>
+<li><strong>动态修改</strong>（无需重启）：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CONFIG SET parameter new_value   <span style="color:#75715e"># 如 `CONFIG SET loglevel &#34;debug&#34;`</span>
+</span></span></code></pre></div></li>
+</ol>
+</li>
+</ul>
+<h3 id="42-关键配置项">4.2 <strong>关键配置项</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">配置项</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>daemonize</code></td>
+          <td style="text-align: left">是否以守护进程运行（后台模式）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>port</code></td>
+          <td style="text-align: left">监听端口（默认6379）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>bind</code></td>
+          <td style="text-align: left">绑定IP（默认仅本地，<code>127.0.0.1</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>requirepass</code></td>
+          <td style="text-align: left">访问密码（默认无密码）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>maxmemory</code></td>
+          <td style="text-align: left">最大内存限制（如 <code>maxmemory 1gb</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>maxmemory-policy</code></td>
+          <td style="text-align: left">内存满时的淘汰策略（如 <code>volatile-lru</code>、<code>noeviction</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>dir</code></td>
+          <td style="text-align: left">数据持久化文件存储路径（如 <code>dir /var/lib/redis</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>dbfilename</code></td>
+          <td style="text-align: left">RDB文件名（默认 <code>dump.rdb</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>appendonly</code></td>
+          <td style="text-align: left">是否开启AOF持久化（默认<code>no</code>）</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="43-数据备份与恢复"><strong>4.3 数据备份与恢复</strong></h3>
+<h4 id="431-备份持久化"><strong>4.3.1 备份（持久化）</strong></h4>
+<ol>
+<li><strong>RDB方式</strong>：
+<ul>
+<li><code>SAVE</code>：阻塞式保存，生成<code>dump.rdb</code>。</li>
+<li><code>BGSAVE</code>：后台异步保存。</li>
+</ul>
+</li>
+<li><strong>AOF方式</strong>：
+<ul>
+<li>需配置<code>appendonly yes</code>，通过<code>bgrewriteaof</code>重写AOF文件优化体积。</li>
+</ul>
+</li>
+</ol>
+<h4 id="432恢复"><strong>4.3.2恢复</strong></h4>
+<ul>
+<li><strong>RDB恢复</strong>：将备份的<code>dump.rdb</code>文件放到配置项<code>dir</code>指定的目录，重启Redis。</li>
+<li><strong>AOF恢复</strong>：优先加载<code>appendonly.aof</code>文件（若同时开启AOF和RDB）。</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>默认仅RDB开启，AOF需手动配置。</li>
+<li>恢复时确保文件权限正确。</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="44-命令批量执行"><strong>4.4 命令批量执行</strong></h3>
+<h4 id="1-文件批量执行"><strong>1. 文件批量执行</strong></h4>
+<ul>
+<li><strong>步骤</strong>：
+<ol>
+<li>将命令逐行写入文件（如<code>commands.txt</code>）。</li>
+<li>通过管道执行：
+<ul>
+<li><strong>Windows</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> commands.txt | redis-cli
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> commands.txt | redis-cli --pipe  # 高效管道模式
+</span></span></code></pre></div></li>
+<li><strong>Linux</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat commands.txt | redis-cli
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-事务批量执行"><strong>2. 事务批量执行</strong></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>MULTI          <span style="color:#75715e"># 开始事务</span>
+</span></span><span style="display:flex;"><span>SET k1 v1      <span style="color:#75715e"># 命令1</span>
+</span></span><span style="display:flex;"><span>SADD set1 a b  <span style="color:#75715e"># 命令2</span>
+</span></span><span style="display:flex;"><span>EXEC           <span style="color:#75715e"># 执行事务</span>
+</span></span></code></pre></div><ul>
+<li><strong>特点</strong>：
+<ul>
+<li>命令失败不影响其他命令执行。</li>
+<li><strong>无回滚</strong>机制。</li>
+</ul>
+</li>
+<li><strong>监视键</strong>：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>WATCH key     <span style="color:#75715e"># 监视key变化，若被修改则事务取消</span>
+</span></span><span style="display:flex;"><span>UNWATCH       <span style="color:#75715e"># 取消监视</span>
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="关键区别"><strong>关键区别</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">场景</th>
+          <th style="text-align: left">特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>RDB vs AOF</strong></td>
+          <td style="text-align: left">RDB快照式备份，AOF日志式追加；AOF更安全但体积大。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>SAVE vs BGSAVE</strong></td>
+          <td style="text-align: left">SAVE阻塞服务，BGSAVE后台运行。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>事务 vs 管道</strong></td>
+          <td style="text-align: left">事务保证原子性（无回滚），管道仅批量发送命令（无原子性保证）。</td>
+      </tr>
+  </tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/redis-2/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

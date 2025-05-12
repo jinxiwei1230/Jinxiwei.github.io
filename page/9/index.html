@@ -390,6 +390,147 @@ B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是
 <p>将现实世界事物的 <strong>属性</strong> 和 <strong>行为</strong> 封装到类中，描述为 <strong>成员变量</strong> 和 <strong>成员方法</strong>，从而完成程序对现实世界事物的描述。</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">Read More</a></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/redis-2/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="1-redis操作命令分类概括">1 Redis操作命令分类（概括）</h1>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">序号</th>
+          <th style="text-align: left">命令类型</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">Keys</td>
+          <td style="text-align: left">用于管理 Redis 的键。如创建、查询、删除等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Strings</td>
+          <td style="text-align: left">用于管理字符串结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Lists</td>
+          <td style="text-align: left">用于管理双向列表结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">Sets</td>
+          <td style="text-align: left">用于管理集合结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">Hashes</td>
+          <td style="text-align: left">用于管理散列结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">Sorted Sets</td>
+          <td style="text-align: left">用于管理有序集合结构键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">Pub/Sub</td>
+          <td style="text-align: left">用于发布/订阅键值操作管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">Streams</td>
+          <td style="text-align: left">用于流结构键值操作管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">Geospatial</td>
+          <td style="text-align: left">用于地理空间相关键值操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">Cluster</td>
+          <td style="text-align: left">用于集群管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">HyperLogLog</td>
+          <td style="text-align: left">用于做键值数据基数统计的操作命令集</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">Bitmap</td>
+          <td style="text-align: left">通过一个bit位来表示某个元素对应的值或者状态（0/1）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">Connection</td>
+          <td style="text-align: left">用于数据库链接管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">Transactions</td>
+          <td style="text-align: left">用于事务管理相关操作</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">Server</td>
+          <td style="text-align: left">用于服务器管理操作，如查看当前状态信息等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">16</td>
+          <td style="text-align: left">Scripting</td>
+          <td style="text-align: left">使用 Lua 解释器来执行脚本，执行脚本的常用命令</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="11--geospatial"><strong>1.1  Geospatial</strong></h3>
+<p><strong>描述</strong>：支持基于地理位置的操作，存储经纬度坐标并计算距离、范围等。<br>
+<strong>关键命令</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">功能说明</th>
+          <th style="text-align: left">示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>GEOADD</code></td>
+          <td style="text-align: left">添加地理坐标（经度、纬度、成员名称）</td>
+          <td style="text-align: left"><code>GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOPOS</code></td>
+          <td style="text-align: left">查询成员坐标</td>
+          <td style="text-align: left"><code>GEOPOS Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>ZREM</code></td>
+          <td style="text-align: left">删除成员（实际存储为有序集合）</td>
+          <td style="text-align: left"><code>ZREM Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEODIST</code></td>
+          <td style="text-align: left">计算两地距离（单位：m/km/mi/ft）</td>
+          <td style="text-align: left"><code>GEODIST Sicily &quot;Palermo&quot; &quot;Catania&quot; km</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOHASH</code></td>
+          <td style="text-align: left">返回坐标的 Geohash 值（52位字符串）</td>
+          <td style="text-align: left"><code>GEOHASH Sicily &quot;Palermo&quot;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>GEOSEARCH</code></td>
+          <td style="text-align: left">返回某半径或矩形范围内的成员（Redis 6.2+）</td>
+          <td style="text-align: left"><code>GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>注意</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/redis-2/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/"></a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1机器学习基础">1.机器学习基础</h5>
 <h3 id="11-概念">1.1 概念</h3>
@@ -543,95 +684,6 @@ B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是
 优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。
 缺点:数据集较大时，训练m个模型计算开销太大。</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1-数据预处理概述">1 数据预处理概述</h5>
-<ol>
-<li>
-<p>数据质量的多维测度
-¢ 准确性（Accuracy）
-¢ 完整性 （Completeness）
-¢ 一致性 （Consistency）
-¢ 时效性 （Timeliness）
-¢ 相关性 （Relevance）
-¢ 可信性（Believability）
-¢ 可解释性（Interpretability）</p>
-</li>
-<li>
-<p>数据集是由数据对象组成的，一个数据对象代表一个实体。通常，数据对象用属性来描述。</p>
-</li>
-<li>
-<p>属性是一个数据字段，表示数据对象的特征。
-在文献中，属性、维度（dimension）、特征（feature）、变量
-（variance）可以互换的使用。
-p
-“维”，一般用在数据仓库中。
-p
-“特征”，一般用在机器学习中。
-p
-“变量”，一般用在统计学中。</p>
-</li>
-<li>
-<p>标称属性：标称属性的值是一些符号或事物的名称。</p>
-</li>
-<li>
-<p>二元属性：二元属性是一种标称属性，只有两个状态：0 或 1。如果两种状态对应的是 true 和 false，二元属性又称布尔属性。</p>
-</li>
-<li>
-<p>序数属性：序数属性是一种属性，其可能的值之间具有有意义的序或秩评定（ranking），但是相继值之间的差是未知的。</p>
-</li>
-<li>
-<p>数据属性：是定量的可度量的量，用整数或实数表示。可以是区间标度的或比率标度的。</p>
-</li>
-<li>
-<p>离散属性：具有有限个或无限个可数个数，可以用或不用整数表示。</p>
-</li>
-</ol>
-<ul>
-<li>有限可数：头发的颜色、学生的人数等都有有限个值，因此是离散的。</li>
-<li>无限可数：如果一个属性可能的值集合是无限的，但是可以建立一个与自然数一一对应的映射关系，则该属性是无限可数的。比如说customer_ID 就是无限可数的。</li>
-</ul>
-<ol start="9">
-<li>性：如果属性不是离散的，则它是连续的。</li>
-</ol>
-<ul>
-<li>文献中，术语“数值属性”和“连续属性”可以互换的使用。实践中，实数值用有限位数数字表示，连续属性一般用浮点变量表示。</li>
-</ul>
-<ol start="10">
-<li>数据的基本统计᧿述的图形显示：</li>
-</ol>
-<ul>
-<li>
-<p>分位数图：分位数（quantile），也称分位点，是指将一个随机变量的概率分布范围分为几个等份的数值点，分析其数据变量的趋势。分位数图（quantile plot）是一种观察单变量数据分布的简单有效方法。</p>
-</li>
-<li>
-<p>分位数-分位数图：分位数-分位数图（quantile-quantile plot）
-或Q-Q图是一个概率图，用图形的方式比较两个概率分布，把他们的两个分位数放在一起比较。它是一种强有力的可视化工
-具，使得用户可以观察从一个分布到另一个分布是否有偏移。</p>
-</li>
-<li>
-<p>直方图：直方图或频率直方图是一种被广泛使用的统计方法。
-它是一种概括给定属性X的分布的图形方法。X的值域被划分成不相交的连续子域。子域称作桶（bucket）或箱（bin），
-是X的数据分布的不相交子集。桶的范围称做宽度。通常，各个桶是等宽的。对于每个子域其高度表示在该子域观测到的对
-象的计数</p>
-</li>
-<li>
-<p>散点图：散点图（scatter plot）是确定两个数值变量之间看上去是否存在联系、模式或趋势的最有效的图形方法之一。为构㐀散点图，每个值对视为一个代数坐标对，并作为一个点画在平面上。</p>
-</li>
-</ul>
-<ol start="11">
-<li>用DataFrame对象.to_csv()方法来保存数据成csv文件。</li>
-</ol>
-<p>DataFrame 数据的保存和读取：
-df.to_csv 写入到 csv 文件
-pd.read_csv 读取 csv 文件
-df.to_json 写入到 json 文件
-pd.read_json 读取 json 文件
-df.to_html 写入到 html 文件
-pd.read_html 读取 html 文件
-df.to_excel 写入到 excel 文件
-pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
@@ -653,6 +705,10 @@ pd.read_excel 读取 excel 文件</p></div><div class="post-footer">
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/page/10/">10</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/Jinxiwei.github.io/page/11/">11</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
