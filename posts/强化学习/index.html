@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="强化学习（Reinforcement Learning） 1 概述 人工智能和机器学习领域的一个重要子领域，与监督学习和无监督学习并列
+模仿生物体与环境交互来学习最优行为的过程，没有标注数据集，依靠智能体不断尝试、失败、适应、优化来学习如何在环境中实现特定目标
+强化学习的核心组成 状态：反映环境或系统的当前状态 动作：智能体在特定状态下可以采取的操作 奖励：一个数值反馈，用户量化智能体采取动作后环境的反映 策略：一个映射函数，指导智能体在特定状态下应采取哪一动作 这地个元素共同构成了马尔可夫决策过程（Markov Decision Process，MDP），这是强化学习最核心的数学模型
+2 强化学习基础 马尔可夫决策过程（MDP) MDP使用来描述决策问题的数学模型，主要由一个**四元组（S, A, R, P)**组成
+状态空间（S）：表示所有可能的状态集合
+动作空间（A）：表示特定状态下，可能采取的所有动作集合
+奖励函数（R）：R(s, a, a’) 表示在状态 s 下采取动作 a ，并转移到状态 s’ 是所获得的奖励
+转移概率（P）：P(s’|s, a)表示在状态 s 下，采取动作 a 转移到状态 s’ 的概率
+状态（State） 在MDP中，状态是用来描述环境或问题的现状。在不同应用中，状态可以有很多种表现形式：
+在棋类游戏中，状态通常表示棋盘上各个棋子的位置。
+在自动驾驶中，状态可能包括车辆的速度、位置、以及周围对象的状态等。
+动作（Action） 动作是智能体（Agent）在某一状态下可以采取的操作。动作会影响环境，并可能导致状态的转变。
+在股市交易中，动作通常是“买入”、“卖出”或“持有”。
+在游戏如“超级马里奥”中，动作可能包括“跳跃”、“下蹲”或“向前移动”等。
+奖励（Reward） 奖励是一个数值反馈，用于评估智能体采取某一动作的“好坏”。通常，智能体的目标是最大化累积奖励。
+在迷宫问题中，到达目的地可能会得到正奖励，而撞到墙壁则可能会得到负奖励。 策略（Policy）">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="强化学习（Reinforcement Learning） 1 概述 人工智能和机器学习领域的一个重要子领域，与监督学习和无监督学习并列
+模仿生物体与环境交互来学习最优行为的过程，没有标注数据集，依靠智能体不断尝试、失败、适应、优化来学习如何在环境中实现特定目标
+强化学习的核心组成 状态：反映环境或系统的当前状态 动作：智能体在特定状态下可以采取的操作 奖励：一个数值反馈，用户量化智能体采取动作后环境的反映 策略：一个映射函数，指导智能体在特定状态下应采取哪一动作 这地个元素共同构成了马尔可夫决策过程（Markov Decision Process，MDP），这是强化学习最核心的数学模型
+2 强化学习基础 马尔可夫决策过程（MDP) MDP使用来描述决策问题的数学模型，主要由一个**四元组（S, A, R, P)**组成
+状态空间（S）：表示所有可能的状态集合
+动作空间（A）：表示特定状态下，可能采取的所有动作集合
+奖励函数（R）：R(s, a, a’) 表示在状态 s 下采取动作 a ，并转移到状态 s’ 是所获得的奖励
+转移概率（P）：P(s’|s, a)表示在状态 s 下，采取动作 a 转移到状态 s’ 的概率
+状态（State） 在MDP中，状态是用来描述环境或问题的现状。在不同应用中，状态可以有很多种表现形式：
+在棋类游戏中，状态通常表示棋盘上各个棋子的位置。
+在自动驾驶中，状态可能包括车辆的速度、位置、以及周围对象的状态等。
+动作（Action） 动作是智能体（Agent）在某一状态下可以采取的操作。动作会影响环境，并可能导致状态的转变。
+在股市交易中，动作通常是“买入”、“卖出”或“持有”。
+在游戏如“超级马里奥”中，动作可能包括“跳跃”、“下蹲”或“向前移动”等。
+奖励（Reward） 奖励是一个数值反馈，用于评估智能体采取某一动作的“好坏”。通常，智能体的目标是最大化累积奖励。
+在迷宫问题中，到达目的地可能会得到正奖励，而撞到墙壁则可能会得到负奖励。 策略（Policy）">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0\/"
+        },"genre": "posts","wordcount":  233 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;233 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1 概述</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#2-强化学习基础">2 强化学习基础</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#3-常用强化学习算法">3 常用强化学习算法</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#4-ppoproximal-policy-optimization算法">4 PPO（Proximal Policy Optimization）算法</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="强化学习reinforcement-learning">强化学习（Reinforcement Learning）</h1>
+<h2 id="1-概述">1 概述</h2>
+<p>人工智能和机器学习领域的一个重要子领域，与监督学习和无监督学习并列</p>
+<p>模仿生物体与环境交互来学习最优行为的过程，没有标注数据集，依靠智能体不断<strong>尝试、失败、适应、优化</strong>来学习如何在环境中实现特定目标</p>
+<h4 id="强化学习的核心组成">强化学习的核心组成</h4>
+<ul>
+<li><strong>状态</strong>：反映环境或系统的当前状态</li>
+<li><strong>动作</strong>：智能体在特定状态下可以采取的操作</li>
+<li><strong>奖励</strong>：一个数值反馈，用户量化智能体采取动作后环境的反映</li>
+<li><strong>策略</strong>：一个映射函数，指导智能体在特定状态下应采取哪一动作</li>
+</ul>
+<p>这地个元素共同构成了马尔可夫决策过程（Markov Decision Process，MDP），这是强化学习最核心的数学模型</p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="https://i-blog.csdnimg.cn/blog_migrate/c31e57252b3fcef2f7104a631c5533fa.png"
+        data-srcset="https://i-blog.csdnimg.cn/blog_migrate/c31e57252b3fcef2f7104a631c5533fa.png, https://i-blog.csdnimg.cn/blog_migrate/c31e57252b3fcef2f7104a631c5533fa.png 1.5x, https://i-blog.csdnimg.cn/blog_migrate/c31e57252b3fcef2f7104a631c5533fa.png 2x"
+        data-sizes="auto"
+        alt="https://i-blog.csdnimg.cn/blog_migrate/c31e57252b3fcef2f7104a631c5533fa.png"
+        title="img" /></p>
+<h2 id="2-强化学习基础">2 强化学习基础</h2>
+<h4 id="马尔可夫决策过程mdp">马尔可夫决策过程（MDP)</h4>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="https://i-blog.csdnimg.cn/blog_migrate/2081af44d561d100a28510ce089fa638.png"
+        data-srcset="https://i-blog.csdnimg.cn/blog_migrate/2081af44d561d100a28510ce089fa638.png, https://i-blog.csdnimg.cn/blog_migrate/2081af44d561d100a28510ce089fa638.png 1.5x, https://i-blog.csdnimg.cn/blog_migrate/2081af44d561d100a28510ce089fa638.png 2x"
+        data-sizes="auto"
+        alt="https://i-blog.csdnimg.cn/blog_migrate/2081af44d561d100a28510ce089fa638.png"
+        title="img" /></p>
+<p>MDP使用来描述决策问题的数学模型，主要由一个**四元组（S, A, R, P)**组成</p>
+<p><strong>状态空间（S）</strong>：表示所有可能的状态集合</p>
+<p><strong>动作空间（A）</strong>：表示特定状态下，可能采取的所有动作集合</p>
+<p><strong>奖励函数（R）</strong>：R(s, a, a&rsquo;) 表示在状态 s 下采取动作 a ，并转移到状态 s&rsquo;  是所获得的奖励</p>
+<p><strong>转移概率（P）</strong>：P(s&rsquo;|s, a)表示在状态 s 下，采取动作 a 转移到状态 s&rsquo; 的概率</p>
+<p><strong>状态（State）</strong>
+在MDP中，状态是用来描述环境或问题的现状。在不同应用中，状态可以有很多种表现形式：</p>
+<ul>
+<li>
+<p>在棋类游戏中，状态通常表示棋盘上各个棋子的位置。</p>
+</li>
+<li>
+<p>在自动驾驶中，状态可能包括车辆的速度、位置、以及周围对象的状态等。</p>
+</li>
+</ul>
+<p><strong>动作（Action）</strong>
+动作是智能体（Agent）在某一状态下可以采取的操作。动作会影响环境，并可能导致状态的转变。</p>
+<ul>
+<li>
+<p>在股市交易中，动作通常是“买入”、“卖出”或“持有”。</p>
+</li>
+<li>
+<p>在游戏如“超级马里奥”中，动作可能包括“跳跃”、“下蹲”或“向前移动”等。</p>
+</li>
+</ul>
+<p><strong>奖励（Reward）</strong>
+奖励是一个数值反馈，用于评估智能体采取某一动作的“好坏”。通常，智能体的目标是最大化累积奖励。</p>
+<ul>
+<li>在迷宫问题中，到达目的地可能会得到正奖励，而撞到墙壁则可能会得到负奖励。</li>
+</ul>
+<p><strong>策略（Policy）</strong></p>
+<p>策略是一个从<strong>状态到动作的映射函数</strong>，用于指导智能体在每一状态下应采取哪一动作。形式上，策略通常表示为 P(a|s) ，代表在状态 ( s ) 下采取动作 ( a ) 的概率。</p>
+<ul>
+<li>在游戏如“五子棋”中，策略可能是一个复杂的神经网络，用于评估每一步棋的优劣。</li>
+</ul>
+<p>通过优化策略，我们可以使智能体在与环境的交互中获得更高的累积奖励，从而实现更优的性能。</p>
+<h2 id="3-常用强化学习算法">3 常用强化学习算法</h2>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="https://i-blog.csdnimg.cn/blog_migrate/939bb229433d233898dd3738d64d5027.png"
+        data-srcset="https://i-blog.csdnimg.cn/blog_migrate/939bb229433d233898dd3738d64d5027.png, https://i-blog.csdnimg.cn/blog_migrate/939bb229433d233898dd3738d64d5027.png 1.5x, https://i-blog.csdnimg.cn/blog_migrate/939bb229433d233898dd3738d64d5027.png 2x"
+        data-sizes="auto"
+        alt="https://i-blog.csdnimg.cn/blog_migrate/939bb229433d233898dd3738d64d5027.png"
+        title="file" /></p>
+<h4 id="31-值迭代-value-iteration">3.1 值迭代 (value Iteration)</h4>
+<ol>
+<li><strong>算法描述</strong>：基于<strong>动态规划</strong>，用于计算最优策略。主要思想是通过迭代更新状态值函数（value function）来找到最优值</li>
+<li><strong>算法意义</strong>：主要用于解决具有<strong>完全可观测状态</strong>和<strong>已知转移概率</strong>的MDP问题。它是一种**“模型已知”**的算法</li>
+<li><strong>应用实例</strong>：路径规划、游戏（如迷宫问题）等环境中，其中<strong>所有状态和转移概率都是已知的</strong></li>
+</ol>
+<h4 id="32-q学习q-learning">3.2 Q学习（Q-Learning)</h4>
+<ol>
+<li>
+<p><strong>算法描述</strong>：<strong>基于值函数</strong>的**”模型无知“**算法，通过更新Q值（状态-动作值函数）来找到最优策略</p>
+</li>
+<li>
+<p><strong>算法意义</strong>：Q学习算法适用于模型无知的场景，智能体并不需要知道环境的完整信息。因此，Q学习特别适用于现实世界的问题。</p>
+</li>
+<li>
+<p><strong>应用实例</strong>：机器人导航、电子商务推荐系统、多玩家游戏</p>
+</li>
+</ol>
+<h4 id="33-policy-gradients策略梯度">3.3 Policy Gradients(策略梯度)</h4>
+<ol>
+<li><strong>算法描述</strong>：与基于值函数的方法不同，策略梯度方法直接在策略空间中进行优化。算法通过计算梯度来更新策略参数</li>
+<li><strong>算法意义</strong>：策略梯度方法特别适用于处理<strong>高维</strong>或<strong>连续</strong>的动作和状态空间，而这些在基于值的方法中通常很难处理</li>
+<li><strong>应用实例</strong>：策略梯度方法在自然语言处理（如机器翻译）、连续控制问题（如机器人手臂控制）等方面有广泛应用</li>
+</ol>
+<h4 id="34-actor---critic演员-评论家">3.4 Actor - Critic（演员-评论家）</h4>
+<ol>
+<li><strong>算法描述</strong>：Actor-Critic结合了<strong>值函数方法</strong>和<strong>策略梯度方法</strong>的优点。其中，Actor负责决策，Critic负责评价这些决策</li>
+<li><strong>算法意义</strong>：通过结合值函数和策略优化，Actor-Critic能在各种不同的环境中实现更快和更稳定的学习</li>
+<li><strong>应用实例</strong>：在自动驾驶、资源分配和多智能体系统等复杂问题中，Actor-Critic方法被广泛应用</li>
+</ol>
+<h2 id="4-ppoproximal-policy-optimization算法">4 PPO（Proximal Policy Optimization）算法</h2>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="https://i-blog.csdnimg.cn/blog_migrate/e4386771cfce91bdb0f7eaf677f85a46.png"
+        data-srcset="https://i-blog.csdnimg.cn/blog_migrate/e4386771cfce91bdb0f7eaf677f85a46.png, https://i-blog.csdnimg.cn/blog_migrate/e4386771cfce91bdb0f7eaf677f85a46.png 1.5x, https://i-blog.csdnimg.cn/blog_migrate/e4386771cfce91bdb0f7eaf677f85a46.png 2x"
+        data-sizes="auto"
+        alt="https://i-blog.csdnimg.cn/blog_migrate/e4386771cfce91bdb0f7eaf677f85a46.png"
+        title="file" /></p>
+<p>PPO是一种高效的、可靠的强化学习算法，属于策略梯度家族的一部分。由于其搞笑和稳定的性质，PPO算法在各种强化学习任务中都有广泛应用。</p>
+<h4 id="与强化学习的关系">与强化学习的关系</h4>
+<p>PPO是用于解决马尔科夫决策（MDP）问题的算法。它通过优化策略（Policy）让智能体在不同状态下选择最有动作，从而最大化预期的积累奖励。</p>
+<h4 id="原理">原理</h4>
+<p>PPO的核心思想是通过限制策略更新的步长来避免太大的性能下降。这是通过一种特殊的目标函数实现的，该目标函数包含一个剪辑（Clipping）项来限制策略的改变程度</p>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="https://i-blog.csdnimg.cn/blog_migrate/a1448eedec2985586e151757fdc5423c.png"
+        data-srcset="https://i-blog.csdnimg.cn/blog_migrate/a1448eedec2985586e151757fdc5423c.png, https://i-blog.csdnimg.cn/blog_migrate/a1448eedec2985586e151757fdc5423c.png 1.5x, https://i-blog.csdnimg.cn/blog_migrate/a1448eedec2985586e151757fdc5423c.png 2x"
+        data-sizes="auto"
+        alt="https://i-blog.csdnimg.cn/blog_migrate/a1448eedec2985586e151757fdc5423c.png"
+        title="file" /></p>
+<h4 id="细节">细节</h4>
+<ul>
+<li><strong>多步优势估计：<strong>PPO通常与</strong>多步回报</strong>和<strong>优势函数</strong>结合使用，以减少估计误差</li>
+<li><strong>自适应学习率：<strong>PPO通常使用</strong>自适应学习率</strong>和高级优化器（如Adam）</li>
+<li><strong>并行采样：<strong>由于PPO是一种样本高效的算法，通常与</strong>并行环境采样</strong>结合使用，以进一步提高效率</li>
+</ul>
+<h4 id="代码举例">代码举例</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> torch
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch.nn <span style="color:#66d9ef">as</span> nn
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch.optim <span style="color:#66d9ef">as</span> optim
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定义策略网络</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PolicyNetwork</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, state_dim, action_dim):
+</span></span><span style="display:flex;"><span>        super(PolicyNetwork, self)<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fc <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Linear(state_dim, <span style="color:#ae81ff">128</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>policy_head <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Linear(<span style="color:#ae81ff">128</span>, action_dim)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>relu(self<span style="color:#f92672">.</span>fc(x))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> torch<span style="color:#f92672">.</span>softmax(self<span style="color:#f92672">.</span>policy_head(x), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化</span>
+</span></span><span style="display:flex;"><span>state_dim <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>  <span style="color:#75715e"># 状态维度</span>
+</span></span><span style="display:flex;"><span>action_dim <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 动作维度</span>
+</span></span><span style="display:flex;"><span>policy_net <span style="color:#f92672">=</span> PolicyNetwork(state_dim, action_dim)
+</span></span><span style="display:flex;"><span>optimizer <span style="color:#f92672">=</span> optim<span style="color:#f92672">.</span>Adam(policy_net<span style="color:#f92672">.</span>parameters(), lr<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-3</span>)
+</span></span><span style="display:flex;"><span>epsilon <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 采样数据（这里假设有一批样本数据）</span>
+</span></span><span style="display:flex;"><span>states <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>rand(<span style="color:#ae81ff">10</span>, state_dim)
+</span></span><span style="display:flex;"><span>actions <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, action_dim, (<span style="color:#ae81ff">10</span>,))
+</span></span><span style="display:flex;"><span>advantages <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>rand(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 计算旧策略的动作概率</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> torch<span style="color:#f92672">.</span>no_grad():
+</span></span><span style="display:flex;"><span>    old_probs <span style="color:#f92672">=</span> policy_net(states)<span style="color:#f92672">.</span>gather(<span style="color:#ae81ff">1</span>, actions<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>squeeze()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># PPO更新</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):  <span style="color:#75715e"># Typically we run multiple epochs</span>
+</span></span><span style="display:flex;"><span>    action_probs <span style="color:#f92672">=</span> policy_net(states)<span style="color:#f92672">.</span>gather(<span style="color:#ae81ff">1</span>, actions<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>squeeze()
+</span></span><span style="display:flex;"><span>    ratio <span style="color:#f92672">=</span> action_probs <span style="color:#f92672">/</span> old_probs
+</span></span><span style="display:flex;"><span>    surr1 <span style="color:#f92672">=</span> ratio <span style="color:#f92672">*</span> advantages
+</span></span><span style="display:flex;"><span>    surr2 <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>clamp(ratio, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>epsilon, <span style="color:#ae81ff">1</span><span style="color:#f92672">+</span>epsilon) <span style="color:#f92672">*</span> advantages
+</span></span><span style="display:flex;"><span>    loss <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>torch<span style="color:#f92672">.</span>min(surr1, surr2)<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">.</span>zero_grad()
+</span></span><span style="display:flex;"><span>    loss<span style="color:#f92672">.</span>backward()
+</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">.</span>step()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;PPO Update Done!&#34;</span>)
+</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>
