@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Jinxiwei</title><meta name="Description" content="This is my cool site"><meta property="og:url" content="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/">
+  <meta property="og:site_name" content="Jinxiwei">
+  <meta property="og:title" content="Jinxiwei">
+  <meta property="og:description" content="python笔记 一、python基础 torch：这是 PyTorch 的主包，PyTorch 是一个由 Meta AI 等开发的开源机器学习框架。它提供了强大的工具用于张量（tensor）计算（类似于 NumPy，但支持 GPU 加速）以及构建和训练神经网络。 torch.nn：这是 PyTorch 的一个子模块，专门用于构建神经网络。它包含了构建神经网络所需的组件，比如层（layers）、激活函数、损失函数等。 init 是 Python 类中的构造函数，在创建类的实例时会自动调用。它用于初始化对象的属性。 方法内部通过 self.d_model = d_model 和 self.vocab_size = vocab_size 将这两个参数保存为类的属性，供后续使用。 super() 是 Python 用来调用父类方法的一个内置函数。 二、forward函数特点 1. 共同点：forward 方法的功能 所有继承自 nn.Module 的类的 forward 方法都有以下相似之处：
+定义前向传播逻辑：
+forward 方法指定了输入数据如何通过该模块进行变换，生成输出。 无论是简单的层（如 nn.Linear、nn.Embedding）还是复杂的模型（如 Transformer 或 CNN），forward 方法都描述了从输入到输出的计算流程。 例如： 在 nn.Embedding 中，forward 将 token 索引转换为嵌入向量。 在 nn.Linear 中，forward 执行线性变换（y = xW^T &#43; b）。 在 Transformer 中，forward 可能包含多层注意力机制和前馈网络的计算。 输入和输出的张量处理：">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jinxiwei">
+  <meta name="twitter:description" content="python笔记 一、python基础 torch：这是 PyTorch 的主包，PyTorch 是一个由 Meta AI 等开发的开源机器学习框架。它提供了强大的工具用于张量（tensor）计算（类似于 NumPy，但支持 GPU 加速）以及构建和训练神经网络。 torch.nn：这是 PyTorch 的一个子模块，专门用于构建神经网络。它包含了构建神经网络所需的组件，比如层（layers）、激活函数、损失函数等。 init 是 Python 类中的构造函数，在创建类的实例时会自动调用。它用于初始化对象的属性。 方法内部通过 self.d_model = d_model 和 self.vocab_size = vocab_size 将这两个参数保存为类的属性，供后续使用。 super() 是 Python 用来调用父类方法的一个内置函数。 二、forward函数特点 1. 共同点：forward 方法的功能 所有继承自 nn.Module 的类的 forward 方法都有以下相似之处：
+定义前向传播逻辑：
+forward 方法指定了输入数据如何通过该模块进行变换，生成输出。 无论是简单的层（如 nn.Linear、nn.Embedding）还是复杂的模型（如 Transformer 或 CNN），forward 方法都描述了从输入到输出的计算流程。 例如： 在 nn.Embedding 中，forward 将 token 索引转换为嵌入向量。 在 nn.Linear 中，forward 执行线性变换（y = xW^T &#43; b）。 在 Transformer 中，forward 可能包含多层注意力机制和前馈网络的计算。 输入和输出的张量处理：">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" /><link rel="next" href="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/jdbc/" /><link rel="stylesheet" href="/Jinxiwei.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","wordcount":  735 ,
+        "url": "https:\/\/jinxiwei1230.github.io\/Jinxiwei.github.io\/posts\/python%E7%AC%94%E8%AE%B0\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/Jinxiwei.github.io/" title="Jinxiwei">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;735 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#python笔记">python笔记</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="python笔记">python笔记</h2>
+<h4 id="一python基础">一、python基础</h4>
+<ol>
+<li><strong>torch</strong>：这是 <strong>PyTorch</strong> 的主包，PyTorch 是一个由 Meta AI 等开发的开源机器学习框架。它提供了强大的工具用于张量（tensor）计算（类似于 NumPy，但支持 GPU 加速）以及构建和训练神经网络。</li>
+<li><strong>torch.nn</strong>：这是 PyTorch 的一个子模块，专门用于构建神经网络。它包含了构建神经网络所需的组件，比如层（layers）、激活函数、损失函数等。</li>
+<li><strong><strong>init</strong></strong> 是 Python 类中的构造函数，在创建类的实例时会自动调用。它用于初始化对象的属性。
+<ul>
+<li>方法内部通过 <code>self.d_model = d_model</code> 和 <code>self.vocab_size = vocab_size</code> 将这两个参数保存为类的属性，供后续使用。</li>
+</ul>
+</li>
+<li>super() 是 Python 用来调用父类方法的一个内置函数。</li>
+</ol>
+<h4 id="二forward函数特点">二、forward函数特点</h4>
+<h5 id="1-共同点forward-方法的功能">1. <strong>共同点：<code>forward</code> 方法的功能</strong></h5>
+<p>所有继承自 <code>nn.Module</code> 的类的 <code>forward</code> 方法都有以下相似之处：</p>
+<ul>
+<li>
+<p><strong>定义前向传播逻辑</strong>：</p>
+<ul>
+<li><code>forward</code> 方法指定了输入数据如何通过该模块进行变换，生成输出。</li>
+<li>无论是简单的层（如 <code>nn.Linear</code>、<code>nn.Embedding</code>）还是复杂的模型（如 Transformer 或 CNN），<code>forward</code> 方法都描述了从输入到输出的计算流程。</li>
+<li>例如：
+<ul>
+<li>在 <code>nn.Embedding</code> 中，<code>forward</code> 将 token 索引转换为嵌入向量。</li>
+<li>在 <code>nn.Linear</code> 中，<code>forward</code> 执行线性变换（<code>y = xW^T + b</code>）。</li>
+<li>在 Transformer 中，<code>forward</code> 可能包含多层注意力机制和前馈网络的计算。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>输入和输出的张量处理</strong>：</p>
+<ul>
+<li><code>forward</code> 方法通常接受 PyTorch 张量（<code>torch.Tensor</code>）作为输入，并返回张量作为输出。</li>
+<li>不同类的 <code>forward</code> 方法处理输入张量的形状和语义可能不同，但它们都遵循张量运算的规则，确保计算结果可以继续传递到后续层。</li>
+</ul>
+</li>
+<li>
+<p><strong>与 <code>nn.Module</code> 的 <code>__call__</code> 机制集成</strong>：</p>
+<ul>
+<li>在 PyTorch 中，直接调用模块实例（如 <code>model(x)</code>）会触发 <code>nn.Module</code> 的 <code>__call__</code> 方法，而 <code>__call__</code> 会调用 <code>forward</code> 方法。</li>
+<li>这意味着所有类的 <code>forward</code> 方法都通过相同的调用机制（<code>__call__</code>）被触发，确保一致性和模块化。</li>
+</ul>
+</li>
+<li>
+<p><strong>支持自动求导</strong>：</p>
+<ul>
+<li><code>forward</code> 方法中的操作通常是可微分的，PyTorch 会自动跟踪这些操作以构建计算图，用于后续的反向传播和梯度计算。</li>
+<li>无论是简单的矩阵乘法还是复杂的注意力机制，<code>forward</code> 方法的计算都兼容 PyTorch 的自动求导系统（<code>autograd</code>）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="2-设计上的相似之处">2. <strong>设计上的相似之处</strong></h5>
+<ul>
+<li>
+<p><strong>模块化的输入-输出接口</strong>：</p>
+<ul>
+<li><code>forward</code> 方法通常被设计为一个清晰的<strong>输入-输出接口，输入是张量（或一组张量），输出是经过变换的张量。</strong></li>
+<li>例如：
+<ul>
+<li><code>nn.Embedding.forward(x)</code>：输入 token 索引张量，输出嵌入向量张量。</li>
+<li><code>nn.Conv2d.forward(x)</code>：输入图像张量，输出卷积特征张量。</li>
+<li>这种设计使得不同模块可以像积木一样堆叠，构建复杂的神经网络。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>参数化计算</strong>：</p>
+<ul>
+<li><code>forward</code> 方法通常使用模块的属性（例如权重、偏置等）进行计算。这些属性（如 <code>self.weight</code>）是在 <code>__init__</code> 中定义并注册为 <code>nn.Parameter</code> 的。</li>
+<li>例如：
+<ul>
+<li>在 <code>nn.Linear</code> 中，<code>forward</code> 使用 <code>self.weight</code> 和 <code>self.bias</code> 进行线性变换。</li>
+<li>在 <code>nn.Embedding</code> 中，<code>forward</code> 使用 <code>self.weight</code> 进行嵌入查找。</li>
+<li>这种参数化设计是所有 <code>nn.Module</code> 子类的共同点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>灵活的参数签名</strong>：</p>
+<ul>
+<li><code>forward</code> 方法的输入参数可以根据模块的需求灵活定义。例如：
+<ul>
+<li><code>nn.Linear.forward(x)</code> 只接受一个输入张量 <code>x</code>。</li>
+<li>Transformer 的 <code>forward</code> 方法可能接受多个参数（如 <code>input_ids</code>, <code>attention_mask</code> 等）。</li>
+<li>尽管参数不同，但 <code>forward</code> 方法的目标始终是将输入转换为输出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="3-代码模式的相似之处">3. <strong>代码模式的相似之处</strong></h5>
+<ul>
+<li>
+<p><strong>结构简单</strong>：</p>
+<ul>
+<li><code>forward</code> 方法通常专注于计算逻辑，避免复杂的控制流（如循环或条件判断），以保持计算图的简洁和高效。</li>
+<li>例如：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># nn.Linear 的 forward 方法（简化版）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> torch<span style="color:#f92672">.</span>matmul(x, self<span style="color:#f92672">.</span>weight<span style="color:#f92672">.</span>t()) <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>bias
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># nn.Embedding 的 forward 方法（简化版）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>functional<span style="color:#f92672">.</span>embedding(x, self<span style="color:#f92672">.</span>weight)
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>依赖模块属性</strong>：</p>
+<ul>
+<li><code>forward</code> 方法通常通过 <code>self</code> 访问模块的属性（如 <code>self.weight</code>、<code>self.embedding</code>）来执行计算。</li>
+<li>例如，在你的 <code>InputEmbeddings</code> 类中：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>embedding(x) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sqrt(self<span style="color:#f92672">.</span>d_model)
+</span></span></code></pre></div>这里 <code>self.embedding</code> 和 <code>self.d_model</code> 都是在 <code>__init__</code> 中定义的属性。</li>
+</ul>
+</li>
+<li>
+<p><strong>组合子模块</strong>：</p>
+<ul>
+<li>在复杂模型中，<code>forward</code> 方法会调用其他子模块的 <code>forward</code> 方法。例如，Transformer 的 <code>forward</code> 方法可能调用嵌入层、注意力层和前馈层的 <code>forward</code> 方法。</li>
+<li>这种组合性是 PyTorch 模块化的核心，<code>forward</code> 方法通过调用子模块的 <code>forward</code> 方法实现层次化的计算。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="4-不同类的-forward-方法的差异">4. <strong>不同类的 <code>forward</code> 方法的差异</strong></h5>
+<p>虽然 <code>forward</code> 方法有很多相似之处，但不同类的 <code>forward</code> 方法在以下方面可能不同：</p>
+<ul>
+<li><strong>输入输出的语义</strong>：
+<ul>
+<li>例如，<code>nn.Embedding</code> 的 <code>forward</code> 将索引映射为向量，而 <code>nn.Conv2d</code> 的 <code>forward</code> 执行卷积操作。</li>
+</ul>
+</li>
+<li><strong>计算复杂度</strong>：
+<ul>
+<li>简单层（如 <code>nn.Linear</code>）的 <code>forward</code> 方法可能只有一行矩阵运算，而复杂模型（如 Transformer）的 <code>forward</code> 方法可能包含多层计算和注意力机制。</li>
+</ul>
+</li>
+<li><strong>参数数量</strong>：
+<ul>
+<li>不同模块的 <code>forward</code> 方法接受的参数数量和类型不同。例如，<code>nn.Linear</code> 只需要一个输入张量，而 Transformer 可能需要 <code>input_ids</code>、<code>attention_mask</code> 等多个参数。</li>
+</ul>
+</li>
+</ul>
+<p>尽管如此，这些差异并不影响 <code>forward</code> 方法的核心功能：<strong>定义前向传播的计算逻辑。</strong></p>
+<h4 id="三unsqueeze">三、unsqueeze</h4>
+<h5 id="1-什么是-unsqueezedim">1. <strong>什么是 <code>.unsqueeze(dim)</code>？</strong></h5>
+<ul>
+<li><code>.unsqueeze(dim)</code> 是 PyTorch 中的一个方法，用于在指定维度 <code>dim</code> 上插入一个新的维度，大小为 1。</li>
+<li><strong>作用</strong>：改变张量的形状（shape），通常用于实现广播（broadcasting），让张量在数学运算（如加法、乘法）中与另一个张量对齐。</li>
+<li><strong>关键点</strong>：
+<ul>
+<li><code>dim</code> 是维度索引，从 0 开始，负数从末尾计数（-1 表示最后一维）。</li>
+<li>插入的维度大小为 1，不会改变张量的实际数据，只是扩展形状。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="2-简单例子从-1d-张量开始">2. <strong>简单例子：从 1D 张量开始</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 创建一个 1D 张量，形状 (3,)</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>])
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;原始 x:&#34;</span>, x)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;原始形状:&#34;</span>, x<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在第 0 维插入一个维度</span>
+</span></span><span style="display:flex;"><span>x0 <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;unsqueeze(0) 后:&#34;</span>, x0)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新形状:&#34;</span>, x0<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在第 1 维插入一个维度</span>
+</span></span><span style="display:flex;"><span>x1 <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;unsqueeze(1) 后:&#34;</span>, x1)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新形状:&#34;</span>, x1<span style="color:#f92672">.</span>shape)
+</span></span></code></pre></div><p><strong>运行结果：</strong></p>
+<pre tabindex="0"><code>原始 x: tensor([1, 2, 3])
+原始形状: torch.Size([3])
+unsqueeze(0) 后: tensor([[1, 2, 3]])
+新形状: torch.Size([1, 3])
+unsqueeze(1) 后: tensor([[1],
+                        [2],
+                        [3]])
+新形状: torch.Size([3, 1])
+</code></pre><ul>
+<li><strong>解释</strong>：
+<ul>
+<li>原始 <code>x</code> 是 1D 张量，形状 <code>(3,)</code>，表示 3 个元素。</li>
+<li><code>.unsqueeze(0)</code>：在第 0 维（最外层）插入一个大小为 1 的维度，相当于把 <code>x</code> 变成一个“行向量”，形状变为 <code>(1, 3)</code>。可以想象成加了一层“batch 维度”。</li>
+<li><code>.unsqueeze(1)</code>：在第 1 维（列方向）插入一个大小为 1 的维度，相当于把 <code>x</code> 变成一个“列向量”，形状变为 <code>(3, 1)</code>。可以想象成每个元素变成独立的一行。</li>
+<li><strong>可视化</strong>：
+<ul>
+<li>原始：<code>[1, 2, 3]</code>（一维数组）。</li>
+<li>后：<code>[[1, 2, 3]]</code>（一行三列）或 <code>[[1], [2], [3]]</code>（三行一列）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-中级例子2d-张量">3. <strong>中级例子：2D 张量</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 创建一个 2D 张量，形状 (2, 3)</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor([[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>                  [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]])
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;原始 x:&#34;</span>, x)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;原始形状:&#34;</span>, x<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在第 0 维插入</span>
+</span></span><span style="display:flex;"><span>x0 <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;unsqueeze(0) 后:&#34;</span>, x0)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新形状:&#34;</span>, x0<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在第 1 维插入</span>
+</span></span><span style="display:flex;"><span>x1 <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;unsqueeze(1) 后:&#34;</span>, x1)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新形状:&#34;</span>, x1<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在第 2 维插入</span>
+</span></span><span style="display:flex;"><span>x2 <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;unsqueeze(2) 后:&#34;</span>, x2)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;新形状:&#34;</span>, x2<span style="color:#f92672">.</span>shape)
+</span></span></code></pre></div><p><strong>运行结果：</strong></p>
+<pre tabindex="0"><code>原始 x: tensor([[1, 2, 3],
+                [4, 5, 6]])
+原始形状: torch.Size([2, 3])
+unsqueeze(0) 后: tensor([[[1, 2, 3],
+                          [4, 5, 6]]])
+新形状: torch.Size([1, 2, 3])
+unsqueeze(1) 后: tensor([[[1, 2, 3]],
+                         [[4, 5, 6]]])
+新形状: torch.Size([2, 1, 3])
+unsqueeze(2) 后: tensor([[[1, 2, 3]],
+                         [[4, 5, 6]]])
+新形状: torch.Size([2, 3, 1])
+</code></pre><ul>
+<li><strong>解释</strong>：
+<ul>
+<li>原始 <code>x</code> 是 <code>(2, 3)</code>，2 行 3 列。</li>
+<li><code>.unsqueeze(0)</code>：在第 0 维（batch 维）插入，变成 <code>(1, 2, 3)</code>，就像加了一个“batch 维度”。</li>
+<li><code>.unsqueeze(1)</code>：在第 1 维（行方向）插入，变成 <code>(2, 1, 3)</code>，每个矩阵变成一个“列”。</li>
+<li><code>.unsqueeze(2)</code>：在第 2 维（列方向）插入，变成 <code>(2, 3, 1)</code>，每个元素变成一个“深度”。</li>
+<li><strong>可视化</strong>：
+<ul>
+<li>原始：2x3 矩阵。</li>
+<li>后：像在不同维度上“挤”出一个单元素维度。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="四view">四、view</h4>
+<ul>
+<li><code>view</code> 是 PyTorch 张量的重塑函数，用于改变张量的形状，而不改变数据本身（内存连续性保持）。</li>
+<li>输入：<code>query</code> 的形状是 <code>(batch_size, seq_len, d_model)</code>。</li>
+<li>输出：<code>query.view(query.shape[0], query.shape[1], self.h, self.d_k)</code> 将其重塑为 <code>(batch_size, seq_len, h, d_k)</code>。
+<ul>
+<li><code>query.shape[0]</code>：batch_size（不变）。</li>
+<li><code>query.shape[1]</code>：seq_len（不变）。</li>
+<li><code>self.h</code>：头数（h）。</li>
+<li><code>self.d_k</code>：每个头的维度（d_k = d_model // h）。</li>
+</ul>
+</li>
+<li><strong>为什么能重塑？</strong> 因为总元素数不变：<code>batch_size * seq_len * d_model == batch_size * seq_len * h * d_k</code>（因为 d_model = h * d_k）。</li>
+<li><strong>直观理解</strong>：想象 <code>d_model</code> 维的向量被“切割”成 h 个 d_k 维的子向量，每个子向量对应一个注意力头。<code>view</code> 就像将一个长向量分成 h 个短向量，并组织成新的维度。</li>
+<li>示例：假设 batch_size=1, seq_len=2, d_model=4, h=2, d_k=2。
+<ul>
+<li>原始 query：形状 (1, 2, 4)，数据如 [[[1,2,3,4], [5,6,7,8]]]。</li>
+<li>经过 view(1, 2, 2, 2)：[[[[1,2],[3,4]], [[5,6],[7,8]]]]。现在第三个维度是 h=2，第四个是 d_k=2。</li>
+</ul>
+</li>
+</ul>
+<h4 id="五transpose">五、transpose</h4>
+<ul>
+<li><code>transpose(1, 2)</code> 交换维度 1 和 2。</li>
+<li>输入：<code>(batch_size, seq_len, h, d_k)</code>。</li>
+<li>输出：<code>(batch_size, h, seq_len, d_k)</code>。</li>
+<li><strong>为什么需要 transpose？</strong>
+<ul>
+<li>在注意力计算中，我们需要对每个头独立计算注意力分数：分数 = (query @ key.T) / sqrt(d_k)。</li>
+<li>为了高效批量计算（利用矩阵乘法），我们希望头维度（h）在 batch 之后，便于并行处理所有头。</li>
+<li>原始顺序 <code>(batch, seq_len, h, d_k)</code> 不利于矩阵乘法（因为 seq_len 是序列维度，需要作为矩阵的行）。</li>
+<li>转置后 <code>(batch, h, seq_len, d_k)</code>：每个头是一个独立的 <code>(seq_len, d_k)</code> 矩阵，便于在所有头和批次上并行计算注意力（使用 torch.bmm 或 @ 操作）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="六标准训练模式5步循环">六、标准训练模式（5步循环）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 1. 前向传播</span>
+</span></span><span style="display:flex;"><span>output <span style="color:#f92672">=</span> model(input)  <span style="color:#75715e"># 模型预测</span>
+</span></span><span style="display:flex;"><span>loss <span style="color:#f92672">=</span> loss_fn(output, target)  <span style="color:#75715e"># 计算损失</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 反向传播</span>
+</span></span><span style="display:flex;"><span>loss<span style="color:#f92672">.</span>backward()  <span style="color:#75715e"># 计算所有参数的梯度</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 更新权重</span>
+</span></span><span style="display:flex;"><span>optimizer<span style="color:#f92672">.</span>step()  <span style="color:#75715e"># 根据梯度更新参数</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 清零梯度</span>
+</span></span><span style="display:flex;"><span>optimizer<span style="color:#f92672">.</span>zero_grad()  <span style="color:#75715e"># 清零梯度，准备下一轮</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. 记录日志（可选）</span>
+</span></span><span style="display:flex;"><span>writer<span style="color:#f92672">.</span>add_scalar(<span style="color:#e6db74">&#39;loss&#39;</span>, loss<span style="color:#f92672">.</span>item(), step)
+</span></span></code></pre></div><h5 id="完整训练循环">完整训练循环</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(num_epochs):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> dataloader:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 1. 前向传播</span>
+</span></span><span style="display:flex;"><span>        output <span style="color:#f92672">=</span> model(batch[<span style="color:#e6db74">&#39;input&#39;</span>])
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">=</span> loss_fn(output, batch[<span style="color:#e6db74">&#39;target&#39;</span>])
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 2. 反向传播</span>
+</span></span><span style="display:flex;"><span>        loss<span style="color:#f92672">.</span>backward()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 3. 更新权重</span>
+</span></span><span style="display:flex;"><span>        optimizer<span style="color:#f92672">.</span>step()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 4. 清零梯度</span>
+</span></span><span style="display:flex;"><span>        optimizer<span style="color:#f92672">.</span>zero_grad()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 5. 记录日志</span>
+</span></span><span style="display:flex;"><span>        writer<span style="color:#f92672">.</span>add_scalar(<span style="color:#e6db74">&#39;loss&#39;</span>, loss<span style="color:#f92672">.</span>item(), step)
+</span></span></code></pre></div><h4 id="七自回归">七、自回归</h4>
+<p>自回归是一种序列生成范式，核心逻辑是<strong>基于已生成的前序元素预测下一个元素</strong>，生成过程具有时序依赖性和单向性。在语言模型（含多模态大型语言模型 MLLMs）中，自回归意味着模型生成文本时，每一个新的 token（如单词、子词）都必须依赖于之前已经生成的所有 token 序列。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/" data-title=""><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://jinxiwei1230.github.io/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/Jinxiwei.github.io/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/Jinxiwei.github.io/posts/jdbc/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.134.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/Jinxiwei.github.io/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/Jinxiwei.github.io/js/theme.min.js"></script></body>
+</html>

@@ -58,6 +58,177 @@
 </header><main class="main">
                 <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="面型对象需求分析方法">面型对象需求分析方法</h2>
+<h3 id="uml概述">UML概述</h3>
+<h4 id="一uml的定义与本质"><strong>一、UML的定义与本质</strong></h4>
+<ol>
+<li><strong>定义</strong><br>
+UML（Unified Modeling Language，统一建模语言）是一种<strong>标准化的图形化建模语言</strong>，用于面向对象分析与设计的可视化表示。</li>
+<li><strong>本质</strong>
+<ul>
+<li><strong>不是编程语言</strong>：不是一种可视化的程序设计语言，而是一种可视化的建模语言。</li>
+<li><strong>不是方法或过程</strong>：它不是过程，也不是方法，但允许任何一种过程和方法使用它。</li>
+<li><strong>不是工具规格</strong>：不是工具或知识库的规格说明，而是一种建模语言规格说明，是一种表示的标准。</li>
+<li><strong>综合多种方法</strong>：融合了Booch、OMT（对象建模技术）、OOSE（面向对象软件工程）等方法的优点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="二uml的目标"><strong>二、UML的目标</strong></h4>
+<ol>
+<li><strong>核心目标</strong>
+<ul>
+<li>提供<strong>表达能力强大</strong>且<strong>易用</strong>的建模语言。</li>
+<li>支持<strong>跨平台与语言</strong>，与实现无关。</li>
+<li>促进<strong>架构、模式、构件和框架</strong>的重用。</li>
+<li>集成<strong>最佳软件工程实践</strong>（如模块化、分层设计）。</li>
+</ul>
+</li>
+<li><strong>扩展性</strong>
+<ul>
+<li>通过<strong>构造型（Stereotypes）</strong>、**标记值（Tagged Values）<strong>和</strong>约束（Constraints）**扩展核心概念。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="三uml的视图与图"><strong>三、UML的视图与图</strong></h4>
+<p>UML通过<strong>五类视图</strong>和<strong>九种图</strong>从不同角度描述系统：</p>
+<h4 id="1-用例视图use-case-view"><strong>1. 用例视图（Use Case View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述系统功能需求，从用户角度展示系统行为。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>用例图（Use Case Diagram）</strong>：功能与参与者（Actor）的交互。</li>
+<li><strong>活动图（Activity Diagram）</strong>（可选）：细化用例的工作流程。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-逻辑视图logical-view"><strong>2. 逻辑视图（Logical View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：展示系统的静态结构与动态行为。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>类图（Class Diagram）</strong>：类、接口、关系（继承、关联等）。</li>
+<li><strong>对象图（Object Diagram）</strong>：某一时刻的对象实例及其链接。</li>
+<li><strong>状态图（State Diagram）</strong>：对象的状态变化（如订单状态流转）。</li>
+<li><strong>活动图（Activity Diagram）</strong>：业务逻辑或算法的流程（类似流程图）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-进程视图process-view"><strong>3. 进程视图（Process View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述系统并发、同步和通信机制（多线程、分布式场景）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>顺序图（Sequence Diagram）</strong>：按时间顺序的交互（强调时序）。</li>
+<li><strong>协作图（Collaboration Diagram，UML 2.0后称通信图）</strong>：对象间的协作关系（强调结构）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-构件视图component-view"><strong>4. 构件视图（Component View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：展示代码构件的物理组织（如库、可执行文件）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>构件图（Component Diagram）</strong>：构件间的依赖关系（如.dll、.jar文件）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-部署视图deployment-view"><strong>5. 部署视图（Deployment View）</strong></h4>
+<ul>
+<li><strong>作用</strong>：描述硬件部署及软件到硬件的映射（如服务器、网络拓扑）。</li>
+<li><strong>组成图</strong>：
+<ul>
+<li><strong>部署图（Deployment Diagram）</strong>：节点（Node）与构件的部署关系。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="四uml-14的九种图详解"><strong>四、UML 1.4的九种图详解</strong></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>图类型</strong></th>
+          <th style="text-align: left"><strong>关键用途</strong></th>
+          <th style="text-align: left"><strong>适用阶段</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">用例图</td>
+          <td style="text-align: left">功能需求分析，用户与系统交互</td>
+          <td style="text-align: left">需求分析</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">类图</td>
+          <td style="text-align: left">静态结构设计（类、接口、关系）</td>
+          <td style="text-align: left">系统设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">对象图</td>
+          <td style="text-align: left">类图的实例化（调试或快照）</td>
+          <td style="text-align: left">详细设计/测试</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">顺序图</td>
+          <td style="text-align: left">交互时序（如API调用顺序）</td>
+          <td style="text-align: left">动态行为设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">协作图（通信图）</td>
+          <td style="text-align: left">对象协作关系（空间结构）</td>
+          <td style="text-align: left">动态行为设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">状态图</td>
+          <td style="text-align: left">对象生命周期（如订单状态机）</td>
+          <td style="text-align: left">复杂对象建模</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">活动图</td>
+          <td style="text-align: left">业务流程或算法流程（并行、分支）</td>
+          <td style="text-align: left">需求分析/详细设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">构件图</td>
+          <td style="text-align: left">代码模块化与依赖管理</td>
+          <td style="text-align: left">架构设计/实现</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">部署图</td>
+          <td style="text-align: left">硬件配置与软件部署</td>
+          <td style="text-align: left">系统部署</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="五uml的特点"><strong>五、UML的特点</strong></h4>
+<ol>
+<li><strong>可视化</strong>：通过图形化符号降低沟通成本。</li>
+<li><strong>通用性</strong>：适用于任何编程语言（Java、C++等）和开发过程。</li>
+<li><strong>分层抽象</strong>：支持从需求到代码的多层次建模（用例→类→构件→部署）。</li>
+<li><strong>标准化</strong>：由OMG（对象管理组）维护，确保工具兼容性。</li>
+</ol>
+<hr>
+<h4 id="六常见应用场景"><strong>六、常见应用场景</strong></h4>
+<ul>
+<li><strong>需求分析</strong>：用例图、活动图。</li>
+<li><strong>系统设计</strong>：类图、顺序图、状态图。</li>
+<li><strong>架构设计</strong>：构件图、部署图。</li>
+<li><strong>调试与维护</strong>：对象图、协作图。</li>
+</ul>
+<h3 id="uml中的图">UML中的图</h3>
+<p><img
+        class="lazyload"
+        src="/Jinxiwei.github.io/svg/loading.min.svg"
+        data-src="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png"
+        data-srcset="C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png 1.5x, C:%5cUsers%5cxiwei%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20250421153345762.png 2x"
+        data-sizes="auto"
+        alt="C:\Users\xiwei\AppData\Roaming\Typora\typora-user-images\image-20250421153345762.png"
+        title="image-20250421153345762" /></p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%92%8C%E9%80%89%E6%8B%A9/">模型的评估和选择</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jinxiwei</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/Jinxiwei.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>机器学习</a></span></div><div class="content"><h3 id="测试集和训练集">测试集和训练集</h3>
 <h3 id="经验误差与泛化误差">经验误差与泛化误差</h3>

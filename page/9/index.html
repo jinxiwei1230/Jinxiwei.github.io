@@ -279,6 +279,41 @@ B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是
 <p>获取执行SQL对象</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/jdbc/">Read More</a></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/"></a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h2 id="python笔记">python笔记</h2>
+<h4 id="一python基础">一、python基础</h4>
+<ol>
+<li><strong>torch</strong>：这是 <strong>PyTorch</strong> 的主包，PyTorch 是一个由 Meta AI 等开发的开源机器学习框架。它提供了强大的工具用于张量（tensor）计算（类似于 NumPy，但支持 GPU 加速）以及构建和训练神经网络。</li>
+<li><strong>torch.nn</strong>：这是 PyTorch 的一个子模块，专门用于构建神经网络。它包含了构建神经网络所需的组件，比如层（layers）、激活函数、损失函数等。</li>
+<li><strong><strong>init</strong></strong> 是 Python 类中的构造函数，在创建类的实例时会自动调用。它用于初始化对象的属性。
+<ul>
+<li>方法内部通过 <code>self.d_model = d_model</code> 和 <code>self.vocab_size = vocab_size</code> 将这两个参数保存为类的属性，供后续使用。</li>
+</ul>
+</li>
+<li>super() 是 Python 用来调用父类方法的一个内置函数。</li>
+</ol>
+<h4 id="二forward函数特点">二、forward函数特点</h4>
+<h5 id="1-共同点forward-方法的功能">1. <strong>共同点：<code>forward</code> 方法的功能</strong></h5>
+<p>所有继承自 <code>nn.Module</code> 的类的 <code>forward</code> 方法都有以下相似之处：</p>
+<ul>
+<li>
+<p><strong>定义前向传播逻辑</strong>：</p>
+<ul>
+<li><code>forward</code> 方法指定了输入数据如何通过该模块进行变换，生成输出。</li>
+<li>无论是简单的层（如 <code>nn.Linear</code>、<code>nn.Embedding</code>）还是复杂的模型（如 Transformer 或 CNN），<code>forward</code> 方法都描述了从输入到输出的计算流程。</li>
+<li>例如：
+<ul>
+<li>在 <code>nn.Embedding</code> 中，<code>forward</code> 将 token 索引转换为嵌入向量。</li>
+<li>在 <code>nn.Linear</code> 中，<code>forward</code> 执行线性变换（<code>y = xW^T + b</code>）。</li>
+<li>在 Transformer 中，<code>forward</code> 可能包含多层注意力机制和前馈网络的计算。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>输入和输出的张量处理</strong>：</p></div><div class="post-footer">
+        <a href="/Jinxiwei.github.io/posts/python%E7%AC%94%E8%AE%B0/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/Jinxiwei.github.io/posts/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"></a>
     </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h1 id="python面向对象">Python面向对象</h1>
 <h3 id="1-类的组成">1. 类的组成</h3>
@@ -530,160 +565,6 @@ B/S 架构：Browser/Server，浏览器/服务器 架构模式，它的特点是
 </table>
 <p><strong>注意</strong>：</p></div><div class="post-footer">
         <a href="/Jinxiwei.github.io/posts/redis-2/">Read More</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/"></a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/Jinxiwei.github.io/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content"><h5 id="1机器学习基础">1.机器学习基础</h5>
-<h3 id="11-概念">1.1 概念</h3>
-<ol>
-<li>
-<p>机器学习定义：通过数据以及以往经验，优化计算机程序性能。</p>
-</li>
-<li>
-<p>机器学习三要素：任务T(Task)、性能P(Performance)、经验E(Experience)</p>
-</li>
-</ol>
-<ul>
-<li><strong>利用经验E通过“学习算法”提高任务T的性能P，最终从经验中产生“模型”</strong></li>
-</ul>
-<ol start="3">
-<li>
-<p>机器学习的目的：机器学习的目的是分<strong>类</strong>和<strong>预测</strong>。所谓分类是根据输入数据，判别这些数据隶属于哪类别(Category)。而预测则是根据输入数据，计算一个输出值(Numeric)。输入数据一般为一个<em>向量</em>，也称为<em>特征</em>(Feature)，输出则是一个<em>分类</em>或者一个<em>数值</em>。</p>
-</li>
-<li>
-<p>机器学习的基本过程：机器学习的基本过程是用<strong>训练数据</strong>(包含输入数据和预期输出的分类或者数值)训练一个<em>模型</em>
-(Model) ， 利用这个模型，就可以对新的实例数据(Instances)进行分类和计算一个预测值。</p>
-</li>
-<li>
-<p>机器学习应用；</p>
-</li>
-</ol>
-<ul>
-<li>
-<p><strong>数据挖掘</strong>：从大量的数据中通过算法搜索隐藏于其中信息的研究。数据挖掘目前主要应用于数据统计分析，趋势预测，异常检测，流量数据分析，风险评估等多个方面。</p>
-</li>
-<li>
-<p><strong>计算机视觉</strong>：通过对采集的图片或者视频进行处理，最终获取所需被拍摄对象的数据和信息的一门学科。计算机视觉是使用计算机及相关的设备对生物视觉的一种模拟，目前主要用于医学图像处理，导弹制导以及无人机和无人驾驶车辆等应用领域。</p>
-</li>
-<li>
-<p><strong>自然语言处理</strong>：实现人与计算机之间通过自然语言进行有效通信的理论与方法。自然语言即人们日常使用的语言，通过自然语言处理，主要实现文本分类与聚类，信息检索和过滤，机器翻译等多种应用。</p>
-</li>
-<li>
-<p><strong>生物特征识别</strong>：利用人体固有的生理特征或行为特征实现个人身份鉴定的技术。生理特征（虹膜，指纹，声纹，DNA等固有特征）行为特征（步态，签名等习惯），目前较为火热的研究方向有人脸识别，亲子鉴定，指纹识别，虹膜识别等身份鉴定技术。</p>
-</li>
-</ul>
-<h3 id="12-机器学习基本术语">1.2 机器学习基本术语</h3>
-<ol>
-<li><strong>机器学习</strong></li>
-</ol>
-<ul>
-<li>
-<p>一类算法的总称，这些算法企图从大量历史数据中挖掘出其中隐含的规律，并用于对新的数据进行预测或者分类。更具体的说，机器学习可以看作是寻找一个函数，输入是大量的样本数据，输出是期望结果。</p>
-</li>
-<li>
-<p>要进行机器学习，必须要获取<strong>经验E</strong>，而计算机中经验一般以数据的形式存在，通过使用学习算法对数据进行学习我们最终可以获取模型。</p>
-</li>
-<li>
-<p>机器学习中我们经验通常从<strong>数据集</strong>中获取，数据集中包含有若干的样本数据，每个样本数据都包含若干个属性对应的属性值。</p>
-</li>
-</ul>
-<ol start="2">
-<li><strong>数据集(data set)</strong></li>
-</ol>
-<ul>
-<li>
-<p>一组记录的集合称为一个数据集，其中每条记录是关于一个事件或对象的描述，称为一个示例(instance)或样本(sample)。</p>
-</li>
-<li>
-<p>样本中内容包含有对事物一些方面的性质的描述，称为属性(attribute) 或者 特 征 (feature) 。 属性上的取值成为属性值(attribute value)。</p>
-</li>
-<li>
-<p>属性张成的空间称为<em>属性空间</em>(attribute space)。例如一个对象有三个属性，则它们张成一个用于描述该对象的三维空间，每一个对象都可以在这个空间中找到自己的坐标位置。由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个特征向量（feature vector）。</p>
-</li>
-</ul>
-<ol start="3">
-<li><strong>训练(training)</strong></li>
-</ol>
-<ul>
-<li>
-<p>从数据中学得模型的过程被称之为学习(learning)或训练(training)，在通过使用学习算法对数据进行训练的过程中，每一个样本被称之为训练样本，训练样本组成的数据集称为训练集。</p>
-</li>
-<li>
-<p>训练模型的目的是<strong>预测</strong>(prediction)关于数据的某种潜在的规律，通过学习过程逐渐逼近这个规律。而学习过程只依靠训练样本的数据信息是不够的，我们需获得训练样本的结果信息，示例结果的信息，称为<em>标记</em>(label)。</p>
-</li>
-</ul>
-<ol start="4">
-<li><strong>预测(prediction)</strong></li>
-</ol>
-<ul>
-<li>
-<p>预测<em>离散值</em>，则此类任务称为<em>分类</em>(classification)</p>
-</li>
-<li>
-<p>预测<em>连续值</em>，则将此类任务称之为<em>回归</em>(regression)。</p>
-</li>
-<li>
-<p>学得模型后可以采用样本对其进行预测，过程称为测试(testing)，被预测的样本称为测试样本(testing sample)。例如在习得f之后，对测试样本x进行测试，测试的标记为y = f(x)。</p>
-</li>
-<li>
-<p>学得模型适用于新样本的能力称为<strong>泛化</strong>(generalization)。我们的模型设计虽然只是基于整个样本空间很少的部分进行预测，但是我们的目标是其在整个样本空间都有较好的预测能力，所以必须保证我们的模型拥有较强的泛化能力。
-（预测能力好-泛化能力强）</p>
-</li>
-<li>
-<p>聚类(clustering)将训练集的样本分为若干组，每个组称为一个<strong>簇</strong>(cluster)，这些生成的簇对应一些潜在的概念划分，而究竟按照何种策略进行聚类是没有预先定义的，通过聚类算法在学习过程中自己生成。</p>
-</li>
-<li>
-<p>回归以及分类都需要使用到标记信息，而聚类不需要使用标记信息。</p>
-</li>
-<li>
-<p>按照训练数据有无标记信息可以将学习任务分为两大类：<strong>监督学习</strong>(supervised learning)和<strong>无监督学习</strong>(unsupervised learning)，其中分类和回归是监督学习的代表，聚类是无监督学习的代表。</p>
-</li>
-</ul>
-<ol start="5">
-<li>回归：(有标记信息)</li>
-</ol>
-<ul>
-<li>回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法。例如，房价预测、股票走势或测试成绩等连续变化的案例。</li>
-<li>通过给定数据集拟合出一条曲线，对于将要预测的样本放入曲线计算出预测结果，其输出值为连续的。</li>
-</ul>
-<ol start="6">
-<li>
-<p>分类(有标记信息)</p>
-</li>
-<li>
-<p>聚类(无标记信息)</p>
-</li>
-<li>
-<p><strong>模型评估方法</strong>:</p>
-</li>
-</ol>
-<ul>
-<li>模型评估方法是对数据集D如何划分为训练集S和测试集T的方法。为了得到更加准确的测试结果，测试集应该尽可能与训练集互斥。即，测试样本尽量不在训练集中出现，未在训练过程中使用过。目前常见的做法有<strong>留出法</strong>、交<strong>叉验证法</strong>和<strong>自助法</strong>。</li>
-</ul>
-<ol start="9">
-<li><strong>留出法（hold-out）</strong>（适用大数据集）</li>
-</ol>
-<ul>
-<li>将数据集D划分为两个互斥的集合，其中一个集合作为训练集S，另一个作为测试集T。在S上训练出模型后，用T来评估其测试误差，作为对泛化误差的估计。训练集和测试集的划分要尽可能保持数据分布的一致性，避免因数据划分过程引入额外的偏差而对最终结果产生影响。</li>
-</ul>
-<ol start="10">
-<li><strong>交叉验证法（cross validation）</strong>（适用大数据集）</li>
-</ol>
-<ul>
-<li>
-<p>先将数据集D划分为K个大小相似的互斥子集，每个子集Di通过分层采样得到（如上页所述，为了保证正负样本的比例与数
-据集D的比例相同）。</p>
-</li>
-<li>
-<p>然后用k-1个子集的并集作为训练集，余下的子集作为测试集；这样就获得k组训练/测试集。</p>
-</li>
-<li>
-<p>从而进行k次训练和测试，最终返回的是这k个测试结果的均值。通常把交叉验证法称为k折交叉验证法k最常用的取值是10，此时称为10折交叉验证。</p>
-</li>
-<li>
-<p>若数据集D中包含m个样本，先将数据集D划分为m个大小相似的子集，每个子集只有一个样本数据，则得到了交叉验证法的一个特例，留一法（Leave-One-Out，简称LOO）。
-优点:它不受随机样本划分的影响，因为每个子集都会包含一个样本，所以留一法的评估结果最准确。
-缺点:数据集较大时，训练m个模型计算开销太大。</p></div><div class="post-footer">
-        <a href="/Jinxiwei.github.io/posts/%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E5%88%9D%E6%AD%A5/">Read More</a></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/Jinxiwei.github.io/">1</a>
